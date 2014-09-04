@@ -151,7 +151,7 @@ else {
                         if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
                             ?>
                             <div class="top">
-                                Transfer Barang antar Ahad <?php //echo $_SESSION['namaCustomer'];                                                                     ?>
+                                Transfer Barang antar Ahad <?php //echo $_SESSION['namaCustomer'];                                                                ?>
                             </div>
                             <?php
                         }
@@ -195,12 +195,8 @@ else {
                             }
                             ?>
                             <div class="input-group">
-                                <label for="hargaBarang"><span class="u">H</span>arga</label>
-                                <input type="text" id="hargaBarang" name='hargaBarang' value='1' size=5 accesskey="h">
-                            </div>
-                            <div class="input-group">
                                 <label for="jumBarang"><span class="u">Q</span>ty</label>
-                                <input type="text" id="jumBarang" name='jumBarang' value='1' size=1 accesskey="q">
+                                <input type="text" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q">
                             </div>
                         <!--<input type="submit" name="btnTambah" value="Tambah" accesskey="t">-->
                             <button type="submit"><span class="u">T</span>ambah</button>
@@ -236,10 +232,6 @@ else {
                                 $_POST[barcode] = $_GET[barcode];
                             };
                             /*
-                             * Untuk ahad POS ukm maka akan ada hargaBarang
-                             */
-                            $hargaBarang = $_POST['hargaBarang'];
-                            /*
                               $trueJual = cekBarangTempJual($_SESSION[idCustomer], $_POST[barcode]);
                               //            echo "$trueJual";
                               if ($trueJual != 0) {
@@ -251,6 +243,10 @@ else {
                               }
                              * 
                              */
+                            $tambahBarang = 1;
+                            if (isset($_POST['jumBarang'])) {
+                                $tambahBarang = $_POST['jumBarang'];
+                            }
                             $trueJual = cekBarangTempJual($_SESSION[idCustomer], $_POST[barcode]);
                             // Jika barang sudah ada (hanya tambah kuantiti) maka tambahkan kuantitinya;
                             if ($trueJual) {
@@ -258,12 +254,12 @@ else {
                                 mysql_query("delete from tmp_detail_jual where idCustomer='{$_SESSION['idCustomer']}' "
                                                 . "and barcode = '{$_POST['barcode']}' "
                                                 . "and username='{$_SESSION['uname']}'") or die('Gagal clean ' . mysql_error());
-                                $jumBarang += $_POST['jumBarang'];
+                                $jumBarang += $tambahBarang;
                             }
                             else {
-                                $jumBarang = $_POST['jumBarang'];
+                                $jumBarang = $tambahBarang;
                             }
-                            tambahBarangJual($_POST['barcode'], $jumBarang, $hargaBarang);
+                            tambahBarangJual($_POST['barcode'], $jumBarang);
                         }
                         $sql = "SELECT *
                                 FROM tmp_detail_jual tdj, barang b
@@ -279,6 +275,7 @@ else {
                             ?>
                             <table class="tabel daftar-pembelian">
                                 <tr>
+                                    <th>No</th>
                                     <th>Barcode</th>
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
@@ -295,7 +292,7 @@ else {
                                         FROM tmp_detail_jual tdj, barang b
 										WHERE tdj.barcode = b.barcode AND tdj.idCustomer = '{$_SESSION['idCustomer']}' 
 										AND tdj.username = '{$_SESSION['uname']}' ORDER BY tdj.uid DESC");
-
+                                $banyakItem = mysql_num_rows($query2);
                                 while ($data = mysql_fetch_array($query2)) {
 
                                     // jika ini barang yang akan di transfer, 
@@ -323,6 +320,7 @@ else {
                                     ?>
 
                                     <tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
+                                        <td class="right"><?php echo $banyakItem - $no + 1; ?></td>
                                         <td><?php echo $data[barcode]; ?></td>
                                         <td><?php echo $data[namaBarang]; ?></td>
                                         <td class="right"><?php echo $data['jumBarang']; ?></td>
@@ -619,31 +617,7 @@ else {
                         },
                     });
                     return false;
-                });
-                $("#barcode").keydown(function(e) {
-                    var datakirim = {
-                        barcode: $(this).val()
-                    };
-                    var dataurl = '../aksi.php?module=penjualan_barang&act=get_harga_jual';
-                    if (e.keyCode === 13) {
-                        $.ajax({
-                            data: datakirim,
-                            url: dataurl,
-                            type: "POST",
-                            dataType: "json",
-                            success: function(data) {
-                                if (data.sukses) {
-                                    $("#hargaBarang").val(data.hargaJual);
-                                } else {
-
-                                }
-                                $("#hargaBarang").focus();
-                                $("#hargaBarang").select();
-                            }
-                        });
-                        return false;
-                    }
-                });
+                })
             </script>
         </div>
     </body>

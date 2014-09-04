@@ -31,10 +31,11 @@ switch ($_GET[act]) {
 				<th>Nama Customer</th>
 				<th>Alamat Customer</th>
 				<th>No.Telp Customer</th>
+				<th colspan="2">Diskon</th>
 				<th>aksi</th>
 			</tr>
 			<?php
-			$tampil = mysql_query("select idCustomer, namaCustomer, alamatCustomer, telpCustomer from customer");
+			$tampil = mysql_query("select idCustomer, namaCustomer, alamatCustomer, telpCustomer, diskon_persen, diskon_rupiah from customer");
 			$no = 1;
 			while ($r = mysql_fetch_array($tampil)) {
 				?>
@@ -43,6 +44,8 @@ switch ($_GET[act]) {
 					<td><?php echo $r['namaCustomer']; ?></td>
 					<td class="center"><?php echo $r['alamatCustomer']; ?></td>
 					<td class="center"><?php echo $r['telpCustomer']; ?></td>
+					<td class="right"><?php echo $r['diskon_persen']; ?>%</td>
+					<td class="right"><?php echo number_format($r['diskon_rupiah'], 2, ',', '.'); ?></td>
 					<td><a href=?module=customer&act=editcustomer&id=<?php echo $r['idCustomer']; ?>>Edit</a> |
 						<a href=./aksi.php?module=customer&act=hapus&id=<?php echo $r['idCustomer']; ?>>Hapus</a>
 					</td>
@@ -83,6 +86,8 @@ switch ($_GET[act]) {
           <tr><td>Alamat Customer</td><td> : <textarea name='alamatCustomer' rows='2' cols='35'>$data[alamatCustomer]</textarea></td></tr>
           <tr><td>Telp Customer</td><td> : <input type=text name='telpCustomer' size=15 value='$data[telpCustomer]'></td></tr>
           <tr><td>Keterangan</td><td> : <textarea name='keterangan' rows='4' cols='35'>$data[keterangan]</textarea></td></tr>
+			 <tr><td>Diskon (%)</td><td> : <input type='text' name='diskon_persen' value='$data[diskon_persen]' /></td></tr>
+          <tr><td>Diskon (Rp)</td><td> : <input type='text' name='diskon_rupiah' value='$data[diskon_rupiah]' /></td></tr>
           <tr><td colspan=2>&nbsp;</td></tr>
           <tr><td colspan=2 align='right'><input type=submit value=Simpan>&nbsp;&nbsp;&nbsp;
                             <input type=button value=Batal onclick=self.history.back()></td></tr>

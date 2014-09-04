@@ -53,61 +53,61 @@ check_user_access(basename($_SERVER['SCRIPT_NAME']));
 
 
 switch ($_GET[act]) { //------------------------------------------------------------------------
-	default:
-		?>
-		<br/>
-		<h2>Kasir Aktif</h2>
-		<table class="tabel">
-			<tr><th>Nama</th>
-				<th>Workstation</th>
-				<th>Sejak</th>
-				<th>Kas Awal</th>
-			</tr>
-			<?php
-			$sql = "SELECT k.tglBukaKasir, k.kasAwal, w.namaWorkstation, u.namaUser FROM kasir AS k, user AS u, workstation AS w 
+    default:
+        ?>
+        <br/>
+        <h2>Kasir Aktif</h2>
+        <table class="tabel">
+            <tr><th>Nama</th>
+                <th>Workstation</th>
+                <th>Sejak</th>
+                <th>Kas Awal</th>
+            </tr>
+            <?php
+            $sql = "SELECT k.tglBukaKasir, k.kasAwal, w.namaWorkstation, u.namaUser FROM kasir AS k, user AS u, workstation AS w 
 			WHERE k.tglTutupKasir IS NULL 
 				AND k.currentWorkstation = w.idWorkstation AND k.idUser = u.idUser";
 
-			$tampil = mysql_query($sql);
-			$no = 1;
-			while ($r = mysql_fetch_array($tampil)) {
-				?>
-				<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
-					<td><?php echo $r['namaUser']; ?></td>
-					<td><?php echo $r['namaWorkstation']; ?></td>
-					<td><?php echo date("l, d-F-Y, H:i", strtotime($r['tglBukaKasir'])); ?></td>
-					<td><?php echo $r['kasAwal']; ?></td>
-				</tr>
-				<?php
-				$no++;
-			}
-			?>
-		</table>
-		<p>&nbsp;</p>
-		<a href=javascript:history.go(-1)><< Kembali</a>
-		<?php
-		break;
+            $tampil = mysql_query($sql);
+            $no = 1;
+            while ($r = mysql_fetch_array($tampil)) {
+                ?>
+                <tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
+                    <td><?php echo $r['namaUser']; ?></td>
+                    <td><?php echo $r['namaWorkstation']; ?></td>
+                    <td><?php echo date("l, d-F-Y, H:i", strtotime($r['tglBukaKasir'])); ?></td>
+                    <td><?php echo $r['kasAwal']; ?></td>
+                </tr>
+                <?php
+                $no++;
+            }
+            ?>
+        </table>
+        <p>&nbsp;</p>
+        <a href=javascript:history.go(-1)><< Kembali</a>
+        <?php
+        break;
 
 
 
-	case "bukakasir":  // ===========================================================================================================
+    case "bukakasir":  // ===========================================================================================================
 
 
-		echo "<h2>Buka Kasir</h2>";
+        echo "<h2>Buka Kasir</h2>";
 
-		// ambil daftar nama kasir
-		// idLevelUser : 4 = kasir
-		$sql = "SELECT namaUser, idUser  
+        // ambil daftar nama kasir
+        // idLevelUser : 4 = kasir
+        $sql = "SELECT namaUser, idUser  
 		FROM user   
 		WHERE idLevelUser = 4 ORDER BY namaUser ASC";
-		$namaKasir = mysql_query($sql);
+        $namaKasir = mysql_query($sql);
 
-		// ambil daftar workstation
-		$sql = "SELECT idWorkstation, namaWorkstation   
+        // ambil daftar workstation
+        $sql = "SELECT idWorkstation, namaWorkstation   
 		FROM workstation ORDER BY namaWorkstation ASC";
-		$namaWorkstation = mysql_query($sql);
+        $namaWorkstation = mysql_query($sql);
 
-		echo "
+        echo "
 	<form method=POST action='./aksi.php?module=buka_kasir&act=input'>
 	
 	<table>
@@ -118,21 +118,21 @@ switch ($_GET[act]) { //--------------------------------------------------------
         <tr>
 		<td>(k) Pilih Kasir </td>
 		<td>: <select name='idKasir' accesskey='k'>";
-		while ($kasir = mysql_fetch_array($namaKasir)) {
-			echo "<option value='$kasir[idUser]'>$kasir[namaUser]</option>\n";
-		}
+        while ($kasir = mysql_fetch_array($namaKasir)) {
+            echo "<option value='$kasir[idUser]'>$kasir[namaUser]</option>\n";
+        }
 
-		echo "
+        echo "
 		</td>
 	</tr>
         <tr>
 		<td>Pilih Workstation </td>
 		<td>: <select name='idWorkstation'>";
-		while ($wks = mysql_fetch_array($namaWorkstation)) {
-			echo "<option value='$wks[idWorkstation]'>$wks[namaWorkstation]</option>\n";
-		}
+        while ($wks = mysql_fetch_array($namaWorkstation)) {
+            echo "<option value='$wks[idWorkstation]'>$wks[namaWorkstation]</option>\n";
+        }
 
-		echo "
+        echo "
 		</td>
 	</tr>
         <tr><td>Uang Kasir</td><td>: <input type=text name=kasAwal></td></tr>
@@ -143,90 +143,97 @@ switch ($_GET[act]) { //--------------------------------------------------------
  </form>
 	";
 
-		break;
+        break;
 
 
 
-	case "tutupkasir":  // ===========================================================================================================
+    case "tutupkasir":  // ===========================================================================================================
 
-		echo "<h2>Tutup Kasir</h2>";
+        echo "<h2>Tutup Kasir</h2>";
 
-		// ambil nama kasir
-		$sql = "SELECT u.namaUser, k.idUser 
-		FROM kasir AS k, user AS u  
-		WHERE k.tglTutupKasir IS NULL
+        // ambil nama kasir
+        $sql = "SELECT u.namaUser, k.idUser 
+            FROM kasir AS k, user AS u  
+            WHERE k.tglTutupKasir IS NULL
 			AND k.idUser = u.idUser ORDER BY u.namaUser ASC";
-		$namaKasir = mysql_query($sql);
+        $namaKasir = mysql_query($sql);
 
-		echo "
+        echo "
 	<form method=POST action='./media.php?module=kasir&act=tutupkasir2'>
 	
 	<table>
         <tr>
 		<td>(k) Pilih Kasir </td>
 		<td>: <select name='idKasir' accesskey='k'>";
-		while ($kasir = mysql_fetch_array($namaKasir)) {
-			echo "<option value='$kasir[idUser]'>$kasir[namaUser]</option>\n";
-		}
+        while ($kasir = mysql_fetch_array($namaKasir)) {
+            echo "<option value='$kasir[idUser]'>$kasir[namaUser]</option>\n";
+        }
 
-		echo "
+        echo "
 		</td></tr>
         <tr><td colspan=2><input type=submit value='Pilih'></td></tr>
     </table>
  </form>
 	";
 
-		break;
+        break;
 
 
-	case "tutupkasir2":  // ===========================================================================================================
+    case "tutupkasir2":  // ===========================================================================================================
 
-		echo "<h2>Tutup Kasir</h2>";
+        echo "<h2>Tutup Kasir</h2>";
 
-		// cari kasAwal
-		$sql = "SELECT k.kasAwal,k.tglBukaKasir,u.uname FROM kasir AS k, user AS u 
+        // cari kasAwal
+        $sql = "SELECT k.kasAwal,k.tglBukaKasir,u.uname FROM kasir AS k, user AS u 
 			WHERE k.idUser = $_POST[idKasir] AND tglTutupKasir IS NULL AND k.idUser = u.idUser";
-		$hasil = mysql_query($sql);
-		$x = mysql_fetch_array($hasil);
+        $hasil = mysql_query($sql);
+        $x = mysql_fetch_array($hasil);
 
-		$kasAwal = $x[kasAwal];
-		$tglBukaKasir = $x[tglBukaKasir];
-		$tglTutupKasir = date("Y-m-d H:i:s");
-		$username = $x[uname];
+        $kasAwal = $x[kasAwal];
+        $tglBukaKasir = $x[tglBukaKasir];
+        $tglTutupKasir = date("Y-m-d H:i:s");
+        $username = $x[uname];
 
-		// hitung TotalTransaksi
-		$totalTransaksi = 0;
-		$sql = "SELECT sum(nominal) AS tot_trans FROM transaksijual 
+        // hitung TotalTransaksi
+        $totalTransaksi = 0;
+        $sql = "SELECT sum(nominal) AS tot_trans FROM transaksijual 
 			WHERE idUser=$_POST[idKasir] AND tglTransaksiJual BETWEEN '$tglBukaKasir' AND '$tglTutupKasir'";
-		$hasil = mysql_query($sql);
-		if ($x = mysql_fetch_array($hasil)) {
-			$totalTransaksi = $x[tot_trans];
-		};
+        $hasil = mysql_query($sql);
+        if ($x = mysql_fetch_array($hasil)) {
+            $totalTransaksi = $x[tot_trans];
+        };
 
-		// hitung total profit
-		$totalProfit = 0;
-		$sql = "SELECT sum(d.hargaJual - b.hargaBeli) AS tot_profit FROM detail_jual AS d, transaksijual AS t, detail_beli AS b     
-			WHERE d.username='$username' AND t.tglTransaksiJual BETWEEN '$tglBukaKasir' AND '$tglTutupKasir'
-				AND d.nomorStruk = t.idTransaksiJual AND d.barcode = b.barcode";
-		//echo "(".$sql.")<br />";
-		$hasil = mysql_query($sql);
-		if ($x = mysql_fetch_array($hasil)) {
-			$totalProfit = $x[tot_profit];
-		};
+        // hitung total profit
+        $totalProfit = 0;
+//        $sql = "SELECT sum(d.hargaJual - b.hargaBeli) AS tot_profit FROM detail_jual AS d, transaksijual AS t, detail_beli AS b     
+//            WHERE d.username='$username' AND t.tglTransaksiJual BETWEEN '$tglBukaKasir' AND '$tglTutupKasir'
+//                AND d.nomorStruk = t.idTransaksiJual AND d.barcode = b.barcode";
+        // Sepertinya script di atas salah, coba ganti dengan ini: (by bambang abu muhammad)
+        $sql = "select sum((hargaJual-hargaBeli) * jumBarang) as tot_profit
+                from detail_jual d
+                join transaksijual as t on t.idTransaksiJual = d.nomorStruk
+                where t.tglTransaksiJual BETWEEN '$tglBukaKasir' AND '$tglTutupKasir'
+                and username='{$username}'";
 
-		//fixme: hitung total Retur
-		$totalRetur = 0;
+        //echo "(".$sql.")<br />";
+        $hasil = mysql_query($sql);
+        if ($x = mysql_fetch_array($hasil)) {
+            $totalProfit = $x[tot_profit];
+        };
 
-		//fixme: hitung total transaksi petty cash
-		$totalTransaksiKas = 0;
+        //fixme: hitung total Retur
+        $totalRetur = 0;
 
-		//fixme: hitung total transaksi debit / credit
-		$totalTransaksiKartu = 0;
+        //fixme: hitung total transaksi petty cash
+        $totalTransaksiKas = 0;
 
-		// hitung kasSeharusnya 
-		$kasSeharusnya = $kasAwal + $totalTransaksi + $totalTransaksiKas - $totalRetur - $totalTransaksiKartu;
+        //fixme: hitung total transaksi debit / credit
+        $totalTransaksiKartu = 0;
 
-		echo "
+        // hitung kasSeharusnya 
+        $kasSeharusnya = $kasAwal + $totalTransaksi + $totalTransaksiKas - $totalRetur - $totalTransaksiKartu;
+
+        echo "
 	<form method=POST action='./aksi.php?module=tutup_kasir&act=input'>
 	<input type=hidden name=idKasir value='$_POST[idKasir]'>
 
@@ -248,35 +255,35 @@ switch ($_GET[act]) { //--------------------------------------------------------
  </form>
 ";
 
-		break;
+        break;
 
 
 
-	case "tambahdana":  // ===========================================================================================================
-		//fixme : selesaikan modul
-		// transaksi disimpan di tabel transaksikasir
+    case "tambahdana":  // ===========================================================================================================
+        //fixme : selesaikan modul
+        // transaksi disimpan di tabel transaksikasir
 
-		echo "
+        echo "
 		<h2>Tambah Dana Kasir</h2>
 
 		Gunakan form ini untuk dropping dana kepada Kasir yang sedang bertugas.
 		";
 
-		break;
+        break;
 
 
 
-	case "pettycash":  // ===========================================================================================================
-		//fixme : selesaikan modul
-		// transaksi disimpan di tabel transaksikasir
+    case "pettycash":  // ===========================================================================================================
+        //fixme : selesaikan modul
+        // transaksi disimpan di tabel transaksikasir
 
-		echo "
+        echo "
 		<h2>Petty Cash</h2>
 
 		Gunakan form ini jika ada pengambilan uang Kas dari Kasir yang sedang bertugas.
 		";
 
-		break;
+        break;
 
 
 
@@ -288,9 +295,9 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 
 
-		$edit = mysql_query("select * from rak where idRak = '$_GET[id]'");
-		$data = mysql_fetch_array($edit);
-		echo "<h2>Edit Rak Barang</h2>
+        $edit = mysql_query("select * from rak where idRak = '$_GET[id]'");
+        $data = mysql_fetch_array($edit);
+        echo "<h2>Edit Rak Barang</h2>
             <form method=POST action='./aksi.php?module=rak&act=update' name='editrak'>
               <input type=hidden name='idRak' value='$data[idRak]'>
               <table>
@@ -303,25 +310,26 @@ switch ($_GET[act]) { //--------------------------------------------------------
               <h2>Data Rak Barang</h2>
               <table class=tableku>
               <tr><th>no</th><th>rak</th><th>aksi</th></tr>";
-		$tampil = mysql_query("SELECT * from rak");
-		$no = 1;
-		while ($r = mysql_fetch_array($tampil)) {
-			//untuk mewarnai tabel menjadi selang-seling
-			if (($no % 2) == 0) {
-				$warna = "#EAF0F7";
-			} else {
-				$warna = "#FFFFFF";
-			}
-			echo "<tr bgcolor=$warna>"; //end warna
-			echo "<td class=td>$no</td>
+        $tampil = mysql_query("SELECT * from rak");
+        $no = 1;
+        while ($r = mysql_fetch_array($tampil)) {
+            //untuk mewarnai tabel menjadi selang-seling
+            if (($no % 2) == 0) {
+                $warna = "#EAF0F7";
+            }
+            else {
+                $warna = "#FFFFFF";
+            }
+            echo "<tr bgcolor=$warna>"; //end warna
+            echo "<td class=td>$no</td>
                          <td class=td>$r[namaRak]</td>
                          <td class=td><a href=?module=rak&act=editrak&id=$r[idRak]>Edit</a> |
                                    <a href=./aksi.php?module=rak&act=hapus&id=$r[idRak]>Hapus</a>
                          </td></tr>";
-			$no++;
-		}
-		echo "</table>";
-		break;
+            $no++;
+        }
+        echo "</table>";
+        break;
 }
 
 

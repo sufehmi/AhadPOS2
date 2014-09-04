@@ -28,10 +28,12 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 			<title>Halaman AhadPOS</title>
 
 			<link rel="stylesheet" type="text/css" href="../css/style.css" />
+			<link rel="stylesheet" type="text/css" href="../css/jquery.simple-dtpicker.css" />
 
-			<script type="text/javascript" src="../js/jquery.js"></script>
+			<script type="text/javascript" src="../js/jquery.min.js"></script>
 			<script type="text/javascript" src="../js/interface.js"></script>
-			<script type="text/javascript" src="../js/jquery.form.js"></script>
+			<script type="text/javascript" src="../js/jquery.form.min.js"></script>
+			<script type="text/javascript" src="../js/jquery.simple-dtpicker.js"></script>
 
 		</head>
 		<body>

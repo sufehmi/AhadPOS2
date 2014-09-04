@@ -585,7 +585,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
      */
     $command = chr(27) . "@"; //Init printer
 
-    $command .= chr(27) . chr(101) . chr(1); //1 reverse lf
+    //$command .= chr(27) . chr(101) . chr(1); //1 reverse lf
     $command .= chr(27) . chr(112) . chr(48) . chr(60) . chr(120); // buka cash drawer
     $command .= chr(27) . chr(101) . chr(1); //1 reverse lf
     $perintah = "echo \"$command\" |lpr $perintah_printer ";
@@ -594,6 +594,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
      * 
      */
     // siapkan string yang akan dicetak
+    $struk = ''; //chr(27) . "@"; //Init printer
     $struk .= str_pad($store_name, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($header1, 40, " ", STR_PAD_BOTH) . "\n"
             . str_pad($_SESSION[uname] . " : " . date("d-m-Y H:i") . " #$NomorStruk", 40, " ", STR_PAD_BOTH) . " \n";
 
@@ -887,18 +888,6 @@ elseif ($module == 'penjualan_barang' AND $act == 'selfcheckoutinput') {
             }
             tambahBarangJual($barang['barcode'], $jumBarang);
         }
-    }
-}
-//Cek Harga untuk input harga jual manual ==> Only on ahad POS UKM
-elseif ($module == 'penjualan_barang' AND $act == 'get_harga_jual') {
-    if (isset($_POST['barcode'])) {
-        $result = mysql_query("select hargaJual from barang where barcode = '{$_POST['barcode']}'") or die('Gagal ambil harga jual, barang#' . $_POST['barcode'] . ', error: ' . mysql_error());
-        $barang = mysql_fetch_array($result);
-        $return = array(
-            'sukses'=>true,
-            'hargaJual' => $barang['hargaJual']
-        );
-        echo json_encode($return);
     }
 }
 // BUKA KASIR  // -----------------------------------------------------------------------------------------------------------------------------------
@@ -1355,7 +1344,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                      ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                    ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;

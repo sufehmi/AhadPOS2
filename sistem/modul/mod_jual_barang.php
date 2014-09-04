@@ -21,14 +21,14 @@ check_user_access(basename($_SERVER['SCRIPT_NAME']));
 
 <SCRIPT TYPE="text/javascript">
 <!--
-	function popupform(myform, windowname)
-	{
-		if (!window.focus)
-			return true;
-		window.open('', windowname, 'type=fullWindow,fullscreen=yes,scrollbars=yes');
-		myform.target = windowname;
-		return true;
-	}
+    function popupform(myform, windowname)
+    {
+        if (!window.focus)
+            return true;
+        window.open('', windowname, 'type=fullWindow,fullscreen=yes,scrollbars=yes');
+        myform.target = windowname;
+        return true;
+    }
 //-->
 </SCRIPT>
 
@@ -40,27 +40,28 @@ $namaCustomer = mysql_query($sql);
 ?>
 <h2>Penjualan Barang</h2>
 <form method=POST action='modul/js_jual_barang.php?act=caricustomer' onSubmit="popupform(this, 'jual_barang')">
-	(i) ID Customer : <select name='idCustomer' accesskey='i'>
+    (i) ID Customer : <select name='idCustomer' accesskey='i'>
 
-		<?php
-		/*
-		  <h2>Penjualan Barang</h2>
-		  <form method=POST target="_blank" action="modul/js_jual_barang_2.php?act=caricustomer">
-		  (i) ID Customer : <select name='idCustomer' accesskey='i'>";
-		 * 
-		 */
-		?>
-		<?php
-		while ($cust = mysql_fetch_array($namaCustomer)) :
-			if ($cust[idCustomer] == 1) {
-				echo "<option value='$cust[idCustomer]' selected>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
-			} else {
-				echo "<option value='$cust[idCustomer]'>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
-			};
-		endwhile;
-		?>
-	</select>
-	<input type=submit value='(p) Pilih Customer' name='cariCustomer' accesskey='p'/>
+        <?php
+        /*
+          <h2>Penjualan Barang</h2>
+          <form method=POST target="_blank" action="modul/js_jual_barang_2.php?act=caricustomer">
+          (i) ID Customer : <select name='idCustomer' accesskey='i'>";
+         * 
+         */
+        ?>
+        <?php
+        while ($cust = mysql_fetch_array($namaCustomer)) :
+            if ($cust[idCustomer] == 1) {
+                echo "<option value='$cust[idCustomer]' selected>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
+            }
+            else {
+                echo "<option value='$cust[idCustomer]'>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
+            };
+        endwhile;
+        ?>
+    </select>
+    <input type=submit value='(p) Pilih Customer' name='cariCustomer' accesskey='p'/>
 </form>
 <?php
 /** Menampilkan tombol untuk membuka cash drawer

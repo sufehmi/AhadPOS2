@@ -29,7 +29,7 @@ include "../../config/config.php";
 
 	// catat nomor idBarang yang di generate oleh MySQL
 	$idBarang = mysql_insert_id();
-	echo "idBarang = $idBarang";
+	//echo "idBarang = $idBarang";
 
 	// buat record nya di tabel barang
     	$tgl = date("Y-m-d");
@@ -83,10 +83,12 @@ include "../../config/config.php";
                 </table>
             </form>";
 */
+// header('location:../media.php?module=pembelian_barang&act=carisupplier#');
+ 
+ ?>
 
-
-	echo "<script>window.location.reload()</script>";
-
+	<script>window.location.reload()</script>
+<?php
 
 /* CHANGELOG -----------------------------------------------------------
 
