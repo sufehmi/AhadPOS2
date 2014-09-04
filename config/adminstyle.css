@@ -1,0 +1,137 @@
+body{
+	font-family: Tahoma;  
+}
+#header {
+	position: relative;
+	background-image: url(../image/header.jpg);
+	background-repeat: no-repeat;
+	margin-right: auto;
+	margin-left: auto;
+	width: 950px;
+	border: 2px solid #265180;
+	padding-top: 100px;
+	text-align: left;
+}
+#login{
+	margin-left: 250px;
+	padding: 20px 10px 0 0;
+}
+#content {
+	margin-left: 30px;
+	padding: 20px 10px 0 0;	
+}
+#content p {
+	font-size: 75%;
+	line-height: 1.8em;
+	padding-left: 2em;
+}
+#menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+#menu li {
+	width: 200px;
+	border-bottom: 1px solid #969BA5;
+	margin: 0;
+	padding: 0;
+	font-size: 80%;
+	vertical-align: bottom; 
+}
+#menu a:link, #menu a:visited {
+	display: block;
+	padding: 5px 5px 5px 0.5em;
+	border-left: 12px solid #265180;
+	border-right: 1px solid #265180;
+	background-color: #CAD6EC;
+	color: #265180;
+	text-decoration: none;
+}
+#menu a:hover {
+	background-color: #265180;
+	color: #FFFFFF;
+}
+
+.bckgrndmenu{
+	background-color: #265180;
+	border-color: #265180;
+}
+#footer{
+	padding: 5px 5px 5px 5px;
+	font-size: 70%;
+	color: #FFFFFF;
+	background-color: #265180;
+	border-color: #265180;
+}
+a:link,a:visited {
+    
+  color:#265180;
+}
+a:hover {
+	color: #FF6600;
+	text-decoration:none;
+}
+h2 {
+	font: normal 120% Georgia;
+	color: #265180;
+	background-color: transparent;
+	border-bottom: 1px dotted #265180;
+}
+h3 {
+	font: normal 90% Georgia;
+	color: #265180;
+	background-color: transparent;
+}
+
+table{
+    border-collapse: collapse;
+}
+.tableku {
+	font-family: Tahoma; 
+	font-size: 10pt;
+	border-width: 1px;	
+	border-collapse: collapse;
+	margin: 10px 0px;
+        border: 1px solid #265180;
+        padding: 2px;
+}
+.td{
+    border: 1px solid #265180;
+    padding: 2px;
+    font-size: 9pt;
+}
+form{
+    font-size: 10pt;
+    padding: 2px;       
+}
+th{
+	color: #FFFFFF;
+	font-size: 7pt;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 0.75em;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #969BA5;
+	border-collapse: collapse;
+	background-color: #265180;
+}
+.tdku{
+	padding: 0.5em;
+	vertical-align: top;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #969BA5;
+	border-collapse: collapse;
+}
+input,textarea,select{
+	font-family: Tahoma; 
+	font-size: 8pt;
+}
+.body {
+	font-family: Tahoma; 	
+	border-color: #265180;	
+	border-width: 1px;
+	border-style: solid;	
+}

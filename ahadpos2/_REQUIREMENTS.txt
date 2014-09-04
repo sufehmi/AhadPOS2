@@ -1,0 +1,12 @@
+
+(#) max_input_vars = 20000 (atau lebih besar)
+
+Variable ini bisa di set di file php.ini
+
+Keterangan : beberapa form di AhadPOS menangani jumlah data yang besar. Sedangkan default setting max_input_vars sejak PHP versi 5.3.9 hanya 1000.
+Sehingga beberapa form di AhadPOS menjadi error ketika menangani jumlah data yang besar, karena datanya dipotong / dilenyapkan sebagin oleh PHP.
+
+Solusi : perbesar setting max_input_vars. Contoh: max_input_vars = 20000 jadi memungkinkan AhadPOS untuk menangani sekitar 5000 barang / form.
+
+
+

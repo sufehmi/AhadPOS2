@@ -1,0 +1,25 @@
+
+LISENSI AhadPOS
+
+
+Dengan menggunakan software ini, berarti Anda TELAH menyetujui 2 (dua) hal sebagai berikut :
+
+
+(1) Lisensi software AhadPOS sebagai berikut : GPL versi 2
+
+Detail dari Lisensi GPL versi 2 ini bisa didapatkan di :
+
+			http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+			http://vlsm.org/etc/gpl-unofficial.id.html
+
+
+(2) Garansi : Tidak ada garansi apapun yang diberikan. 
+Software ini disediakan dengan harapan dapat memberikan banyak manfaat untuk banyak orang, tapi tanpa garansi apapun. 
+
+
+Secara ringkas :
+
+Software ini disediakan tanpa garansi, sama dengan nyaris semua software lainnya (ya, bahkan yang berbayar dan harganya sangat mahal), 
+namun berlisensi Open Source, sehingga malah memberikan kebebasan bagi Anda - para pengguna software ini.
+
+Selamat menggunakan !
