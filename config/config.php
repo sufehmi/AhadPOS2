@@ -1,8 +1,8 @@
 <?php
 $server = "localhost";
 $username = "root";
-$password = "bismillah";
-$database = "ahadCeger";
+$password = "";
+$database = "ahadpos2";
 
 // disable error message level E_NOTICE
 //error_reporting(E_ALL);
