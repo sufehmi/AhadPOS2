@@ -88,7 +88,7 @@ function releaseCustomer() {
 
 function cekBarang($barcode) {
 	// jika ada banyak barang dengan barcode yang sama, kembalikan record yang terbaru
-	$sql = "SELECT b.idBarang, b.namaBarang, b.hargaJual, b.barcode, d.hargaBeli FROM barang AS b, detail_beli AS d 
+	$sql = "SELECT b.idBarang, b.namaBarang, b.hargaJual, b.barcode, d.hargaBeli FROM barang AS b, detail_beli AS d
         	    WHERE b.barcode = '$barcode' AND d.barcode = '$barcode' ORDER BY d.idBarang DESC LIMIT 1";
 	//echo $sql;
 	$query = mysql_query($sql);
@@ -196,18 +196,18 @@ function tambahBarangJual($barcode, $jumBarang) {
 
 		// bugfix :
 		//	"ORDER BY idDetailBeli" diganti menjadi "ORDER BY idTransaksiBeli"
-		//	karena, banyak database di berbagai toko Ahad mart yang isi idDetailBeli nya ngaco 
+		//	karena, banyak database di berbagai toko Ahad mart yang isi idDetailBeli nya ngaco
 		//	(banyak field idDetailBeli yang isinya 0 [nol])
 		// cari hargaBeli & idBarang nya
-		$sql = "SELECT * FROM detail_beli 
-		WHERE isSold = 'N' AND barcode = '$barcode' AND jumBarang > 0 
+		$sql = "SELECT * FROM detail_beli
+		WHERE isSold = 'N' AND barcode = '$barcode' AND jumBarang > 0
 		ORDER BY idTransaksiBeli ASC LIMIT 1";
 		//echo $sql;
 		$hasil = mysql_query($sql);
 		if (mysql_num_rows($hasil) < 1) {  // jika tidak ada / stok sudah habis semua, coba cari lagi dengan menyertakan stok barang = 0
 			// tampilkan stok yang terakhir dibeli (ORDER BY idDetailBeli DESC)
-			$sql = "SELECT * FROM detail_beli 
-			WHERE barcode = '$barcode'  
+			$sql = "SELECT * FROM detail_beli
+			WHERE barcode = '$barcode'
 			ORDER BY idTransaksiBeli DESC LIMIT 1";
 			$hasil = mysql_query($sql);
 		}
@@ -263,7 +263,7 @@ function cekDiskon($uid, $barcode, $jumBarang) {
 function tambahkanDiskonCustomer($barcode, $diskonCustomer) {
 	$sql = "select uid, diskon_persen, diskon_rupiah, diskon_detail_uids, b.hargaJual
 				from tmp_detail_jual tdj
-				join barang b on b.barcode = tdj.barcode 
+				join barang b on b.barcode = tdj.barcode
 				where tdj.username = '{$_SESSION['uname']}' and idCustomer = {$_SESSION['idCustomer']} and tdj.barcode = '$barcode'";
 	$hasil = mysql_query($sql) or die("DC: Gagal ambil detail_jual, error: ".mysql_error());
 	while ($tdj = mysql_fetch_array($hasil)):
@@ -277,9 +277,9 @@ function tambahkanDiskonCustomer($barcode, $diskonCustomer) {
 		$hargaJual = $tdj['hargaJual'] - $totalDiskon;
 
 		$uidsDiskon = array('2' => $totalDiskon); // Diskon Customer idnya adalah 2
-		// Jika sebelumnya ada diskon waktu/promo, 
-		// 1. kurangi lagi hargaJual, 
-		// 2. tambahkan lagi nilai diskon 
+		// Jika sebelumnya ada diskon waktu/promo,
+		// 1. kurangi lagi hargaJual,
+		// 2. tambahkan lagi nilai diskon
 		// 3. tambahkan lagi uid diskon detail
 		if ($tdj['diskon_rupiah'] > 0) {
 			$uidsDiskon = json_decode($tdj['diskon_detail_uids'], true);
@@ -297,7 +297,7 @@ function tambahkanDiskonCustomer($barcode, $diskonCustomer) {
 			$hargaJual = $tdj['hargaJual'] - $totalDiskon;
 		}
 		// simpan lagi
-		// simpan hanya nilai diskon rupiahnya, 
+		// simpan hanya nilai diskon rupiahnya,
 		// diskon persen di nol kan
 		$uidsDiskon = json_encode($uidsDiskon);
 		//echo 'diskon Customer:'.$uidsDiskon;
@@ -328,8 +328,8 @@ function cekDiskonGrosir($barcode, $jumBarang) {
 				where barcode = '$barcode' and
 				dd.tanggal_dari<= now() and
 				(dd.tanggal_sampai='0000-00-00 00:00:00' or tanggal_sampai >= now() ) and
-				dd.min_item<=$jumBarang and 
-				dd.diskon_tipe_id=1000 and 
+				dd.min_item<=$jumBarang and
+				dd.diskon_tipe_id=1000 and
 				dd.status=1
 				order by dd.uid desc";
 	$hasil = mysql_query($sql) or die("Gagal cek diskon grosir, error: ".mysql_error());
@@ -339,7 +339,7 @@ function cekDiskonGrosir($barcode, $jumBarang) {
 function tambahkanDiskonGrosir($barcode, $diskonGrosir) {
 	$sql = "select uid, diskon_persen, diskon_rupiah, diskon_detail_uids, b.hargaJual
 				from tmp_detail_jual tdj
-				join barang b on b.barcode = tdj.barcode 
+				join barang b on b.barcode = tdj.barcode
 				where tdj.username = '{$_SESSION['uname']}' and idCustomer = {$_SESSION['idCustomer']} and tdj.barcode = '$barcode'";
 	$hasil = mysql_query($sql) or die("DG: Gagal ambil detail_jual, error: ".mysql_error());
 	while ($tdj = mysql_fetch_array($hasil)):
@@ -356,9 +356,9 @@ function tambahkanDiskonGrosir($barcode, $diskonGrosir) {
 
 		$uidsDiskon = array($diskonGrosir['uid'] => $totalDiskon);
 
-		// Jika sebelumnya ada diskon waktu/promo, 
-		// 1. kurangi lagi hargaJual, 
-		// 2. tambahkan lagi nilai diskon 
+		// Jika sebelumnya ada diskon waktu/promo,
+		// 1. kurangi lagi hargaJual,
+		// 2. tambahkan lagi nilai diskon
 		// 3. tambahkan lagi uid diskon detail
 
 		if ($tdj['diskon_rupiah'] > 0) {
@@ -373,14 +373,14 @@ function tambahkanDiskonGrosir($barcode, $diskonGrosir) {
 			}
 			$totalDiskon = $tdj['diskon_rupiah'] + $nilaiDiskonGrosir;
 
-			// tambahkan uid diskon grosir: 
+			// tambahkan uid diskon grosir:
 			$uidsDiskon[$diskonGrosir['uid']] = $nilaiDiskonGrosir;
 
 			// kurangi hargaJual nya
 			$hargaJual = $tdj['hargaJual'] - $totalDiskon;
 		}
 		// simpan lagi
-		// simpan hanya nilai diskon rupiahnya, 
+		// simpan hanya nilai diskon rupiahnya,
 		// diskon persen di nol kan
 		$uidsDiskon = json_encode($uidsDiskon);
 		//echo 'diskon grosir: '.$uidsDiskon.'  ::';
@@ -397,11 +397,11 @@ function cekDiskonWaktu($uid) {
 				from tmp_detail_jual tdj
 				join diskon_detail dd on dd.barcode = tdj.barcode
 				join barang b on b.barcode = dd.barcode
-				where tdj.uid=$uid and dd.status=1 and 
+				where tdj.uid=$uid and dd.status=1 and
 				dd.tanggal_dari<= now() and
 				(dd.tanggal_sampai='0000-00-00 00:00:00' or tanggal_sampai >= now() ) and
 				diskon_tipe_id=1001
-				order by dd.uid desc 
+				order by dd.uid desc
 				limit 1";
 	$result = mysql_query($sql) or die('Gagal cek diskon promo, error: '.mysql_error());
 	$dataDiskon = mysql_fetch_array($result);
@@ -422,7 +422,7 @@ function cekDiskonWaktu($uid) {
 			$diskonNet = $diskon;
 		}
 
-		// diskon uid dan value disimpan dalam bentuk json, jika item dikenakan lebih dari 1 diskon		
+		// diskon uid dan value disimpan dalam bentuk json, jika item dikenakan lebih dari 1 diskon
 		$diskonUids = json_encode(array($diskonDetailId => $diskonNet));
 		$jumbarang = $dataDiskon['jumBarang'];
 		$maxItem = $dataDiskon['max_item'];
@@ -467,7 +467,7 @@ function cekDiskonAdmin($uid) {
 	} else {
 		// Jika tidak ada selisih / tidak ada update dari hak Admin
 		// Maka cekDiskon lagi
-		mysql_query("update tmp_detail_jual set diskon_detail_uid=0, diskon_rupiah=0 where uid=$uid") or die(mysql_error());
+		mysql_query("update tmp_detail_jual set diskon_detail_uids=0, diskon_rupiah=0 where uid=$uid") or die(mysql_error());
 		cekDiskon($uid);
 		return false;
 	}
@@ -496,7 +496,7 @@ function tambahBarangRPOAda($idCustomer, $barcode, $jumBarang) {
 	// jumBarang bisa < 1, yaitu untuk mengurangi jumlah
 	$jumlah = $jumBarang;
 
-	$sql = "SELECT jumBarang FROM tmp_detail_jual 
+	$sql = "SELECT jumBarang FROM tmp_detail_jual
 			WHERE idCustomer = '$idCustomer' AND barcode = '$barcode' AND username='$_SESSION[uname]'";
 	$ambilJumBarang = mysql_query($sql);
 	$dataJum = mysql_fetch_array($ambilJumBarang);
@@ -523,8 +523,8 @@ function tambahBarangRPO($barcode, $jumBarang, $range, $periode, $persediaan) {
 		$StokSaatIni = $x['jumBarang'];
 
 		// cari harga modal nya
-		$sql = "SELECT * FROM detail_beli 
-			WHERE barcode = '$barcode'  
+		$sql = "SELECT * FROM detail_beli
+			WHERE barcode = '$barcode'
 			ORDER BY idTransaksiBeli DESC LIMIT 1";
 		$hasil = mysql_query($sql);
 
@@ -537,11 +537,11 @@ function tambahBarangRPO($barcode, $jumBarang, $range, $periode, $persediaan) {
 
 		// hitung $SaranOrder
 		// SaranOrder = (TotalPenjualan[$range] / $range) x $persediaan
-//		$sql = "SELECT SUM(jumBarang) AS total FROM detail_jual AS dj, 
-//				(SELECT idTransaksiJual FROM transaksijual 
-//				WHERE tglTransaksiJual BETWEEN '$tglrange' AND '$tgl') AS tj 
+//		$sql = "SELECT SUM(jumBarang) AS total FROM detail_jual AS dj,
+//				(SELECT idTransaksiJual FROM transaksijual
+//				WHERE tglTransaksiJual BETWEEN '$tglrange' AND '$tgl') AS tj
 //			WHERE barcode='$barcode' AND dj.nomorStruk = tj.idTransaksiJual";
-		$sql = "select sum(jumBarang) as total 
+		$sql = "select sum(jumBarang) as total
 					from detail_jual dj
 					join transaksijual tj on tj.idTransaksiJual = dj.nomorStruk
 					where tj.tglTransaksiJual between DATE_SUB(NOW(), INTERVAL {$range} DAY) AND NOW() and
@@ -626,13 +626,13 @@ function SimpanRPOawalOld1($supplierid, $range, $persediaan, $buffer) {
 
 // Penyimpanan diganti tablenya, agar tidak konflik dengan proses penjualan kasir
 function SimpanRPOawal($supplierid, $range, $persediaan, $buffer) {
-	/* bigint1 = idSupplier, 
-	 * dt1 = tanggal_sekarang, 
-	 * vc1 = barcode, 
-	 * integer1 = saran, 
-	 * float1 = harga_beli, 
-	 * integer2 = stok, 
-	 * vc2 = username, 
+	/* bigint1 = idSupplier,
+	 * dt1 = tanggal_sekarang,
+	 * vc1 = barcode,
+	 * integer1 = saran,
+	 * float1 = harga_beli,
+	 * integer2 = stok,
+	 * vc2 = username,
 	 * float2 = avgPerHari
 	 */
 	$sql = "INSERT INTO tmp(bigint1, dt1, vc1, integer1, float1, integer2, vc2, float2)
@@ -640,7 +640,7 @@ function SimpanRPOawal($supplierid, $range, $persediaan, $buffer) {
 				  {$_SESSION['idCustomer']},
 				  NOW(),
 				  barcode,
-				  CASE 
+				  CASE
 				  WHEN ROUND(ROUND(total/{$range} * {$persediaan}) + ROUND(total/{$range} * {$persediaan}) * {$buffer}/100) < 0 THEN 0
 				  ELSE ROUND(ROUND(total/{$range} * {$persediaan}) + ROUND(total/{$range} * {$persediaan}) * {$buffer}/100) ".
 				  //WHEN ROUND(ROUND(total/{$range} * {$persediaan}) + ROUND(total/{$range} * {$persediaan}) * {$buffer}/100) - stok < 0 THEN 0
@@ -726,7 +726,7 @@ function ubahJumlahBarangBeliTemp($idSupplier, $idBarang, $jumlah) {
 
 function detailTransaksiBeli($idTransaksiBeli) {
 	$query = mysql_query("SELECT idTransaksiBeli, tglTransaksiBeli, namaSupplier, nominal, idTipePembayaran, NomorInvoice, namaUser
-            FROM transaksibeli AS t, user AS u, supplier AS s 
+            FROM transaksibeli AS t, user AS u, supplier AS s
             WHERE t.idSupplier = s.idSupplier AND t.username = u.uname
             AND t.idTransaksiBeli = '$idTransaksiBeli'") or die(mysql_error());
 	return $query;
@@ -798,7 +798,7 @@ function cetakStruk($perintahPrinter, $nomorStruk, $namaKasir, $totalTransaksi, 
 		} else {
 			//$struk .= $x[jumBarang] . "x ". $x[namaBarang]. " @".number_format($x[hargaJual],0,',','.').
 			//		": ".number_format(($x[hargaJual] * $x[jumBarang]),0,',','.')."\n";
-			//		
+			//
 //			$struk .= $x[namaBarang] . "\n        " .
 //					  $x[jumBarang] . " x " . number_format($x[hargaJual], 0, ',', '.') .
 //					  " = " . number_format(($x[hargaJual] * $x[jumBarang]), 0, ',', '.') . "\n";
@@ -825,7 +825,7 @@ function cetakStruk($perintahPrinter, $nomorStruk, $namaKasir, $totalTransaksi, 
 					$diskon = "        Potongan (".number_format($diskonRupiah, 0, ',', '.').')'."\n";
 				}
 			}
-			// jika panjang baris > 40 huruf, pecah jadi 2 baris		
+			// jika panjang baris > 40 huruf, pecah jadi 2 baris
 			//if (strlen($temp) > 40) {
 			//	$tmp = substr($temp, 0, 40) . "- \n -" . substr($temp, 40);
 			//	$temp = $tmp;
@@ -836,7 +836,7 @@ function cetakStruk($perintahPrinter, $nomorStruk, $namaKasir, $totalTransaksi, 
 	$struk .= "-------------------------------------\n";
 
 	$diskonHargaTotal = $diskonHargaPerBarangTotal;
-	
+
 	// Total Diskon per barang di kurangi $diskonCustomer
 	$diskonHargaPerBarangTotal -= $diskonCustomer;
 	if ($strukRetur) {
@@ -879,7 +879,7 @@ function getDetailSupplier($id) {
 }
 
 function getDetailTmpEditReturPembelian($idNota) { // =================================================================================================
-	$query = mysql_query("SELECT t.idDetailBeli, t.idBarang, t.tglExpire, t.jumBarang, t.hargaBeli, t.jumRetur,  
+	$query = mysql_query("SELECT t.idDetailBeli, t.idBarang, t.tglExpire, t.jumBarang, t.hargaBeli, t.jumRetur,
                     barang.namaBarang
                     FROM tmp_edit_detail_retur_beli AS t, barang
                     WHERE barang.barcode = t.barcode AND t.idTransaksiBeli = '$idNota';") or die(mysql_error());
@@ -896,8 +896,8 @@ function ubahTempEditDetailReturPembelian($idDetailBeli, $tglExpire, $jumBarangA
 		$jumRetur = 0;
 	};
 
-	mysql_query("UPDATE tmp_edit_detail_retur_beli 
-			SET tglExpire = '$tglExpire', jumBarang = '$jumBarangAsli', hargaBeli = '$hargaBeli', jumRetur = $jumRetur  
+	mysql_query("UPDATE tmp_edit_detail_retur_beli
+			SET tglExpire = '$tglExpire', jumBarang = '$jumBarangAsli', hargaBeli = '$hargaBeli', jumRetur = $jumRetur
 			WHERE idDetailBeli = '$idDetailBeli'") or die(mysql_error());
 }
 
@@ -929,7 +929,7 @@ function getDetailNotaPembelian($idNota) {
 	$sql = "SELECT detail_beli.idBarang, detail_beli.tglExpire, detail_beli.jumBarang, detail_beli.hargaBeli, detail_beli.barcode,
                     barang.namaBarang, detail_beli.jumBarangAsli
                     FROM detail_beli, barang
-                    WHERE barang.barcode = detail_beli.barcode AND detail_beli.idTransaksiBeli = '$idNota' 
+                    WHERE barang.barcode = detail_beli.barcode AND detail_beli.idTransaksiBeli = '$idNota'
 			ORDER BY detail_beli.idBarang;";
 	//echo $sql;
 	$query = mysql_query($sql) or die('Gagal ambil data detail nota pembelian, error: '.mysql_error());
@@ -944,7 +944,7 @@ function inputDataEditPembelianKeTemp($idNota) {
 }
 
 function getDetailTmpEditPembelian($idNota) {
-	$query = mysql_query("SELECT tmp_edit_detail_beli.idDetailBeli, tmp_edit_detail_beli.idBarang, tmp_edit_detail_beli.tglExpire, tmp_edit_detail_beli.jumBarang, tmp_edit_detail_beli.hargaBeli, 
+	$query = mysql_query("SELECT tmp_edit_detail_beli.idDetailBeli, tmp_edit_detail_beli.idBarang, tmp_edit_detail_beli.tglExpire, tmp_edit_detail_beli.jumBarang, tmp_edit_detail_beli.hargaBeli,
                     barang.namaBarang
                     FROM tmp_edit_detail_beli, barang
                     WHERE barang.idBarang = tmp_edit_detail_beli.idBarang AND tmp_edit_detail_beli.idTransaksiBeli = '$idNota';") or die(mysql_error());
@@ -992,11 +992,11 @@ function getDaftarBarangSupplier($idSupplier, $jumlahMin) {
 
 //    $query = mysql_query("select idBarang, barcode, namaBarang, jumBarang from barang where idSupplier = '$idSupplier' AND jumBarang < $jumlahMin ORDER BY namaBarang") or die(mysql_error());
 
-	$sql = "SELECT b.idBarang, b.barcode, b.namaBarang, b.jumBarang, d.hargaBeli 
-                FROM barang AS b, 
-                        (SELECT * FROM detail_beli 
-                        GROUP BY barcode ORDER BY idTransaksiBeli) AS d 
-                WHERE b.idSupplier = '$idSupplier' AND b.jumBarang < $jumlahMin AND b.barcode = d.barcode 
+	$sql = "SELECT b.idBarang, b.barcode, b.namaBarang, b.jumBarang, d.hargaBeli
+                FROM barang AS b,
+                        (SELECT * FROM detail_beli
+                        GROUP BY barcode ORDER BY idTransaksiBeli) AS d
+                WHERE b.idSupplier = '$idSupplier' AND b.jumBarang < $jumlahMin AND b.barcode = d.barcode
                 ORDER BY b.namaBarang ASC";
 	$query = mysql_query($sql) or die(mysql_error());
 
@@ -1006,12 +1006,12 @@ function getDaftarBarangSupplier($idSupplier, $jumlahMin) {
 function getBarangPesan($barcode) {
 
 	//$sql = "SELECT idBarang, barcode, namaBarang, jumBarang FROM barang WHERE idBarang = '$idBarang'";
-	$sql = "SELECT b.idBarang, b.barcode, b.namaBarang, b.jumBarang, d.hargaBeli  
+	$sql = "SELECT b.idBarang, b.barcode, b.namaBarang, b.jumBarang, d.hargaBeli
 		FROM barang AS b,
-			(SELECT * FROM detail_beli 
-			WHERE barcode = '$barcode' 
+			(SELECT * FROM detail_beli
+			WHERE barcode = '$barcode'
 			GROUP BY barcode ORDER BY idTransaksiBeli) AS d
-		WHERE b.barcode = '$barcode' AND b.barcode = d.barcode 
+		WHERE b.barcode = '$barcode' AND b.barcode = d.barcode
 		ORDER BY b.namaBarang ASC;	";
 
 	$query = mysql_query($sql) or die(mysql_error());
@@ -1149,7 +1149,7 @@ function insertTempLabel($cekBarcode) {
 				LEFT JOIN `kategori_barang`
 					ON `barang`.`idKategoriBarang` = `kategori_barang`.`idKategoriBarang`
 				LEFT JOIN `satuan_barang`
-					ON `barang`.`idSatuanBarang` = `satuan_barang`.`idSatuanBarang` 
+					ON `barang`.`idSatuanBarang` = `satuan_barang`.`idSatuanBarang`
 			WHERE `barang`.`barcode` = '$cekBarcode' ");
 
 
