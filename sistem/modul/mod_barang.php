@@ -222,7 +222,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['jumBarang']; ?></td>
                         <td class="right"><?php echo $r['hargaJual']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                 ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                    ?>
                         </td>
                     </tr>
                     <?php
@@ -396,7 +396,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                   ?>
                     </td>
                 </tr>
                 <?php
@@ -606,7 +606,7 @@ switch ($_GET['act']) {
 
             <script>
                 var txtBox = document.getElementById("barcode");
-                        if (txtBox != null)
+                if (txtBox != null)
                     txtBox.focus();</script>
 
         </div>
@@ -744,9 +744,19 @@ switch ($_GET['act']) {
 
         $hasilRak = mysql_query("select namaRak from rak where idRak={$_POST['rak']}");
         $rak = mysql_fetch_array($hasilRak);
+        ?>
+        <style>
+            th{
+                font-size: 14px;
+            }
+            td{
+                font-size: 12px;
+            }
+        </style>
+        <?php
         echo "
-	<h1>Rak {$rak['namaRak']}</h1>
-	  <table class=tableku>
+	<h3>Rak {$rak['namaRak']}</h3>
+	  <table class='tabel'>
           <tr><th>no</th><th>Barcode</th><th>Nama Barang</th><th>Harga <br />Jual</th>
                 <th>Jml <br />Tercatat</th><th>Selisih</th></tr>";
 
