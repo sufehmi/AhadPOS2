@@ -264,11 +264,11 @@ switch ($_GET[act]) { //--------------------------------------------------------
                 <table>
                     <tr>
                         <td>(d) Dari Tanggal </td>
-                        <td>: <input type=text name='DariTanggal' value='<?php echo date("Y-m-d 00:00:00"); ?>' accesskey='d'></td>
+                        <td>: <input type=text class="tanggalan" name='DariTanggal' value='<?php echo date("d-m-Y 00:00"); ?>' accesskey='d'></td>
                     </tr>
                     <tr>
                         <td>Sampai Tanggal </td>
-                        <td>: <input type=text name='SampaiTanggal' value='<?php echo date("Y-m-d 23:59:59"); ?>'></td>
+                        <td>: <input type=text class="tanggalan" name='SampaiTanggal' value='<?php echo date("d-m-Y 23:59"); ?>'></td>
                     </tr>
                     <tr>
                         <td>Pilih Kasir </td>
@@ -309,6 +309,16 @@ switch ($_GET[act]) { //--------------------------------------------------------
                             <input type=reset value='Batal'></td></tr>
                 </table>
             </form>
+
+            <script>
+                $(function() {
+                    $('.tanggalan').appendDtpicker({
+                        "closeOnSelected": true,
+                        'locale': 'id',
+                        'dateFormat': 'DD-MM-YYYY hh:mm'
+                    });
+                });
+            </script>
             <?php
             break;
 
@@ -347,6 +357,8 @@ switch ($_GET[act]) { //--------------------------------------------------------
                     ?>
                 </tr>
                 <?php
+                $dariTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['DariTanggal']), 'Y-m-d H:i');
+                $sampaiTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['SampaiTanggal']), 'Y-m-d H:i');
                 $sql = "select
 						dj.nomorStruk,
 						tj.tglTransaksiJual,
@@ -361,7 +373,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 						from diskon_transaksi dt
 						join detail_jual dj on dt.idDetailJual = dj.uid
 						join transaksijual tj on tj.idTransaksiJual = dj.nomorStruk
-						where tj.tglTransaksiJual between '{$_GET['DariTanggal']}' and '{$_GET['SampaiTanggal']}' ";
+						where tj.tglTransaksiJual between '{$dariTanggal}' and '{$sampaiTanggal}' ";
                 if ($_GET['idKasir'] != 'SEMUA') {
                     $sql.= "and tj.idUser = {$_GET['idKasir']} ";
                 }
@@ -377,6 +389,8 @@ switch ($_GET[act]) { //--------------------------------------------------------
                      * Cek Tipe Diskon dulu !!
                      */
                     $diskonDetail = '';
+                    $dariTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['DariTanggal']), 'Y-m-d H:i');
+                    $sampaiTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['SampaiTanggal']), 'Y-m-d H:i');
                     $diskonDetail = json_decode($data['diskon_detail_uids'], true);
                     $adaDiskon = false;
                     foreach ($diskonDetail as $key => $value) {
