@@ -222,7 +222,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['jumBarang']; ?></td>
                         <td class="right"><?php echo $r['hargaJual']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                    ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                        ?>
                         </td>
                     </tr>
                     <?php
@@ -396,7 +396,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                   ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                       ?>
                     </td>
                 </tr>
                 <?php
@@ -458,7 +458,7 @@ switch ($_GET['act']) {
             $sql = "SELECT b.idBarang,b.namaBarang,b.jumBarang,b.hargaJual,b.barcode, k.namaKategoriBarang, s.namaSatuanBarang
                         FROM barang AS b, kategori_barang AS k, satuan_barang AS s
 			WHERE idRak=$_POST[rak] AND
-				b.idKategoriBarang = k.idKategoriBarang AND b.idSatuanBarang = s.idSatuanBarang AND (nonAktif!=1 or nonAktif is null) 
+				b.idKategoriBarang = k.idKategoriBarang AND b.idSatuanBarang = s.idSatuanBarang AND (nonAktif!=1 or nonAktif is null)
                         ORDER BY namaBarang ASC";
             $cari = mysql_query($sql);
             $q = 'rak';
@@ -1808,14 +1808,16 @@ switch ($_GET['act']) {
                 }
 
                 if (!$ketemuError) {
+                    $tanggalDari = date_format(date_create_from_format('d-m-Y H:i', $diskonDetail['tanggal_dari']), 'Y-m-d H:i');
+                    $tanggalSampai = date_format(date_create_from_format('d-m-Y H:i', $diskonDetail['tanggal_sampai']), 'Y-m-d H:i');
                     $rDiskon = mysql_query("select uid, nama from diskon_tipe where uid={$diskonDetail['diskon_tipe_id']}") or die(mysql_error());
                     $diskonTipe = mysql_fetch_array($rDiskon);
                     $sqlInsert = "insert into diskon_detail (diskon_tipe_id, diskon_tipe_nama, barcode, tanggal_dari, tanggal_sampai, diskon_persen, diskon_rupiah, min_item, max_item) "
                             . "values({$diskonDetail['diskon_tipe_id']},"
                             . "'{$diskonTipe['nama']}',"
                             . "'{$diskonDetail['barcode']}',"
-                            . "'{$diskonDetail['tanggal_dari']}',"
-                            . "'{$diskonDetail['tanggal_sampai']}',"
+                            . "'{$tanggalDari}',"
+                            . "'{$tanggalSampai}',"
                             . "{$diskonDetail['diskon_persen']},"
                             . "{$diskonDetail['diskon_rupiah']},"
                             . "{$min_item},"
@@ -1871,12 +1873,14 @@ switch ($_GET['act']) {
                                     $('#tanggal_dari').appendDtpicker({
                                         "closeOnSelected": true,
                                         'locale': 'id',
+                                        'dateFormat': 'DD-MM-YYYY hh:mm'
                                     });
                                 });
                                 $(function() {
                                     $('#tanggal_sampai').appendDtpicker({
                                         "closeOnSelected": true,
                                         'locale': 'id',
+                                        'dateFormat': 'DD-MM-YYYY hh:mm'
                                     });
                                 });
                                 $("#barcode").blur(function() {
@@ -1934,8 +1938,8 @@ switch ($_GET['act']) {
                         <td><?php echo $diskonDetail['diskon_tipe_nama']; ?></td>
                         <td><?php echo $diskonDetail['barcode']; ?></td>
                         <td><?php echo $diskonDetail['namaBarang']; ?></td>
-                        <td><?php echo $diskonDetail['tanggal_dari']; ?></td>
-                        <td><?php echo $diskonDetail['tanggal_sampai']; ?></td>
+                        <td><?php echo date_format(date_create_from_format('Y-m-d H:i:s', $diskonDetail['tanggal_dari']), 'd-m-Y H:i'); ?></td>
+                        <td><?php echo date_format(date_create_from_format('Y-m-d H:i:s', $diskonDetail['tanggal_sampai']), 'd-m-Y H:i'); ?></td>
                         <td><?php echo $diskonDetail['diskon_persen']; ?></td>
                         <td><?php echo $diskonDetail['diskon_rupiah']; ?></td>
                         <td><?php echo $diskonDetail['min_item']; ?></td>
