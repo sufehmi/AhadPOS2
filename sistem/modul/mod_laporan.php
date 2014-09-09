@@ -228,14 +228,14 @@ switch ($_GET[act]) { //--------------------------------------------------------
             if ($_GET[idKasir] == 'SEMUA') {
                 $sql = "SELECT SUM((d.hargaJual - d.hargaBeli) * jumBarang) AS profit
 				FROM transaksijual AS t, detail_jual AS d
-				WHERE t.tglTransaksiJual BETWEEN '$_GET[DariTanggal]' AND '$_GET[SampaiTanggal]' AND t.idTransaksiJual=d.nomorStruk
+				WHERE t.tglTransaksiJual BETWEEN '$dariTanggal' AND '$sampaiTanggal' AND t.idTransaksiJual=d.nomorStruk
  					ORDER BY t.idTransaksiJual ASC";
             }
             else {
                 $sql = "SELECT SUM((d.hargaJual - d.hargaBeli) * jumBarang) AS profit
 				FROM transaksijual AS t, detail_jual AS d
 				WHERE t.idUser = $_GET[idKasir] AND t.idTransaksiJual=d.nomorStruk
-				AND t.tglTransaksiJual BETWEEN '$_GET[DariTanggal]' AND '$_POST[SampaiTanggal]' ORDER BY t.idTransaksiJual ASC";
+				AND t.tglTransaksiJual BETWEEN '$dariTanggal' AND '$sampaiTanggal' ORDER BY t.idTransaksiJual ASC";
             };
             $tampil = mysql_query($sql);
             $r = mysql_fetch_array($tampil);
