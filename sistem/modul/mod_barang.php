@@ -448,7 +448,7 @@ switch ($_GET['act']) {
             $sql = "SELECT b.idBarang,b.namaBarang,b.jumBarang,b.hargaJual,b.barcode, k.namaKategoriBarang, s.namaSatuanBarang
                         FROM barang AS b, kategori_barang AS k, satuan_barang AS s
 			WHERE idSupplier=$_POST[supplier] AND
-				b.idKategoriBarang = k.idKategoriBarang AND b.idSatuanBarang = s.idSatuanBarang
+				b.idKategoriBarang = k.idKategoriBarang AND b.idSatuanBarang = s.idSatuanBarang AND (nonAktif!=1 or nonAktif is null)
                         ORDER BY namaBarang ASC";
             $cari = mysql_query($sql);
             $q = 'sup';
@@ -458,7 +458,7 @@ switch ($_GET['act']) {
             $sql = "SELECT b.idBarang,b.namaBarang,b.jumBarang,b.hargaJual,b.barcode, k.namaKategoriBarang, s.namaSatuanBarang
                         FROM barang AS b, kategori_barang AS k, satuan_barang AS s
 			WHERE idRak=$_POST[rak] AND
-				b.idKategoriBarang = k.idKategoriBarang AND b.idSatuanBarang = s.idSatuanBarang
+				b.idKategoriBarang = k.idKategoriBarang AND b.idSatuanBarang = s.idSatuanBarang AND (nonAktif!=1 or nonAktif is null) 
                         ORDER BY namaBarang ASC";
             $cari = mysql_query($sql);
             $q = 'rak';
