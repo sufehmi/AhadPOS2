@@ -3,60 +3,105 @@
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 300;
-    src: url('../fonts/OpenSans-Light.ttf');
+    src: url('../../../font/OpenSans-Light.ttf');
 }
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
-    src: url('../fonts/OpenSans.ttf');
+    src: url('../../../font/OpenSans.ttf');
 }
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 700;
-    src: url('../fonts/OpenSans-Bold.ttf');
+    src: url('../../../font/OpenSans-Bold.ttf');
 }
 @font-face {
     font-family: 'Open Sans';
     font-style: italic;
     font-weight: 300;
-    src: url('../fonts/OpenSans-LightItalic.ttf');
+    src: url('../../../font/OpenSans-LightItalic.ttf');
 }
 @font-face {
     font-family: 'Open Sans';
     font-style: italic;
     font-weight: 400;
-    src: url('../fonts/OpenSans-Italic.ttf');
+    src: url('../../../font/OpenSans-Italic.ttf');
 }
 @font-face {
     font-family: 'Open Sans';
     font-style: italic;
     font-weight: 700;
-    src: url('../fonts/OpenSans-BoldItalic.ttf');
+    src: url('../../../font/OpenSans-BoldItalic.ttf');
 }
 
 .row{
-    max-width: 80rem;
+    max-width: 100rem;
 }
 
-#halaman-depan{
+#halaman-depan, #halaman-splash{
     /*background-color : rgb(46, 228, 30);*/
     /*background-color : #33cc00;*/
-    background-color : #00cc00;
+    /*background-color : #00cc00;*/
     background-color : #009900;
-    text-align: center;
-    padding-top: 200px;
+    padding-top: 5rem;
 }
 
-#halaman-depan h1, #halaman-depan h4, #halaman-depan h5, .button, #halaman-input h4, .sc-nomor{
+#halaman-splash{
+    background-color : #1a4f95;
+}
+
+#header-tengah{
+    text-align: center;
+    position: absolute;
+    width : 100%;
+}
+
+#header-tengah #footer{
+    text-align: center;	
+    margin-top: 5rem;
+    color: rgb(46, 228, 30);
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#header-kiri{
+    float: left;
+    text-align: left;
+    margin-left: 50px;
+}
+
+#header-kiri #footer{
+    text-align: left;	
+    margin-top: 5rem;
+    color: rgb(46, 228, 30);
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#header-kanan{
+    text-align: right;
+    margin-right: 50px;
+}
+
+#header-kanan #footer{
+    text-align: right;	
+    margin-top: 5rem;
+    color: rgb(46, 228, 30);
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#halaman-depan h1, #halaman-depan h4, #halaman-depan h5, .button, #halaman-input h4, #halaman-splash h4{
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: normal;
     font-weight: 300;  
     color: #fff;
 }
 
-#halaman-depan h4{
+#halaman-depan h4, #halaman-splash h4{
     font-size: 3.5rem;
 }
 #halaman-depan h1{
@@ -110,25 +155,14 @@ input[type="text"]:focus{
 
 .button.kecil{
     margin:0;
-    padding:2px 5px;
+    padding:5px 10px;
 }
 
 #footer{
     text-align: center;	
-    /*color: white;*/
-    /*line-height: 20px;*/
-    /*color: #006600;*/
+    margin-top: 5rem;
     color: rgb(46, 228, 30);
     font-size: 2rem;
-    position: fixed;
-    bottom: 150px;
-    width: 100%;
     text-transform: uppercase;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    span{
-        /*margin-right: 20px;*/
-    }
-    a{
-        /*color:white;*/
-    }
 }

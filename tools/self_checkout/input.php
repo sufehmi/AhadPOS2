@@ -7,11 +7,17 @@ mysqli_select_db($link, $database) or die("Database tidak bisa dibuka");
 
 $clientIP = $_SERVER['REMOTE_ADDR'];
 
-$selfCheckOutTemp = mysqli_query($link, "SELECT b.barcode, b.namaBarang, sct.qty, sct.harga_jual, sct.qty * sct.harga_jual as sub_total
+$selfCheckOutTemp = mysqli_query($link, "SELECT b.barcode, b.namaBarang, sct.qty, sct.harga_jual, sct.diskon, sct.qty * sct.harga_jual as sub_total
                                             FROM self_checkout_temp sct
                                             JOIN barang b on b.barcode = sct.barcode
-                                            WHERE ip4 = '{$clientIP}'
+                                            WHERE ipv4 = '{$clientIP}'
                                             ORDER by sct.id desc");
+
+
+$result = mysqli_query($link, "select sum(qty * harga_jual) total
+                                    from self_checkout_temp
+                                    where ipv4='{$clientIP}'") or die('Gagal ambil total!');
+$total = mysqli_fetch_array($result);
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +31,7 @@ $selfCheckOutTemp = mysqli_query($link, "SELECT b.barcode, b.namaBarang, sct.qty
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/foundation.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
 
         <!-- Ahadmart Style -->
         <link rel="stylesheet" href="css/main.css">
@@ -34,27 +41,31 @@ $selfCheckOutTemp = mysqli_query($link, "SELECT b.barcode, b.namaBarang, sct.qty
     </head>
     <body id="halaman-input">
         <div class="row">
-            <div class="medium-8 columns">
+            <div class="medium-6 large-8 columns">
                 <div class="row">
                     <div class="small-2 columns">
                         <a href="#" id="tombol-batal" class="secondary large button expand">BATAL</a>
                     </div>
                     <div class="small-2 columns">
-                        <a href="#" class="success large button expand">SELESAI</a> 
+                        <a href="#" class="success large button expand" id="tombol-selesai">SELESAI</a> 
                     </div>
                     <div class="small-8 columns">
-                        <div class="panel" style="background-color: rgba(0, 0, 0, 0.5);" ><h4 style="font-weight: 400;color: #fff">Total <span class="rata-kanan">123.456.789</span></h4></div>
+                        <div class="panel" style="background-color: rgba(0, 0, 0, 0.5);" >
+                            <h4 style="font-weight: 400;color: #fff">Total <span id="total" class="rata-kanan"><?php echo number_format($total['total'], 0, ',', '.'); ?></span>
+                            </h4>
+                        </div>
                     </div>
                 </div>
-                <table width="100%" style="background-color: rgba(255,255,255,0.9)">
+                <table width="100%" style="background-color: rgba(255,255,255,0.9);border-collapse: separate;border-spacing: 2px;">
                     <thead>
                         <tr>
                             <th>Barcode</th>
+                            <th class="tengah">Hapus</th>
                             <th>Nama Barang</th>
-                            <th class="kanan">Harga</th>
+                            <th class="kanan">Harga @</th>
+                            <th class="kanan">Diskon @</th>
                             <th class="kanan">Qty</th>
                             <th class="kanan">Sub Total</th>
-                            <th class="tengah">Hapus</th>
                         </tr>
                     </thead>
                     <tbody id="detail">
@@ -63,11 +74,12 @@ $selfCheckOutTemp = mysqli_query($link, "SELECT b.barcode, b.namaBarang, sct.qty
                             ?>
                             <tr>
                                 <td><?php echo $detail['barcode']; ?></td>
+                                <td class="tengah"><a id="<?php echo $detail['barcode']; ?>" href="" class="tiny alert button kecil hapus"><i class="fa fa-times fa-2x"></i></a></td>
                                 <td><?php echo $detail['namaBarang']; ?></td>
                                 <td class="kanan"><?php echo number_format($detail['harga_jual'], 0, ',', '.'); ?></td>
+                                <td class="kanan"><?php echo number_format($detail['diskon'], 0, ',', '.'); ?></td>
                                 <td class="kanan"><?php echo $detail['qty']; ?></td>
                                 <td class="kanan"><?php echo number_format($detail['sub_total'], 0, ',', '.'); ?></td>
-                                <td class="tengah"><a href="" class="tiny alert button kecil">X</a></td>
                             </tr>
                             <?php
                         endwhile;
@@ -75,7 +87,7 @@ $selfCheckOutTemp = mysqli_query($link, "SELECT b.barcode, b.namaBarang, sct.qty
                     </tbody>
                 </table>
             </div>
-            <div class="medium-4 columns"> 
+            <div class="medium-6 large-4 columns"> 
                 <div class="row collapse">
                     <div class="small-12 columns" style="text-align: center; background-color: rgba(255, 255, 255, 0.875);">
                         <img style=" padding: 10px" src="img/ahadmart-logo.png" />
@@ -87,54 +99,56 @@ $selfCheckOutTemp = mysqli_query($link, "SELECT b.barcode, b.namaBarang, sct.qty
                     </div>
                 </div>
                 <!--<span class="label sc-nomor">Self Checkout # 98374</span>-->
-                <div class="row">
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">7</a>
+                <div class="panel" style="background-color: rgba(0,0,0,0.4); padding-bottom: 0px">
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">7</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">8</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">9</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="alert large button expand keynum">C</a>
+                        </div>
                     </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">8</a>
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">4</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">5</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">6</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="alert large button expand keynum">DEL</a>
+                        </div>
                     </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">9</a>
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">1</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">2</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="large button expand keynum">3</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a href="#" class="disabled secondary large button expand">&nbsp;</a>
+                        </div>
                     </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="alert large button expand">C</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">4</a>
-                    </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">5</a>
-                    </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">6</a>
-                    </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="alert large button expand">DEL</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">1</a>
-                    </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">2</a>
-                    </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="large button expand">3</a>
-                    </div>
-                    <div class="small-3 columns">
-                        <a href="#" class="disabled secondary large button expand">&nbsp;</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-6 columns">
-                        <a href="#" class="large button expand">0</a>
-                    </div>
-                    <div class="small-6 columns">
-                        <a href="#" class="warning large button expand">ENTER</a>
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <a href="#" class="large button expand keynum">0</a>
+                        </div>
+                        <div class="small-6 columns">
+                            <a href="#" class="warning large button expand keynum" id="enter">ENTER</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,93 +158,124 @@ $selfCheckOutTemp = mysqli_query($link, "SELECT b.barcode, b.namaBarang, sct.qty
         <script>
             $(document).foundation();
 
-            $("#tombol-batal").click(function() {
-                window.location = "index.php?sum=batal";
-            });
+            function updateTabelDetail() {
+                $("#detail").load("aksi.php?refresh=1");
+            }
+
+            function updateTotal() {
+                $("#total").load("aksi.php?gettotal=1");
+            }
+
+            function kirimBarcode(barcode) {
+                var dataKirim = {
+                    tambah: true,
+                    barcode: barcode
+                };
+                $.ajax({
+                    type: "POST",
+                    url: 'aksi.php',
+                    data: dataKirim,
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.sukses) {
+                            updateTabelDetail();
+                            updateTotal();
+                            $("#scan").val("");
+                            $("#scan").focus();
+                        }
+                        $("#enter").html('ENTER');
+                        $("#enter").removeClass('disable');
+                    }
+                });
+            }
+
+            function deleteBarcode(barcode) {
+                var dataKirim = {
+                    hapus: true,
+                    barcode: barcode
+                };
+                $.ajax({
+                    type: "POST",
+                    url: 'aksi.php',
+                    data: dataKirim,
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.sukses) {
+                            updateTabelDetail();
+                            updateTotal();
+                            $("#scan").val("");
+                            $("#scan").focus();
+                        }
+                    }
+                });
+            }
+            function selesaiTransaksi() {
+                $("#tombol-selesai").text('Simpan..');
+                var dataKirim = {
+                    selesai: true
+                };
+                $.ajax({
+                    type: "POST",
+                    url: 'aksi.php',
+                    data: dataKirim,
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.sukses) {
+                            window.location.replace("splash.php?sum=selesai&struk=" + data.strukId);
+                        }
+                    }
+                });
+            }
 
             $(document).ready(function() {
                 $("#scan").val("");
                 $("#scan").focus();
             });
 
-            function updateTabelDetail() {
-                $("#detail").load("aksi.php?refresh=1");
-            }
+            $("#tombol-batal").click(function() {
+                $(this).text('Batalkan..');
+                window.location = "index.php?sum=batal";
+            });
+
+            $("#tombol-selesai").click(function() {
+                selesaiTransaksi();
+            });
 
             $("#scan").keyup(function(e) {
                 if (e.keyCode === 13) {
+                    $("#enter").html('Proses..');
+                    $("#enter").addClass('disable');
                     var barcode = $(this).val();
-                    var dataKirim = {
-                        tambah: true,
-                        barcode: barcode,
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: 'aksi.php',
-                        data: dataKirim,
-                        dataType: "json",
-                        success: function(data) {
-                            if (data.sukses) {
-                                updateTabelDetail();
-                                $("#scan").val("");
-                                $("#scan").focus();
-                            }
-                        }
-                    });
+                    kirimBarcode(barcode);
                 }
                 return false;
             });
-        </script>
 
-
-<!--        <table>
-            <tr id="row1">
-                <td>A</td>
-                <td>One</td>
-                <td>Red</td>
-                <td>Apple</td>
-                <td>$0.99</td>
-                <td><a href="">Show row 2</a></td>
-            </tr>
-        </table>-->
-        <script type="text/javascript">
-            $(document).ready(function() {
-                // content to add after the current row
-                var $row2 = $('<tr id="row2">' +
-                        '<td>B</td>' +
-                        '<td>Two</td>' +
-                        '<td>Yellow</td>' +
-                        '<td>Banana</td>' +
-                        '<td>$1.23</td>' +
-                        '<td> </td>' +
-                        '</tr>');
-
-                // add hidden divs around the content of all the TD tags
-                $row2.find('td').wrapInner('<div style="display:none" />');
-
-                // add this row after the first row
-                $('#row1').after($row2);
-
-                $('#row1 a').click(function() {
-                    if ($('#row2 div').is(":visible")) {
-                        // hide the div
-                        $('#row2 div').slideUp(700);
-
-                        // update link text
-                        $('#row1 a').text('show row 2');
-
-                    } else {
-                        // slide the div into view
-                        $('#row2 div').slideDown(700);
-
-                        // update link text
-                        $('#row1 a').text('hide row 2');
-                    }
-
-                    // prevent the click on the link from propagating
-                    return false;
-                });
+            $('a.keynum').click(function(e) {
+                var nilai = $(e.target).text();
+                console.log(nilai);
+                var barcode = $("#scan").val();
+                if (nilai >= 0) {
+                    $("#scan").val(barcode + nilai);
+                } else if (nilai === 'DEL') {
+                    $("#scan").val(barcode.substring(0, barcode.length - 1));
+                } else if (nilai === 'C') {
+                    $("#scan").val("");
+                } else if (nilai === 'ENTER') {
+                    $(this).html('Proses..');
+                    $(this).addClass('disable');
+                    kirimBarcode(barcode);
+                }
+                $("#scan").focus();
+                return false;
             });
+
+            $(document).on("click", ".button.kecil.hapus", function() {
+                var barcode = $(this).attr('id');
+                deleteBarcode(barcode);
+                return false;
+            });
+
         </script>
     </body>
 </html>

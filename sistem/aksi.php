@@ -157,8 +157,8 @@ elseif ($module == 'menu' AND $act == 'hapus') {
 } // end hapus modul
 // Workstation Management ============================================================================================================
 elseif ($module == 'workstation' AND $act == 'input') {
-    mysql_query("INSERT INTO workstation (namaWorkstation, keterangan, workstation_address, printer_type, printer_commands) 
-		VALUES ('$_POST[namaWorkstation]', '$_POST[keterangan]','$_POST[workstation_address]','$_POST[printer_type]','$_POST[printer_commands]') 
+    mysql_query("INSERT INTO workstation (namaWorkstation, keterangan, workstation_address, printer_type, printer_commands)
+		VALUES ('$_POST[namaWorkstation]', '$_POST[keterangan]','$_POST[workstation_address]','$_POST[printer_type]','$_POST[printer_commands]')
 	");
 
     header('location:media.php?module=' . $module);
@@ -168,8 +168,8 @@ elseif ($module == 'workstation' AND $act == 'update') {
 					keterangan		= '$_POST[keterangan]',
 					workstation_address 	= '$_POST[workstation_address]',
 					printer_type		= '$_POST[printer_type]',
-					printer_commands	= '$_POST[printer_commands]' 
-		WHERE idWorkstation = '$_POST[idWorkstation]' 	
+					printer_commands	= '$_POST[printer_commands]'
+		WHERE idWorkstation = '$_POST[idWorkstation]'
 	");
     header('location:media.php?module=' . $module);
 }
@@ -219,7 +219,7 @@ elseif ($module == 'kategori_barang' AND $act == 'input') {
                     VALUES('$id_rak','$_POST[namaKategoriBarang]')");
     header('location:media.php?module=' . $module);
 }// end Input Kategori Barang
-// Update Kategori Barang, bugfix credit to: Yono Nox <weyouknow@yahoo.com> 
+// Update Kategori Barang, bugfix credit to: Yono Nox <weyouknow@yahoo.com>
 elseif ($module == 'kategori_barang' AND $act == 'update') {
     mysql_query("UPDATE kategori_barang SET namaKategoriBarang = '$_POST[namaKategoriBarang]'
                     WHERE idKategoriBarang = '$_POST[idKategoriBarang]'");
@@ -227,7 +227,7 @@ elseif ($module == 'kategori_barang' AND $act == 'update') {
 }// end Update Kategori Barang
 // Hapus Kategori Barang, credit: mianova.net@gmail.com
 elseif ($module == 'kategori_barang' AND $act == 'hapus') {
-    mysql_query("DELETE FROM kategori_barang  
+    mysql_query("DELETE FROM kategori_barang
                     WHERE idKategoriBarang = '$_GET[id]'");
     header('location:media.php?module=' . $module);
 }// end Hapus Kategori Barang
@@ -270,10 +270,10 @@ elseif ($module == 'barang' AND $act == 'input') {
 // Hapus Barang
 elseif ($module == 'barang' AND $act == 'hapus') {
     // copy data barang ke table arsip_barang
-    $sql = "INSERT INTO arsip_barang (idBarang, namaBarang, idKategoriBarang, idSatuanBarang, jumBarang, 
+    $sql = "INSERT INTO arsip_barang (idBarang, namaBarang, idKategoriBarang, idSatuanBarang, jumBarang,
 			hargaJual, last_update, idSupplier, barcode, username, idRak)
-				SELECT idBarang, namaBarang, idKategoriBarang, idSatuanBarang, jumBarang, 
-					hargaJual, '" . date("Y-m-d") . "', idSupplier, barcode, '" . $_SESSION[uname] . "', idRak 
+				SELECT idBarang, namaBarang, idKategoriBarang, idSatuanBarang, jumBarang,
+					hargaJual, '" . date("Y-m-d") . "', idSupplier, barcode, '" . $_SESSION[uname] . "', idRak
 				FROM barang WHERE idBarang = " . $_GET['id'];
     $hasil = mysql_query($sql) or die("Error : " . mysql_error() . " :: $sql");
 
@@ -317,7 +317,7 @@ elseif ($module == 'barang' AND $act == 'update') {
      * Cari dulu barang yang akan diupdate untuk mengetahui informasi field yang diupdate
      */
     $sql = "select barcode, namaBarang, idKategoriBarang, idSatuanBarang, idRak, idSupplier, hargaJual, nonAktif
-				from barang 
+				from barang
 				where barcode = '{$_POST['barcode']}'";
     $result = mysql_query($sql) or die("Gagal ambil data barang, error: " . mysql_error());
     $currentBarang = mysql_fetch_array($result);
@@ -354,7 +354,7 @@ elseif ($module == 'barang' AND $act == 'update') {
                     	idSatuanBarang = $_POST[satuan_barang],
                     	hargaJual = $_POST[hargaJual],
                     	last_update = '$tgl',
-							username = '$_SESSION[uname]', 
+							username = '$_SESSION[uname]',
 							idRak = $_POST[rak],
 							nonAKtif = $_POST[nonAktif]
                     WHERE barcode = '$_POST[barcode]'";
@@ -390,7 +390,7 @@ elseif ($module == 'supplier' AND $act == 'input') {
 // Update Supplier
 elseif ($module == 'supplier' AND $act == 'update') {
     $tgl = date("Y-m-d");
-    mysql_query("UPDATE supplier SET 
+    mysql_query("UPDATE supplier SET
 			namaSupplier = '$_POST[namaSupplier]',
 			`interval` = $_POST[interval],
 			alamatSupplier = '$_POST[alamatSupplier]',
@@ -476,7 +476,7 @@ elseif ($module == 'pembelian_barang' AND $act == 'input') {
                         '$_POST[tglBayar]','$_SESSION[uname]','$tgl')") or die(mysql_error());
     }
 
-    $sql = "SELECT * FROM tmp_detail_beli WHERE idSupplier = '" . $_POST['idSupplier'] . "' 
+    $sql = "SELECT * FROM tmp_detail_beli WHERE idSupplier = '" . $_POST['idSupplier'] . "'
 			AND username = '" . $_SESSION['uname'] . "' AND idBarang != 0";
     $dataBarang = mysql_query($sql) or die(mysql_error());
     //echo $sql;
@@ -567,7 +567,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     };
 
     // ambil alamat printer
-    $sql = "SELECT w.printer_commands, w.printer_type FROM kasir AS k, workstation AS w 
+    $sql = "SELECT w.printer_commands, w.printer_type FROM kasir AS k, workstation AS w
 		WHERE k.tglTutupKasir IS NULL AND k.idUser = $_SESSION[iduser] AND k.currentWorkstation = w.idWorkstation";
     $hasil = mysql_query($sql) or die(mysql_error());
     $x = mysql_fetch_array($hasil);
@@ -591,7 +591,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     $perintah = "echo \"$command\" |lpr $perintah_printer ";
     exec($perintah, $output);
     /**
-     * 
+     *
      */
     // siapkan string yang akan dicetak
     $struk = ''; //chr(27) . "@"; //Init printer
@@ -628,7 +628,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
                 $diskon = "        Potongan (" . number_format($diskonRupiah, 0, ',', '.') . ')' . "\n";
             }
         }
-        // jika panjang baris > 40 huruf, pecah jadi 2 baris		
+        // jika panjang baris > 40 huruf, pecah jadi 2 baris
         //if (strlen($temp) > 40) {
         //	$tmp = substr($temp, 0, 40) . "- \n -" . substr($temp, 40);
         //	$temp = $tmp;
@@ -698,13 +698,13 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
           if ($jumlahAkhir < 0) {
           $jumlahAkhir = 0;
           };
-         * 
+         *
          */
 
         //fixme: kurangi quantity pembelian dengan benar :
         //	(1) cari barang di tabel detail_beli, yang stoknya masih ada, lalu
         //	(2) catat quantity nya, lalu
-        $sql = "SELECT * FROM detail_beli 
+        $sql = "SELECT * FROM detail_beli
 		WHERE isSold='N' AND barcode='$simpan[barcode]' ORDER BY idDetailBeli ASC";
         $hasil = mysql_query($sql);
         $x = mysql_fetch_array($hasil);
@@ -712,7 +712,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         // 	(3) update dengan jumlah yang terjual
         // 		(4) jika stok habis : tandai
         //		(5) jika stok kurang : cari lagi stok lainnya
-        //			(6) jika tidak ada lagi - laporkan ke user, bahwa stok kurang 
+        //			(6) jika tidak ada lagi - laporkan ke user, bahwa stok kurang
         $Sold = $simpan[jumBarang];
         $StockAvailable = $x[jumBarang];
         $SoldOut = false;
@@ -765,9 +765,9 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 
 
         if (($_POST['transferahad'] != 1)) {
-            $sql = "INSERT INTO detail_jual(idBarang, barcode, 
+            $sql = "INSERT INTO detail_jual(idBarang, barcode,
 	                        jumBarang,hargaJual,username, nomorStruk, hargaBeli)
-							  VALUES({$simpan['idBarang']}, '{$simpan['barcode']}', 
+							  VALUES({$simpan['idBarang']}, '{$simpan['barcode']}',
 							  {$simpan['jumBarang']},{$simpan['hargaJual']},'{$_SESSION['uname']}', {$NomorStruk}, {$simpan['hargaBeli']})";
             mysql_query($sql) or die('Gagal simpan transaksi detail ' . mysql_error());
             $detailJualId = mysql_insert_id();
@@ -792,7 +792,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         // $data[2]  = namaBarang
         // $data[3]  = jumlah Barang / jumBarang
         // $data[4]  = hargaBeli - ignored
-        // $data[5]  = hargaJual (di Gudang) 
+        // $data[5]  = hargaJual (di Gudang)
         // $data[6]  = RRP (Recommended Retail Price)
         // $data[7]  = namaSatuanBarang
         // $data[8]  = namaKategoriBarang
@@ -801,7 +801,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         // persiapan membuat output file CSV
         $csv = "\"barcode\",\"idBarang\",\"namaBarang\",\"jumBarang\",\"hargaBeli\",\"hargaJual\",\"RRP\",\"SatuanBarang\",\"KategoriBarang\",\"Supplier\",\"kasir\"\n";
 
-        // cari nama gudang ini 
+        // cari nama gudang ini
         $hasil = mysql_query("SELECT value FROM config WHERE `option` = 'store_name'");
         $x = mysql_fetch_array($hasil);
         $namaGudang = "";
@@ -903,7 +903,7 @@ elseif ($module == 'buka_kasir' AND $act == 'input') {
 			    <a href=javascript:history.go(-1)><< Kembali</a>";
     }
     else {
-        $sql = "INSERT INTO kasir(tglBukaKasir,idUser,kasAwal,currentWorkstation) 
+        $sql = "INSERT INTO kasir(tglBukaKasir,idUser,kasAwal,currentWorkstation)
 			VALUES ('$_POST[tglBukaKasir]',$_POST[idKasir],$_POST[kasAwal],$_POST[idWorkstation])";
         mysql_query($sql);
         header('location:media.php?module=kasir');
@@ -926,11 +926,11 @@ elseif ($module == 'tutup_kasir' AND $act == 'input') {
     $sql = "UPDATE kasir SET kasTutup 	= $_POST[kasAkhir],
          		kasSeharusnya 		= $_POST[kasSeharusnya],
 			tglTutupKasir 		= '$_POST[tglTutupKasir]',
-			totalTransaksi 		= $_POST[totalTransaksi], 
-			totalProfit 		= $_POST[totalProfit], 
-			totalRetur 		= $_POST[totalRetur], 
-			totalTransaksiKas 	= $_POST[totalTransaksiKas], 
-			totalTransaksiKartu 	= $_POST[totalTransaksiKartu] 
+			totalTransaksi 		= $_POST[totalTransaksi],
+			totalProfit 		= $_POST[totalProfit],
+			totalRetur 		= $_POST[totalRetur],
+			totalTransaksiKas 	= $_POST[totalTransaksiKas],
+			totalTransaksiKartu 	= $_POST[totalTransaksiKartu]
         WHERE idUser = $_POST[idKasir] AND tglTutupKasir IS NULL";
     //echo $sql;
 
@@ -964,7 +964,7 @@ elseif ($module == 'retur_barang' AND $act == 'input') { // ====================
     // cetak struk
     //cetakStruk ("$_POST[namaPrinter]", 1, "$_SESSION[uname]", $_POST[tot_retur], 0, $hasil, true);
     // mulai simpan data ke detail_retur_barang
-    $dataBarang = mysql_query("SELECT * from tmp_detail_retur_barang 
+    $dataBarang = mysql_query("SELECT * from tmp_detail_retur_barang
             			WHERE username = '$_SESSION[uname]'");
 
     while ($simpan = mysql_fetch_array($dataBarang)) {
@@ -979,7 +979,7 @@ elseif ($module == 'retur_barang' AND $act == 'input') { // ====================
         //fixme: kurangi quantity pembelian dengan benar :
         //	(1) cari barang di tabel detail_beli, yang stoknya masih ada, lalu
         //	(2) catat quantity nya, lalu
-        $sql = "SELECT * FROM detail_beli 
+        $sql = "SELECT * FROM detail_beli
 		WHERE isSold='N' AND barcode='$simpan[barcode]' ORDER BY idDetailBeli ASC";
         $hasil = mysql_query($sql);
         $x = mysql_fetch_array($hasil);
@@ -1001,9 +1001,9 @@ elseif ($module == 'retur_barang' AND $act == 'input') { // ====================
         $hasil = mysql_query($sql);
 
 
-        $sql = "INSERT INTO detail_retur_barang (tglTransaksi, idBarang, barcode, 	
+        $sql = "INSERT INTO detail_retur_barang (tglTransaksi, idBarang, barcode,
                         jumBarang,hargaJual,username, hargaBeli)
-                    VALUES('$tgl', '$simpan[idBarang]', '$simpan[barcode]', 
+                    VALUES('$tgl', '$simpan[idBarang]', '$simpan[barcode]',
                     '$simpan[jumBarang]',$simpan[hargaJual],'$_SESSION[uname]', $simpan[hargaBeli])";
         echo $sql;
         mysql_query($sql) or die(mysql_error());
@@ -1026,8 +1026,8 @@ elseif ($module == 'retur_barang' AND $act == 'batal') {
 }
 elseif ($module == 'inputreturbeli' AND $act == 'inputtemp') { // ====================================================================================
     $sql = "INSERT INTO tmp_edit_detail_retur_beli (idDetailBeli,idTransaksiBeli,idBarang,tglExpire,jumBarang,hargaBeli,barcode)
-                    SELECT d.idDetailBeli,d.idTransaksiBeli,d.idBarang,d.tglExpire,d.jumBarangAsli,d.hargaBeli,d.barcode 
-			FROM detail_beli AS d, barang AS b 
+                    SELECT d.idDetailBeli,d.idTransaksiBeli,d.idBarang,d.tglExpire,d.jumBarangAsli,d.hargaBeli,d.barcode
+			FROM detail_beli AS d, barang AS b
 			WHERE b.barcode = d.barcode AND d.idTransaksiBeli = '$_POST[idNota]' AND d.idTransaksiBeli != 0";
     mysql_query($sql) or die('Gagal input temporary detail return beli, error: ' . mysql_error());
     //echo $sql; exit;
@@ -1052,7 +1052,7 @@ elseif ($module == 'inputreturbeli' AND $act == 'simpanretur') { // ------------
     $last_update = date("Y-m-d");
 
     // mulai baca data perubahan dari tmp_edit_detail_retur_beli
-    $query = mysql_query("SELECT idTransaksiBeli, idBarang,tglExpire,jumBarang,hargaBeli,barcode,jumRetur, idDetailBeli  
+    $query = mysql_query("SELECT idTransaksiBeli, idBarang,tglExpire,jumBarang,hargaBeli,barcode,jumRetur, idDetailBeli
 			FROM tmp_edit_detail_retur_beli WHERE idTransaksiBeli = '$_POST[idNota]'") or die(mysql_error());
 
     while ($tmpEdit = mysql_fetch_array($query)) {
@@ -1063,12 +1063,12 @@ elseif ($module == 'inputreturbeli' AND $act == 'simpanretur') { // ------------
 
         // update nota pembelian
         if ($jumBarangDetail > 0) { // jika stok sudah nol, jangan dikurangi (jadi minus)
-            mysql_query("UPDATE detail_beli SET jumBarang = '$jumBarangDetailBaru' 
+            mysql_query("UPDATE detail_beli SET jumBarang = '$jumBarangDetailBaru'
 	            WHERE idDetailBeli = '$tmpEdit[idDetailBeli]'") or die(mysql_error());
         }
 
         // update stok barang
-        if ($jumBarang > 0) {  // jika stok sudah nol, jangan dikurangi (jadi minus) 
+        if ($jumBarang > 0) {  // jika stok sudah nol, jangan dikurangi (jadi minus)
             mysql_query("UPDATE barang SET jumBarang = $jumBarangBaru
 	                WHERE barcode = '$tmpEdit[barcode]'") or die(mysql_error());
         }
@@ -1076,16 +1076,16 @@ elseif ($module == 'inputreturbeli' AND $act == 'simpanretur') { // ------------
         // input transaksi retur ke database
         if ($tmpEdit[jumRetur] > 0) { // yang jumRetur 0 (nol) tidak usah dicatat
             $z = $tmpEdit;
-            $sql = "INSERT INTO detail_retur_beli (idTransaksiBeli,idBarang,tglExpire,jumRetur,hargaBeli,barcode, 
-				username,idSupplier,nominal,idTipePembayaran,NomorInvoice,tglRetur) 
-			VALUES ($z[idTransaksiBeli],$z[idBarang],'$z[tglExpire]',$z[jumRetur],$z[hargaBeli],'$z[barcode]', 
+            $sql = "INSERT INTO detail_retur_beli (idTransaksiBeli,idBarang,tglExpire,jumRetur,hargaBeli,barcode,
+				username,idSupplier,nominal,idTipePembayaran,NomorInvoice,tglRetur)
+			VALUES ($z[idTransaksiBeli],$z[idBarang],'$z[tglExpire]',$z[jumRetur],$z[hargaBeli],'$z[barcode]',
 				'$username','$idSupplier', $totalRetur, $idTipePembayaran, '$NomorInvoice','$last_update')";
             mysql_query($sql) or die(mysql_error());
         }
     }
 
     // update transaksibeli
-    mysql_query("UPDATE transaksibeli SET last_update = '$last_update', nominal = $nominal 
+    mysql_query("UPDATE transaksibeli SET last_update = '$last_update', nominal = $nominal
                 WHERE idTransaksiBeli = '$_POST[idNota]'") or die(mysql_error());
 
     // hapus data temporary
@@ -1162,7 +1162,7 @@ elseif ($module == 'buat_rpo' AND $act == 'input') {
     };
 
     // ambil alamat printer
-    $sql = "SELECT w.printer_commands, w.printer_type FROM kasir AS k, workstation AS w 
+    $sql = "SELECT w.printer_commands, w.printer_type FROM kasir AS k, workstation AS w
 		WHERE k.tglTutupKasir IS NULL AND k.idUser = $_SESSION[iduser] AND k.currentWorkstation = w.idWorkstation";
     $hasil = mysql_query($sql) or die(mysql_error());
     $x = mysql_fetch_array($hasil);
@@ -1183,7 +1183,7 @@ elseif ($module == 'buat_rpo' AND $act == 'input') {
         //		": ".number_format(($x[hargaJual] * $x[jumBarang]),0,',','.')."\n";
         $temp = $x[namaBarang] . "\n        @ " . number_format($x[hargaJual], 0, ',', '.') . " x " . $x[jumBarang] .
                 " = " . number_format(($x[hargaJual] * $x[jumBarang]), 0, ',', '.') . "\n";
-        // jika panjang baris > 40 huruf, pecah jadi 2 baris		
+        // jika panjang baris > 40 huruf, pecah jadi 2 baris
         //if (strlen($temp) > 40) {
         //	$tmp = substr($temp, 0, 40) . "- \n -" . substr($temp, 40);
         //	$temp = $tmp;
@@ -1225,16 +1225,16 @@ elseif ($module == 'buat_rpo' AND $act == 'input') {
     // $data[2]  = namaBarang
     // $data[3]  = jumlah Barang / jumBarang
     // $data[4]  = hargaBeli 			- ignored
-    // $data[5]  = hargaJual 			- ignored 
+    // $data[5]  = hargaJual 			- ignored
     // $data[6]  = RRP (Recommended Retail Price) 	- ignored
     // $data[7]  = namaSatuanBarang
     // $data[8]  = namaKategoriBarang
-    // $data[9]  = Supplier 			
+    // $data[9]  = Supplier
     // $data[10] = username 			- ignored
     // persiapan membuat output file CSV
     $csv = "\"barcode\",\"idBarang\",\"namaBarang\",\"jumBarang\",\"hargaBeli\",\"hargaJual\",\"RRP\",\"SatuanBarang\",\"KategoriBarang\",\"Supplier\",\"kasir\"\n";
 
-    // cari nama gudang ini 
+    // cari nama gudang ini
     $hasil = mysql_query("SELECT value FROM config WHERE `option` = 'store_name'");
     $x = mysql_fetch_array($hasil);
     $namaGudang = "";
@@ -1310,7 +1310,7 @@ elseif ($module == 'system' AND $act == 'setting-simpan') {
 // Ambil data barang bermasalah dengan idKategori dan idSatuan
 elseif ($module == 'system' && $act == 'maintenance-barang') {
     $result = mysql_query('
-		  select barcode, namaBarang, idKategoriBarang, idSatuanBarang 
+		  select barcode, namaBarang, idKategoriBarang, idSatuanBarang
 				from barang
 				where idKategoriBarang=0 or idSatuanBarang >(select max(idSatuanBarang) from satuan_barang)
 				or idKategoriBarang > (select max(idKategoriBarang) from kategori_barang)
@@ -1393,7 +1393,7 @@ elseif ($module == 'diskon' && $act == 'loginadmin') {
         $username = htmlspecialchars($_POST['username']);
         $pass = md5($_POST['pass']);
         $sql = "select idUser
-					from user 
+					from user
 					join leveluser lu on lu.idLevelUser = user.idLevelUser
 					where uname='{$username}' and pass='{$pass}' and lu.levelUser='admin'";
         $result = mysql_query($sql) or die(mysql_error());
@@ -1422,7 +1422,7 @@ elseif ($module === 'diskon' && $act === 'updatehj') {
 
         if (mysql_affected_rows() > 0) {
             if (!cekDiskonAdmin($uid)) {
-                
+
             }
             $response = array('sukses' => true);
             echo json_encode($response);
