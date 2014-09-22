@@ -32,7 +32,7 @@ else {
 
 
 //HS javascript untuk menampilkan popup
-    ?>	
+    ?>
     <!DOCTYPE html>
     <html>
         <head>
@@ -171,7 +171,7 @@ else {
                             <!--<h3>Barang yang dijual</h3>-->
                             <?php
                         };
-                        ?> 
+                        ?>
                         <form id="entry-barang" method=POST action='js_jual_barang.php?act=caricustomer&action=tambah'>
                             <div class="input-group">
                                 <label for="barcode"><span class="u">B</span>arcode</label>
@@ -180,14 +180,14 @@ else {
                             <?php
                             // ----- TERLALU LAMBAT ! ----- jangan gunakan dropbox terlampir untuk memilih barcode
                             // ambil daftar barang
-                            //$sql="SELECT namaBarang,barcode,hargaJual   
+                            //$sql="SELECT namaBarang,barcode,hargaJual
                             //	FROM barang FORCE INDEX (barcode) ORDER BY barcode ASC";
                             //$namaBarang=mysql_query($sql);
                             //while($brg = mysql_fetch_array($namaBarang)){
                             //	echo "<option value='$brg[barcode]'>$brg[barcode] - $brg[namaBarang] - Rp ".number_format($brg[hargaJual],0,',','.')."</option>\n";
-                            //}	
-                            //var_dump($_POST); 
-                            //var_dump($_GET);	
+                            //}
+                            //var_dump($_POST);
+                            //var_dump($_GET);
                             if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
                                 ?>
                                 <input type=hidden name='transferahad' value='1'>
@@ -241,7 +241,7 @@ else {
 
                               tambahBarangJual($_POST[barcode], $_POST[jumBarang]);
                               }
-                             * 
+                             *
                              */
                             $tambahBarang = 1;
                             if (isset($_POST['jumBarang'])) {
@@ -290,15 +290,15 @@ else {
 
                                 $query2 = mysql_query("SELECT tdj.uid, tdj.barcode, b.namaBarang, tdj.jumBarang, tdj.hargaJual, tdj.tglTransaksi, tdj.diskon_persen, tdj.diskon_rupiah
                                         FROM tmp_detail_jual tdj, barang b
-										WHERE tdj.barcode = b.barcode AND tdj.idCustomer = '{$_SESSION['idCustomer']}' 
+										WHERE tdj.barcode = b.barcode AND tdj.idCustomer = '{$_SESSION['idCustomer']}'
 										AND tdj.username = '{$_SESSION['uname']}' ORDER BY tdj.uid DESC");
                                 $banyakItem = mysql_num_rows($query2);
                                 while ($data = mysql_fetch_array($query2)) {
 
-                                    // jika ini barang yang akan di transfer, 
+                                    // jika ini barang yang akan di transfer,
                                     // maka berikan hargaBeli (modal) sebagai hargaJual
                                     if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
-                                        $sql = "SELECT hargaBeli FROM detail_beli 
+                                        $sql = "SELECT hargaBeli FROM detail_beli
 										WHERE isSold='N' AND barcode='$data[barcode]' ORDER BY idDetailBeli ASC";
                                         $hasil = mysql_query($sql);
                                         $x = mysql_fetch_array($hasil);
@@ -306,7 +306,7 @@ else {
                                         // jika tidak ada / semua stok barang ini sudah terjual = catatan stok ngaco
                                         // maka ambil hargaBeli yang terakhir saja
                                         if (mysql_num_rows($hasil) < 1) {
-                                            $sql = "SELECT hargaBeli FROM detail_beli 
+                                            $sql = "SELECT hargaBeli FROM detail_beli
 											WHERE barcode='$data[barcode]' ORDER BY idDetailBeli ASC";
                                             $hasil = mysql_query($sql);
                                             $x = mysql_fetch_array($hasil);
@@ -324,7 +324,7 @@ else {
                                         <td><?php echo $data[barcode]; ?></td>
                                         <td><?php echo $data[namaBarang]; ?></td>
                                         <td class="right"><?php echo $data['jumBarang']; ?></td>
-                                        <td class="right">											
+                                        <td class="right">
                                             <?php
                                             // Jika punya hak admin, maka muncul link untuk manually update harga jual
                                             // Jika tidak, maka hanya muncul text statis harga jual
@@ -364,7 +364,7 @@ else {
                                           }
                                           ?>
                                           </td>
-                                         * 
+                                         *
                                          */ ?>
                                         <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?>'><i class="fa fa-times"></i></a></td>
                                     </tr>
@@ -386,7 +386,7 @@ else {
                                 // Total Pembelian di kurangi $diskonCustomer
                                 // $tot_pembelian -= $diskonCustomer;
                                 // $_SESSION['diskonCustomer'] = $diskonCustomer;
-                                // end Diskon per Customer								
+                                // end Diskon per Customer
                                 ?>
                             </table>
                             <?php
@@ -430,7 +430,7 @@ else {
                                                                 <?php
                                                             }
                                                             else {
-                                                                ?>								
+                                                                ?>
                                                                 <option value="<?php echo $pembayaran['idTipePembayaran']; ?>" ><?php echo $pembayaran['tipePembayaran']; ?></option>
                                                                 <?php
                                                             }
@@ -462,7 +462,7 @@ else {
                                             </tr>
                                             <tr>
                                                 <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
-                                                <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.disabled = true'></td>
+                                                <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan'></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -485,11 +485,11 @@ else {
                         break;
                 }
             } // if (empty($_SESSION[namauser])
-            ?>			
+            ?>
             <div id="login-admin" style="
                  display: none;
-                 position: fixed; 
-                 border: 1px solid #a8cf45; 
+                 position: fixed;
+                 border: 1px solid #a8cf45;
                  bottom: 50px;
                  background-color: #eef4d2;
                  box-shadow: 0px 0px 4px 0px #d2e28b;
@@ -500,11 +500,11 @@ else {
                     <a href="js_jual_barang.php?act=caricustomer" class="tombol" id="tombol-batal-login" accesskey="l">Bata<u>l</u></a>
                     <input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
                 </form>
-            </div>	
+            </div>
             <div id="self-checkout" style="
                  display: none;
-                 position: fixed; 
-                 border: 1px solid #a8cf45; 
+                 position: fixed;
+                 border: 1px solid #a8cf45;
                  bottom: 50px;
                  background-color: #eef4d2;
                  box-shadow: 0px 0px 4px 0px #d2e28b;
