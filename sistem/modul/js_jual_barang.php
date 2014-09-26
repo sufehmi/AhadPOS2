@@ -43,8 +43,9 @@ else {
                 {
                     if (!window.focus)
                         return true;
-                    window.open('', windowname, 'height=400,width=700,scrollbars=yes');
+                    popWindo = window.open('', windowname, 'height=400,width=700,scrollbars=yes');
                     myform.target = windowname;
+                    popWindo.focus();
                     return true;
                 }
 
@@ -462,7 +463,7 @@ else {
                                             </tr>
                                             <tr>
                                                 <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
-                                                <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan'></td>
+                                                <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit(); this.disabled=true;'></td>
                                             </tr>
                                         </table>
                                     </div>
