@@ -37,7 +37,7 @@ endwhile;
 $hal = 0;
 $mulai = 0;
 $idRak = null;
-$jumBaris = 0;
+$jumBaris = 10;
 if (isset($_GET['jumBaris'])) {
     $jumBaris = $_GET['jumBaris'];
 }
@@ -56,30 +56,30 @@ if (isset($_GET['barcode']) && ($_GET['barcode'] != '')) {
 }
 
 function getItemSelisih($link, $ssId) {
-    $sql = "select 
+    $sql = "select
             (select count(*)
             from stok_stat_detail
             where stok_stat_id={$ssId} and (stok_tercatat - stok_sebenarnya != 0)
             ) selisih,
             (select count(*)
             from stok_stat_detail
-            where stok_stat_id={$ssId}) total,   
-            (SELECT ifnull(count(*),0) 
+            where stok_stat_id={$ssId}) total,
+            (SELECT ifnull(count(*),0)
             FROM stok_stat_detail
-            WHERE stok_stat_id = {$ssId} AND stok_sebenarnya - stok_tercatat < 0) selisih_minus_item,   
-            (SELECT ifnull(sum(stok_sebenarnya - stok_tercatat),0) 
+            WHERE stok_stat_id = {$ssId} AND stok_sebenarnya - stok_tercatat < 0) selisih_minus_item,
+            (SELECT ifnull(sum(stok_sebenarnya - stok_tercatat),0)
             FROM stok_stat_detail
-            WHERE stok_stat_id = {$ssId} AND stok_sebenarnya - stok_tercatat < 0) selisih_minus, 
-            (SELECT  ifnull(count(*),0)  
+            WHERE stok_stat_id = {$ssId} AND stok_sebenarnya - stok_tercatat < 0) selisih_minus,
+            (SELECT  ifnull(count(*),0)
             FROM stok_stat_detail
-            WHERE stok_stat_id = {$ssId} AND stok_sebenarnya - stok_tercatat > 0) selisih_plus_item,  
-            (SELECT ifnull(sum(stok_sebenarnya - stok_tercatat),0) 
+            WHERE stok_stat_id = {$ssId} AND stok_sebenarnya - stok_tercatat > 0) selisih_plus_item,
+            (SELECT ifnull(sum(stok_sebenarnya - stok_tercatat),0)
             FROM stok_stat_detail
             WHERE stok_stat_id = {$ssId} AND stok_sebenarnya - stok_tercatat > 0) selisih_plus,
-            (SELECT ifnull(sum(stok_sebenarnya),0) 
+            (SELECT ifnull(sum(stok_sebenarnya),0)
             FROM stok_stat_detail
             WHERE stok_stat_id = {$ssId}) stok_sebenarnya,
-            (SELECT ifnull(sum(stok_tercatat),0) 
+            (SELECT ifnull(sum(stok_tercatat),0)
             FROM stok_stat_detail
             WHERE stok_stat_id = {$ssId}) stok_tercatat ";
     $result = mysqli_query($link, $sql) or die('Gagal ambil selisih, error: ' . mysqli_error($link));
@@ -145,7 +145,7 @@ function getItemSelisih($link, $ssId) {
                     <?php
                 }
                 ?>
-            </div> 
+            </div>
             <div class="medium-6 columns">
                 <table width="100%">
                     <tr>
@@ -201,7 +201,7 @@ function getItemSelisih($link, $ssId) {
             </div>
             <?php
             $query = "select *
-                        from rak 
+                        from rak
                         order by namaRak";
             $result = mysqli_query($link, $query) or die('Gagal ambil data rak, error: ' . mysql_error());
             ?>
@@ -257,10 +257,11 @@ function getItemSelisih($link, $ssId) {
                     /*
                      * Menampilkan barang yang belum dicek
                      */
-                    $query = "select barang.barcode, namaBarang, hargaJual, jumBarang 
+                    $query = "select barang.barcode, namaBarang, hargaJual, jumBarang
                                 from barang
                                 left join stok_stat_detail on stok_stat_detail.barcode = barang.barcode
                                 where (stok_stat_detail.id is null or stok_stat_detail.id={$stokStatId}) ";
+                    if (is_null($idRak)) $idRak = 1;
                     if (!is_null($idRak)) {
                         $query .= "and barang.idRak={$idRak} ";
                     }
@@ -300,7 +301,7 @@ function getItemSelisih($link, $ssId) {
                                         <td><?php echo $barang['namaBarang']; ?></td>
                                         <td class="rata-kanan"><?php echo number_format($barang['hargaJual'], 0, ',', '.'); ?></td>
                                         <td class="rata-kanan"><?php echo $barang['jumBarang']; ?></td>
-                                        <td class="rata-kanan">                                       
+                                        <td class="rata-kanan">
                                             <input class="stok_sebenarnya" type="text" name="stok_sebenarnya" data-barcode="<?php echo $barang['barcode']; ?>" />
                                         </td>
                                         <td class="rata-tengah"><a class="tiny success button tombol-cek tombol-tabel" data-barcode="<?php echo $barang['barcode']; ?>" data-stok="<?php echo $barang['jumBarang']; ?>"><i class="fa fa-check"></i></a></td>
@@ -311,7 +312,7 @@ function getItemSelisih($link, $ssId) {
                             </tbody>
                         </table>
 
-                    </div> 
+                    </div>
                     <?php
                     if ($jumBaris != 0):
 //                        $sql1 = "SELECT DISTINCT COUNT(barcode) DIV {$jumBaris} FROM barang ";
@@ -326,25 +327,25 @@ function getItemSelisih($link, $ssId) {
                         $jumlah_barang = $totalBaris / $jumBaris; //$output1[0];
                         ?>
                         <div class="small-12 columns">
-                            <div class="pagination-centered"> 
-                                <ul class="pagination"> 
+                            <div class="pagination-centered">
+                                <ul class="pagination">
                                     <li class="arrow unavailable">
                                         <a href="">&laquo;</a>
-                                    </li> 
+                                    </li>
                                     <?php
                                     for ($i = 0; $i <= $jumlah_barang; $i++) {
                                         ?>
                                         <li<?php echo $hal == $i ? ' class="current"' : ''; ?>>
                                             <a href="<?php echo "{$_SERVER['PHP_SELF']}?id={$stokStatId}&hal={$i}&idRak={$idRak}&jumBaris={$jumBaris}"; ?>"><?php echo $i; ?></a>
-                                        </li> 
+                                        </li>
                                         <?php
                                         //echo "[<a href='{$_SERVER['PHP_SELF']}?id={$stokStatId}&hal={$i}&idRak={$idRak}'> {$i} </a>] ";
                                     };
                                     ?>
                                     <li class="arrow">
                                         <a href="">&raquo;</a>
-                                    </li> 
-                                </ul> 
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <?php
@@ -357,9 +358,9 @@ function getItemSelisih($link, $ssId) {
             /*
              * Menampilkan barang yang sudah dicek
              */
-            $query = "SELECT stok_stat_detail.id, stok_stat_detail.barcode, barang.namaBarang, harga_jual, stok_tercatat, stok_sebenarnya 
+            $query = "SELECT stok_stat_detail.id, stok_stat_detail.barcode, barang.namaBarang, harga_jual, stok_tercatat, stok_sebenarnya
                         FROM stok_stat_detail
-                        JOIN barang on barang.barcode = stok_stat_detail.barcode 
+                        JOIN barang on barang.barcode = stok_stat_detail.barcode
                         WHERE stok_stat_id = {$stokStatId}";
             $result = mysqli_query($link, $query) or die('Gagal ambil stok stat detail #' . $stokStatId . '. error: ' . mysqli_error($link));
             ?>
