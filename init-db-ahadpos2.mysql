@@ -169,7 +169,7 @@ CREATE TABLE `config` (
 
 LOCK TABLES `config` WRITE;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES (1,'store_name','Ahad mart ','Nama Toko'),(2,'receipt_footer1','Terimakasih telah berbelanja di Ahad mart','Struk Footer 1'),(3,'receipt_footer2','Murah, Lengkap, dan Islami','Struk Footer 2'),(4,'receipt_header1','---------------------','Struk Header 1'),(5,'temporary_space','/tmp/','Temporary Space'),(6,'version','a:3:{i:0;i:2;i:1;i:0;i:2;i:2;}','Versi');
+INSERT INTO `config` VALUES (1,'store_name','AHADMART','Nama Toko'),(2,'receipt_footer1','Terimakasih telah berbelanja di Ahadmart','Struk Footer 1'),(3,'receipt_footer2','Murah, Lengkap, dan Islami','Struk Footer 2'),(4,'receipt_header1','---------------------','Struk Header 1'),(5,'temporary_space','/tmp/','Temporary Space'),(6,'version','a:3:{i:0;i:2;i:1;i:0;i:2;i:2;}','Versi');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 UNLOCK TABLES;
 
