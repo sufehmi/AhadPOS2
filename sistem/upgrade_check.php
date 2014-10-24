@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 2;
+$revision = 3;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -357,6 +357,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
         echo "Upgrading database to version 2.0.2 <br />";
         upgrade_201_to_202();
     }
+    if ($dbrevision < 3) {
+        echo "Upgrading database to version 2.0.3 <br />";
+        upgrade_202_to_203();
+    }
 }
 
 function upgrade_161_to_200() {
@@ -648,6 +652,49 @@ function upgrade_200_to_201() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 1)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 1)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
+function upgrade_201_to_202() {
+    /*
+     * Init DB ahadPOS2 dari versi ini
+     * Yang belum ada di init script. dipindah ke upgrade_202_to_203
+     */
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 2)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 2)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
+function upgrade_202_to_203() {
+    // Menambahkan UKM Mode
+    $sql = "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('ukm_mode', '1', 'UKM Mode')";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Menambahkan Stok (SO dengan tambahan summary )
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('SO dengan Summary', '../tools/stok', '', 6, 'Stok', '', 'Y', 3, 8, 0, '')";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
     $sql = "CREATE TABLE `stok_stat` (
               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
               `keterangan` varchar(1000) NOT NULL,
@@ -673,20 +720,6 @@ function upgrade_200_to_201() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
-    // update version number ------------------------------------------------------
-    $sql = "SELECT * FROM config WHERE `option` = 'version'";
-    $hasil = mysql_query($sql);
-
-    if (mysql_num_rows($hasil) > 0) {
-        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 1)) . "' WHERE `option` = 'version'";
-    }
-    else {
-        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 1)) . "', '')";
-    };
-    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
-}
-
-function upgrade_201_to_202() {
     // alter tabel stok_stat_detail
     $sql = "ALTER TABLE `stok_stat_detail`
             ADD UNIQUE INDEX `stok_stat_id_UNIQUE` (`stok_stat_id` ASC, `barcode` ASC)
@@ -699,10 +732,10 @@ function upgrade_201_to_202() {
     $hasil = mysql_query($sql);
 
     if (mysql_num_rows($hasil) > 0) {
-        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 2)) . "' WHERE `option` = 'version'";
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 3)) . "' WHERE `option` = 'version'";
     }
     else {
-        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 2)) . "', '')";
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 3)) . "', '')";
     };
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }

@@ -1966,7 +1966,7 @@ switch ($_GET['act']) {
                         url: url,
                         data: data,
                         success: function() {
-                            location.reload()
+                            //location.reload()
                         },
                     });
                 });

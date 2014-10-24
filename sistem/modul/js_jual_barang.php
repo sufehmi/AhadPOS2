@@ -30,6 +30,9 @@ else {
         findCustomer($_POST[idCustomer]);
     }
 
+    $result = mysql_query("select `value` from config where `option`='ukm_mode'") or die(mysql_error());
+    $hasil = mysql_fetch_array($result);
+    $ukmMode = $hasil['value'];
 
 //HS javascript untuk menampilkan popup
     ?>
@@ -152,7 +155,7 @@ else {
                         if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
                             ?>
                             <div class="top">
-                                Transfer Barang antar Ahad <?php //echo $_SESSION['namaCustomer'];                                                                ?>
+                                Transfer Barang antar Ahad <?php //echo $_SESSION['namaCustomer'];                                                                    ?>
                             </div>
                             <?php
                         }
@@ -195,6 +198,18 @@ else {
                                 <?php
                             }
                             ?>
+                            <?php
+                            /*  ukmMode: menampilkan hargaBarang */
+                            if ($ukmMode) {
+                                ?>
+                                <div class="input-group">
+                                    <label for="hargaBarang"><span class="u">H</span>arga</label>
+                                    <input type="text" id="hargaBarang" name='hargaBarang' value='1' size=5 accesskey="h">
+                                </div>
+                                <?php
+                            }
+                            ?>
+
                             <div class="input-group">
                                 <label for="jumBarang"><span class="u">Q</span>ty</label>
                                 <input type="text" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q">
@@ -233,6 +248,10 @@ else {
                                 $_POST[barcode] = $_GET[barcode];
                             };
                             /*
+                             * ukmMode: akan ada hargaBarang
+                             */
+                            $hargaBarang = isset($_POST['hargaBarang']) ? $_POST['hargaBarang'] : NULL;
+                            /*
                               $trueJual = cekBarangTempJual($_SESSION[idCustomer], $_POST[barcode]);
                               //            echo "$trueJual";
                               if ($trueJual != 0) {
@@ -260,7 +279,7 @@ else {
                             else {
                                 $jumBarang = $tambahBarang;
                             }
-                            tambahBarangJual($_POST['barcode'], $jumBarang);
+                            tambahBarangJual($_POST['barcode'], $jumBarang, $hargaBarang);
                         }
                         $sql = "SELECT *
                                 FROM tmp_detail_jual tdj, barang b
@@ -463,7 +482,8 @@ else {
                                             </tr>
                                             <tr>
                                                 <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
-                                                <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit(); this.disabled=true;'></td>
+                                                <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
+                                                                        this.disabled = true;'></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -525,9 +545,9 @@ else {
                 <a class="tombol" href="#" id="tombol-self-checkout" accesskey="f" >Sel<b><u>f</u></b> Checkout</a>
             </div>
             <script>
-                $(document).ready(function() {
+                $(document).ready(function () {
                     $('.harga-jual').editable({
-                        success: function(response, newValue) {
+                        success: function (response, newValue) {
                             var respon = JSON && JSON.parse(response) || $.parseJSON(response);
                             if (respon.sukses) {
                                 window.location = "js_jual_barang.php?act=caricustomer";
@@ -538,9 +558,9 @@ else {
                     });
                 });
 
-                $("#tombol-self-checkout").click(function() {
+                $("#tombol-self-checkout").click(function () {
                     //$("#self-checkout").show(500);
-                    $("#self-checkout").toggle(500, function() {
+                    $("#self-checkout").toggle(500, function () {
                         if ($("#self-checkout").css('display') === 'none') {
                             console.log('hidden');
                         } else {
@@ -553,7 +573,7 @@ else {
                     return false;
                 });
 
-                $("#form-sc").submit(function() {
+                $("#form-sc").submit(function () {
                     console.log($("#self-checkout-id").val());
                     var datakirim = {
                         'sc-id': $("#self-checkout-id").val()
@@ -569,7 +589,7 @@ else {
                     return false;
                 })
 
-                $("#admin-mode").click(function() {
+                $("#admin-mode").click(function () {
 <?php
 if ($_SESSION['hakAdmin']) {
     ?>
@@ -594,11 +614,11 @@ else {
 ?>
                     return false;
                 });
-                $("#tombol-batal-login").click(function() {
+                $("#tombol-batal-login").click(function () {
                     $("#login-admin").hide(500);
                     return false;
                 });
-                $("#tombol-login-submit").click(function() {
+                $("#tombol-login-submit").click(function () {
                     var datakirim = {
                         'username': $("#nama-user").val(),
                         'pass': $("#password").val()
@@ -609,7 +629,7 @@ else {
                         type: "POST",
                         url: dataurl,
                         data: datakirim,
-                        success: function(data) {
+                        success: function (data) {
                             if (data === 'ketemu') {
                                 window.location = "js_jual_barang.php?act=caricustomer";
                             } else {
@@ -618,7 +638,38 @@ else {
                         },
                     });
                     return false;
-                })
+                });
+<?php
+// ukmMode: Barcode -> enter. Muncul Harga Jual
+if ($ukmMode) {
+    ?>
+                    $("#barcode").keydown(function (e) {
+                        var datakirim = {
+                            barcode: $(this).val()
+                        };
+                        var dataurl = '../aksi.php?module=penjualan_barang&act=get_harga_jual';
+                        if (e.keyCode === 13) {
+                            $.ajax({
+                                data: datakirim,
+                                url: dataurl,
+                                type: "POST",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.sukses) {
+                                        $("#hargaBarang").val(data.hargaJual);
+                                    } else {
+
+                                    }
+                                    $("#hargaBarang").focus();
+                                    $("#hargaBarang").select();
+                                }
+                            });
+                            return false;
+                        }
+                    });
+    <?php
+}
+?>
             </script>
         </div>
     </body>

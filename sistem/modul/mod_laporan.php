@@ -148,7 +148,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
             </table>
         </form>
         <script>
-            $(function() {
+            $(function () {
                 $('.tanggalan').appendDtpicker({
                     "closeOnSelected": true,
                     'locale': 'id',
@@ -311,7 +311,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
             </form>
 
             <script>
-                $(function() {
+                $(function () {
                     $('.tanggalan').appendDtpicker({
                         "closeOnSelected": true,
                         'locale': 'id',
@@ -448,6 +448,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
                                                 }
                                                 break;
                                         endswitch;
+                                        echo $s;
                                     }
                                     else {
                                         /*

@@ -584,7 +584,6 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
      * Init printer, dan buka cash drawer
      */
     $command = chr(27) . "@"; //Init printer
-
     //$command .= chr(27) . chr(101) . chr(1); //1 reverse lf
     $command .= chr(27) . chr(112) . chr(48) . chr(60) . chr(120); // buka cash drawer
     $command .= chr(27) . chr(101) . chr(1); //1 reverse lf
@@ -772,7 +771,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
             mysql_query($sql) or die('Gagal simpan transaksi detail ' . mysql_error());
             $detailJualId = mysql_insert_id();
             // Diskon
-            if (!is_null($simpan['diskon_detail_uids'])) {
+            if (!(is_null($simpan['diskon_detail_uids']) && $simpan['diskon_detail_uids'] == 0)) {
                 $sql = "insert into diskon_transaksi (diskon_detail_uids, barcode, waktu, diskon_persen, diskon_rupiah, idDetailJual) "
                         . "values('{$simpan['diskon_detail_uids']}','{$simpan['barcode']}','{$simpan['tglTransaksi']}',"
                         . "{$simpan['diskon_persen']},{$simpan['diskon_rupiah']},{$detailJualId})";
@@ -888,6 +887,19 @@ elseif ($module == 'penjualan_barang' AND $act == 'selfcheckoutinput') {
             }
             tambahBarangJual($barang['barcode'], $jumBarang);
         }
+    }
+}
+
+//ukmMode: Cek Harga untuk input harga jual manual
+elseif ($module == 'penjualan_barang' AND $act == 'get_harga_jual') {
+    if (isset($_POST['barcode'])) {
+        $result = mysql_query("select hargaJual from barang where barcode = '{$_POST['barcode']}'") or die('Gagal ambil harga jual, barang#' . $_POST['barcode'] . ', error: ' . mysql_error());
+        $barang = mysql_fetch_array($result);
+        $return = array(
+            'sukses' => true,
+            'hargaJual' => $barang['hargaJual']
+        );
+        echo json_encode($return);
     }
 }
 // BUKA KASIR  // -----------------------------------------------------------------------------------------------------------------------------------
@@ -1344,7 +1356,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                    ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                     ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
@@ -1361,12 +1373,12 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
         </tbody>
     </table>
     <script>
-        $("#tombol-auto-update").click(function() {
+        $("#tombol-auto-update").click(function () {
             var aksiurl = 'aksi.php?module=system&act=maintenance-upd-barang';
             $.ajax({
                 url: aksiurl,
                 type: "GET",
-                success: function(data) {
+                success: function (data) {
                     if (data == 'update-selesai') {
                         ambilHasil();
                     }
