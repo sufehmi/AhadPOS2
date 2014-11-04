@@ -261,7 +261,7 @@ function getItemSelisih($link, $ssId) {
                                 from barang
                                 left join stok_stat_detail on stok_stat_detail.barcode = barang.barcode
                                 where (stok_stat_detail.id is null or stok_stat_detail.id={$stokStatId}) ";
-                    if (is_null($idRak)) $idRak = 1;
+                    
                     if (!is_null($idRak)) {
                         $query .= "and barang.idRak={$idRak} ";
                     }
