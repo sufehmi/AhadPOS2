@@ -1447,7 +1447,7 @@ switch ($_GET['act']) {
 
         case "ApproveMobileSO1":  // ----------------------------------------------------------------------------
             // cari SO yang belum di approve
-            $sql = "SELECT * FROM fast_stock_opname WHERE approved=0 LIMIT 100";
+            $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 LIMIT 100";
             $hasil1 = mysql_query($sql);
             ?>
             <h2>Approve Mobile Stock Opname</h2>
@@ -1480,7 +1480,7 @@ switch ($_GET['act']) {
                             $z = mysql_fetch_array($hasil2);
                             ?>
                             <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
-                                <td class="center"><?php echo $x['idRak']; ?></td>
+                                <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $x['idRak']; ?>" />
                                 <td><?php echo $x['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $x['barcode']; ?>></td>
                                 <td><?php echo $x['namaBarang']; ?></td>
                                 <td class="center"><?php echo $z['jumBarang']; ?></td>
@@ -1530,7 +1530,7 @@ switch ($_GET['act']) {
                     $jumBarang = $_POST["selisih$i"];
 
                     // update barang.jumBarang untuk barcode ybs
-                    $sql = "UPDATE barang SET jumBarang=$jumBarang WHERE barcode='" . $_POST["barcode$i"] . "'";
+                    $sql = "UPDATE barang SET jumBarang=$jumBarang, idRak = " . $_POST["idRak$i"] . " WHERE barcode='" . $_POST["barcode$i"] . "'";
                     $hasil1 = mysql_query($sql);
 
                     // ganti fast_stock_opname.approved menjadi 1 / true
