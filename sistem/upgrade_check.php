@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 3;
+$revision = 4;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -360,6 +360,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
     if ($dbrevision < 3) {
         echo "Upgrading database to version 2.0.3 <br />";
         upgrade_202_to_203();
+    }
+    if ($dbrevision < 4) {
+        echo "Upgrading database to version 2.0.4 <br />";
+        upgrade_203_to_204();
     }
 }
 
@@ -736,6 +740,33 @@ function upgrade_202_to_203() {
     }
     else {
         $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 3)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
+function upgrade_203_to_204() {
+    // ubah urutan menu Stok ke belakang
+    $sql = "UPDATE `menu` SET `urutan`='10' WHERE `label`='Stok'";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Tambahkan menu Fast PDT SO (input SO dengan menggunakan Portable Data Terminal atau alat lain yang bisa batch scan barcode)
+    // dan "Approve" nya
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Input SO dengan Portable Data Terminal', '../tools/fast-stock-opname/pdt-so.php', '', 6, 'Input PDT SO', '', 'Y', 3, 8, 0, ''),
+            ('Approve SO dengan Portable Data Terminal', 'media.php?module=barang&act=ApprovePdtSO1', '', 6, 'Approve PDT SO', '', 'Y', 3, 9, 0, '');";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 4)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 4)) . "', '')";
     };
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }

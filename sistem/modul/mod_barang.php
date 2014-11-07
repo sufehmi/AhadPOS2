@@ -222,7 +222,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['jumBarang']; ?></td>
                         <td class="right"><?php echo $r['hargaJual']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                        ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                       ?>
                         </td>
                     </tr>
                     <?php
@@ -396,7 +396,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                       ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                      ?>
                     </td>
                 </tr>
                 <?php
@@ -1481,13 +1481,13 @@ switch ($_GET['act']) {
                             ?>
                             <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
                                 <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $x['idRak']; ?>" />
-                                <td><?php echo $x['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $x['barcode']; ?>></td>
-                                <td><?php echo $x['namaBarang']; ?></td>
-                                <td class="center"><?php echo $z['jumBarang']; ?></td>
-                                <td class="center"><?php echo $x['selisih']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $x['selisih']; ?>></td>
-                                <td class="center"><input type=checkbox name=appr<?php echo $ctr; ?> checked=yes></td>
-                                <td class="center">#</td>
-                                <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
+                            <td><?php echo $x['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $x['barcode']; ?>></td>
+                            <td><?php echo $x['namaBarang']; ?></td>
+                            <td class="center"><?php echo $z['jumBarang']; ?></td>
+                            <td class="center"><?php echo $x['selisih']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $x['selisih']; ?>></td>
+                            <td class="center"><input type=checkbox name=appr<?php echo $ctr; ?> checked=yes></td>
+                            <td class="center">#</td>
+                            <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
                             </tr>
                             <?php
                         }; // if (strlen($x[namaBarang]) > 0) {
@@ -1857,7 +1857,7 @@ switch ($_GET['act']) {
                             -
                             <input type="text" id="tanggal_sampai" name="diskon_detail[tanggal_sampai]" value="">
                             <script type="text/javascript">
-                                $("#diskonTipeId").change(function() {
+                                $("#diskonTipeId").change(function () {
                                     var diskonId = $(this).val();
                                     // 1000:gudang; 10001:waktu
                                     if (diskonId == 1000) {
@@ -1869,21 +1869,21 @@ switch ($_GET['act']) {
                                     }
                                 });
 
-                                $(function() {
+                                $(function () {
                                     $('#tanggal_dari').appendDtpicker({
                                         "closeOnSelected": true,
                                         'locale': 'id',
                                         'dateFormat': 'DD-MM-YYYY hh:mm'
                                     });
                                 });
-                                $(function() {
+                                $(function () {
                                     $('#tanggal_sampai').appendDtpicker({
                                         "closeOnSelected": true,
                                         'locale': 'id',
                                         'dateFormat': 'DD-MM-YYYY hh:mm'
                                     });
                                 });
-                                $("#barcode").blur(function() {
+                                $("#barcode").blur(function () {
                                     $("#barcode-info").load("aksi.php?module=diskon&act=getbarcodeinfo&barcode=" + $(this).val());
                                 })
                             </script>
@@ -1956,7 +1956,7 @@ switch ($_GET['act']) {
                 ?>
             </table>
             <script>
-                $(".status-diskon").change(function() {
+                $(".status-diskon").change(function () {
                     var diskonId = $(this).attr("id");
                     var status = $(this).val();
                     var data = "id=" + diskonId + "&status=" + status;
@@ -1965,7 +1965,7 @@ switch ($_GET['act']) {
                         type: "POST",
                         url: url,
                         data: data,
-                        success: function() {
+                        success: function () {
                             //location.reload()
                         },
                     });
@@ -2278,6 +2278,196 @@ switch ($_GET['act']) {
                 </table>
                 <?php
             endif;
+            break;
+
+        case "ApprovePdtSO1":  // ----------------------------------------------------------------------------
+            // cari SO yang belum di approve
+            $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 and username='pdt-so' order by fast_stock_opname.uid";
+            $hasil1 = mysql_query($sql);
+            ?>
+            <h2>Approve Stock Opname dengan PDT (Portable Data Terminal)</h2>
+            <form method=POST action='?module=barang&act=ApprovePdtSO2'>
+
+                <br /><br />
+
+                <table class="tabel">
+                    <tr>
+                        <th>Rak</th>
+                        <th>Barcode</th>
+                        <th>Nama Barang</th>
+                        <th>Jumlah<br />Tercatat</th>
+                        <th>Ditemukan</th>
+                        <th>Selisih</th>
+                        <th>Approve</th>
+                        <th>#</th>
+                        <th>Batal</td>
+                    </tr>
+                    <?php
+                    $ctr = 1;
+                    while ($x = mysql_fetch_array($hasil1)) {
+
+                        $sql = "SELECT namaBarang FROM barang WHERE barcode='" . $x[barcode] . "'";
+                        $hasil2 = mysql_query($sql);
+                        $z = mysql_fetch_array($hasil2);
+                        ?>
+                        <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
+                            <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="dataApproval[<?php echo $ctr; ?>][idRak]" value="<?php echo $x['idRak']; ?>" />
+                        <td><?php echo $x['barcode']; ?><input type=hidden name="dataApproval[<?php echo $ctr; ?>][barcode]" value=<?php echo $x['barcode']; ?>></td>
+                        <td><?php echo $z['namaBarang']; ?></td>
+                        <td class="center"><?php echo $x['jmlTercatat']; ?></td>
+                        <td class="center"><?php echo $x['jmlTercatat'] + $x['selisih']; ?></td>
+                        <td class="center"><?php echo $x['selisih']; ?>	<input type=hidden name="dataApproval[<?php echo $ctr; ?>][selisih]" value=<?php echo $x['selisih']; ?>></td>
+                        <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][appr]" checked=yes></td>
+                        <td class="center">#</td>
+                        <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][batal]"></td>
+                        </tr>
+                        <?php
+                        $ctr++;
+                    }
+                    ?>
+                </table>
+
+                <input type=submit accesskey='s' value='(s) Submit'>
+
+            </form>
+            <?php
+            break;
+
+        case "ApprovePdtSO2":  // ----------------------------------------------------------------------------
+            ?>
+            <h2>Proses PDT Stock Opname</h2>
+            <?php
+            if (isset($_POST['dataApproval'])):
+                $dataApproval = $_POST['dataApproval'];
+                //echo '<pre>';
+                //print_r($dataApproval);
+                //echo '</pre>';
+                ?>
+                <table class="tabel">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Barcode</th>
+                            <th>Nama Barang</th>
+                            <th>Jumlah Barang<br /></th>
+                            <th>Selisih</th>
+                            <th>Jumlah Barang<br />Saat ini</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 1;
+                        foreach ($dataApproval as $data):
+                            // Cek barang dihapus
+                            if ($data['batal'] == 'on'):
+                                // Berarti barang tidak jadi di SO
+                                // Hapus dari tabel fast SO
+                                $sql = "delete from fast_stock_opname where barcode = '{$data['barcode']}' and username='pdt-so'";
+                                mysql_query($sql) or die('Gagal hapus data so: ' . mysql_error());
+
+                            // Jika diapprove, ubah jumlah barang di tabel barang dan detail_beli, ubah status approve di tabel so
+                            // Dan tampilkan layar
+                            elseif ($data['appr'] == 'on') :
+                                // data barang
+                                $sql = "update barang set jumBarang = jumBarang+{$data['selisih']}, idRak = {$data['idRak']} where barcode='{$data['barcode']}'";
+                                mysql_query($sql) or die('Gagal update jumBarang: ' . mysql_error());
+
+                                // Update detail beli juga
+                                // Init detail beli (dinol kan)
+                                $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$data['barcode']}' ";
+                                mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
+
+                                // Ambil jumlah barang setelah diupdate (SO)
+                                $sql = "select jumBarang, namaBarang from barang where barcode = '{$data['barcode']}' ";
+                                $hasil = mysql_query($sql) or die('Gagal ambil data barang: ' . mysql_error());
+                                $barang = mysql_fetch_row($hasil, MYSQL_ASSOC);
+                                $sql = "select *
+                                from detail_beli db
+                                join transaksibeli tb on tb.idTransaksiBeli = db.idTransaksiBeli
+                                where barcode = '{$data['barcode']}'
+                                order by db.idTransaksiBeli desc";
+                                $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
+
+                                $jumBarang = $barang['jumBarang'];
+
+                                $simulasi = false; // Variabel untuk testing.. (just for programmers)
+                                // Sesuaikan jumlah barang di tabel detail_beli
+                                while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
+
+                                    /*
+                                     * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
+                                     * langsung update detail_beli.jumBarang  dengan barang.jumBarang
+                                     * Jika lebih kecil
+                                     * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
+                                     * yang kemudian mencari lagi di row selanjutnya
+                                     */
+                                    if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
+                                        if (!$simulasi) {
+                                            mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
+                                        }
+                                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
+                                        $jumBarang = 0;
+                                    }
+                                    else {
+                                        if (!$simulasi) {
+                                            mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
+                                              where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 2, error: ' . mysql_error());
+                                        }
+                                        $jumBarang -= $detailBeli['jumBarangAsli'];
+
+                                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
+                                    }
+                                    echo '<br />';
+                                endwhile;
+
+                                // Approve SO
+                                $sql = "update fast_stock_opname set approved = 1 where barcode = '{$data['barcode']}' and username='pdt-so' ";
+                                mysql_query($sql) or die('Gagal approved pdt SO: ' . mysql_error());
+                                ?>
+                                <tr class="<?php echo $i % 2 === 0 ? 'alt' : ''; ?>">
+                                    <td class="right"><?php echo $i; ?></td>
+                                    <td><?php echo $data['barcode']; ?></td>
+                                    <td><?php echo $barang['namaBarang'];; ?></td>
+                                    <td class="right"><?php echo $barang['jumBarang'] - $data['selisih']; ?></td>
+                                    <td class="right"><?php echo $data['selisih']; ?></td>
+                                    <td class="right"><?php echo $barang['jumBarang']; ?></td>
+                                </tr>
+                                <?php
+                                $i++;
+                            endif;
+                        endforeach;
+                        ?>
+                    </tbody>
+                </table>
+                <?php
+            endif;
+
+
+//            for ($i = 1; $i <= $_POST[ctr]; $i++) {
+//
+//                // cek barang dihapus
+//                if ($_POST["batal$i"] == 'on') {
+//                }
+//                elseif ($_POST["appr$i"] == 'on') {
+//                    // cari barang.jumBarang ybs
+//                    $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $_POST["barcode$i"] . "'";
+//                    $hasil1 = mysql_query($sql);
+//                    $x = mysql_fetch_array($hasil1);
+//
+//                    $jumBarang = $_POST["selisih$i"];
+//
+//                    // update barang.jumBarang untuk barcode ybs
+//                    $sql = "UPDATE barang SET jumBarang=$jumBarang, idRak = " . $_POST["idRak$i"] . " WHERE barcode='" . $_POST["barcode$i"] . "'";
+//                    $hasil1 = mysql_query($sql);
+//
+//                    // ganti fast_stock_opname.approved menjadi 1 / true
+//                    $sql = "UPDATE fast_stock_opname SET approved=1 WHERE barcode='" . $_POST["barcode$i"] . "'";
+//                    $hasil1 = mysql_query($sql);
+//                    echo "Approved : " . $_POST["barcode$i"] . ", stok tercatat: $x[jumBarang], ditemukan = <b>" . $_POST["selisih$i"] . "</b><br />";
+//                    //var_dump($_POST);
+//                };
+//            }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
+
             break;
     }
     ?>
