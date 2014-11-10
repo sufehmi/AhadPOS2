@@ -2417,7 +2417,7 @@ switch ($_GET['act']) {
 
                                         //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
                                     }
-                                    echo '<br />';
+                                    //echo '<br />';
                                 endwhile;
 
                                 // Approve SO
