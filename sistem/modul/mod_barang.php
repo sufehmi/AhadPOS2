@@ -222,7 +222,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['jumBarang']; ?></td>
                         <td class="right"><?php echo $r['hargaJual']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                        ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                            ?>
                         </td>
                     </tr>
                     <?php
@@ -396,7 +396,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                       ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                           ?>
                     </td>
                 </tr>
                 <?php
@@ -2379,6 +2379,7 @@ switch ($_GET['act']) {
         case "ApprovePdtSO2":  // ----------------------------------------------------------------------------
             ?>
             <h2>Proses PDT Stock Opname</h2>
+            <a href="#" onclick="printTable();" class="tombol" accesskey="c"><u>C</u>etak</a>
             <?php
             if (isset($_POST['dataApproval'])):
                 $dataApproval = $_POST['dataApproval'];
@@ -2386,103 +2387,133 @@ switch ($_GET['act']) {
                 //print_r($dataApproval);
                 //echo '</pre>';
                 ?>
-                <table class="tabel">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Barcode</th>
-                            <th>Nama Barang</th>
-                            <th>Jumlah Barang<br /></th>
-                            <th>Selisih</th>
-                            <th>Jumlah Barang<br />Saat ini</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $i = 1;
-                        foreach ($dataApproval as $data):
-                            // Cek barang dihapus
-                            if ($data['batal'] == 'on'):
-                                // Berarti barang tidak jadi di SO
-                                // Hapus dari tabel fast SO
-                                $sql = "delete from fast_stock_opname where barcode = '{$data['barcode']}' and username='pdt-so'";
-                                mysql_query($sql) or die('Gagal hapus data so: ' . mysql_error());
+                <div id="tableToPrint">
+                    <style>
+                        .tabel{
+                            font-size: 11px;
+                            border-collapse: collapse;
+                        }
+                        th, td{
+                            padding: 2px 2px;
+                        }
 
-                            // Jika diapprove, ubah jumlah barang di tabel barang dan detail_beli, ubah status approve di tabel so
-                            // Dan tampilkan layar
-                            elseif ($data['appr'] == 'on') :
-                                // data barang
-                                $sql = "update barang set jumBarang = jumBarang+{$data['selisih']}, idRak = {$data['idRak']} where barcode='{$data['barcode']}'";
-                                mysql_query($sql) or die('Gagal update jumBarang: ' . mysql_error());
+                        td, th{
+                            border: 1px solid #ccc;
+                        }
+                        .right{
+                            text-align: right;
+                        }
+                    </style>
+                    <table class="tabel">
+                        <caption>Stock Opname PDT</caption>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Barcode</th>
+                                <th>Nama Barang</th>
+                                <th>Jumlah Barang<br /></th>
+                                <th>Selisih</th>
+                                <th>Jumlah Barang<br />Saat ini</th>
+                                <th>Rak</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $i = 1;
+                            foreach ($dataApproval as $data):
+                                // Cek barang dihapus
+                                if ($data['batal'] == 'on'):
+                                    // Berarti barang tidak jadi di SO
+                                    // Hapus dari tabel fast SO
+                                    $sql = "delete from fast_stock_opname where barcode = '{$data['barcode']}' and username='pdt-so'";
+                                    mysql_query($sql) or die('Gagal hapus data so: ' . mysql_error());
 
-                                // Update detail beli juga
-                                // Init detail beli (dinol kan)
-                                $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$data['barcode']}' ";
-                                mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
+                                // Jika diapprove, ubah jumlah barang di tabel barang dan detail_beli, ubah status approve di tabel so
+                                // Dan tampilkan layar
+                                elseif ($data['appr'] == 'on') :
+                                    // data barang
+                                    $sql = "update barang set jumBarang = jumBarang+{$data['selisih']}, idRak = {$data['idRak']} where barcode='{$data['barcode']}'";
+                                    mysql_query($sql) or die('Gagal update jumBarang: ' . mysql_error());
 
-                                // Ambil jumlah barang setelah diupdate (SO)
-                                $sql = "select jumBarang, namaBarang from barang where barcode = '{$data['barcode']}' ";
-                                $hasil = mysql_query($sql) or die('Gagal ambil data barang: ' . mysql_error());
-                                $barang = mysql_fetch_row($hasil, MYSQL_ASSOC);
-                                $sql = "select *
+                                    // Update detail beli juga
+                                    // Init detail beli (dinol kan)
+                                    $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$data['barcode']}' ";
+                                    mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
+
+                                    // Ambil jumlah barang setelah diupdate (SO)
+                                    $sql = "select jumBarang, namaBarang,namaRak from barang join rak on barang.idRak = rak.idRak where barcode = '{$data['barcode']}' ";
+                                    $hasil = mysql_query($sql) or die('Gagal ambil data barang: ' . mysql_error());
+                                    $barang = mysql_fetch_row($hasil, MYSQL_ASSOC);
+                                    $sql = "select *
                                 from detail_beli db
                                 join transaksibeli tb on tb.idTransaksiBeli = db.idTransaksiBeli
                                 where barcode = '{$data['barcode']}'
                                 order by db.idTransaksiBeli desc";
-                                $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
+                                    $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
 
-                                $jumBarang = $barang['jumBarang'];
+                                    $jumBarang = $barang['jumBarang'];
 
-                                $simulasi = false; // Variabel untuk testing.. (just for programmers)
-                                // Sesuaikan jumlah barang di tabel detail_beli
-                                while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
+                                    $simulasi = false; // Variabel untuk testing.. (just for programmers)
+                                    // Sesuaikan jumlah barang di tabel detail_beli
+                                    while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
 
-                                    /*
-                                     * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
-                                     * langsung update detail_beli.jumBarang  dengan barang.jumBarang
-                                     * Jika lebih kecil
-                                     * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
-                                     * yang kemudian mencari lagi di row selanjutnya
-                                     */
-                                    if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
-                                        if (!$simulasi) {
-                                            mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
+                                        /*
+                                         * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
+                                         * langsung update detail_beli.jumBarang  dengan barang.jumBarang
+                                         * Jika lebih kecil
+                                         * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
+                                         * yang kemudian mencari lagi di row selanjutnya
+                                         */
+                                        if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
+                                            if (!$simulasi) {
+                                                mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
+                                            }
+                                            //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
+                                            $jumBarang = 0;
                                         }
-                                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
-                                        $jumBarang = 0;
-                                    }
-                                    else {
-                                        if (!$simulasi) {
-                                            mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
+                                        else {
+                                            if (!$simulasi) {
+                                                mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
                                               where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 2, error: ' . mysql_error());
+                                            }
+                                            $jumBarang -= $detailBeli['jumBarangAsli'];
+
+                                            //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
                                         }
-                                        $jumBarang -= $detailBeli['jumBarangAsli'];
+                                    //echo '<br />';
+                                    endwhile;
 
-                                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
-                                    }
-                                //echo '<br />';
-                                endwhile;
-
-                                // Approve SO
-                                $sql = "update fast_stock_opname set approved = 1 where barcode = '{$data['barcode']}' and username='pdt-so' ";
-                                mysql_query($sql) or die('Gagal approved pdt SO: ' . mysql_error());
-                                ?>
-                                <tr class="<?php echo $i % 2 === 0 ? 'alt' : ''; ?>">
-                                    <td class="right"><?php echo $i; ?></td>
-                                    <td><?php echo $data['barcode']; ?></td>
-                                    <td><?php echo $barang['namaBarang'];
-                    ; ?></td>
-                                    <td class="right"><?php echo $barang['jumBarang'] - $data['selisih']; ?></td>
-                                    <td class="right"><?php echo $data['selisih']; ?></td>
-                                    <td class="right"><?php echo $barang['jumBarang']; ?></td>
-                                </tr>
-                                <?php
-                                $i++;
-                            endif;
-                        endforeach;
-                        ?>
-                    </tbody>
-                </table>
+                                    // Approve SO
+                                    $sql = "update fast_stock_opname set approved = 1 where barcode = '{$data['barcode']}' and username='pdt-so' ";
+                                    mysql_query($sql) or die('Gagal approved pdt SO: ' . mysql_error());
+                                    ?>
+                                    <tr class="<?php echo $i % 2 === 0 ? 'alt' : ''; ?>">
+                                        <td class="right"><?php echo $i; ?></td>
+                                        <td><?php echo $data['barcode']; ?></td>
+                                        <td><?php echo $barang['namaBarang']; ?></td>
+                                        <td class="right"><?php echo $barang['jumBarang'] - $data['selisih']; ?></td>
+                                        <td class="right"><?php echo $data['selisih']; ?></td>
+                                        <td class="right"><?php echo $barang['jumBarang']; ?></td>
+                                        <td><?php echo $barang['namaRak']; ?></td>
+                                    </tr>
+                                    <?php
+                                    $i++;
+                                endif;
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <script>
+                    function printTable()
+                    {
+                        var divToPrint = document.getElementById('tableToPrint');
+                        newWin = window.open("");
+                        newWin.document.write(divToPrint.outerHTML);
+                        newWin.print();
+                        newWin.close();
+                    }
+                </script>
                 <?php
             endif;
 

@@ -192,7 +192,7 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
                         $jmlTercatat = $data['jmlTercatat'] == '' ? '0' : $data['jmlTercatat'];
                         $barangs = mysql_query("select barcode from fast_stock_opname where username='pdt-so' and barcode = '{$data['barcode']}' and approved=0") or die('Gagal ambil data barang di tabel SO: ' . mysql_error());
                         $barangAda = mysql_num_rows($barangs);
-                        //Jika ada, update. Jika tida ada, insert
+                        //Jika ada, update. Jika tidak ada, insert
                         //Yang dipakai hanya data yang terakhir discan
                         if ($barangAda >= 1) :
                             $sql = "update fast_stock_opname set jmlTercatat= {$jmlTercatat}, selisih={$data['selisih']} where "
