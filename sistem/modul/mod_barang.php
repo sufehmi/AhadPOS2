@@ -222,7 +222,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['jumBarang']; ?></td>
                         <td class="right"><?php echo $r['hargaJual']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                       ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                        ?>
                         </td>
                     </tr>
                     <?php
@@ -396,7 +396,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                      ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                       ?>
                     </td>
                 </tr>
                 <?php
@@ -1533,6 +1533,49 @@ switch ($_GET['act']) {
                     $sql = "UPDATE barang SET jumBarang=$jumBarang, idRak = " . $_POST["idRak$i"] . " WHERE barcode='" . $_POST["barcode$i"] . "'";
                     $hasil1 = mysql_query($sql);
 
+                    // Sesuaikan jumlah barang di tabel detail_beli
+                    $barcode = $_POST["barcode$i"];
+                    // Init detail beli (dinol kan)
+                    $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$barcode}' ";
+                    mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
+
+                    $sql = "select *
+                                from detail_beli db
+                                join transaksibeli tb on tb.idTransaksiBeli = db.idTransaksiBeli
+                                where barcode = '{$barcode}'
+                                order by db.idTransaksiBeli desc";
+                    $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
+
+                    $simulasi = false; // Variabel untuk testing.. (just for programmers)
+
+                    while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
+
+                        /*
+                         * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
+                         * langsung update detail_beli.jumBarang  dengan barang.jumBarang
+                         * Jika lebih kecil
+                         * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
+                         * yang kemudian mencari lagi di row selanjutnya
+                         */
+                        if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
+                            if (!$simulasi) {
+                                mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
+                            }
+                            //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
+                            $jumBarang = 0;
+                        }
+                        else {
+                            if (!$simulasi) {
+                                mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
+                                              where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 2, error: ' . mysql_error());
+                            }
+                            $jumBarang -= $detailBeli['jumBarangAsli'];
+
+                            //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
+                        }
+                    //echo '<br />';
+                    endwhile;
+
                     // ganti fast_stock_opname.approved menjadi 1 / true
                     $sql = "UPDATE fast_stock_opname SET approved=1 WHERE barcode='" . $_POST["barcode$i"] . "'";
                     $hasil1 = mysql_query($sql);
@@ -2417,7 +2460,7 @@ switch ($_GET['act']) {
 
                                         //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
                                     }
-                                    //echo '<br />';
+                                //echo '<br />';
                                 endwhile;
 
                                 // Approve SO
@@ -2427,7 +2470,8 @@ switch ($_GET['act']) {
                                 <tr class="<?php echo $i % 2 === 0 ? 'alt' : ''; ?>">
                                     <td class="right"><?php echo $i; ?></td>
                                     <td><?php echo $data['barcode']; ?></td>
-                                    <td><?php echo $barang['namaBarang'];; ?></td>
+                                    <td><?php echo $barang['namaBarang'];
+                    ; ?></td>
                                     <td class="right"><?php echo $barang['jumBarang'] - $data['selisih']; ?></td>
                                     <td class="right"><?php echo $data['selisih']; ?></td>
                                     <td class="right"><?php echo $barang['jumBarang']; ?></td>
