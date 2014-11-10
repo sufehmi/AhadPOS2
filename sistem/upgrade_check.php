@@ -688,8 +688,8 @@ function upgrade_201_to_202() {
 }
 
 function upgrade_202_to_203() {
-    // Menambahkan UKM Mode
-    $sql = "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('ukm_mode', '1', 'UKM Mode')";
+    // Menambahkan UKM Mode: default Off
+    $sql = "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('ukm_mode', '0', 'UKM Mode')";
     $hasil = exec_query($sql);
     echo mysql_error();
 
