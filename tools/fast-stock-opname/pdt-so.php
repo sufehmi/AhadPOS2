@@ -34,7 +34,7 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
-        <script src="http://code.jquery.com/jquery-1.9.0.min.js" ></script>
+        <script src="../../js/jquery-1.9.1.min.js" ></script>
     </head>
 
     <body>
