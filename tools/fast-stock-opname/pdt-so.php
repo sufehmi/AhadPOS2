@@ -150,7 +150,7 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
                                 $sql = "select namaBarang, jumBarang from barang where barcode = '{$data['barcode']}'";
                                 $result = mysql_query($sql) or die("Gagal ambil data barang: {$data['barcode']}");
                                 $barang = mysql_fetch_array($result, MYSQL_ASSOC);
-                                if ($barang):
+                                // if ($barang):
                                     $selisih = $data['qty'] - $barang['jumBarang'];
                                     ?>
                                     <tr>
@@ -167,7 +167,7 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
                                     </tr>
                                     <?php
                                     $no++;
-                                endif;
+                                // endif;
                             endforeach;
                             ?>
 
