@@ -1321,12 +1321,6 @@ elseif ($module == 'system' AND $act == 'setting-simpan') {
 
 // Ambil data barang bermasalah dengan idKategori dan idSatuan
 elseif ($module == 'system' && $act == 'maintenance-barang') {
-//    $result = mysql_query('
-//		  select barcode, namaBarang, idKategoriBarang, idSatuanBarang
-//				from barang
-//				where idKategoriBarang=0 or idSatuanBarang >(select max(idSatuanBarang) from satuan_barang)
-//				or idKategoriBarang > (select max(idKategoriBarang) from kategori_barang)
-//		  ') or die('Gagal cari data barang error, error: ' . mysql_error());
     $result = mysql_query('
 		  select barcode, namaBarang, barang.idSatuanBarang, barang.idKategoriBarang
                 from barang
