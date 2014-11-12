@@ -1049,7 +1049,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td>Harga Beli Sekarang</td>
 									<td> : <input type=text name='hargaBeliLama' value='<?php echo $barang['hargaBeli']; ?>' readonly='readonly' /></td>
 									<td>Harga Beli Barang</td>
-									<td> : <input type=text name='hargaBeliBaru' id='hargaBeliBaru' tabindex="8" /></td>
+									<td> : <input type=text name='hargaBeliBaru' id='hargaBeliBaru' tabindex="8" value='<?php echo $barang['hargaBeli']; ?>' /></td>
 								</tr>
 								<tr>
 									<td>Harga Jual Sekarang</td>
