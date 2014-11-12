@@ -59,7 +59,7 @@ session_start();
 
 <style type="text/css">
 
-	#layer1 
+	#layer1
 	{
 		position: absolute;
 		left:200px;
@@ -69,7 +69,7 @@ session_start();
 		border: 1px solid #000;
 		z-index: 50;
 	}
-	#layer1_handle 
+	#layer1_handle
 	{
 		background-color:#265180;
 		padding:2px;
@@ -78,7 +78,7 @@ session_start();
 		color: #FFFFFF;
 		vertical-align:middle;
 	}
-	#layer1_content 
+	#layer1_content
 	{
 		padding:5px;
 	}
@@ -117,7 +117,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 			<input type=submit value='(p) Pemesanan Barang' accesskey='p'>
 			</form>
                     </td>
-	
+
 		</tr>
 
 
@@ -211,11 +211,11 @@ switch ($_GET[act]) { // -------------------------------------------------------
 				  WHERE s.idSupplier = d.idSupplier AND tglRetur LIKE '$periode%' GROUP BY tglRetur ORDER BY tglRetur DESC";
 				 */
 				// edited by abufathir; Jika ada retur barang untuk supplier yang sama di tanggal yang sama
-				$sql = "SELECT d.idTransaksiBeli, d.tglRetur, d.nominal, d.username, s.namaSupplier, d.idSupplier  
+				$sql = "SELECT d.idTransaksiBeli, d.tglRetur, d.nominal, d.username, s.namaSupplier, d.idSupplier
 					FROM detail_retur_beli d
 					JOIN supplier s ON s.idSupplier = d.idSupplier
 					WHERE tglRetur LIKE '{$periode}%'
-					GROUP BY d.idTransaksiBeli, d.tglRetur,d.username, s.namaSupplier, d.idSupplier 
+					GROUP BY d.idTransaksiBeli, d.tglRetur,d.username, s.namaSupplier, d.idSupplier
 					ORDER BY d.tglRetur DESC";
 
 				$hasil = mysql_query($sql);
@@ -253,7 +253,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 			case "returpembelian"; // =======================================================================================================================
 				echo "<h2>Retur Pembelian</h2>
             <form method=POST action='?module=pembelian_barang&act=returpembelian&action=lihatlaporan'>
-                Supplier : 
+                Supplier :
                 <select name=supplierId>";
 				$supplier = getSupplier();
 				while ($dataSupplier = mysql_fetch_array($supplier)) {
@@ -329,7 +329,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 			case "pemesananbarang"; // =======================================================================================================================
 				echo "<h2>Pemesanan Barang</h2>
             <form method=POST action='?module=pembelian_barang&act=pemesananbarang&action=pesanbarang'>
-                Supplier : 
+                Supplier :
                 <select name=supplierId>";
 				$supplier = getSupplier();
 				while ($dataSupplier = mysql_fetch_array($supplier)) {
@@ -385,7 +385,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 			case "laporanpembelian": // ===============================================================================================================
 				echo "<h2>Laporan Pembelian (per Supplier)</h2>
             <form method=POST action='?module=pembelian_barang&act=laporanpembelian&action=lihatlaporan'>
-                Supplier : 
+                Supplier :
                 <select name=supplierId>";
 				$supplier = getSupplier();
 				while ($dataSupplier = mysql_fetch_array($supplier)) {
@@ -477,7 +477,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 			</form></a>
                     </td>
                 </tr>
-            </table>            
+            </table>
             <br/>";
 
 					$detail = getDetailNotaPembelian($_GET[idnota]);
@@ -526,12 +526,12 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<td colspan=7 class="center">TOTAL</td>
 								<td class="right"><?php echo uang($total); ?></td>
 								<td class="right" colspan="2"><?php echo uang($totalSisaStok); ?></td>
-							</tr>	
+							</tr>
 						</table>
 						<?php
 						// Jika sudah ada - tampilkan detail retur untuk Nota ini
 						echo "<h2>Nota Retur Yang Sudah Ada</h2>
-		
+
 		<table class='tabel'>
 		<tr><th>NOTA</th><th>Id Barang</th><th>Barcode</th>
 		<th>Jumlah<br />Retur</th><th>Harga Beli</th><th>Total</th></tr>";
@@ -576,7 +576,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							?>
 						<tr style="text-align:right" <?php echo $ctr % 2 === 0 ? 'class="alt"' : ''; ?>>
 							<?php
-							echo "							
+							echo "
 <td colspan=6 class=td>
 		".uang($oldTotal)."<br />
 		(username: $oldUser)<br />
@@ -592,7 +592,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 
 					case "inputreturbeli"; // ===========================================================================================================
-						//fixme: 
+						//fixme:
 						// 	belum disimpan ke table 'retur' (baru ke table 'detail_retur_beli')
 
 						if (isset($_GET[idnota])) {
@@ -654,7 +654,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
                             <td class=td align=right>".uang($subTotal)."</td>
 			    <td class=td align=center><input type=text name=jumRetur size=3     	value=$dataDetail[jumRetur]></td>
 			<td class=td align=right>
-                                <input type=hidden name=idDetailBeli value=$dataDetail[idDetailBeli]>                                
+                                <input type=hidden name=idDetailBeli value=$dataDetail[idDetailBeli]>
                                 <input type=submit value=Ubah>
                                 </form>
                             </td>
@@ -713,7 +713,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								</a>
 							</td>
 						</tr>
-					</table>            
+					</table>
 					<br/>
 					<?php
 					$detail = getDetailNotaPembelian($_GET[idnota]);
@@ -833,7 +833,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td class="right"><input type=text name=hargaBeli value=<?php echo $dataDetail['hargaBeli']; ?>></td>
 									<td class="right"><?php echo uang($subTotal); ?></td>
 									<td class="right">
-										<input type=hidden name=idDetailBeli value=<?php echo $dataDetail['idDetailBeli']; ?>>                                
+										<input type=hidden name=idDetailBeli value=<?php echo $dataDetail['idDetailBeli']; ?>>
 										<input type=submit value=Ubah>
 									</td>
 								</form>
@@ -901,13 +901,13 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						<tr>
 						<form method="POST" action="?module=pembelian_barang&act=carisupplier&action=cek&idSupplier=<?php echo $_SESSION['idSupplier']; ?>">
 
-							<br /><br /> <td>(1) Pilihan barcode</td> 
+							<br /><br /> <td>(1) Pilihan barcode</td>
 							<?php
 							// Pilihan barcode disortir berdasarkan barcode
-							$sql1 = mysql_query("SELECT DISTINCT barcode, namaBarang   
+							$sql1 = mysql_query("SELECT DISTINCT barcode, namaBarang
                                 FROM barang WHERE idSupplier=".$_SESSION['idSupplier']." AND (nonAktif!=1 or nonAktif is null) ORDER BY barcode ASC");
 							?>
-							<td>: 
+							<td>:
 								<select name="barcode" accesskey="1">
 									<?php
 									while ($data = mysql_fetch_array($sql1)) :
@@ -919,7 +919,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								</select>
 							</td>
 							<td>
-								<input type="submit" value="(2) Pilih barcode !" accesskey="2" /> 
+								<input type="submit" value="(2) Pilih barcode !" accesskey="2" />
 								<input type="hidden" name="xppn" value="<?php echo $_POST['xppn']; ?>">
 							</td>
 						</form>
@@ -927,13 +927,13 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						<tr>
 						<form method="POST" action="?module=pembelian_barang&act=carisupplier&action=cek&idSupplier=<?php echo $_SESSION['idSupplier']; ?>">
 
-							<br /> <td>(3) Pilihan barang</td> 
+							<br /> <td>(3) Pilihan barang</td>
 							<?php
 							// Pilihan barang disortir berdasarkan nama barang
-							$sql1 = mysql_query("SELECT DISTINCT barcode, namaBarang   
+							$sql1 = mysql_query("SELECT DISTINCT barcode, namaBarang
                                 FROM barang WHERE idSupplier=$_SESSION[idSupplier] AND (nonAktif!=1 or nonAktif is null) ORDER BY namaBarang ASC");
 							?>
-							<td>: 
+							<td>:
 								<select name="barcode" accesskey="3">
 									<?php
 									while ($data = mysql_fetch_array($sql1)) {
@@ -943,7 +943,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								</select>
 							</td>
 							<td>
-								<input type=submit value="(4) Pilih barang !" accesskey="4" /> 
+								<input type=submit value="(4) Pilih barang !" accesskey="4" />
 							</td>
 							<input type="hidden" name="xppn" value="<?php echo $_POST['xppn']; ?>">
 						</form>
@@ -955,7 +955,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<?php
 								//HS tombol "Tambah Barang" akan memunculkan form dialog jQuery
 								echo "	<form method=POST action='?module=pembelian_barang&act=carisupplier&action=cek&idSupplier=".$_SESSION['idSupplier']."'>
-		<input type=\"button\" id=\"tambahbarang\" accesskey='b' value='(b) Tambah Barang Baru' /> 
+		<input type=\"button\" id=\"tambahbarang\" accesskey='b' value='(b) Tambah Barang Baru' />
 		<input type='hidden' name='xppn' value='$_POST[xppn]'>
 		</form> <br />";
 								?>
@@ -1008,7 +1008,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						$_POST[xppn] = 0;
 					};
 					?>
-					<br/> 
+					<br/>
 
 					<div id="frmTambahBarang">
 						<form method="POST" action="?module=pembelian_barang&act=carisupplier&action=tambah">
@@ -1026,19 +1026,19 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td>Nama Barang</td>
 									<td> : <input type=text name='namaBarang' value='<?php echo $barang['namaBarang']; ?>' readonly='readonly' /></td>
 									<td>Subtotal (Rp)</td>
-									<td> : <input type=text name='subtotal' value='0' id='xsubtotal'  tabindex=2 /></td>                        
+									<td> : <input type=text name='subtotal' value='0' id='xsubtotal'  tabindex=2 /></td>
 								</tr>
 								<tr>
 									<td>Diskon (%)</td>
-									<td> : <input type=text name='xDiskonPersen' value='0' id='xDiskonPersen' tabindex="3" /></td>		
+									<td> : <input type=text name='xDiskonPersen' value='<?php echo $_POST['xDiskonPersen']; ?>' id='xDiskonPersen' tabindex="3" /></td>
 									<td>PPN (%)</td>
-									<td> : <input type=text name='xppn' value='<?php echo $_POST['xppn']; ?>' id='xppn'  tabindex=5 /></td>                     		
+									<td> : <input type=text name='xppn' value='<?php echo $_POST['xppn']; ?>' id='xppn'  tabindex=5 /></td>
 								</tr>
 								<tr>
 									<td>Diskon (Rp)</td>
 									<td> : <input type=text name='xDiskonRupiah' value='0' id='xDiskonRupiah' tabindex="4"/></td>
 									<td>Profit (%)</td>
-									<td> : <input type=text name='persenprofit' value='0' id='xPersenProfit' tabindex=6 /></td>                     		
+									<td> : <input type=text name='persenprofit' value='0' id='xPersenProfit' tabindex=6 /></td>
 								</tr>
 								<tr>
 									<td colspan="4"><button style="float:right" onclick="RecalcHargaBarangLama();
@@ -1055,7 +1055,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td> : <input type=text name='hargaJualLama' value='<?php echo $barang['hargaJual']; ?>' readonly='readonly' /></td>
 									<td>Harga Jual Barang</td>
 									<td> : <input type=text name='hargaJualBaru' id='hargaJualBaru' value='<?php echo $barang['hargaJual']; ?>' tabindex=9 /></td>
-								</tr>                    
+								</tr>
 								<tr>
 									<td colspan=2>&nbsp</td>
 									<td>Tanggal Expire (yyyy-mm-dd)</td>
@@ -1080,7 +1080,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					<?php
 					//fixme : perlu validasi input
 					//	# tidak boleh kosong jumlah barang
-					//	# tidak boleh kosong harga beli	
+					//	# tidak boleh kosong harga beli
 					//	# tidak boleh kosong harga jual
 					// bisa pakai fasilitas dari jQuery : http://www.position-absolute.com/articles/jquery-form-validator-because-form-validation-is-a-mess/
 
@@ -1213,7 +1213,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						echo "</select></td></tr>
                         <tr><td width=65% align=right>Tanggal Pembayaran (hutang)</td><td align=right><input type=text name='tglBayar' tabindex=11></td></tr>
                         <tr><td width=65% align=right>Nomor Invoice</td><td align=right><input type=text name='NomorInvoice' value=0 tabindex=12></td></tr>
-                        <tr><td width=65% align=right>Tanggal Invoice</td><td align=right><input type=text name='TanggalInvoice' 
+                        <tr><td width=65% align=right>Tanggal Invoice</td><td align=right><input type=text name='TanggalInvoice'
 			value='".date("Y-m-d")."' tabindex=13></td></tr>
 			<tr><td width=65% align=right>Diskon (%)</td><td align=right><input type=text id='diskonpersen' name='DiskonPersen' value=0 tabindex=14></td></tr>
 			<tr><td width=65% align=right>Diskon (Rp)</td><td align=right><input type=text id='diskonrupiah' name='DiskonRupiah' value=0 tabindex=15></td></tr>
@@ -1235,7 +1235,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 			";
 
 						//fixme : Pembatalan Nota (code di atas & bawah komentar ini) perlu merujuk ke user ybs,
-						// agar jangan keliru menghapus nota yang sedang di input oleh user yang lainnya 
+						// agar jangan keliru menghapus nota yang sedang di input oleh user yang lainnya
 					} else {
 
 						echo "Belum ada barang yang dibeli<br /><a href='aksi.php?module=pembelian_barang&act=batal'>BATAL</a>";
@@ -1269,8 +1269,8 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 
 					if ($_GET[action] == 'pilihtanggal') { // ------------------------------------------------------------
-						$sql = "SELECT tglTransaksiBeli, idTransaksiBeli FROM transaksibeli 
-				WHERE month(tglTransaksiBeli)='$_POST[bulanLaporan]' AND year(tglTransaksiBeli)='$_POST[tahunLaporan]' 
+						$sql = "SELECT tglTransaksiBeli, idTransaksiBeli FROM transaksibeli
+				WHERE month(tglTransaksiBeli)='$_POST[bulanLaporan]' AND year(tglTransaksiBeli)='$_POST[tahunLaporan]'
 				ORDER BY tglTransaksiBeli, idTransaksiBeli ASC";
 						$hasil = mysql_query($sql);
 						?>
@@ -1300,8 +1300,8 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 				case "inputeprocurement1"; // =======================================================================================================================
 					echo "<h2>Input Transaksi Pembelian Elektronik</h2>
-            <form method=POST action='?module=pembelian_barang&act=inputeprocurement2'  enctype='multipart/form-data'> 
-                Pilih File Transaksi : 
+            <form method=POST action='?module=pembelian_barang&act=inputeprocurement2'  enctype='multipart/form-data'>
+                Pilih File Transaksi :
 		<input type=file  name=csvfile /> <br />
 		Tipe File :
 		<select name=jenistransaksi>
@@ -1309,7 +1309,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 			<option value='transferahad' selected>Transfer antar Ahad mart</option>
 		</select> <br /><br />
 
-		<input type=submit value=Posting /> 
+		<input type=submit value=Posting />
 		</form>
 	";
 
@@ -1385,7 +1385,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								// $data[2]  = namaBarang
 								// $data[3]  = jumlah Barang / jumBarang
 								// $data[4]  = hargaBeli - ignored
-								// $data[5]  = hargaJual (di Gudang) 
+								// $data[5]  = hargaJual (di Gudang)
 								// $data[6]  = RRP (Recommended Retail Price)
 								// $data[7]  = namaSatuanBarang
 								// $data[8]  = namaKategoriBarang
@@ -1419,17 +1419,17 @@ switch ($_GET[act]) { // -------------------------------------------------------
 				</tr>
 				";
 								$n++;
-							}; // if (!is_null($data[0]) AND ($data[0]  !== 'barcode')) {		
+							}; // if (!is_null($data[0]) AND ($data[0]  !== 'barcode')) {
 						}; // while (($data = fgetcsv($handle, 1000, ',', '"')) !== FALSE) {
 					}; // if (($handle = fopen($csvfile, "r")) !== FALSE) {
 
 					echo "
 		</table>
-		
+
 		<input type=hidden name=count value=$n>
 		<input type=hidden name=jenistransaksi value=".$_POST['jenistransaksi'].">
 
-		<input type=submit value=SIMPAN /> 
+		<input type=submit value=SIMPAN />
 		</form>
 	";
 
@@ -1444,7 +1444,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					$totalInvoice = 0;
 					$ctr = 1;
 
-					// cek apakah ada Supplier "Gudang.AhadMart.com" di table 
+					// cek apakah ada Supplier "Gudang.AhadMart.com" di table
 					if ($_POST['jenistransaksi'] == 'transferahad') {
 						$hasil = mysql_query("SELECT idSupplier FROM supplier WHERE namaSupplier='Transfer.AhadMart.com'");
 					} elseif ($_POST['jenistransaksi'] == 'gudangahad') {
@@ -1453,10 +1453,10 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					// jika tidak - bikin 1 recordnya
 					if (mysql_num_rows($hasil) < 1) {
 						if ($_POST['jenistransaksi'] == 'transferahad') {
-							$sql = mysql_query("INSERT INTO supplier (namaSupplier, alamatSupplier, telpSupplier, Keterangan, last_update) 
+							$sql = mysql_query("INSERT INTO supplier (namaSupplier, alamatSupplier, telpSupplier, Keterangan, last_update)
 				VALUES ('Transfer.AhadMart.com', 'Jakarta', '021-7359407', 'http://transfer.ahadmart.com', '".date('Y-m-d')."')");
 						} elseif ($_POST['jenistransaksi'] == 'gudangahad') {
-							$sql = mysql_query("INSERT INTO supplier (namaSupplier, alamatSupplier, telpSupplier, Keterangan, last_update) 
+							$sql = mysql_query("INSERT INTO supplier (namaSupplier, alamatSupplier, telpSupplier, Keterangan, last_update)
 				VALUES ('Gudang.AhadMart.com', 'Jakarta', '021-7330923', 'http://gudang.ahadmart.com', '".date('Y-m-d')."')");
 						};
 
@@ -1468,7 +1468,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 
 					// bikin record di table transaksibeli
-					// tambahan nomorInvoice jika ada : edited by abufathir;					
+					// tambahan nomorInvoice jika ada : edited by abufathir;
 					$sql = "INSERT INTO transaksibeli(tglTransaksiBeli, idSupplier, nominal, idTipePembayaran, username, last_update, NomorInvoice)
                     VALUES('$tgl', ".$idSupplier.", '9999',1, '$_SESSION[uname]','$tgl','{$_POST['nomorInvoice']}')";
 					$hasil = mysql_query($sql) or die(mysql_error());
@@ -1479,7 +1479,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 					while ($ctr < $_POST[count]) {
 
-						// semua transaksi dicatat di table detail_beli 
+						// semua transaksi dicatat di table detail_beli
 						// bikin idBarang dulu, via tmp_detail_beli
 						$hasil = mysql_query("INSERT INTO tmp_detail_beli (idSupplier, tglTransaksi, tglExpire, jumBarang, hargaBeli, hargaJual) VALUES (1,'$tgl','$tgl',1,2,3)");
 						$hasil = mysql_query("SELECT LAST_INSERT_ID() FROM tmp_detail_beli");
@@ -1488,15 +1488,15 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						// hapus record temporary tadi
 						$hasil = mysql_query("DELETE FROM tmp_detail_beli WHERE idBarang=$idBarang");
 						// baru bikin record item ini di detail_beli
-						mysql_query("INSERT INTO detail_beli (idTransaksiBeli, idBarang, tglExpire, jumBarang, hargaBeli, 
-							isSold, barcode, username, jumBarangAsli) 
-						VALUES ($idTransaksiBeli, $idBarang, '', ".$_POST["jumlah$ctr"].", ".$_POST["harga$ctr"].", 'N', 
+						mysql_query("INSERT INTO detail_beli (idTransaksiBeli, idBarang, tglExpire, jumBarang, hargaBeli,
+							isSold, barcode, username, jumBarangAsli)
+						VALUES ($idTransaksiBeli, $idBarang, '', ".$_POST["jumlah$ctr"].", ".$_POST["harga$ctr"].", 'N',
 							'".$_POST["barcode$ctr"]."', '$_SESSION[uname]', ".$_POST["jumlah$ctr"].")");
 						echo "<br /><hr>--- Menambahkan detail_beli: barcode <b>".$_POST["barcode$ctr"]."</b>";
 
 						// init idSatuanBarang;
 						$idSatuanBarang = 3; // Pcs
-						
+
 						// cek apakah ada namaSatuanBarang ini di table satuan_barang ?
 						$hasil = mysql_query("SELECT idSatuanBarang FROM satuan_barang WHERE namaSatuanBarang='".$_POST["satuan$ctr"]."'");
 						// jika tidak - bikin 1 recordnya
@@ -1512,7 +1512,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						};
 
 						// cek apakah ada KategoriBarang ini di table kategori_barang ?
-						$sql = "SELECT idKategoriBarang FROM kategori_barang 
+						$sql = "SELECT idKategoriBarang FROM kategori_barang
 							WHERE namaKategoriBarang='".$_POST["kategori$ctr"]."'";
 						$hasil = mysql_query($sql);
 						// jika tidak - bikin 1 recordnya
@@ -1532,30 +1532,30 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						$x = mysql_fetch_array($hasil);
 						// jika ada - tambah quantity nya
 						if (mysql_num_rows($hasil) > 0) {
-							$sql = "UPDATE barang SET jumBarang=".($x[jumBarang] + $_POST["jumlah$ctr"]).", 
-								idKategoriBarang = $idKategoriBarang, 
+							$sql = "UPDATE barang SET jumBarang=".($x[jumBarang] + $_POST["jumlah$ctr"]).",
+								idKategoriBarang = $idKategoriBarang,
 								idSatuanBarang = $idSatuanBarang, ";
 							// PENTING: SUPPLIER TIDAK DIUBAH JIKA BARANG ADA
 							// berdasarkan hasil meeting dengan P Dani, P Eko, P Herry, 20140211
-							//idSupplier = $idSupplier, 
-							$sql .="hargaJual = ".$_POST["rrp$ctr"]." 
+							//idSupplier = $idSupplier,
+							$sql .="hargaJual = ".$_POST["rrp$ctr"]."
 							WHERE barcode='".$_POST["barcode$ctr"]."'";
 							$hasil = mysql_query($sql);
-							echo "<br />=== Barcode sudah ada: di <u>Database</u>: <b>$x[namaBarang]</b>, 
+							echo "<br />=== Barcode sudah ada: di <u>Database</u>: <b>$x[namaBarang]</b>,
 							di <u>Invoice</u>: <b>".$_POST["namabarang$ctr"]."</b>";
 							echo "<br />### Update data barang: $sql - ".$_POST["namabarang$ctr"]." <br />";
 							// jika tidak - bikin 1 recordnya
 						} else {
 							$sql = "INSERT INTO barang (idBarang, namaBarang, idKategoriBarang, idSatuanBarang, jumBarang, hargaJual,
 									 last_update, idSupplier, barcode, username, idRak)
-						VALUES ($idBarang, '".$_POST["namabarang$ctr"]."', $idKategoriBarang, $idSatuanBarang, 
-							".$_POST["jumlah$ctr"].", ".$_POST["rrp$ctr"].", '$tgl', 
+						VALUES ($idBarang, '".$_POST["namabarang$ctr"]."', $idKategoriBarang, $idSatuanBarang,
+							".$_POST["jumlah$ctr"].", ".$_POST["rrp$ctr"].", '$tgl',
 							$idSupplier, '".$_POST["barcode$ctr"]."', '$_SESSION[uname]', '999')";
 							$hasil = mysql_query($sql);
 							echo "<br />### Menambahkan data barang: $sql <br />";
 						};
 
-						// hitung total 
+						// hitung total
 						$totalInvoice = $totalInvoice + ($_POST["jumlah$ctr"] * $_POST["harga$ctr"]);
 						// tambahkan counter
 						$ctr++;
@@ -1574,7 +1574,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					echo "<h2>Buat RPO (Rencana Purchase Order) :: Step 1</h2>
             <form method=POST action='?module=pembelian_barang&act=buatrpo2'>
 
-                Supplier : 
+                Supplier :
                 <select name=supplierid>";
 					$supplier = getSupplier();
 					while ($dataSupplier = mysql_fetch_array($supplier)) {
@@ -1630,7 +1630,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					echo "<h2>Buat RPO (Rencana Purchase Order) Per SUPPLIER :: Step 1</h2>
             <form method=POST action='?module=pembelian_barang&act=rposup2'>
 
-                Supplier : 
+                Supplier :
                 <select name=supplierid>";
 					$supplier = getSupplier();
 					while ($dataSupplier = mysql_fetch_array($supplier)) {
@@ -1707,7 +1707,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 	</table>
 
             <input type=submit value='Mulai RPO'>
-            
+
             <input type=hidden name=namasupplier value='".$x['namaSupplier']."'>
             </form>
             ";
@@ -1719,10 +1719,10 @@ switch ($_GET[act]) { // -------------------------------------------------------
 //HS ditaruh paling bawah agar tidak mengacaukan form yang lainnya
 
 			echo "\n\n";
-			?>	
+			?>
 
 			<div id="layer1">
-				<div id="layer1_handle">			
+				<div id="layer1_handle">
 					<a href="#" id="close">[ X ]</a>
 					Tambah Barang
 				</div>
@@ -1773,7 +1773,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 						echo "
 		          <table>
-			          <tr><td>* <u>B</u>arcode</td><td> : <input type=text accesskey='b' name='barcode' id='barcode' size=30 value='$_GET[id]' tabindex=20 > 
+			          <tr><td>* <u>B</u>arcode</td><td> : <input type=text accesskey='b' name='barcode' id='barcode' size=30 value='$_GET[id]' tabindex=20 >
 				</td></tr>
 
 
@@ -1785,7 +1785,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								echo "<option value='$supplier[idSupplier]'>$supplier[namaSupplier]</option>";
 							};
 						}
-						echo "</select></td></tr> 
+						echo "</select></td></tr>
 			        <tr><td>* Kategori Barang</td>
 				<td> : <select name='kategori_barang' tabindex=23>
 	                            <option value='0'>- Kategori Barang-</option>";
@@ -1793,7 +1793,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							echo "<option value='$kategori[idKategoriBarang]'>$kategori[namaKategoriBarang]</option>";
 						}
 						echo "</select></td></tr>
-          
+
 				<tr><td>* Satuan Barang</td>
 		                <td> : <select name='satuan_barang' tabindex=24>
 	                            <option value='0'>- Satuan Barang-</option>";
