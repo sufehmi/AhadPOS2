@@ -1003,9 +1003,10 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 					</script>
 					<?php
-					// inisialisasi variabel xppn
+					// inisialisasi variabel xppn dan diskon
 					if (!$_POST[xppn]) {
 						$_POST[xppn] = 0;
+                        $_POST['xDiskonPersen'] = 0;
 					};
 					?>
 					<br/>
