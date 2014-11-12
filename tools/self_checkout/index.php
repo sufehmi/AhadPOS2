@@ -49,7 +49,7 @@ endif;
             </div>
         </div>
         <div id="header-kiri" style="opacity:0">
-            <h4>Mobile Cashier</h4>
+            <h4>Self Checkout</h4>
             <h1>Open</h1>
             <h5>Touch to start</h5>
             <?php
@@ -59,7 +59,7 @@ endif;
             </div>
         </div>
         <div id="header-kanan" style="opacity:0">
-            <h4>Mobile Cashier</h4>
+            <h4>Self Checkout</h4>
             <h1>Open</h1>
             <h5>Touch to start</h5>
             <?php
@@ -90,7 +90,7 @@ endif;
                         });
                     });
                 }
-                
+
                 setTimeout(animasiHeader, 30000);
             });
 
