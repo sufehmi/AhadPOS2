@@ -1321,11 +1321,18 @@ elseif ($module == 'system' AND $act == 'setting-simpan') {
 
 // Ambil data barang bermasalah dengan idKategori dan idSatuan
 elseif ($module == 'system' && $act == 'maintenance-barang') {
+//    $result = mysql_query('
+//		  select barcode, namaBarang, idKategoriBarang, idSatuanBarang
+//				from barang
+//				where idKategoriBarang=0 or idSatuanBarang >(select max(idSatuanBarang) from satuan_barang)
+//				or idKategoriBarang > (select max(idKategoriBarang) from kategori_barang)
+//		  ') or die('Gagal cari data barang error, error: ' . mysql_error());
     $result = mysql_query('
-		  select barcode, namaBarang, idKategoriBarang, idSatuanBarang
-				from barang
-				where idKategoriBarang=0 or idSatuanBarang >(select max(idSatuanBarang) from satuan_barang)
-				or idKategoriBarang > (select max(idKategoriBarang) from kategori_barang)
+		  select barcode, namaBarang, barang.idSatuanBarang, barang.idKategoriBarang
+                from barang
+                left join kategori_barang kb on barang.idKategoriBarang = kb.idKategoriBarang
+                left join satuan_barang sb on barang.idSatuanBarang = sb.idSatuanBarang
+                where kb.idKategoriBarang is null or sb.idSatuanBarang is null
 		  ') or die('Gagal cari data barang error, error: ' . mysql_error());
     ?>
     <table class='tabel'>
@@ -1392,9 +1399,17 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 
 // Update kategori dan satuan barang menjadi 1 (id kategori), 3 (id satuan)
 elseif ($module == 'system' && $act == 'maintenance-upd-barang') {
-    mysql_query('update barang set idKategoriBarang=1 where idKategoriBarang=0') or die('Gagal update kategori, error: ' . mysql_error());
-    mysql_query('update barang set idSatuanBarang=3 where idSatuanBarang>(select max(idSatuanBarang) from satuan_barang)') or die('Gagal update satuan, error: ' . mysql_error());
-    mysql_query('update barang set idKategoriBarang=1 where idKategoriBarang>(select max(idKategoriBarang) from kategori_barang)') or die('Gagal update satuan, error: ' . mysql_error());
+    mysql_query('
+        update barang
+            left join kategori_barang kb on barang.idKategoriBarang = kb.idKategoriBarang
+            set barang.idKategoriBarang = 1
+            where kb.idKategoriBarang is null
+        ') or die('Gagal update kategori, error: ' . mysql_error());
+    mysql_query('update barang
+            left join satuan_barang kb on barang.idSatuanBarang = kb.idSatuanBarang
+            set barang.idSatuanBarang = 3
+            where kb.idSatuanBarang is null
+        ') or die('Gagal update satuan, error: ' . mysql_error());
     echo 'update-selesai';
 }
 
