@@ -921,6 +921,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							<td>
 								<input type="submit" value="(2) Pilih barcode !" accesskey="2" />
 								<input type="hidden" name="xppn" value="<?php echo $_POST['xppn']; ?>">
+                                <input type="hidden" name="xDiskonPersen" value="<?php echo $_POST['xDiskonPersen']; ?>">
 							</td>
 						</form>
 						</tr>
@@ -946,6 +947,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<input type=submit value="(4) Pilih barang !" accesskey="4" />
 							</td>
 							<input type="hidden" name="xppn" value="<?php echo $_POST['xppn']; ?>">
+							<input type="hidden" name="xDiskonPersen" value="<?php echo $_POST['xDiskonPersen']; ?>">
 						</form>
 						</tr>
 						<tr>
