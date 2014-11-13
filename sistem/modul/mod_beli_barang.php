@@ -922,6 +922,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<input type="submit" value="(2) Pilih barcode !" accesskey="2" />
 								<input type="hidden" name="xppn" value="<?php echo $_POST['xppn']; ?>">
                                 <input type="hidden" name="xDiskonPersen" value="<?php echo $_POST['xDiskonPersen']; ?>">
+                                <input type="hidden" name="persenprofit" value="<?php echo $_POST['persenprofit']; ?>">
 							</td>
 						</form>
 						</tr>
@@ -948,6 +949,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							</td>
 							<input type="hidden" name="xppn" value="<?php echo $_POST['xppn']; ?>">
 							<input type="hidden" name="xDiskonPersen" value="<?php echo $_POST['xDiskonPersen']; ?>">
+							<input type="hidden" name="persenprofit" value="<?php echo $_POST['persenprofit']; ?>">
 						</form>
 						</tr>
 						<tr>
@@ -1009,6 +1011,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					if (!$_POST[xppn]) {
 						$_POST[xppn] = 0;
                         $_POST['xDiskonPersen'] = 0;
+                        $_POST['persenprofit'] = 0;
 					};
 					?>
 					<br/>
@@ -1041,7 +1044,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td>Diskon (Rp)</td>
 									<td> : <input type=text name='xDiskonRupiah' value='0' id='xDiskonRupiah' tabindex="4"/></td>
 									<td>Profit (%)</td>
-									<td> : <input type=text name='persenprofit' value='0' id='xPersenProfit' tabindex=6 /></td>
+									<td> : <input type=text name='persenprofit' value='<?php echo $_POST['persenprofit']; ?>' id='xPersenProfit' tabindex=6 /></td>
 								</tr>
 								<tr>
 									<td colspan="4"><button style="float:right" onclick="RecalcHargaBarangLama();
