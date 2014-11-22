@@ -441,7 +441,8 @@ elseif ($module == 'customer' AND $act == 'hapus') {
     header('location:media.php?module=' . $module);
 } // end hapus customer
 // Input Transaksi Beli =================================================================================================================
-elseif ($module == 'pembelian_barang' AND $act == 'input') {
+// Ditambahkan pengecekan variabel $_SESSION untuk memastikan input pembelian jika masih ada session
+elseif ($module == 'pembelian_barang' AND $act == 'input'  AND isset($_SESSION['uname'])) {
     $tgl = $_POST[TanggalInvoice];
 
     //HS - idTransaksi sekarang di generate MySQL, untuk menghindari duplikat / dobel
