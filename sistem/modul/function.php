@@ -950,7 +950,7 @@ function getDataPembelian($supplierId, $bulanLaporan, $tahunLaporan) { // ======
     else {
         $periode = $tahunLaporan . "-" . $bulanLaporan;
     }
-    $query = mysql_query("SELECT transaksibeli.idTransaksiBeli as noNota, transaksibeli.tglTransaksiBeli as tglNota, transaksibeli.nominal as nominal
+    $query = mysql_query("SELECT transaksibeli.idTransaksiBeli as noNota, transaksibeli.tglTransaksiBeli as tglNota, transaksibeli.NomorInvoice, transaksibeli.nominal as nominal
             FROM transaksibeli
             WHERE transaksibeli.idSupplier = '$supplierId' AND tglTransaksiBeli like '$periode%'") or die(mysql_error());
     return $query;

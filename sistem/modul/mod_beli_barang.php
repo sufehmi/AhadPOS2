@@ -427,6 +427,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<th>No</th>
 								<th>No Nota</th>
 								<th>Tgl Pembelian</th>
+                                <th>No Invoice</th>
 								<th>Nominal</th>
 								<th>Detail</th>
 							</tr>
@@ -439,6 +440,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td><?php echo $no; ?></td>
 									<td class="right"><?php echo $dataPembelian['noNota']; ?></td>
 									<td class="center"><?php echo tgl_indo($dataPembelian['tglNota']); ?></td>
+									<td class="right"><?php echo $dataPembelian['NomorInvoice']; ?></td>
 									<td class="right"><?php echo uang($dataPembelian['nominal']); ?></td>
 									<td><a href=?module=pembelian_barang&act=detaillaporan&idnota=<?php echo $dataPembelian['noNota']; ?>>Detail</a></td>
 								</tr>
@@ -446,7 +448,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								$totalPembelian += $dataPembelian[nominal];
 								$no++;
 							}
-							echo "<tr><td colspan=3 align=right class=td><b>Total</b></td><td class=td align=right><b>".uang($totalPembelian)."</b></td><td class=td>&nbsp;</td></tr>
+							echo "<tr><td colspan=4 align=right class=td><b>Total</b></td><td class=td align=right><b>".uang($totalPembelian)."</b></td><td class=td>&nbsp;</td></tr>
                     </table>";
 						} else {
 							echo "<br/><br/>Belum ada pembelian dari supplier ini.";
