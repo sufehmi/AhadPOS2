@@ -114,7 +114,8 @@
 #halaman-input{
     padding-top: 20px;
     background-color: #000;
-    background-image: url('../img/bg-b.jpg'); // repeat fixed center center / 100% 100% transparent;
+    background: #493E14 url('../img/bg.png');
+    //background-image: url('../img/bg-b.jpg'); // repeat fixed center center / 100% 100% transparent;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     font-style: normal;
     font-weight: 300;   
