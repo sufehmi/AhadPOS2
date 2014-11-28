@@ -523,10 +523,10 @@ switch ($_GET['act']) {
         include "../../config/config.php";
 
         if ($_POST[q] == 'sup') {
-            $cari = mysql_query("SELECT * FROM barang WHERE idSupplier=$_POST[sql] ORDER BY namaBarang ASC");
+            $cari = mysql_query("SELECT * FROM barang WHERE idSupplier=$_POST[sql] and (nonAktif <> 1 or nonAktif is null) ORDER BY namaBarang ASC");
         }
         else {
-            $cari = mysql_query("SELECT * FROM barang WHERE idRak=$_POST[sql] ORDER BY namaBarang ASC");
+            $cari = mysql_query("SELECT * FROM barang WHERE idRak=$_POST[sql] and (nonAktif <> 1 or nonAktif is null) ORDER BY namaBarang ASC");
         };
 
         $lebar_label = 200;
