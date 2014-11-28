@@ -542,6 +542,7 @@ switch ($_GET['act']) {
         $total = $_POST[total];
         $baris = 1;
         $kolom = 1;
+        $tanggal = date('dmY');
         echo "<div style=\"float:none\">";
 
         for ($i = 1; $i <= $total; $i++) {
@@ -578,8 +579,12 @@ switch ($_GET['act']) {
 				</p>
 				<p style=\"line-height:0px; letter-spacing:+2px; text-align:center; font-family:Arial; font-size:26pt; \">
 					" . number_format($r[hargaJual], 0, ',', '.') . "	</p>
-				<p style=\"line-height:0px; text-align:left; font-family:Arial; font-size:6pt; \">
-					$r[barcode] - $r[idRak]
+				<span style=\"line-height:0px; text-align:left; font-family:Arial; font-size:6pt; \">
+					$r[barcode] - $r[idBarang]
+                </span>
+                <span style=\"line-height:0px; text-align:right; float:right; font-family:Arial; font-size:6pt; \">
+					{$tanggal}
+                </span>
 				</div>
 			";
 

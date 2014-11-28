@@ -23,14 +23,14 @@ switch ($_GET[act]) {
 			$label_per_baris = 3;
 			$baris_per_halaman = 7;
 
-			// Layout 
+			// Layout
 			// 0 = 3 mm (default) / 112px;
 			// 1 = 3,3 mm
 			if ($_POST['layout'] == '1') {
 				$tinggi_label = 120;
 			}
 
-
+            $tanggal = date('dmY');
 			$total = $_POST[total];
 			$baris = 1;
 			$kolom = 1;
@@ -53,27 +53,30 @@ switch ($_GET[act]) {
 				};
 
 				$namaBarang = $r[tmpNama];
-				// jika terlalu panjang nama barangnya 
+				// jika terlalu panjang nama barangnya
 				if (strlen($namaBarang) > 15) {
 					// bikin menjadi 2 baris
 					$namaBarang = substr($namaBarang, 0, 15) .
 							"</p><p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">" . substr($namaBarang, 15);
 				};
 
-				// cetak label
-				echo "\n 
+                // cetak label
+				echo "\n
 
 				<div style=\"border: thin solid #000000; $clear float:left; margin-right:10px; margin-bottom:10px; width:" . $lebar_label . "px; height:" . $tinggi_label . "px\">
 				<p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
-					$namaBarang	
+					$namaBarang
 				</p>
 				<p style=\"line-height:0px; letter-spacing:+2px; text-align:center; font-family:Arial; font-size:26pt; \">
 					" . number_format($r[tmpHargaJual], 0, ',', '.') . "	</p>
-				<p style=\"line-height:0px; text-align:left; font-family:Arial; font-size:6pt; \">
+				<span style=\"line-height:0px; text-align:left; font-family:Arial; font-size:6pt; \">
 					$r[tmpBarcode] - $r[tmpIdBarang]
+                </span>
+                <span style=\"line-height:0px; text-align:right; float:right; font-family:Arial; font-size:6pt; \">
+					{$tanggal}
+                </span>
 				</div>
 			";
-
 				$kolom++;
 			}
 		}
