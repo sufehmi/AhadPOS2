@@ -573,7 +573,7 @@ switch ($_GET['act']) {
                 // cetak label
                 echo "\n
 
-				<div style=\"border: thin solid #000000; $clear float:left; margin-right:10px; margin-bottom:10px; width:" . $lebar_label . "px; height:" . $tinggi_label . "px\">
+				<div style=\"border: thin solid #000000; $clear float:left; margin-right:10px; margin-bottom:10px; width:" . ($lebar_label-10) . "px; height:" . $tinggi_label . "px; padding: 0 5px;\">
 				<p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
 					$namaBarang
 				</p>
