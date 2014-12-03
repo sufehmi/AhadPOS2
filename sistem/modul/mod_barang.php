@@ -1917,6 +1917,13 @@ switch ($_GET['act']) {
                                     }
                                 });
 
+                                $("#barcode").keydown(function (e) {
+                                if (e.keyCode === 13) {
+                                    $('#tanggal_dari').focus();
+                                    return false;
+                                }
+                                });
+
                                 $(function () {
                                     $('#tanggal_dari').appendDtpicker({
                                         "closeOnSelected": true,
