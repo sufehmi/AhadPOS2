@@ -873,7 +873,7 @@ switch ($_GET['act']) {
             <input type=hidden name=rak value='<?php echo $_POST['rak']; ?>'>
             <input type=hidden name=username value='<?php echo $_SESSION['uname']; ?>'>
             <input type=hidden name=ctr value='<?php echo $ctr; ?>'>
-
+        </form>
             <?php
             break;
 
