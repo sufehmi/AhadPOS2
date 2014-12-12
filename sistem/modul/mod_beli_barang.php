@@ -727,13 +727,13 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<th>ID Barang</th>
 								<th>Barcode</th>
 								<th>Nama Barang</th>
+                                <th>Harga Jual</th>
 								<th>Tgl Expire</th>
 								<th>Jumlah</th>
 								<th>Harga Beli</th>
 								<th>Total</th>
 								<th>Jumlah Sisa Stok</th>
 								<th>Total Sisa Stok</th>
-                                <th>Harga Jual</th>
 							</tr>
 							<?php
 							$no = 1;
@@ -751,23 +751,22 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td><?php echo $dataDetail['idBarang']; ?></td>
 									<td><?php echo $dataDetail['barcode']; ?></td>
 									<td><?php echo $dataDetail['namaBarang']; ?></td>
+									<td class="right"><?php echo uang($dataDetail['hargaJual']); ?></td>
 									<td><?php echo $dataDetail['tglExpire']; ?></td>
 									<td class="right"><?php echo $dataDetail['jumBarangAsli']; ?></td>
 									<td class="right"><?php echo uang($dataDetail['hargaBeli']); ?></td>
 									<td class="right"><?php echo uang($subTotal); ?></td>
 									<td class="right"><?php echo $dataDetail['jumBarang']; ?></td>
 									<td class="right"><?php echo uang($subTotalSisaStok); ?></td>
-									<td class="right"><?php echo uang($dataDetail['hargaJual']); ?></td>
 								</tr>
 								<?php
 								$no++;
 							}
 							?>
 							<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
-								<td colspan=7 class="center">TOTAL</td>
+								<td colspan=8 class="center">TOTAL</td>
 								<td class="right"><?php echo uang($total); ?></td>
 								<td class="right" colspan="2"><?php echo uang($totalSisaStok); ?></td>
-                                <td></td>
 							</tr>
 						</table>
 						<?php
