@@ -969,7 +969,7 @@ function getDataNotaPembelian($idNota) {
 }
 
 function getDetailNotaPembelian($idNota) {
-    $sql = "SELECT detail_beli.idBarang, detail_beli.tglExpire, detail_beli.jumBarang, detail_beli.hargaBeli, detail_beli.barcode,
+    $sql = "SELECT detail_beli.idBarang, detail_beli.tglExpire, detail_beli.jumBarang, detail_beli.hargaBeli, barang.hargaJual, detail_beli.barcode,
                     barang.namaBarang, detail_beli.jumBarangAsli
                     FROM detail_beli, barang
                     WHERE barang.barcode = detail_beli.barcode AND detail_beli.idTransaksiBeli = '$idNota'

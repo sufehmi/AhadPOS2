@@ -733,6 +733,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<th>Total</th>
 								<th>Jumlah Sisa Stok</th>
 								<th>Total Sisa Stok</th>
+                                <th>Harga Jual</th>
 							</tr>
 							<?php
 							$no = 1;
@@ -756,6 +757,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td class="right"><?php echo uang($subTotal); ?></td>
 									<td class="right"><?php echo $dataDetail['jumBarang']; ?></td>
 									<td class="right"><?php echo uang($subTotalSisaStok); ?></td>
+									<td class="right"><?php echo uang($dataDetail['hargaJual']); ?></td>
 								</tr>
 								<?php
 								$no++;
@@ -765,6 +767,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<td colspan=7 class="center">TOTAL</td>
 								<td class="right"><?php echo uang($total); ?></td>
 								<td class="right" colspan="2"><?php echo uang($totalSisaStok); ?></td>
+                                <td></td>
 							</tr>
 						</table>
 						<?php
