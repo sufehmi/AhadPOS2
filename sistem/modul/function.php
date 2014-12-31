@@ -259,6 +259,17 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
             else {
                 cekDiskon($uid, $barcode, $jumlah);
             }
+
+            /*
+             * Cek dan terapkan harga banded, diskon akan diabaikan (overwrite)
+             */
+            $paramJual = array(
+                'tgl' => $tgl,
+                'hargaBeli' => $hargaBeli,
+                'hargaBarang' => $hargaBarang,
+                'idBarang' => $idBarang,
+            );
+            cekHargaBanded($uid, $barcode, $jumlah, $paramJual);
         }
     }
     else {
@@ -513,6 +524,32 @@ function cekCustomerDiskon($customerId) {
     $sql = "select diskon_persen, diskon_rupiah from customer where idCustomer = $customerId";
     $result = mysql_query($sql) or die(mysql_error());
     return mysql_fetch_array($result);
+}
+
+// ======= HARGA BANDED =======
+function cekHargaBanded($uid, $barcode, $jumlah, $paramJual) {
+    $sql = "SELECT qty, harga "
+            . "FROM harga_banded "
+            . "WHERE barcode = '{$barcode}'";
+    $query = mysql_query($sql) or die(mysql_error());
+    $hargaBanded = mysql_fetch_array($query, MYSQL_ASSOC);
+    // print_r($hargaBanded);
+    if ($hargaBanded && ($hargaBanded['qty'] <= $jumlah)) {
+        $sisa = $jumlah % $hargaBanded['qty'];
+        // echo 'sisa = ' . $sisa;
+        $qtyBanded = $jumlah - $sisa;
+        // echo 'qtyBanded=' . $qtyBanded;
+        mysql_query("UPDATE tmp_detail_jual set jumBarang = {$qtyBanded}, hargaJual = {$hargaBanded['harga']} "
+                        . "WHERE uid={$uid}") or die(mysql_error());
+
+        if ($sisa > 0) {
+            $sql = "INSERT INTO tmp_detail_jual(idCustomer, tglTransaksi,
+                            barcode,jumBarang,hargaBeli,hargaJual,username, idBarang)
+                        VALUES('$_SESSION[idCustomer]','{$paramJual['tgl']}','$barcode',
+                            '$sisa',{$paramJual['hargaBeli']},{$paramJual['hargaBarang']},'$_SESSION[uname]', {$paramJual['idBarang']})";
+            mysql_query($sql) or die(mysql_error());
+        }
+    }
 }
 
 // =========================================== RPO ===========================================

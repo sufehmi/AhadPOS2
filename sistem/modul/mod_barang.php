@@ -2556,6 +2556,111 @@ switch ($_GET['act']) {
 //            }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
 
             break;
+        case 'skemaharga':
+            ?>
+            <h2>Skema Harga Jual</h2>
+            <form method=POST action='?module=barang&act=skemaharga2'>
+                <table>
+                    <tr>
+                        <td><b>B</b>arcode: </td>
+                        <td><input type="text" name="barcode" accesskey="b" autofocus="autofocus"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type=submit accesskey='c' value='(c) Cari Barang'></td>
+                    </tr>
+                </table>
+            </form>
+            <?php
+            break;
+        case 'skemaharga2':
+            /*
+             * Insert harga banded, update jika sudah ada
+             * Satu barang, satu harga banded
+             */
+            if (isset($_POST['qty'])):
+                $qty = $_POST['qty'];
+                $barcode = $_POST['barcode'];
+                $harga = $_POST['hargasatuan'];
+                $sql = "INSERT INTO harga_banded (barcode,qty,harga) "
+                        . "VALUES('{$barcode}',{$qty},{$harga}) "
+                        . "ON DUPLICATE KEY UPDATE qty={$qty}, harga={$harga} ";
+                mysql_query($sql) or die(mysql_error());
+            endif;
+
+            /*
+             * Tampilkan data barang, dan harga banded (qty dan harga satuannya)
+             */
+            if (isset($_POST['barcode'])):
+                $barcode = $_POST['barcode'];
+                $sql = "SELECT namaBarang, hargaJual
+                    FROM barang
+                    WHERE barcode = '{$barcode}' ";
+
+                $query = mysql_query($sql) or die(mysql_error());
+                $dataBarang = mysql_fetch_array($query, MYSQL_ASSOC);
+                //print_r($dataBarang);
+
+                $sql = "select qty, harga
+                        from harga_banded
+                        where barcode = '{$barcode}'
+                        ";
+                $query = mysql_query($sql);
+                $dataHargaBanded = mysql_fetch_array($query, MYSQL_ASSOC);
+                if ($dataHargaBanded){
+                    $hbQty = $dataHargaBanded['qty'];
+                    $hbHarga = $dataHargaBanded['harga'];
+                }
+                ?>
+            <h2>Skema Harga: <small><?php echo $dataBarang['namaBarang']; ?> | <?php echo $barcode; ?></small></h2>
+            <form method="POST">
+                <table>
+                    <tr>
+                        <td>Harga jual satuan</td>
+                        <td><input type="text" value="<?php echo number_format($dataBarang['hargaJual'],0,',','.'); ?>" disabled="disabled" /></td>
+                    </tr>
+                    <tr>
+                        <td>Qty banded</td>
+                        <td>
+                            <input type="number" name="qty" id="hb-qty" value="<?php echo isset($hbQty) ? $hbQty:''; ?>" autofocus="autofocus"/>
+                            <input type="hidden" name="hargaJual" id="hb-hargajual" value="<?php echo $dataBarang['hargaJual']; ?>" />
+                            <input type="hidden" name="barcode" value="<?php echo $barcode; ?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td><input type="text" id="hb-total" value="<?php echo isset($hbQty) ? $hbQty * $dataBarang['hargaJual']: ''; ?>" disabled="disabled" /></td>
+                    </tr>
+                    <tr>
+                        <td>Harga banded</td>
+                        <td><input type="text" id="hb-hargabanded" name="harga" /></td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td>Harga Satuan Banded</td>
+                        <td><input type="text" id="hb-hargasatuan" name="hargasatuan" value="<?php echo isset($hbHarga) ? $hbHarga:''; ?>"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" class="tombol" value="(s) Simpan" accept="s"/></td>
+                    </tr>
+                </table>
+            </form>
+            <script>
+                $("#hb-qty").change(function(){
+                    var total = parseInt($("#hb-hargajual").val()) * parseInt($("#hb-qty").val());
+                    //console.log(total);
+                    $("#hb-total").val(total);
+                });
+                $("#hb-hargabanded").change(function(){
+                    var hargaBanded = $(this).val();
+                    var hargaSatuan = parseInt(hargaBanded) / parseInt($("#hb-qty").val());
+                    //console.log(hargaSatuan);
+                    $("#hb-hargasatuan").val(hargaSatuan);
+                });
+            </script>
+            <?php
+            endif;
+            break;
     }
     ?>
     <?php
