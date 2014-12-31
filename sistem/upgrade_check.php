@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 4;
+$revision = 5;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -364,6 +364,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
     if ($dbrevision < 4) {
         echo "Upgrading database to version 2.0.4 <br />";
         upgrade_203_to_204();
+    }
+    if ($dbrevision < 5) {
+        echo "Upgrading database to version 2.0.5 <br />";
+        upgrade_204_to_205();
     }
 }
 
@@ -767,6 +771,38 @@ function upgrade_203_to_204() {
     }
     else {
         $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 4)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
+function upgrade_204_to_205() {
+    // Create Tabel harga_banded
+    $sql = "CREATE TABLE `harga_banded` (
+          `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+          `barcode` varchar(25) NOT NULL,
+          `qty` int(10) unsigned NOT NULL,
+          `harga` int(11) NOT NULL,
+          PRIMARY KEY (`id`),
+          UNIQUE KEY `barcode_UNIQUE` (`barcode`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Tambahkan menu Skema harga untuk harga banded
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Skema Harga', 'media.php?module=barang&act=skemaharga', '', 2, 'Skema Harga', '', 'Y', 2, 12, 0, '')";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 5)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 5)) . "', '')";
     };
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }
