@@ -2574,16 +2574,21 @@ switch ($_GET['act']) {
             break;
         case 'skemaharga2':
             /*
-             * Insert harga banded, update jika sudah ada
+             * Insert harga banded, update jika sudah ada.
              * Satu barang, satu harga banded
+             * Jika qty tidak positif, hapus harga banded
              */
             if (isset($_POST['qty'])):
                 $qty = $_POST['qty'];
                 $barcode = $_POST['barcode'];
                 $harga = $_POST['hargasatuan'];
+                if ($qty > 0){
                 $sql = "INSERT INTO harga_banded (barcode,qty,harga) "
                         . "VALUES('{$barcode}',{$qty},{$harga}) "
                         . "ON DUPLICATE KEY UPDATE qty={$qty}, harga={$harga} ";
+                } else {
+                    $sql = "DELETE FROM harga_banded WHERE barcode = '{$barcode}'";
+                }
                 mysql_query($sql) or die(mysql_error());
             endif;
 
