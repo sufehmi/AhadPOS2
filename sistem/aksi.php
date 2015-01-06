@@ -498,8 +498,20 @@ elseif ($module == 'pembelian_barang' AND $act == 'input' AND isset($_SESSION['u
 
         mysql_query("UPDATE barang SET jumBarang = '$jumlahAkhir',
                      hargaJual = '$simpan[hargaJual]' WHERE barcode = '$simpan[barcode]'") or die(mysql_error());
+
+        // harga banded
+        $hb = mysql_query("SELECT barcode, qty, harga_satuan FROM tmp_harga_banded WHERE barcode = '{$simpan['barcode']}'");
+        $tmpHargaBanded = mysql_fetch_array($hb, MYSQL_ASSOC);
+        print_r($tmpHargaBanded);
+        $sql = "INSERT INTO harga_banded (barcode, qty, harga) "
+                                            . "VALUES('{$simpan['barcode']}',{$tmpHargaBanded['qty']},{$tmpHargaBanded['harga_satuan']}) "
+                                            . "ON DUPLICATE KEY UPDATE qty={$tmpHargaBanded['qty']}, harga={$tmpHargaBanded['harga_satuan']} ";
+        mysql_query($sql) or die(mysql_error());
     }
     mysql_query("DELETE FROM tmp_detail_beli where idSupplier = '$_SESSION[idSupplier]' and username = '$_SESSION[uname]'") or die(mysql_error());
+
+    // hapus harga banded
+    mysql_query("DELETE FROM tmp_harga_banded WHERE supplier_id = '{$_SESSION['idSupplier']}' and user_name = '{$_SESSION['uname']}'") or die(mysql_error());
 
     releaseSupplier();
     header('location:media.php?module=pembelian_barang');

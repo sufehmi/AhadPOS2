@@ -40,6 +40,7 @@ session_start();
 		$('#tambahbarang').click(function()
 		{
 			$("#layer1").show();
+            $("#barcode").focus();
 		});
 		$('#close').click(function()
 		{
@@ -1023,7 +1024,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					<div id="frmTambahBarang">
 						<form method="POST" action="?module=pembelian_barang&act=carisupplier&action=tambah">
 							<?php // this button will be default (when press enter) and invisible button     ?>
-							<input type=submit value='(t) Tambah' name=btTambah tabindex=11 style="position: absolute; left: -100%;">
+							<input type=submit value='(t) Tambah' name=btTambah style="position: absolute; left: -100%;">
 							<table>
 								<tr>
 									<td>Barcode</td>
@@ -1071,10 +1072,20 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<td>Tanggal Expire (yyyy-mm-dd)</td>
 									<td> : <input type=text name='tglExpire' size=10 tabindex=10 /></td>
 								</tr>
+                                <tr>
+									<td>Harga Banded</td>
+									<td> : <input type=text name='hargaBanded' size=10 tabindex=11 id="hargaBanded" /></td>
+									<td>Harga Banded Satuan</td>
+									<td> : <input type=text name='hargaBandedSatuan' size=10 tabindex=13 id="hargaBandedSatuan"/></td>
+								</tr>
+                                <tr>
+                                    <td>Qty Banded</td>
+                                    <td> : <input type="text" name="qtyBanded" tabindex=12 id="qtyBanded"/></td>
+                                </tr>
 								<tr>
 
 									<td align=right colspan=4>
-										<input type=submit accesskey='t' value='(t) Tambah' name=btTambah tabindex=11 >
+										<input type=submit accesskey='t' value='(t) Tambah' name=btTambah tabindex=14 >
 										<input type='hidden' name='idSupplier' value='<?php echo $_SESSION['idSupplier']; ?>'>
 									</td>
 								</tr>
@@ -1086,6 +1097,19 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						var txtBox = document.getElementById("jumBarang");
 						if (txtBox != null)
 							txtBox.focus();
+
+                        $("#hargaBanded").change(function(){
+                            updateHargaBandedSatuan();
+                        });
+
+                        $("#qtyBanded").change(function(){
+                            updateHargaBandedSatuan();
+                        });
+
+                        function updateHargaBandedSatuan(){
+                            var harga = parseInt($("#hargaBanded").val()) / parseInt($("#qtyBanded").val());
+                            $("#hargaBandedSatuan").val(harga);
+                        }
 					</script>
 					<?php
 					//fixme : perlu validasi input
@@ -1107,6 +1131,20 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							} else {
 								tambahBarang($_SESSION[idSupplier], $_POST[barcode], $_POST[jumBarang], $_POST[hargaBeliBaru], $_POST[hargaJualBaru], $_POST[tglExpire]);
 							}
+                            // harga banded
+                            if (isset($_POST['qtyBanded']) && isset($_POST['hargaBandedSatuan'])){
+                                $qty = $_POST['qtyBanded'];
+                                $barcode = $_POST['barcode'];
+                                $harga = $_POST['hargaBandedSatuan'];
+                                if ($qty > 0){
+                                    $sql = "INSERT INTO tmp_harga_banded (barcode, user_name, supplier_id, qty, harga_satuan) "
+                                            . "VALUES('{$barcode}','{$_SESSION['uname']}','{$_SESSION['idSupplier']}',  {$qty},{$harga}) "
+                                            . "ON DUPLICATE KEY UPDATE qty={$qty}, harga_satuan={$harga} ";
+                                } else {
+                                    $sql = "DELETE FROM tmp_harga_banded WHERE barcode = '{$barcode}' AND user_name='{$_SESSION['uname']}'";
+                                }
+                                mysql_query($sql) or die(mysql_error());
+                            }
 						}
 					}
 					if ($_GET[action] == 'ubahjumlah') {
@@ -1213,21 +1251,21 @@ switch ($_GET[act]) { // -------------------------------------------------------
                         <input type=hidden name='tot_pembayaran' value='$tot_pembelian' id='tot_pembayaran'>
                     <table class=tableku width=600>
                         <tr><td width=65% align=right><a name='#total'>Total Pembelian</a><br />
-				<a href='#total' onclick=\"Recalc();\" accesskey='u'>Hitung (U)lang</a></td><td align=right><input id='grandtotal' readonly='readonly' value='".number_format($tot_pembelian, 0, ',', '.')."' tabindex=9></td></tr>
+				<a href='#total' onclick=\"Recalc();\" accesskey='u'>Hitung (U)lang</a></td><td align=right><input id='grandtotal' readonly='readonly' value='".number_format($tot_pembelian, 0, ',', '.')."' tabindex=15></td></tr>
                         <tr><td width=65% align=right>Tipe Pembayaran</td>
-                            <td align=right><select name='tipePembayaran' tabindex=10>
+                            <td align=right><select name='tipePembayaran' tabindex=16>
                                         <option value='0'>-Tipe Pembayaran-</option>";
 						while ($pembayaran = mysql_fetch_array($pmbyrn)) {
 							echo "<option value='$pembayaran[idTipePembayaran]'>$pembayaran[tipePembayaran]</option>";
 						}
 						echo "</select></td></tr>
-                        <tr><td width=65% align=right>Tanggal Pembayaran (hutang)</td><td align=right><input type=text name='tglBayar' tabindex=11></td></tr>
-                        <tr><td width=65% align=right>Nomor Invoice</td><td align=right><input type=text name='NomorInvoice' value=0 tabindex=12></td></tr>
+                        <tr><td width=65% align=right>Tanggal Pembayaran (hutang)</td><td align=right><input type=text name='tglBayar' tabindex=17></td></tr>
+                        <tr><td width=65% align=right>Nomor Invoice</td><td align=right><input type=text name='NomorInvoice' value=0 tabindex=18></td></tr>
                         <tr><td width=65% align=right>Tanggal Invoice</td><td align=right><input type=text name='TanggalInvoice'
-			value='".date("Y-m-d")."' tabindex=13></td></tr>
-			<tr><td width=65% align=right>Diskon (%)</td><td align=right><input type=text id='diskonpersen' name='DiskonPersen' value=0 tabindex=14></td></tr>
-			<tr><td width=65% align=right>Diskon (Rp)</td><td align=right><input type=text id='diskonrupiah' name='DiskonRupiah' value=0 tabindex=15></td></tr>
-			<tr><td width=65% align=right>PPn (%)</td><td align=right><input type=text id='ppn' name='PPN' value=0 tabindex=16></td></tr>";
+			value='".date("Y-m-d")."' tabindex=19></td></tr>
+			<tr><td width=65% align=right>Diskon (%)</td><td align=right><input type=text id='diskonpersen' name='DiskonPersen' value=0 tabindex=20></td></tr>
+			<tr><td width=65% align=right>Diskon (Rp)</td><td align=right><input type=text id='diskonrupiah' name='DiskonRupiah' value=0 tabindex=21></td></tr>
+			<tr><td width=65% align=right>PPn (%)</td><td align=right><input type=text id='ppn' name='PPN' value=0 tabindex=22></td></tr>";
 
 
 
@@ -1238,7 +1276,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 				<td>
 					<input type='hidden' name='idSupplier' value='".$_SESSION['idSupplier']."'>
-					<input type=submit value='Simpan' tabindex=17>
+					<input type=submit value='Simpan' tabindex=23>
 				</td>
 			</tr>
                         </table></form>
@@ -1783,13 +1821,13 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 						echo "
 		          <table>
-			          <tr><td>* <u>B</u>arcode</td><td> : <input type=text accesskey='b' name='barcode' id='barcode' size=30 value='$_GET[id]' tabindex=20 >
+			          <tr><td>* <u>B</u>arcode</td><td> : <input type=text accesskey='b' name='barcode' id='barcode' size=30 value='$_GET[id]' tabindex=24 >
 				</td></tr>
 
 
-			          <tr><td>* Nama Barang</td><td> : <input type=text name='namaBarang' size=30 maxlength=30 tabindex=21></td></tr>
+			          <tr><td>* Nama Barang</td><td> : <input type=text name='namaBarang' id='tambahbarang-namabarang' size=30 maxlength=30 tabindex=25></td></tr>
 			          <tr><td>* Supplier</td>
-			                <td> : <select name='supplier' tabindex=22>";
+			                <td> : <select name='supplier' tabindex=26>";
 						while ($supplier = mysql_fetch_array($ambilSupplier)) {
 							if ($supplier[idSupplier] == $_SESSION[idSupplier]) {
 								echo "<option value='$supplier[idSupplier]'>$supplier[namaSupplier]</option>";
@@ -1797,7 +1835,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						}
 						echo "</select></td></tr>
 			        <tr><td>* Kategori Barang</td>
-				<td> : <select name='kategori_barang' tabindex=23>
+				<td> : <select name='kategori_barang' tabindex=27>
 	                            <option value='0'>- Kategori Barang-</option>";
 						while ($kategori = mysql_fetch_array($ambilKategoriBarang)) {
 							echo "<option value='$kategori[idKategoriBarang]'>$kategori[namaKategoriBarang]</option>";
@@ -1805,7 +1843,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						echo "</select></td></tr>
 
 				<tr><td>* Satuan Barang</td>
-		                <td> : <select name='satuan_barang' tabindex=24>
+		                <td> : <select name='satuan_barang' tabindex=28>
 	                            <option value='0'>- Satuan Barang-</option>";
 						while ($satuan = mysql_fetch_array($ambilSatuanBarang)) {
 							echo "<option value='$satuan[idSatuanBarang]'>$satuan[namaSatuanBarang]</option>";
@@ -1813,7 +1851,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						echo "</select></td></tr>
 
                                 <tr><td>* Rak</td>
-                                <td> : <select name='rak' tabindex=25>
+                                <td> : <select name='rak' tabindex=29>
                                     <option value='0'>- Rak -</option>";
 						while ($rak = mysql_fetch_array($ambilRak)) {
 							echo "<option value='$rak[idRak]'>$rak[idRak] :: $rak[namaRak]</option>";
@@ -1822,21 +1860,21 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 
 
-			<tr background=#666666><td>Subtotal</td><td> : <input type=text name='subtotal' id='subtotal' value=0 tabindex=25 /></td></tr>
-			<tr background=#666666><td>* Jumlah Barang</td><td> : <input type=text name='jumBarang' id='tjumBarang' value=1 tabindex=26 /></td></tr>
-			<tr background=#666666><td>PPN </td><td> : <input type=text name='ppn' id='bppn' value='10' tabindex=27 /> %</td></tr>
-			<tr background=#666666><td>% Profit</td><td> : <input type=text value='0' name='PersenProfit' id='PersenProfit' tabindex=28 /></td></tr>
+			<tr background=#666666><td>Subtotal</td><td> : <input type=text name='subtotal' id='subtotal' value=0 tabindex=30 /></td></tr>
+			<tr background=#666666><td>* Jumlah Barang</td><td> : <input type=text name='jumBarang' id='tjumBarang' value=1 tabindex=31 /></td></tr>
+			<tr background=#666666><td>PPN </td><td> : <input type=text name='ppn' id='bppn' value='10' tabindex=32 /> %</td></tr>
+			<tr background=#666666><td>% Profit</td><td> : <input type=text value='0' name='PersenProfit' id='PersenProfit' tabindex=33 /></td></tr>
 
-			<tr><td>* Harga Beli Barang</td><td> : <input type=text name='hargaBeli' id='hargaBeli' value=0 tabindex=29 /> <a href='#' onclick=\"RecalcHargaBarangBaru();\" accesskey='h'>  (h) <i><b>H</b></i>itung Harga</td></tr>
-			<tr><td>* Harga Jual Barang</td><td> : <input type=text name='hargaJual' id='hargaJual' value=0 tabindex=30 /></td></tr>
-			<tr><td>Tanggal Expire</td><td> : <input type=text name='tglExpire' size=10 tabindex=31 />(yyyy-mm-dd)</td></tr>
+			<tr><td>* Harga Beli Barang</td><td> : <input type=text name='hargaBeli' id='hargaBeli' value=0 tabindex=34 /> <a href='#' onclick=\"RecalcHargaBarangBaru();\" accesskey='h'>  (h) <i><b>H</b></i>itung Harga</td></tr>
+			<tr><td>* Harga Jual Barang</td><td> : <input type=text name='hargaJual' id='hargaJual' value=0 tabindex=35 /></td></tr>
+			<tr><td>Tanggal Expire</td><td> : <input type=text name='tglExpire' size=10 tabindex=36 />(yyyy-mm-dd)</td></tr>
 
 			<tr><td colspan=2>&nbsp;
 				<input type=hidden name=username value='$_SESSION[uname]'>
 			</td></tr>
 
 
-		          <tr><td colspan=2 align='right'><input type=submit value='(s) Simpan' accesskey='s' tabindex=32>&nbsp;&nbsp;&nbsp;
+		          <tr><td colspan=2 align='right'><input type=submit value='(s) Simpan' accesskey='s' tabindex=37>&nbsp;&nbsp;&nbsp;
                             </td></tr>
           </table>
 	";
