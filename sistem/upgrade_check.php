@@ -788,9 +788,9 @@ function upgrade_204_to_205() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
-    // Tambahkan menu Skema harga untuk harga banded
+    // Tambahkan menu Harga banded
     $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
-			('Skema Harga', 'media.php?module=barang&act=skemaharga', '', 2, 'Skema Harga', '', 'Y', 2, 12, 0, '')";
+			('Harga Banded', 'media.php?module=barang&act=hargabanded', '', 2, 'Harga Banded', '', 'Y', 2, 12, 0, '')";
     $hasil = exec_query($sql);
     echo mysql_error();
 

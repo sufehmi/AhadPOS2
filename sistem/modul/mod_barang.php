@@ -2556,10 +2556,10 @@ switch ($_GET['act']) {
 //            }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
 
             break;
-        case 'skemaharga':
+        case 'hargabanded':
             ?>
-            <h2>Skema Harga Jual</h2>
-            <form method=POST action='?module=barang&act=skemaharga2'>
+            <h2>Skema Harga Jual (Harga Banded)</h2>
+            <form method=POST action='?module=barang&act=hargabanded2'>
                 <table>
                     <tr>
                         <td><b>B</b>arcode: </td>
@@ -2572,7 +2572,7 @@ switch ($_GET['act']) {
             </form>
             <?php
             break;
-        case 'skemaharga2':
+        case 'hargabanded2':
             /*
              * Insert harga banded, update jika sudah ada.
              * Satu barang, satu harga banded
@@ -2616,7 +2616,7 @@ switch ($_GET['act']) {
                     $hbHarga = $dataHargaBanded['harga'];
                 }
                 ?>
-            <h2>Skema Harga: <small><?php echo $dataBarang['namaBarang']; ?> | <?php echo $barcode; ?></small></h2>
+            <h2>Barang: <small><?php echo $dataBarang['namaBarang']; ?> | <?php echo $barcode; ?></small></h2>
             <form method="POST">
                 <table>
                     <tr>
