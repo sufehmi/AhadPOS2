@@ -23,6 +23,8 @@ switch ($_GET[act]) {
 			$label_per_baris = 3;
 			$baris_per_halaman = 7;
 
+            $jumlahKarakterNamaBarang = 15;
+
 			// Layout
 			// 0 = 3 mm (default) / 112px;
 			// 1 = 3,3 mm
@@ -52,20 +54,35 @@ switch ($_GET[act]) {
 					echo '<p style="page-break-after: always" />';
 				};
 
-				$namaBarang = $r[tmpNama];
-				// jika terlalu panjang nama barangnya
-				if (strlen($namaBarang) > 15) {
-					// bikin menjadi 2 baris
-					$namaBarang = substr($namaBarang, 0, 15) .
-							"</p><p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">" . substr($namaBarang, 15);
-				};
+                $namaBarang1 = $r['tmpNama'];
+                $namaBarang2 = '&nbsp;';
+
+                 $namaBarangLengkap = $r['tmpNama'];
+                // jika terlalu panjang nama barangnya
+                if (strlen($namaBarangLengkap) > $jumlahKarakterNamaBarang){
+                    $namaBarangArr = explode(' ', $namaBarangLengkap);
+                    $len = 0;
+                    $namaBarang1 = '';
+                    $namaBarang2 = '';
+                    foreach ($namaBarangArr as $namBar){
+                        $len += strlen($namBar);
+                        if ($len <= $jumlahKarakterNamaBarang){
+                            $namaBarang1 .= $namBar.' ';
+                            $len++;
+                        } else {
+                            $namaBarang2 .= $namBar.' ';
+                        }
+                    }
+                }
 
                 // cetak label
 				echo "\n
 
 				<div style=\"border: thin solid #000000; $clear float:left; margin-right:10px; margin-bottom:10px; width:" . ($lebar_label-10) . "px; height:" . $tinggi_label . "px; padding: 0 5px;\">
-				<p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
-					$namaBarang
+				<p style=\"line-height:0px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
+                {$namaBarang1}</p>
+                <p style=\"line-height:0px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
+                {$namaBarang2}
 				</p>
 				<p style=\"line-height:0px; letter-spacing:+2px; text-align:center; font-family:Arial; font-size:26pt; \">
 					" . number_format($r[tmpHargaJual], 0, ',', '.') . "	</p>
