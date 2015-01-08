@@ -149,7 +149,8 @@ else {
                         if ($transferahad) {
                             ?>
                             <div class="top">
-                                Transfer Barang antar Ahad <?php //echo $_SESSION['namaCustomer'];                                                                    ?>
+                                Transfer Barang antar Ahad : <?php echo $_SESSION['namaCustomer']; ?> <br />
+                                <?php echo date('d-m-Y'); ?>
                             </div>
                             <?php
                         }
@@ -380,7 +381,7 @@ else {
                                           </td>
                                          *
                                          */ ?>
-                                        <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1':''?>'><i class="fa fa-times"></i></a></td>
+                                        <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1':''; ?>'><i class="fa fa-times"></i></a></td>
                                     </tr>
                                     <?php
                                     $tot_pembelian += $total;
@@ -532,7 +533,7 @@ else {
                 </form>
             </div>
             <div id="footer" >
-                <a class="tombol" href="js_jual_barang.php?act=caricustomer" accesskey="r" ><b><u>R</u></b>eload</a>
+                <a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1':''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
                 <a class="tombol" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
                     <?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
                 </a>
