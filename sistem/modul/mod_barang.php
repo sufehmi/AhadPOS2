@@ -2660,7 +2660,7 @@ switch ($_GET['act']) {
                     </tr>
                     <tr>
                         <td>Harga banded</td>
-                        <td><input type="text" id="hb-hargabanded" name="harga" /></td>
+                        <td><input type="text" id="hb-hargabanded" name="harga" value="<?php echo isset($hbHarga) ? $hbHarga * $hbQty : ''; ?>"/></td>
                     </tr>
                     <tr>
                     </tr>
@@ -2679,11 +2679,16 @@ switch ($_GET['act']) {
                     //console.log(total);
                     $("#hb-total").val(total);
                 });
-                $("#hb-hargabanded").change(function(){
+                $("#hb-hargabanded").keyup(function(){
                     var hargaBanded = $(this).val();
                     var hargaSatuan = parseInt(hargaBanded) / parseInt($("#hb-qty").val());
                     //console.log(hargaSatuan);
                     $("#hb-hargasatuan").val(hargaSatuan);
+                });
+                $("#hb-hargasatuan").keyup(function(){
+                    var hargaSatuan = $(this).val();
+                    var hargaBanded = parseInt(hargaSatuan) * parseInt($("#hb-qty").val());
+                    $("#hb-hargabanded").val(hargaBanded);
                 });
             </script>
             <?php

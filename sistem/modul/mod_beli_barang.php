@@ -974,6 +974,12 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					<?php
 					if ($_GET[action] == 'cek') { // ===============================================================================================================
 						$barang = cekBarang($_POST[barcode]);
+
+                        //tambahan untuk harga banded
+                        $query = "SELECT qty, harga FROM harga_banded WHERE barcode = '{$_POST['barcode']}'";
+                        $hasil = mysql_query($query);
+                        $hargaBanded = mysql_fetch_array($hasil, MYSQL_ASSOC);
+
 						if (!$barang) {
 							echo "Data belum ada !";
 							break;
@@ -1074,13 +1080,13 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								</tr>
                                 <tr>
 									<td>Harga Banded</td>
-									<td> : <input type=text name='hargaBanded' size=10 tabindex=11 id="hargaBanded" /></td>
+									<td> : <input type=text name='hargaBanded' size=10 tabindex=11 id="hargaBanded" value = "<?php echo isset($hargaBanded) ? $hargaBanded['qty'] * $hargaBanded['harga'] : ''; ?>"/></td>
 									<td>Harga Banded Satuan</td>
-									<td> : <input type=text name='hargaBandedSatuan' size=10 tabindex=13 id="hargaBandedSatuan"/></td>
+									<td> : <input type=text name='hargaBandedSatuan' size=10 tabindex=13 id="hargaBandedSatuan" value="<?php echo $hargaBanded['harga'] ?>"/></td>
 								</tr>
                                 <tr>
                                     <td>Qty Banded</td>
-                                    <td> : <input type="text" name="qtyBanded" tabindex=12 id="qtyBanded"/></td>
+                                    <td> : <input type="text" name="qtyBanded" tabindex=12 id="qtyBanded" value="<?php echo $hargaBanded['qty']; ?>"/></td>
                                 </tr>
 								<tr>
 
@@ -1098,17 +1104,26 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						if (txtBox != null)
 							txtBox.focus();
 
-                        $("#hargaBanded").change(function(){
+                        $("#hargaBanded").keyup(function(){
                             updateHargaBandedSatuan();
                         });
 
-                        $("#qtyBanded").change(function(){
+                        $("#qtyBanded").keyup(function(){
                             updateHargaBandedSatuan();
+                        });
+
+                        $("#hargaBandedSatuan").keyup(function(){
+                           updateHargaBanded();
                         });
 
                         function updateHargaBandedSatuan(){
                             var harga = parseInt($("#hargaBanded").val()) / parseInt($("#qtyBanded").val());
                             $("#hargaBandedSatuan").val(harga);
+                        }
+
+                        function updateHargaBanded(){
+                            var harga = parseInt($("#hargaBandedSatuan").val()) * parseInt($("#qtyBanded").val());
+                            $("#hargaBanded").val(harga);
                         }
 					</script>
 					<?php
