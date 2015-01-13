@@ -34,6 +34,11 @@ else {
     $hasil = mysql_fetch_array($result);
     $ukmMode = $hasil['value'];
 
+    $transferahad = false;
+    if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
+        $transferahad = true;
+    }
+
 //HS javascript untuk menampilkan popup
     ?>
     <!DOCTYPE html>
@@ -136,26 +141,16 @@ else {
 
                 switch ($_GET[act]) { // ============================================================================================================
                     case "caricustomer": // ========================================================================================================
-
-                        if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
-                            ?>
-                            <!--<h2>Transfer antar Ahad</h2>-->
-                            <?php
-                        }
-                        else {
-                            ?>
-                            <!--<h2>Penjualan Barang</h2>-->
-                            <?php
-                        };
                         ?>
                         <div style="float:right" id="tot_pembelian">
                             <span><?php echo number_format($_SESSION['tot_pembelian'], 0, ',', '.'); ?></span>
                         </div>
                         <?php
-                        if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
+                        if ($transferahad) {
                             ?>
                             <div class="top">
-                                Transfer Barang antar Ahad <?php //echo $_SESSION['namaCustomer'];                                                                    ?>
+                                Transfer Barang antar Ahad : <?php echo $_SESSION['namaCustomer']; ?> <br />
+                                <?php echo date('d-m-Y'); ?>
                             </div>
                             <?php
                         }
@@ -192,7 +187,7 @@ else {
                             //}
                             //var_dump($_POST);
                             //var_dump($_GET);
-                            if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
+                            if ($transferahad) {
                                 ?>
                                 <input type=hidden name='transferahad' value='1'>
                                 <?php
@@ -386,7 +381,7 @@ else {
                                           </td>
                                          *
                                          */ ?>
-                                        <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?>'><i class="fa fa-times"></i></a></td>
+                                        <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1':''; ?>'><i class="fa fa-times"></i></a></td>
                                     </tr>
                                     <?php
                                     $tot_pembelian += $total;
@@ -429,7 +424,7 @@ else {
                                             </script>
 
                                             <?php
-                                            if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
+                                            if ($transferahad) {
                                                 ?>
                                                 <input type=hidden name=transferahad value=1>
                                                 <?php
@@ -538,7 +533,7 @@ else {
                 </form>
             </div>
             <div id="footer" >
-                <a class="tombol" href="js_jual_barang.php?act=caricustomer" accesskey="r" ><b><u>R</u></b>eload</a>
+                <a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1':''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
                 <a class="tombol" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
                     <?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
                 </a>
