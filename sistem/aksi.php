@@ -506,7 +506,9 @@ elseif ($module == 'pembelian_barang' AND $act == 'input' AND isset($_SESSION['u
         $sql = "INSERT INTO harga_banded (barcode, qty, harga) "
                                             . "VALUES('{$simpan['barcode']}',{$tmpHargaBanded['qty']},{$tmpHargaBanded['harga_satuan']}) "
                                             . "ON DUPLICATE KEY UPDATE qty={$tmpHargaBanded['qty']}, harga={$tmpHargaBanded['harga_satuan']} ";
-        mysql_query($sql) or die(mysql_error());
+        if ($tmpHargaBanded){
+            mysql_query($sql) or die(mysql_error());
+        }
     }
     mysql_query("DELETE FROM tmp_detail_beli where idSupplier = '$_SESSION[idSupplier]' and username = '$_SESSION[uname]'") or die(mysql_error());
 
