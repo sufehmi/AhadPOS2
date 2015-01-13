@@ -1886,16 +1886,47 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 			<tr><td colspan=2>&nbsp;
 				<input type=hidden name=username value='$_SESSION[uname]'>
-			</td></tr>
+			</td></tr>";
+            ?>
+                        <tr>
+                            <td>Harga Banded</td><td> : <input type="text" name="hargaBanded" id="tbHargaBanded" tabindex=37 /></td>
+                        </tr>
+                        <tr>
+                            <td>Qty Banded</td><td> : <input type="text" name="qtyBanded" id="tbQtyBanded" tabindex=38 /></td>
+                        </tr>
+                        <tr>
+                            <td>Harga Banded Satuan</td><td> : <input type="text" id="tbHargaBandedSatuan" name="hargaBandedSatuan"  tabindex=39/></td>
+                        </tr>
 
-
-		          <tr><td colspan=2 align='right'><input type=submit value='(s) Simpan' accesskey='s' tabindex=37>&nbsp;&nbsp;&nbsp;
+		          <tr><td colspan=2 align='right'><input type=submit value='(s) Simpan' accesskey='s' tabindex=40>&nbsp;&nbsp;&nbsp;
                             </td></tr>
           </table>
-	";
-						?>
 
 					</form>
+                    <script>
+
+                        $("#tbHargaBanded").keyup(function(){
+                            updateTbHargaBandedSatuan();
+                        });
+
+                        $("#tbQtyBanded").keyup(function(){
+                            updateTbHargaBandedSatuan();
+                        });
+
+                        $("#tbHargaBandedSatuan").keyup(function(){
+                           updateTbHargaBanded();
+                        });
+
+                        function updateTbHargaBandedSatuan(){
+                            var harga = parseInt($("#tbHargaBanded").val()) / parseInt($("#tbQtyBanded").val());
+                            $("#tbHargaBandedSatuan").val(harga);
+                        }
+
+                        function updateTbHargaBanded(){
+                            var harga = parseInt($("#tbHargaBandedSatuan").val()) * parseInt($("#tbQtyBanded").val());
+                            $("#tbHargaBanded").val(harga);
+                        }
+                    </script>
 				</div>
 			</div>
 
