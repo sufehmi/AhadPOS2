@@ -2592,10 +2592,10 @@ switch ($_GET['act']) {
                     </tr>
                     <tr>
                         <td><b>N</b>ama: </td>
-                        <td><input type="text" name="namabarang" accesskey="n" id="namaBarang"/></td>
+                        <td><input type="text" name="namabarang" accesskey="n" id="namaBarang" placeholder="Minimal 3 karakter"/></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type=submit accesskey='c' value='(c) Cari Barang'></td>
+                        <td colspan="2" style="text-align: right"><input type=submit value='Submit'></td>
                     </tr>
                 </table>
             </form>
