@@ -41,6 +41,8 @@ function popupform(myform, windowname)
 //-->
 </SCRIPT>
 
+<?php // JqueryUI untuk autocomplete cari barang pada harga banded ?>
+<script type="text/javascript" src="../js/jquery-ui.min-ac.js"></script>
 <?php
 $ambilSupplier = mysql_query("select * from supplier order by namaSupplier");
 $ambilRak = mysql_query("select * from rak");
@@ -2586,13 +2588,31 @@ switch ($_GET['act']) {
                 <table>
                     <tr>
                         <td><b>B</b>arcode: </td>
-                        <td><input type="text" name="barcode" accesskey="b" autofocus="autofocus"/></td>
+                        <td><input type="text" name="barcode" accesskey="b" autofocus="autofocus" id="barcode" autocomplete="off"/></td>
+                    </tr>
+                    <tr>
+                        <td><b>N</b>ama: </td>
+                        <td><input type="text" name="namabarang" accesskey="n" id="namaBarang"/></td>
                     </tr>
                     <tr>
                         <td colspan="2"><input type=submit accesskey='c' value='(c) Cari Barang'></td>
                     </tr>
                 </table>
             </form>
+            <script>
+                $("#namaBarang").autocomplete({
+                    source: "aksi.php?module=hargabanded&act=getnamabarang",
+                    minLength: 3,
+                    select: function(event, ui) {
+                            console.log( ui.item ?
+                            "Nama: " + ui.item.value + "; Barcode " + ui.item.id :
+                            "Nothing selected, input was " + this.value );
+                            if (ui.item){
+                                $("#barcode").val(ui.item.id);
+                            }
+                        }
+                });
+            </script>
             <?php
             break;
         case 'hargabanded2':

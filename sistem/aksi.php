@@ -1482,6 +1482,25 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
         echo $hasil['namaBarang'] . ' :: Rp. ' . number_format($hasil['hargaJual'], 0, ',', '.');
     }
 }
+
+elseif ($module === 'hargabanded' && $act === 'getnamabarang'){
+    if (isset($_GET['term'])){
+        $namaBarang = $_GET['term'];
+        echo $term;
+        $sql = "SELECT barcode, namaBarang FROM barang where namaBarang like '%{$namaBarang}%'";
+        $hasil = mysql_query($sql);
+        $barangs = array();
+        while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)){
+            $barangs[] = array(
+                'id' => $barang['barcode'],
+                'label' => $barang['namaBarang'],
+                'value' => $barang['namaBarang'],
+            );
+        }
+
+        echo json_encode($barangs);
+    }
+}
 // else
 else { // =======================================================================================================================================
     echo "Tidak Ada Aksi untuk modul ini";
