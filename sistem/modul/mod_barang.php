@@ -224,7 +224,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['jumBarang']; ?></td>
                         <td class="right"><?php echo $r['hargaJual']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                            ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                              ?>
                         </td>
                     </tr>
                     <?php
@@ -398,7 +398,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                           ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                             ?>
                     </td>
                 </tr>
                 <?php
@@ -513,6 +513,7 @@ switch ($_GET['act']) {
             <select id="layout-tinggi" name="layout">
                 <option value="0">Tinggi: 3 mm</option>
                 <option value="1">Tinggi: 3,3 mm</option>
+                <option value="2">Harga Banded: 6cm x 4cm</option>
             </select>
             <input type=submit accesskey='l' value='(l) Cetak Label Barang'>
         </form>
@@ -525,78 +526,187 @@ switch ($_GET['act']) {
         include "../../config/config.php";
 
         if ($_POST[q] == 'sup') {
-            $cari = mysql_query("SELECT * FROM barang WHERE idSupplier=$_POST[sql] and (nonAktif <> 1 or nonAktif is null) ORDER BY namaBarang ASC");
+            $cari = mysql_query("SELECT barcode, namaBarang, hargaJual, namaSatuanBarang "
+                    . "FROM barang LEFT JOIN satuan_barang satuan ON barang.idSatuanBarang = satuan.idSatuanBarang "
+                    . "WHERE idSupplier=$_POST[sql] and (nonAktif <> 1 or nonAktif is null) "
+                    . "ORDER BY namaBarang ASC");
         }
         else {
-            $cari = mysql_query("SELECT * FROM barang WHERE idRak=$_POST[sql] and (nonAktif <> 1 or nonAktif is null) ORDER BY namaBarang ASC");
+            $cari = mysql_query("SELECT barcode, namaBarang, hargaJual, namaSatuanBarang "
+                    . "FROM barang LEFT JOIN satuan_barang satuan ON barang.idSatuanBarang = satuan.idSatuanBarang "
+                    . "WHERE idRak=$_POST[sql] and (nonAktif <> 1 or nonAktif is null) ORDER BY namaBarang ASC");
         };
+        if ($_POST['layout'] == '2') {
+            // Layout 2 = Layout harga banded
+            ?>
+            <style>
 
-        $lebar_label = 200;
-        $tinggi_label = 112;
-        $label_per_baris = 3;
-        $baris_per_halaman = 7;
+                @font-face {
+                    font-family: 'Questrial';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: url('../../font/Questrial-Regular.ttf');
+                }
+            </style>
+            <?php
+            $lebar_label = 229;
+            $tinggi_label = 150;
+            $label_per_baris = 4;
+            $baris_per_halaman = 4;
 
-        $jumlahKarakterNamaBarang = 15;
-        // Layout
-        // 0 = 3 mm (default) / 112px;
-        // 1 = 3,3 mm
-        if ($_POST['layout'] == '1') {
-            $tinggi_label = 120;
+            $jumlahKarakterNamaBarang = 15;
+
+            $tanggal = date('dmY');
+            $total = $_POST[total];
+            $baris = 1;
+            $kolom = 1;
+            ?>
+            <div style="float:none">
+                <?php
+                for ($i = 1; $i <= $total; $i++) {
+
+                    $r = mysql_fetch_array($cari);
+
+                    $clear = "";
+                    // cek posisi saat ini
+                    if ($kolom > $label_per_baris) {
+                        $kolom = 1;
+                        $baris++;
+                        $clear = " clear:left; "; //echo "</div><div style=\"float:none\">"; // ganti baris
+                    }
+                    if ($baris > $baris_per_halaman) {
+                        $baris = 1;
+                        ?>
+                        <p style="page-break-after: always; margin-top: -10px" />
+                        <?php
+                    }
+                    // Harga Banded
+                    $sql = "SELECT qty, harga FROM harga_banded WHERE barcode='{$r['barcode']}'";
+                    $hasil = mysql_query($sql);
+                    $hargaBanded = mysql_fetch_array($hasil, MYSQL_ASSOC);
+
+                    $namaBarang1 = $r['namaBarang'];
+                    $namaBarang2 = '&nbsp;';
+
+                    $namaBarangLengkap = $r['namaBarang'];
+                    // jika terlalu panjang nama barangnya
+                    if (strlen($namaBarangLengkap) > $jumlahKarakterNamaBarang) {
+                        $namaBarangArr = explode(' ', $namaBarangLengkap);
+                        $len = 0;
+                        $namaBarang1 = '';
+                        $namaBarang2 = '';
+                        foreach ($namaBarangArr as $namBar) {
+                            $len += strlen($namBar);
+                            if ($len <= $jumlahKarakterNamaBarang) {
+                                $namaBarang1 .= $namBar . ' ';
+                                $len++;
+                            }
+                            else {
+                                $namaBarang2 .= $namBar . ' ';
+                            }
+                        }
+                    }
+
+                    // cetak label
+                    ?>
+                    <div style="border: 1px solid #000; <?php echo $clear; ?> float:left; margin-right:5px; margin-bottom:0px; width:<?php echo $lebar_label - 10; ?>px; height:<?php echo $tinggi_label; ?>px; padding: 0 5px;">
+                        <p style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:13pt; font-weight:normal; text-transform:capitalize;">
+                            <?php echo $namaBarang1; ?>
+                        </p>
+                        <p style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:13pt; font-weight:normal; text-transform:capitalize;">
+                            <?php echo $namaBarang2; ?>
+                        </p>
+                        <table style="font-family:'Times New Roman';width: 100%; margin-bottom: 15px; margin-top: -7px">
+                            <tr>
+                                <td style="width: 20%;">Rp.</td>
+                                <td style="width: 55%;font-size: 21pt;text-align: right; vertical-align: bottom"><?php echo number_format($r['hargaJual'], 0, ',', '.'); ?></td>
+                                <td>/ <?php echo $r['namaSatuanBarang']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Rp.</td>
+                                <td style="font-size: 21pt;text-align: right; vertical-align: bottom"><?php echo number_format($hargaBanded['harga'] * $hargaBanded['qty'], 0, ',', '.'); ?></td>
+                                <td>/ <?php echo $hargaBanded['qty'] . $r['namaSatuanBarang']; ?></td>
+                            </tr>
+                        </table>
+                        <span style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:8pt; font-style: italic ">
+                            <?php echo $r['barcode']; ?>
+                        </span>
+                    </div>
+                    <?php
+                    $kolom++;
+                }
+                ?>
+            </div>
+            <?php
         }
-        $total = $_POST[total];
-        $baris = 1;
-        $kolom = 1;
-        $tanggal = date('dmY');
-        echo "<div style=\"float:none\">";
+        else {
+            $lebar_label = 200;
+            $tinggi_label = 112;
+            $label_per_baris = 3;
+            $baris_per_halaman = 7;
 
-        for ($i = 1; $i <= $total; $i++) {
+            $jumlahKarakterNamaBarang = 15;
+            // Layout
+            // 0 = 3 mm (default) / 112px;
+            // 1 = 3,3 mm
+            if ($_POST['layout'] == '1') {
+                $tinggi_label = 120;
+            }
+            $total = $_POST[total];
+            $baris = 1;
+            $kolom = 1;
+            $tanggal = date('dmY');
+            echo "<div style=\"float:none\">";
 
-            $r = mysql_fetch_array($cari);
-            if ($_POST["cl$i"] == 'on') {
+            for ($i = 1; $i <= $total; $i++) {
 
-                $clear = "";
-                // cek posisi saat ini
-                if ($kolom > $label_per_baris) {
-                    $kolom = 1;
-                    $baris++;
-                    $clear = " clear:left; "; //echo "</div><div style=\"float:none\">"; // ganti baris
-                };
-                if ($baris > $baris_per_halaman) {
-                    $baris = 1;
-                    echo '<p style="page-break-after: always" />';
-                };
+                $r = mysql_fetch_array($cari);
+                if ($_POST["cl$i"] == 'on') {
 
-                $namaBarang1 = $r['namaBarang'];
-                $namaBarang2 = '&nbsp;';
-                // jika terlalu panjang nama barangnya
+                    $clear = "";
+                    // cek posisi saat ini
+                    if ($kolom > $label_per_baris) {
+                        $kolom = 1;
+                        $baris++;
+                        $clear = " clear:left; "; //echo "</div><div style=\"float:none\">"; // ganti baris
+                    };
+                    if ($baris > $baris_per_halaman) {
+                        $baris = 1;
+                        echo '<p style="page-break-after: always" />';
+                    };
+
+                    $namaBarang1 = $r['namaBarang'];
+                    $namaBarang2 = '&nbsp;';
+                    // jika terlalu panjang nama barangnya
 //                if (strlen($namaBarang) > 15) {
 //                    // bikin menjadi 2 baris
 //                    $namaBarang = substr($namaBarang, 0, 15) .
 //                            "</p><p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">" . substr($namaBarang, 15);
 //                };
 
-                $namaBarangLengkap = $r['namaBarang'];
-                // jika terlalu panjang nama barangnya
-                if (strlen($namaBarangLengkap) > $jumlahKarakterNamaBarang){
-                    $namaBarangArr = explode(' ', $namaBarangLengkap);
-                    $len = 0;
-                    $namaBarang1 = '';
-                    $namaBarang2 = '';
-                    foreach ($namaBarangArr as $namBar){
-                        $len += strlen($namBar);
-                        if ($len <= $jumlahKarakterNamaBarang){
-                            $namaBarang1 .= $namBar.' ';
-                            $len++;
-                        } else {
-                            $namaBarang2 .= $namBar.' ';
+                    $namaBarangLengkap = $r['namaBarang'];
+                    // jika terlalu panjang nama barangnya
+                    if (strlen($namaBarangLengkap) > $jumlahKarakterNamaBarang) {
+                        $namaBarangArr = explode(' ', $namaBarangLengkap);
+                        $len = 0;
+                        $namaBarang1 = '';
+                        $namaBarang2 = '';
+                        foreach ($namaBarangArr as $namBar) {
+                            $len += strlen($namBar);
+                            if ($len <= $jumlahKarakterNamaBarang) {
+                                $namaBarang1 .= $namBar . ' ';
+                                $len++;
+                            }
+                            else {
+                                $namaBarang2 .= $namBar . ' ';
+                            }
                         }
                     }
-                }
 
-                // cetak label
-                echo "\n
+                    // cetak label
+                    echo "\n
 
-				<div style=\"border: thin solid #000000; $clear float:left; margin-right:10px; margin-bottom:10px; width:" . ($lebar_label-10) . "px; height:" . $tinggi_label . "px; padding: 0 5px;\">
+				<div style=\"border: thin solid #000000; $clear float:left; margin-right:10px; margin-bottom:10px; width:" . ($lebar_label - 10) . "px; height:" . $tinggi_label . "px; padding: 0 5px;\">
 				<p style=\"line-height:0px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
                 {$namaBarang1}</p>
                 <p style=\"line-height:0px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
@@ -613,10 +723,10 @@ switch ($_GET['act']) {
 				</div>
 			";
 
-                $kolom++;
-            };
-        } // for
-
+                    $kolom++;
+                };
+            } // for
+        }
         echo "</div>";
 
         break;
@@ -685,6 +795,7 @@ switch ($_GET['act']) {
                 <select id="layout-tinggi" name="layout">
                     <option value="0">Tinggi: 3 mm</option>
                     <option value="1">Tinggi: 3,3 mm</option>
+                    <option value="2">Harga Banded: 6cm x 4cm</option>
                 </select>
                 <input type='submit' name='printBarcode' value='Print' />
             </div>
@@ -899,205 +1010,205 @@ switch ($_GET['act']) {
             <input type=hidden name=username value='<?php echo $_SESSION['uname']; ?>'>
             <input type=hidden name=ctr value='<?php echo $ctr; ?>'>
         </form>
-            <?php
-            break;
+        <?php
+        break;
 
 
-        case "inputSO3":  // simpan di database
+    case "inputSO3":  // simpan di database
 
-            include "../../config/config.php";
+        include "../../config/config.php";
 
-            // default max_input_vars hanya 1000, ini sangat tidak mencukupi pada rak yang ada banyak jenis barangnya
-            // fixme: ini sudah tidak bisa sejak php 5.3, harus lewat .htaccess, httpd.conf atau .user.ini per directory
-            ini_set('max_input_vars', '20000');
-            ini_set('suhosin.post.max_vars', '20000');
-            ini_set('suhosin.request.max_vars', '20000');
-            // :end
+        // default max_input_vars hanya 1000, ini sangat tidak mencukupi pada rak yang ada banyak jenis barangnya
+        // fixme: ini sudah tidak bisa sejak php 5.3, harus lewat .htaccess, httpd.conf atau .user.ini per directory
+        ini_set('max_input_vars', '20000');
+        ini_set('suhosin.post.max_vars', '20000');
+        ini_set('suhosin.request.max_vars', '20000');
+        // :end
 
-            $sql = "INSERT INTO stock_opname (username, tanggalSO, idRak) VALUES
+        $sql = "INSERT INTO stock_opname (username, tanggalSO, idRak) VALUES
 		('$_POST[username]','" . date("Y-m-d") . "', $_POST[rak])";
-            $hasil = mysql_query($sql) or die("Gagal simpan hasil Stock Opname: " . mysql_error() . " SQL: $sql -- tekan tombol BACK !");
-            $idStockOpname = mysql_insert_id();
-            $ctr = $_POST[ctr];
+        $hasil = mysql_query($sql) or die("Gagal simpan hasil Stock Opname: " . mysql_error() . " SQL: $sql -- tekan tombol BACK !");
+        $idStockOpname = mysql_insert_id();
+        $ctr = $_POST[ctr];
 
-            echo "Stock Opname sudah disimpan di database, nota SO nomor: " . $idStockOpname . " <br /><br /> Mulai menyimpan transaksi Stock Opname : <br /><br />";
+        echo "Stock Opname sudah disimpan di database, nota SO nomor: " . $idStockOpname . " <br /><br /> Mulai menyimpan transaksi Stock Opname : <br /><br />";
 
-            for ($i = 1; $i <= $ctr; $i++) {
+        for ($i = 1; $i <= $ctr; $i++) {
 
-                if ($_POST["selisih$i"] <> 0) { // simpan hanya yang ada selisihnya
-                    $sql = "INSERT INTO detail_stock_opname (idStockOpname,barcode,namaBarang,jmlTercatat,selisih)
+            if ($_POST["selisih$i"] <> 0) { // simpan hanya yang ada selisihnya
+                $sql = "INSERT INTO detail_stock_opname (idStockOpname,barcode,namaBarang,jmlTercatat,selisih)
 				VALUES ($idStockOpname,'" . $_POST["barcode$i"] . "','" . $_POST["namaBarang$i"] . "'," . $_POST["jmlTercatat$i"] . ",
 					" . $_POST["selisih$i"] . ") ";
-                    $hasil = mysql_query($sql);
+                $hasil = mysql_query($sql);
 
-                    //fixme: ubah jumlah barang - komprehensif
-                    //	# cari seluruh stok dari barang ybs di detail_beli
-                    //	# pilih yang paling awal
-                    //	# apply selisih di salah satunya
-                    //		# jika jadi minus = jadikan nol, lalu pilih record barang tsb yang berikutnya
-                    //	# sesuaikan jmlBarang di tabel barang
-                    ////////////// update jumlah stok di tabel barang
-                    // StokSekarang = jmlTercatat + Selisih
-                    $StokSekarang = $_POST["jmlTercatat$i"] + $_POST["selisih$i"];
-                    $sql = "UPDATE barang SET jumBarang = '" . $StokSekarang . "' WHERE barcode = '" . $_POST["barcode$i"] . "'";
-                    $hasil = mysql_query($sql);
+                //fixme: ubah jumlah barang - komprehensif
+                //	# cari seluruh stok dari barang ybs di detail_beli
+                //	# pilih yang paling awal
+                //	# apply selisih di salah satunya
+                //		# jika jadi minus = jadikan nol, lalu pilih record barang tsb yang berikutnya
+                //	# sesuaikan jmlBarang di tabel barang
+                ////////////// update jumlah stok di tabel barang
+                // StokSekarang = jmlTercatat + Selisih
+                $StokSekarang = $_POST["jmlTercatat$i"] + $_POST["selisih$i"];
+                $sql = "UPDATE barang SET jumBarang = '" . $StokSekarang . "' WHERE barcode = '" . $_POST["barcode$i"] . "'";
+                $hasil = mysql_query($sql);
 
-                    echo "
+                echo "
 			Transaksi SO : Nama Barang: " . $_POST["namaBarang$i"] . ", Selisih: " . $_POST["selisih$i"] . " - sudah disimpan<br />
 			";
-                }; // if ($_POST[selisih$i] !== 0)
-            }; // for ($i = 1; $i <= $_POST[ctr]; $i++)
+            }; // if ($_POST[selisih$i] !== 0)
+        }; // for ($i = 1; $i <= $_POST[ctr]; $i++)
 
 
-            echo "Selesai !";
+        echo "Selesai !";
 
-            break;
-
-
+        break;
 
 
 
-        case "editbarang": // ========================================================================================================================
-            $edit = mysql_query("SELECT * FROM barang WHERE barcode='$_GET[id]'");
-            $data = mysql_fetch_array($edit);
-            ?>
-            <h2>Edit Barang</h2>
-            <form method=POST action=./aksi.php?module=barang&act=update name='editbarang'>
-                <input type=hidden name='idBarang' value='<?php echo $data['idBarang']; ?>'>
-                <table>
-                    <tr><td>Barcode</td><td> : <input type="text" name='barcode' size=30 value='<?php echo $data['barcode']; ?>' /></td></tr>
-                    <tr><td>Nama Barang</td><td> : <input type="text" name='namaBarang' size=30 value='<?php echo $data['namaBarang']; ?>' /></td><td style="color:red"><?php echo isset($_GET['barang']) ? 'Nama barang sudah diperbarui' : '' ?></td></tr>
-                    <tr><td>Kategori Barang</td>
-                        <td> : <select name='kategori_barang'>
-                                <?php
-                                while ($kategori = mysql_fetch_array($ambilKategoriBarang)) {
-                                    if ($kategori[idKategoriBarang] == $data[idKategoriBarang]) {
-                                        echo "<option value='$kategori[idKategoriBarang]' selected>$kategori[namaKategoriBarang]</option>";
-                                    }
-                                    else {
-                                        echo "<option value='$kategori[idKategoriBarang]'>$kategori[namaKategoriBarang]</option>";
-                                    }
+
+
+    case "editbarang": // ========================================================================================================================
+        $edit = mysql_query("SELECT * FROM barang WHERE barcode='$_GET[id]'");
+        $data = mysql_fetch_array($edit);
+        ?>
+        <h2>Edit Barang</h2>
+        <form method=POST action=./aksi.php?module=barang&act=update name='editbarang'>
+            <input type=hidden name='idBarang' value='<?php echo $data['idBarang']; ?>'>
+            <table>
+                <tr><td>Barcode</td><td> : <input type="text" name='barcode' size=30 value='<?php echo $data['barcode']; ?>' /></td></tr>
+                <tr><td>Nama Barang</td><td> : <input type="text" name='namaBarang' size=30 value='<?php echo $data['namaBarang']; ?>' /></td><td style="color:red"><?php echo isset($_GET['barang']) ? 'Nama barang sudah diperbarui' : '' ?></td></tr>
+                <tr><td>Kategori Barang</td>
+                    <td> : <select name='kategori_barang'>
+                            <?php
+                            while ($kategori = mysql_fetch_array($ambilKategoriBarang)) {
+                                if ($kategori[idKategoriBarang] == $data[idKategoriBarang]) {
+                                    echo "<option value='$kategori[idKategoriBarang]' selected>$kategori[namaKategoriBarang]</option>";
                                 }
-                                ?>
-                            </select>
-                        </td>
-                        <td style="color:red"><?php echo isset($_GET['kategori']) ? 'Kategori sudah diperbarui' : '' ?></td>
-                    </tr>
-                    <tr><td>Satuan Barang</td>
-                        <td> : <select name='satuan_barang'>
-                                <?php
-                                while ($satuan = mysql_fetch_array($ambilSatuanBarang)) {
-                                    if ($satuan[idSatuanBarang] == $data[idSatuanBarang]) {
-                                        echo "<option value='$satuan[idSatuanBarang]' selected>$satuan[namaSatuanBarang]</option>";
-                                    }
-                                    else {
-                                        echo "<option value='$satuan[idSatuanBarang]'>$satuan[namaSatuanBarang]</option>";
-                                    }
+                                else {
+                                    echo "<option value='$kategori[idKategoriBarang]'>$kategori[namaKategoriBarang]</option>";
                                 }
-                                ?>
-                            </select>
-                        </td>
-                        <td style="color:red"><?php echo isset($_GET['satuan']) ? 'Satuan sudah diperbarui' : '' ?></td>
-                    </tr>
-                    <tr><td>Supplier</td>
-                        <td> : <select name='supplier'>
-                                <?php
-                                while ($supplier = mysql_fetch_array($ambilSupplier)) {
-                                    if ($supplier[idSupplier] == $data[idSupplier]) {
-                                        echo "<option value='$supplier[idSupplier]' selected>$supplier[namaSupplier]</option>";
-                                    }
-                                    else {
-                                        echo "<option value='$supplier[idSupplier]'>$supplier[namaSupplier]</option>";
-                                    }
+                            }
+                            ?>
+                        </select>
+                    </td>
+                    <td style="color:red"><?php echo isset($_GET['kategori']) ? 'Kategori sudah diperbarui' : '' ?></td>
+                </tr>
+                <tr><td>Satuan Barang</td>
+                    <td> : <select name='satuan_barang'>
+                            <?php
+                            while ($satuan = mysql_fetch_array($ambilSatuanBarang)) {
+                                if ($satuan[idSatuanBarang] == $data[idSatuanBarang]) {
+                                    echo "<option value='$satuan[idSatuanBarang]' selected>$satuan[namaSatuanBarang]</option>";
                                 }
-                                ?>
-                            </select>
-                        </td>
-                        <td style="color:red"><?php echo isset($_GET['supplier']) ? 'Supplier sudah diperbarui' : '' ?></td>
-                    </tr>
-                    <tr><td>Rak</td>
-                        <td> : <select name='rak'>
-                                <?php
-                                while ($rak = mysql_fetch_array($ambilRak)) {
-                                    if ($rak[idRak] == $data[idRak]) {
-                                        echo "<option value='$rak[idRak]' selected>$rak[namaRak]</option>";
-                                    }
-                                    else {
-                                        echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
-                                    }
+                                else {
+                                    echo "<option value='$satuan[idSatuanBarang]'>$satuan[namaSatuanBarang]</option>";
                                 }
-                                ?>
-                            </select>
-                        </td>
-                        <td style="color:red"><?php echo isset($_GET['rak']) ? 'Rak sudah diperbarui' : '' ?></td>
-                    </tr>
-                    <tr>
-                        <td>Harga Jual</td>
-                        <td> : <input type=text name='hargaJual' size=20 value='<?php echo $data['hargaJual']; ?>'></td>
-                        <td style="color:red"><?php echo isset($_GET['hargajual']) ? 'Harga jual sudah diperbarui' : '' ?></td>
-                    </tr>
-                    <tr>
-                        <td>Non Aktif</td>
-                        <td> :
-                            <select name="nonAktif">
-                                <option value="0" <?php echo $data['nonAktif'] != '1' ? 'selected' : ''; ?>>Tidak</option>
-                                <option value="1" <?php echo $data['nonAktif'] == '1' ? 'selected' : ''; ?>>Ya</option>
-                            </select>
-                        </td>
-                        <td style="color:red"><?php echo isset($_GET['nonAktif']) ? 'Status barang sudah diperbarui' : '' ?></td>
-                    </tr>
-                    <tr><td colspan=2>&nbsp;</td></tr>
-                    <tr><td colspan=2 align='right'><input type=submit value=(S)impan accesskey=s>&nbsp;&nbsp;&nbsp;
-                            <input type=button value=Batal onclick=self.history.back()></td></tr>
+                            }
+                            ?>
+                        </select>
+                    </td>
+                    <td style="color:red"><?php echo isset($_GET['satuan']) ? 'Satuan sudah diperbarui' : '' ?></td>
+                </tr>
+                <tr><td>Supplier</td>
+                    <td> : <select name='supplier'>
+                            <?php
+                            while ($supplier = mysql_fetch_array($ambilSupplier)) {
+                                if ($supplier[idSupplier] == $data[idSupplier]) {
+                                    echo "<option value='$supplier[idSupplier]' selected>$supplier[namaSupplier]</option>";
+                                }
+                                else {
+                                    echo "<option value='$supplier[idSupplier]'>$supplier[namaSupplier]</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </td>
+                    <td style="color:red"><?php echo isset($_GET['supplier']) ? 'Supplier sudah diperbarui' : '' ?></td>
+                </tr>
+                <tr><td>Rak</td>
+                    <td> : <select name='rak'>
+                            <?php
+                            while ($rak = mysql_fetch_array($ambilRak)) {
+                                if ($rak[idRak] == $data[idRak]) {
+                                    echo "<option value='$rak[idRak]' selected>$rak[namaRak]</option>";
+                                }
+                                else {
+                                    echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </td>
+                    <td style="color:red"><?php echo isset($_GET['rak']) ? 'Rak sudah diperbarui' : '' ?></td>
+                </tr>
+                <tr>
+                    <td>Harga Jual</td>
+                    <td> : <input type=text name='hargaJual' size=20 value='<?php echo $data['hargaJual']; ?>'></td>
+                    <td style="color:red"><?php echo isset($_GET['hargajual']) ? 'Harga jual sudah diperbarui' : '' ?></td>
+                </tr>
+                <tr>
+                    <td>Non Aktif</td>
+                    <td> :
+                        <select name="nonAktif">
+                            <option value="0" <?php echo $data['nonAktif'] != '1' ? 'selected' : ''; ?>>Tidak</option>
+                            <option value="1" <?php echo $data['nonAktif'] == '1' ? 'selected' : ''; ?>>Ya</option>
+                        </select>
+                    </td>
+                    <td style="color:red"><?php echo isset($_GET['nonAktif']) ? 'Status barang sudah diperbarui' : '' ?></td>
+                </tr>
+                <tr><td colspan=2>&nbsp;</td></tr>
+                <tr><td colspan=2 align='right'><input type=submit value=(S)impan accesskey=s>&nbsp;&nbsp;&nbsp;
+                        <input type=button value=Batal onclick=self.history.back()></td></tr>
 
-                    <input type=hidden name='oldbarcode' value='<?php echo $data['barcode']; ?>'>
-                </table>
-            </form> <br /><br />
-            <?php
-            // tampilkan seluruh stok ybs yang masih ada di toko / belum laku terjual
-            $sql = "SELECT t.tglTransaksiBeli,d.hargaBeli, d.jumBarang
+                <input type=hidden name='oldbarcode' value='<?php echo $data['barcode']; ?>'>
+            </table>
+        </form> <br /><br />
+        <?php
+        // tampilkan seluruh stok ybs yang masih ada di toko / belum laku terjual
+        $sql = "SELECT t.tglTransaksiBeli,d.hargaBeli, d.jumBarang
 		FROM detail_beli AS d, transaksibeli AS t
 		WHERE d.barcode = '$data[barcode]' AND d.idTransaksiBeli = t.idTransaksiBeli AND d.isSold='N' ORDER BY d.idTransaksiBeli DESC";
+        $hasil = mysql_query($sql);
+        $jumlah = mysql_num_rows($hasil);
+        while ($x = mysql_fetch_array($hasil)) {
+            echo "Tgl.Beli : $x[tglTransaksiBeli], Harga Beli : Rp " . number_format($x[hargaBeli], 0, ',', '.') . " (jumlah: $x[jumBarang])<br />";
+        }
+
+        // jika stok nya sudah laku semua,
+        // cetak 2 stok yang terakhir (sekedar untuk informasi harga)
+        if ($jumlah < 1) {
+            $sql = "SELECT d.idTransaksiBeli, d.hargaBeli, d.isSold, d.jumBarang FROM detail_beli AS d
+			WHERE d.barcode = '$data[barcode]' ORDER BY d.idTransaksiBeli DESC LIMIT 2";
             $hasil = mysql_query($sql);
             $jumlah = mysql_num_rows($hasil);
             while ($x = mysql_fetch_array($hasil)) {
-                echo "Tgl.Beli : $x[tglTransaksiBeli], Harga Beli : Rp " . number_format($x[hargaBeli], 0, ',', '.') . " (jumlah: $x[jumBarang])<br />";
-            }
-
-            // jika stok nya sudah laku semua,
-            // cetak 2 stok yang terakhir (sekedar untuk informasi harga)
-            if ($jumlah < 1) {
-                $sql = "SELECT d.idTransaksiBeli, d.hargaBeli, d.isSold, d.jumBarang FROM detail_beli AS d
-			WHERE d.barcode = '$data[barcode]' ORDER BY d.idTransaksiBeli DESC LIMIT 2";
-                $hasil = mysql_query($sql);
-                $jumlah = mysql_num_rows($hasil);
-                while ($x = mysql_fetch_array($hasil)) {
-                    echo "ID: " . $x[idTransaksiBeli] . ", Harga Beli : Rp " . number_format($x[hargaBeli], 0, ',', '.') . ", Status: ";
-                    if ($x[isSold] == 'Y') {
-                        echo " Habis";
-                    }
-                    else {
-                        echo " Ada";
-                    };
-                    echo " (jumlah: $x[jumBarang]) <br />";
+                echo "ID: " . $x[idTransaksiBeli] . ", Harga Beli : Rp " . number_format($x[hargaBeli], 0, ',', '.') . ", Status: ";
+                if ($x[isSold] == 'Y') {
+                    echo " Habis";
                 }
+                else {
+                    echo " Ada";
+                };
+                echo " (jumlah: $x[jumBarang]) <br />";
             }
+        }
 
 
-            break;
+        break;
 
 
 
-        case "cetakbarang1": // ========================================================================================================================
-            // cari tahu jumlah rak yang ada di toko ini
-            $cari = mysql_query("SELECT idRak FROM rak");
-            $jumlah_rak = mysql_num_rows($cari);
+    case "cetakbarang1": // ========================================================================================================================
+        // cari tahu jumlah rak yang ada di toko ini
+        $cari = mysql_query("SELECT idRak FROM rak");
+        $jumlah_rak = mysql_num_rows($cari);
 
-            // cari daftar workstation kasir yang ada
-            $daftarKasir = mysql_query("SELECT idWorkstation,namaWorkstation FROM workstation");
+        // cari daftar workstation kasir yang ada
+        $daftarKasir = mysql_query("SELECT idWorkstation,namaWorkstation FROM workstation");
 
 
-            echo "
+        echo "
 		<h2>Cetak Stock Barang</h2>
 		<form method=GET action='modul/mod_barang.php'  onSubmit=\"popupform(this, 'CETAK_STOCK_BARANG')\">
 
@@ -1118,53 +1229,53 @@ switch ($_GET['act']) {
 		<td><br /> (p) Cetak ke </td>
                 <td><br /> : <select name='printer' accesskey='p'>
 			<option value='0'>-- Cetak Ke Browser --</option>";
-            while ($printer = mysql_fetch_array($daftarKasir)) {
-                echo "<option value='$printer[idWorkstation]'>$printer[namaWorkstation]</option>";
-            }
-            echo "</select></td></tr>
+        while ($printer = mysql_fetch_array($daftarKasir)) {
+            echo "<option value='$printer[idWorkstation]'>$printer[namaWorkstation]</option>";
+        }
+        echo "</select></td></tr>
 
 
 		<tr><td colspan=2><br /><input type=submit accesskey='b' value='(b) Cetak Stock Barang'></td></tr>
 					<input type=hidden name=act value=cetakbarang2>
 		</table></form>";
 
-            break;
+        break;
 
 
-        case "cetakbarang2":
+    case "cetakbarang2":
 
 
-            echo "
+        echo "
 	<form method='post'>
 		<input type=button value='Tutup Window Ini' onclick='window.close()'>
 	</form>
 	";
 
-            // ambil data barang yang akan dicetak
-            $sql = "SELECT idRak, namaBarang, hargaJual, jumBarang
+        // ambil data barang yang akan dicetak
+        $sql = "SELECT idRak, namaBarang, hargaJual, jumBarang
 		FROM barang WHERE jumBarang <> 0 AND idRak BETWEEN " . $_GET['darirak'] . " AND " . $_GET['sampairak'] . "
 		ORDER BY idRak,namaBarang ASC";
-            $daftarBarang = mysql_query($sql);
-            $jumlahBarang = mysql_num_rows($daftarBarang);
-            //echo $sql;
-            // mulai mencetak
-            if ($_GET[printer] == '0') {
+        $daftarBarang = mysql_query($sql);
+        $jumlahBarang = mysql_num_rows($daftarBarang);
+        //echo $sql;
+        // mulai mencetak
+        if ($_GET[printer] == '0') {
 
-                $rakSebelum = 0;
-                $rakSekarang = 0;
-                $gantiBaris = 0;
-                for ($i = 1; $i <= $jumlahBarang; $i++) {
+            $rakSebelum = 0;
+            $rakSekarang = 0;
+            $gantiBaris = 0;
+            for ($i = 1; $i <= $jumlahBarang; $i++) {
 
-                    // ambil 1 record
-                    $x = mysql_fetch_array($daftarBarang);
-                    $rakSekarang = $x[idRak];
+                // ambil 1 record
+                $x = mysql_fetch_array($daftarBarang);
+                $rakSekarang = $x[idRak];
 
-                    if ($rakSebelum <> $rakSekarang) {
-                        // cetak header
-                        $hasil = mysql_query("SELECT namaRak FROM rak WHERE idRak = $x[idRak]");
-                        $r = mysql_fetch_array($hasil);
+                if ($rakSebelum <> $rakSekarang) {
+                    // cetak header
+                    $hasil = mysql_query("SELECT namaRak FROM rak WHERE idRak = $x[idRak]");
+                    $r = mysql_fetch_array($hasil);
 
-                        echo "
+                    echo "
 					</table>
 
 					<h2>
@@ -1189,16 +1300,16 @@ switch ($_GET['act']) {
 					</tr>
 					<tr>
 				";
-                        $rakSebelum = $rakSekarang;
-                    }; // if ($rakSebelum <> $rakSekarang)
+                    $rakSebelum = $rakSekarang;
+                }; // if ($rakSebelum <> $rakSekarang)
 
-                    if ($gantiBaris > 1) {
-                        // ganti baris
-                        echo "</tr><tr>";
-                        $gantiBaris = 0;
-                    }; // if ($gantiBaris > 1)
-                    // cetak data barang
-                    echo "
+                if ($gantiBaris > 1) {
+                    // ganti baris
+                    echo "</tr><tr>";
+                    $gantiBaris = 0;
+                }; // if ($gantiBaris > 1)
+                // cetak data barang
+                echo "
 			<td>		$x[namaBarang]
 			</td>
 			<td><center>	$x[hargaJual]	</center>
@@ -1207,61 +1318,61 @@ switch ($_GET['act']) {
 			</td>
 			";
 
-                    $gantiBaris++;
-                }; // for ($i = 1; $i <= $jumlahBarang; $i++)
-            }
-            else {
+                $gantiBaris++;
+            }; // for ($i = 1; $i <= $jumlahBarang; $i++)
+        }
+        else {
 
-                // ambil daftar printer_command untuk idWorkstation ybs
-                $hasil = mysql_query("SELECT printer_commands FROM workstation WHERE idWorkstation = $_GET[printer]");
-                $r = mysql_fetch_array($hasil);
-                $perintahPrinter = $r[printer_commands];
+            // ambil daftar printer_command untuk idWorkstation ybs
+            $hasil = mysql_query("SELECT printer_commands FROM workstation WHERE idWorkstation = $_GET[printer]");
+            $r = mysql_fetch_array($hasil);
+            $perintahPrinter = $r[printer_commands];
 
-                $rakSebelum = 0;
-                $rakSekarang = 0;
-                $struk = "";
-                for ($i = 1; $i <= $jumlahBarang; $i++) {
+            $rakSebelum = 0;
+            $rakSekarang = 0;
+            $struk = "";
+            for ($i = 1; $i <= $jumlahBarang; $i++) {
 
-                    // ambil 1 record
-                    $x = mysql_fetch_array($daftarBarang);
-                    $rakSekarang = $x[idRak];
+                // ambil 1 record
+                $x = mysql_fetch_array($daftarBarang);
+                $rakSekarang = $x[idRak];
 
-                    // kalau ganti rak, cetak dulu $struk
-                    if ($rakSebelum <> $rakSekarang) {
-                        // kirim ke printer
-                        $perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
-                        exec($perintah, $output);
-                        //echo $struk;
+                // kalau ganti rak, cetak dulu $struk
+                if ($rakSebelum <> $rakSekarang) {
+                    // kirim ke printer
+                    $perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
+                    exec($perintah, $output);
+                    //echo $struk;
 
-                        $struk = "";
-                        $rakSebelum = $rakSekarang;
+                    $struk = "";
+                    $rakSebelum = $rakSekarang;
 
-                        // cetak header
-                        $hasil = mysql_query("SELECT namaRak FROM rak WHERE idRak = $x[idRak]");
-                        $r = mysql_fetch_array($hasil);
-                        $struk .= "\n\nRak #$x[idRak] : $r[namaRak] \n ===============";
-                    }; // if ($rakSebelum <> $rakSekarang)
-                    // cetak data barang
-                    $struk .= "\n $x[namaBarang] \n Harga: $x[hargaJual], Jumlah: $x[jumBarang]";
-                }; // for ($i = 1; $i <= $jumlahBarang; $i++)
-                // cetak baris terakhir
-                $perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
-                exec($perintah, $output);
-                //echo $struk;
-            }; // if ($_GET[printer] == '0')
-
-
-            break;
+                    // cetak header
+                    $hasil = mysql_query("SELECT namaRak FROM rak WHERE idRak = $x[idRak]");
+                    $r = mysql_fetch_array($hasil);
+                    $struk .= "\n\nRak #$x[idRak] : $r[namaRak] \n ===============";
+                }; // if ($rakSebelum <> $rakSekarang)
+                // cetak data barang
+                $struk .= "\n $x[namaBarang] \n Harga: $x[hargaJual], Jumlah: $x[jumBarang]";
+            }; // for ($i = 1; $i <= $jumlahBarang; $i++)
+            // cetak baris terakhir
+            $perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
+            exec($perintah, $output);
+            //echo $struk;
+        }; // if ($_GET[printer] == '0')
 
 
+        break;
 
 
-        case "ApproveFastSO1": // ========================================================================================================================
-            // cari SO yang belum di approve
-            $sql = "SELECT DISTINCT tanggalSO FROM fast_stock_opname WHERE approved=0 ORDER BY tanggalSO ASC";
-            $hasil = mysql_query($sql);
 
-            echo "
+
+    case "ApproveFastSO1": // ========================================================================================================================
+        // cari SO yang belum di approve
+        $sql = "SELECT DISTINCT tanggalSO FROM fast_stock_opname WHERE approved=0 ORDER BY tanggalSO ASC";
+        $hasil = mysql_query($sql);
+
+        echo "
 		<h2>Approve Fast Stock Opname</h2>
 		<form method=GET action='media.php'>
 
@@ -1272,11 +1383,11 @@ switch ($_GET['act']) {
 		<td><br /> (t) Pilih Tanggal SO </td>
                 <td><br /> : <select name='tanggalSO' accesskey='t'>";
 
-            while ($x = mysql_fetch_array($hasil)) {
-                echo "<option value='$x[tanggalSO]'>$x[tanggalSO]</option>";
-            }
+        while ($x = mysql_fetch_array($hasil)) {
+            echo "<option value='$x[tanggalSO]'>$x[tanggalSO]</option>";
+        }
 
-            echo "</select></td>
+        echo "</select></td>
 	</tr>
 
 	<tr>
@@ -1287,16 +1398,16 @@ switch ($_GET['act']) {
 		<input type=hidden name=act value=ApproveFastSO2>
 		</table></form>";
 
-            break;
+        break;
 
 
 
-        case "ApproveFastSO2":  // ----------------------------------------------------------------------------
-            // cari SO yang belum di approve di tanggalSO
-            $sql = "SELECT * FROM fast_stock_opname WHERE tanggalSO='$_GET[tanggalSO]' AND approved=0 ORDER BY idRak,jmlTercatat DESC";
-            $hasil1 = mysql_query($sql);
+    case "ApproveFastSO2":  // ----------------------------------------------------------------------------
+        // cari SO yang belum di approve di tanggalSO
+        $sql = "SELECT * FROM fast_stock_opname WHERE tanggalSO='$_GET[tanggalSO]' AND approved=0 ORDER BY idRak,jmlTercatat DESC";
+        $hasil1 = mysql_query($sql);
 
-            echo "
+        echo "
 		<h2>Approve Fast Stock Opname</h2>
 		<form method=POST action='?module=barang&act=ApproveFastSO3'>
 
@@ -1331,19 +1442,19 @@ switch ($_GET['act']) {
 	</tr>
 	";
 
-            $x = mysql_fetch_array($hasil1);
+        $x = mysql_fetch_array($hasil1);
+        $rakSekarang = $x[idRak];
+        $rakSebelum = $x[idRak];
+        $ctr = 1;
+        $ctrRec = 1;
+        $jumlahRecord = mysql_num_rows($hasil1);
+
+        do {
+
             $rakSekarang = $x[idRak];
-            $rakSebelum = $x[idRak];
-            $ctr = 1;
-            $ctrRec = 1;
-            $jumlahRecord = mysql_num_rows($hasil1);
 
-            do {
-
-                $rakSekarang = $x[idRak];
-
-                if (strlen($x[namaBarang]) > 0) {
-                    echo "
+            if (strlen($x[namaBarang]) > 0) {
+                echo "
 			<tr>
 			<td><center>
 				$x[idRak]
@@ -1371,18 +1482,18 @@ switch ($_GET['act']) {
 			</center></td>
 			</tr>
 		";
-                }; // if (strlen($x[namaBarang]) > 0) {
+            }; // if (strlen($x[namaBarang]) > 0) {
 
-                if (($rakSebelum <> $rakSekarang) || ($ctrRec == $jumlahRecord)) {
-                    // cari barang di rak yang sama, namun tidak masuk di dalam SO = sebetulnya berada di rak yang lain / sudah tidak ada lagi
-                    $sql = "SELECT b.*
+            if (($rakSebelum <> $rakSekarang) || ($ctrRec == $jumlahRecord)) {
+                // cari barang di rak yang sama, namun tidak masuk di dalam SO = sebetulnya berada di rak yang lain / sudah tidak ada lagi
+                $sql = "SELECT b.*
 					FROM barang AS b LEFT JOIN fast_stock_opname AS f ON b.barcode = f.barcode
 					WHERE b.idRak=$rakSekarang AND f.idRak IS NULL ORDER BY b.namaBarang ASC";
-                    //echo $sql;
-                    $hasil2 = mysql_query($sql);
-                    while ($z = mysql_fetch_array($hasil2)) {
-                        $ctr++;
-                        echo "
+                //echo $sql;
+                $hasil2 = mysql_query($sql);
+                while ($z = mysql_fetch_array($hasil2)) {
+                    $ctr++;
+                    echo "
 					<tr>
 					<td><center>
 						$z[idRak]
@@ -1408,234 +1519,234 @@ switch ($_GET['act']) {
 					</center></td>
 					</tr>
 				";
-                    }; // while($z = mysql_fetch_array($hasil)){
-                }; // if ($rakSebelum <> $rakSekarang) {
+                }; // while($z = mysql_fetch_array($hasil)){
+            }; // if ($rakSebelum <> $rakSekarang) {
 
-                $rakSebelum = $rakSekarang;
-                $ctr++;
-                $ctrRec++; // tidak menghitung record yang didapat dari barang (ketika mencari barang yg salah rak)
-            }
-            while ($x = mysql_fetch_array($hasil1));
+            $rakSebelum = $rakSekarang;
+            $ctr++;
+            $ctrRec++; // tidak menghitung record yang didapat dari barang (ketika mencari barang yg salah rak)
+        }
+        while ($x = mysql_fetch_array($hasil1));
 
-            echo "</table>
+        echo "</table>
 
 		<input type=submit accesskey='s' value='(s) Submit'>
 		<input type=hidden name=ctr value=$ctr>
 
 		</form>";
 
-            break;
+        break;
 
 
-        case "ApproveFastSO3":  // ----------------------------------------------------------------------------
+    case "ApproveFastSO3":  // ----------------------------------------------------------------------------
 
 
-            echo "
+        echo "
 		<h2>Proses Fast Stock Opname</h2>
 	<br /><br />
 	";
 
-            for ($i = 1; $i <= $_POST[ctr]; $i++) {
+        for ($i = 1; $i <= $_POST[ctr]; $i++) {
 
-                // cek barang dihapus
-                if ($_POST["hapus$i"] == 'on') {
-                    // ....still having thoughts about it, for now just ignore.
-                    // cek barang yang salah rak (tercatat di barang.idRak di rak ybs - tapi, tidak ketemu di rak tsb pada saat SO)
+            // cek barang dihapus
+            if ($_POST["hapus$i"] == 'on') {
+                // ....still having thoughts about it, for now just ignore.
+                // cek barang yang salah rak (tercatat di barang.idRak di rak ybs - tapi, tidak ketemu di rak tsb pada saat SO)
+            }
+            elseif ($_POST["salahrak$i"] == 'on') {
+                // ganti barang.idRak ybs menjadi 999999
+                $sql = "UPDATE barang SET idRak=999999 WHERE barcode='" . $_POST["barcode$i"] . "'";
+                $hasil1 = mysql_query($sql);
+                echo "Salah Rak : " . $_POST["barcode$i"] . ", sudah diganti raknya menjadi 999999 <br />";
+
+                // cek barang yang di approve SO nya
+            }
+            elseif ($_POST["appr$i"] == 'on') {
+                // cari barang.jumBarang ybs
+                $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $_POST["barcode$i"] . "'";
+                $hasil1 = mysql_query($sql);
+                $x = mysql_fetch_array($hasil1);
+
+                // hitung jumlah barang yang seharusnya
+                $jumBarang = $x[jumBarang] + $_POST["selisih$i"];
+
+                // update barang.jumBarang untuk barcode ybs
+                $sql = "UPDATE barang SET jumBarang=$jumBarang WHERE barcode='" . $_POST["barcode$i"] . "'";
+                $hasil1 = mysql_query($sql);
+
+                // ganti fast_stock_opname.approved menjadi 1 / true
+                $sql = "UPDATE fast_stock_opname SET approved=1 WHERE barcode='" . $_POST["barcode$i"] . "'";
+                $hasil1 = mysql_query($sql);
+                echo "Approved : " . $_POST["barcode$i"] . ", stok tercatat: $x[jumBarang], selisih: " . $_POST["selisih$i"] . ", total: $jumBarang <br />";
+                //var_dump($_POST);
+            };
+        }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
+
+        break;
+
+
+
+    case "ApproveMobileSO1":  // ----------------------------------------------------------------------------
+        // cari SO yang belum di approve
+        $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 LIMIT 100";
+        $hasil1 = mysql_query($sql);
+        ?>
+        <h2>Approve Mobile Stock Opname</h2>
+        <form method=POST action='?module=barang&act=ApproveMobileSO2'>
+
+            <br /><br />
+
+            <table class="tabel">
+                <tr>
+                    <th>Rak</th>
+                    <th>Barcode</th>
+                    <th>Nama Barang</th>
+                    <th>Jumlah<br />Tercatat</th>
+                    <th>Ditemukan</th>
+                    <th>Approve</th>
+                    <th>#</th>
+                    <th>Hapus<br />Barang</td>
+                </tr>
+                <?php
+                $x = mysql_fetch_array($hasil1);
+                $ctr = 1;
+                $jumlahRecord = mysql_num_rows($hasil1);
+
+                do {
+
+                    if (strlen($x[namaBarang]) > 0) {
+
+                        $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $x[barcode] . "'";
+                        $hasil2 = mysql_query($sql);
+                        $z = mysql_fetch_array($hasil2);
+                        ?>
+                        <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
+                            <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $x['idRak']; ?>" />
+                        <td><?php echo $x['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $x['barcode']; ?>></td>
+                        <td><?php echo $x['namaBarang']; ?></td>
+                        <td class="center"><?php echo $z['jumBarang']; ?></td>
+                        <td class="center"><?php echo $x['selisih']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $x['selisih']; ?>></td>
+                        <td class="center"><input type=checkbox name=appr<?php echo $ctr; ?> checked=yes></td>
+                        <td class="center">#</td>
+                        <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
+                        </tr>
+                        <?php
+                    }; // if (strlen($x[namaBarang]) > 0) {
+
+                    $ctr++;
                 }
-                elseif ($_POST["salahrak$i"] == 'on') {
-                    // ganti barang.idRak ybs menjadi 999999
-                    $sql = "UPDATE barang SET idRak=999999 WHERE barcode='" . $_POST["barcode$i"] . "'";
-                    $hasil1 = mysql_query($sql);
-                    echo "Salah Rak : " . $_POST["barcode$i"] . ", sudah diganti raknya menjadi 999999 <br />";
+                while ($x = mysql_fetch_array($hasil1));
+                ?>
+            </table>
 
-                    // cek barang yang di approve SO nya
-                }
-                elseif ($_POST["appr$i"] == 'on') {
-                    // cari barang.jumBarang ybs
-                    $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $_POST["barcode$i"] . "'";
-                    $hasil1 = mysql_query($sql);
-                    $x = mysql_fetch_array($hasil1);
+            <input type=submit accesskey='s' value='(s) Submit'>
+            <input type=hidden name=ctr value=<?php echo $ctr; ?>>
 
-                    // hitung jumlah barang yang seharusnya
-                    $jumBarang = $x[jumBarang] + $_POST["selisih$i"];
-
-                    // update barang.jumBarang untuk barcode ybs
-                    $sql = "UPDATE barang SET jumBarang=$jumBarang WHERE barcode='" . $_POST["barcode$i"] . "'";
-                    $hasil1 = mysql_query($sql);
-
-                    // ganti fast_stock_opname.approved menjadi 1 / true
-                    $sql = "UPDATE fast_stock_opname SET approved=1 WHERE barcode='" . $_POST["barcode$i"] . "'";
-                    $hasil1 = mysql_query($sql);
-                    echo "Approved : " . $_POST["barcode$i"] . ", stok tercatat: $x[jumBarang], selisih: " . $_POST["selisih$i"] . ", total: $jumBarang <br />";
-                    //var_dump($_POST);
-                };
-            }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
-
-            break;
+        </form>
+        <?php
+        break;
 
 
-
-        case "ApproveMobileSO1":  // ----------------------------------------------------------------------------
-            // cari SO yang belum di approve
-            $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 LIMIT 100";
-            $hasil1 = mysql_query($sql);
-            ?>
-            <h2>Approve Mobile Stock Opname</h2>
-            <form method=POST action='?module=barang&act=ApproveMobileSO2'>
-
-                <br /><br />
-
-                <table class="tabel">
-                    <tr>
-                        <th>Rak</th>
-                        <th>Barcode</th>
-                        <th>Nama Barang</th>
-                        <th>Jumlah<br />Tercatat</th>
-                        <th>Ditemukan</th>
-                        <th>Approve</th>
-                        <th>#</th>
-                        <th>Hapus<br />Barang</td>
-                    </tr>
-                    <?php
-                    $x = mysql_fetch_array($hasil1);
-                    $ctr = 1;
-                    $jumlahRecord = mysql_num_rows($hasil1);
-
-                    do {
-
-                        if (strlen($x[namaBarang]) > 0) {
-
-                            $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $x[barcode] . "'";
-                            $hasil2 = mysql_query($sql);
-                            $z = mysql_fetch_array($hasil2);
-                            ?>
-                            <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
-                                <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $x['idRak']; ?>" />
-                            <td><?php echo $x['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $x['barcode']; ?>></td>
-                            <td><?php echo $x['namaBarang']; ?></td>
-                            <td class="center"><?php echo $z['jumBarang']; ?></td>
-                            <td class="center"><?php echo $x['selisih']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $x['selisih']; ?>></td>
-                            <td class="center"><input type=checkbox name=appr<?php echo $ctr; ?> checked=yes></td>
-                            <td class="center">#</td>
-                            <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
-                            </tr>
-                            <?php
-                        }; // if (strlen($x[namaBarang]) > 0) {
-
-                        $ctr++;
-                    }
-                    while ($x = mysql_fetch_array($hasil1));
-                    ?>
-                </table>
-
-                <input type=submit accesskey='s' value='(s) Submit'>
-                <input type=hidden name=ctr value=<?php echo $ctr; ?>>
-
-            </form>
-            <?php
-            break;
+    case "ApproveMobileSO2":  // ----------------------------------------------------------------------------
 
 
-        case "ApproveMobileSO2":  // ----------------------------------------------------------------------------
-
-
-            echo "
+        echo "
 		<h2>Proses Mobile Stock Opname</h2>
 	<br /><br />
 	";
 
-            for ($i = 1; $i <= $_POST[ctr]; $i++) {
+        for ($i = 1; $i <= $_POST[ctr]; $i++) {
 
-                // cek barang dihapus
-                if ($_POST["hapus$i"] == 'on') {
-                    // ....still having thoughts about it, for now just ignore.
-                    // cek barang yang di approve SO nya
-                }
-                elseif ($_POST["appr$i"] == 'on') {
-                    // cari barang.jumBarang ybs
-                    $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $_POST["barcode$i"] . "'";
-                    $hasil1 = mysql_query($sql);
-                    $x = mysql_fetch_array($hasil1);
+            // cek barang dihapus
+            if ($_POST["hapus$i"] == 'on') {
+                // ....still having thoughts about it, for now just ignore.
+                // cek barang yang di approve SO nya
+            }
+            elseif ($_POST["appr$i"] == 'on') {
+                // cari barang.jumBarang ybs
+                $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $_POST["barcode$i"] . "'";
+                $hasil1 = mysql_query($sql);
+                $x = mysql_fetch_array($hasil1);
 
-                    $jumBarang = $_POST["selisih$i"];
+                $jumBarang = $_POST["selisih$i"];
 
-                    // update barang.jumBarang untuk barcode ybs
-                    $sql = "UPDATE barang SET jumBarang=$jumBarang, idRak = " . $_POST["idRak$i"] . " WHERE barcode='" . $_POST["barcode$i"] . "'";
-                    $hasil1 = mysql_query($sql);
+                // update barang.jumBarang untuk barcode ybs
+                $sql = "UPDATE barang SET jumBarang=$jumBarang, idRak = " . $_POST["idRak$i"] . " WHERE barcode='" . $_POST["barcode$i"] . "'";
+                $hasil1 = mysql_query($sql);
 
-                    // Sesuaikan jumlah barang di tabel detail_beli
-                    $barcode = $_POST["barcode$i"];
-                    // Init detail beli (dinol kan)
-                    $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$barcode}' ";
-                    mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
+                // Sesuaikan jumlah barang di tabel detail_beli
+                $barcode = $_POST["barcode$i"];
+                // Init detail beli (dinol kan)
+                $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$barcode}' ";
+                mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
 
-                    $sql = "select *
+                $sql = "select *
                                 from detail_beli db
                                 join transaksibeli tb on tb.idTransaksiBeli = db.idTransaksiBeli
                                 where barcode = '{$barcode}'
                                 order by db.idTransaksiBeli desc";
-                    $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
+                $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
 
-                    $simulasi = false; // Variabel untuk testing.. (just for programmers)
+                $simulasi = false; // Variabel untuk testing.. (just for programmers)
 
-                    while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
+                while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
 
-                        /*
-                         * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
-                         * langsung update detail_beli.jumBarang  dengan barang.jumBarang
-                         * Jika lebih kecil
-                         * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
-                         * yang kemudian mencari lagi di row selanjutnya
-                         */
-                        if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
-                            if (!$simulasi) {
-                                mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
-                            }
-                            //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
-                            $jumBarang = 0;
+                    /*
+                     * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
+                     * langsung update detail_beli.jumBarang  dengan barang.jumBarang
+                     * Jika lebih kecil
+                     * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
+                     * yang kemudian mencari lagi di row selanjutnya
+                     */
+                    if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
+                        if (!$simulasi) {
+                            mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
                         }
-                        else {
-                            if (!$simulasi) {
-                                mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
+                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
+                        $jumBarang = 0;
+                    }
+                    else {
+                        if (!$simulasi) {
+                            mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
                                               where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 2, error: ' . mysql_error());
-                            }
-                            $jumBarang -= $detailBeli['jumBarangAsli'];
-
-                            //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
                         }
-                    //echo '<br />';
-                    endwhile;
+                        $jumBarang -= $detailBeli['jumBarangAsli'];
 
-                    // ganti fast_stock_opname.approved menjadi 1 / true
-                    $sql = "UPDATE fast_stock_opname SET approved=1 WHERE barcode='" . $_POST["barcode$i"] . "'";
-                    $hasil1 = mysql_query($sql);
-                    echo "Approved : " . $_POST["barcode$i"] . ", stok tercatat: $x[jumBarang], ditemukan = <b>" . $_POST["selisih$i"] . "</b><br />";
-                    //var_dump($_POST);
-                };
-            }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
+                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
+                    }
+                //echo '<br />';
+                endwhile;
 
-            break;
+                // ganti fast_stock_opname.approved menjadi 1 / true
+                $sql = "UPDATE fast_stock_opname SET approved=1 WHERE barcode='" . $_POST["barcode$i"] . "'";
+                $hasil1 = mysql_query($sql);
+                echo "Approved : " . $_POST["barcode$i"] . ", stok tercatat: $x[jumBarang], ditemukan = <b>" . $_POST["selisih$i"] . "</b><br />";
+                //var_dump($_POST);
+            };
+        }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
 
-        case "transfer1":  // ----------------------------------------------------------------------------
-            // ambil daftar customer
-            $sql = "SELECT idCustomer, namaCustomer
+        break;
+
+    case "transfer1":  // ----------------------------------------------------------------------------
+        // ambil daftar customer
+        $sql = "SELECT idCustomer, namaCustomer
 		FROM customer ORDER BY namaCustomer ASC";
-            $namaCustomer = mysql_query($sql);
+        $namaCustomer = mysql_query($sql);
 
-            echo "<h2>Transfer Barang</h2>
+        echo "<h2>Transfer Barang</h2>
               <form method=POST action='modul/js_jual_barang.php?act=caricustomer' onSubmit=\"popupform(this, 'jual_barang')\">
               (i) ID Customer : <select name='idCustomer' accesskey='i'>";
 
-            while ($cust = mysql_fetch_array($namaCustomer)) {
-                if ($cust[idCustomer] == 1) {
-                    echo "<option value='$cust[idCustomer]' selected>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
-                }
-                else {
-                    echo "<option value='$cust[idCustomer]'>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
-                };
+        while ($cust = mysql_fetch_array($namaCustomer)) {
+            if ($cust[idCustomer] == 1) {
+                echo "<option value='$cust[idCustomer]' selected>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
             }
+            else {
+                echo "<option value='$cust[idCustomer]'>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
+            };
+        }
 
-            echo "
+        echo "
               </select><p>
 		<input type=hidden name='transferahad' value='1'>
 
@@ -1643,42 +1754,42 @@ switch ($_GET['act']) {
               </form>";
 
 
-            break;
+        break;
 
 
-        case 'hargajualsync':
-            ?>
-            <h2>Sinkronisasi Harga Jual - Pilih Rak</h2>
-            <form method=POST action='?module=barang&act=hargajualsync2'>
+    case 'hargajualsync':
+        ?>
+        <h2>Sinkronisasi Harga Jual - Pilih Rak</h2>
+        <form method=POST action='?module=barang&act=hargajualsync2'>
 
-                <table>
-                    <tr>
-                        <td>(r) Rak</td>
-                        <td> : <select name="rak" accesskey="r">
-                                <option value="0">-- Pilih Rak --</option>
-                                <?php
-                                while ($rak = mysql_fetch_array($ambilRak)) {
-                                    echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
-                                }
-                                ?>
-                            </select></td></tr>
+            <table>
+                <tr>
+                    <td>(r) Rak</td>
+                    <td> : <select name="rak" accesskey="r">
+                            <option value="0">-- Pilih Rak --</option>
+                            <?php
+                            while ($rak = mysql_fetch_array($ambilRak)) {
+                                echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
+                            }
+                            ?>
+                        </select></td></tr>
 
-                    <tr><td><button type="submit" accesskey="O"><u>O</u>K</button></td></tr>
+                <tr><td><button type="submit" accesskey="O"><u>O</u>K</button></td></tr>
 
-                </table>
-            </form>
-            <?php
-            break;
+            </table>
+        </form>
+        <?php
+        break;
 
-        case 'hargajualsync2':
+    case 'hargajualsync2':
 
-            $idRak = $_POST['rak'];
-            $result = mysql_query("select * from rak where idRak={$idRak}") or die(mysql_error());
-            $rak = mysql_fetch_array($result);
-            if (isset($_POST['sinkronisasi_harga'])) {
-                echo 'Proses Sinkronisasi..<br />';
+        $idRak = $_POST['rak'];
+        $result = mysql_query("select * from rak where idRak={$idRak}") or die(mysql_error());
+        $rak = mysql_fetch_array($result);
+        if (isset($_POST['sinkronisasi_harga'])) {
+            echo 'Proses Sinkronisasi..<br />';
 
-                $sql = "CREATE TABLE IF NOT EXISTS `audit_ubah_harga_jual` (
+            $sql = "CREATE TABLE IF NOT EXISTS `audit_ubah_harga_jual` (
 								  `uid` int(11) NOT NULL AUTO_INCREMENT,
 								  `barcode` varchar(30) NOT NULL,
 								  `harga_jual_awal` bigint(20) DEFAULT NULL,
@@ -1688,13 +1799,13 @@ switch ($_GET['act']) {
 								  `lastupdate` datetime DEFAULT NULL,
 								  PRIMARY KEY (`uid`)
 								) ENGINE=MyISAM";
-                $result = mysql_query($sql) or die(mysql_error());
-                if ($result) {
-                    echo 'Pembuatan Tabel Transaksi.. Selesai<br />';
-                }
-                $lastupdate = date('Y-m-d H:i:s');
-                // Masukkan transaksi sinkronisasi ke tabel audit untuk pencatatan
-                $sql = "
+            $result = mysql_query($sql) or die(mysql_error());
+            if ($result) {
+                echo 'Pembuatan Tabel Transaksi.. Selesai<br />';
+            }
+            $lastupdate = date('Y-m-d H:i:s');
+            // Masukkan transaksi sinkronisasi ke tabel audit untuk pencatatan
+            $sql = "
 									insert into audit_ubah_harga_jual (barcode, nama_barang, harga_jual_awal, harga_jual_baru, user_name, lastupdate)
 									select b.barcode, b.namaBarang, b.hargaJual as hargaJualAwal, rhj.hargaJual as hargaJualBaru, '{$_SESSION['uname']}','{$lastupdate}'
 									from barang b
@@ -1703,139 +1814,139 @@ switch ($_GET['act']) {
 									join rujukan_harga_jual rhj on rhj.barcode = b.barcode
 									where idRak = {$idRak} and rhj.hargaJual > b.hargaJual
 									order by namaBarang";
-                $result = mysql_query($sql) or die(mysql_error());
-                if ($result) {
-                    echo 'Pencatatan Transaksi.. Selesai<br />';
-                }
-                // Setelah dicatat, update tabel barang sesuai dengan yang ada di tabel audit
-                $sql = "update barang b
+            $result = mysql_query($sql) or die(mysql_error());
+            if ($result) {
+                echo 'Pencatatan Transaksi.. Selesai<br />';
+            }
+            // Setelah dicatat, update tabel barang sesuai dengan yang ada di tabel audit
+            $sql = "update barang b
 										join audit_ubah_harga_jual audit on audit.barcode = b.barcode
 										set b.hargaJual = audit.harga_jual_baru
 										where b. idRak = {$idRak}";
-                $result = mysql_query($sql) or die(mysql_error());
-                if ($result) {
-                    ?>
-                    Sinkronisasi Harga.. Selesai<br />
-                    Proses Sinkronisasi Selesai<br /><br />
-                    <form method="POST" action="modul/mod_barang.php?act=cetakhargajualsync" onSubmit="popupform(this, 'cetaklabel')">
-                        <input type="hidden" name="lastupdate" value="<?php echo $lastupdate; ?>" />
-                        <input type="submit" name="cetak" value="Cetak label harga yang disinkronisasi" />
-                    </form>
-                    <?php
-                }
+            $result = mysql_query($sql) or die(mysql_error());
+            if ($result) {
+                ?>
+                Sinkronisasi Harga.. Selesai<br />
+                Proses Sinkronisasi Selesai<br /><br />
+                <form method="POST" action="modul/mod_barang.php?act=cetakhargajualsync" onSubmit="popupform(this, 'cetaklabel')">
+                    <input type="hidden" name="lastupdate" value="<?php echo $lastupdate; ?>" />
+                    <input type="submit" name="cetak" value="Cetak label harga yang disinkronisasi" />
+                </form>
+                <?php
             }
+        }
 
-            // Tampilkan barang yang perlu disinkronisasi harga jual
-            // yaitu yang harga jual < dari harga jual baru
+        // Tampilkan barang yang perlu disinkronisasi harga jual
+        // yaitu yang harga jual < dari harga jual baru
 
-            $sql = "select b.barcode, b.namaBarang,  kb.namaKategoriBarang, sb.namaSatuanBarang, b.hargaJual as hargaJualAwal, rhj.hargaJual as hargaJualBaru
+        $sql = "select b.barcode, b.namaBarang,  kb.namaKategoriBarang, sb.namaSatuanBarang, b.hargaJual as hargaJualAwal, rhj.hargaJual as hargaJualBaru
 								from barang b
 								join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
 								join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
 								join rujukan_harga_jual rhj on rhj.barcode = b.barcode
 								where idRak = {$idRak} and rhj.hargaJual > b.hargaJual
 								order by namaBarang";
-            $result = mysql_query($sql) or die(mysql_error());
+        $result = mysql_query($sql) or die(mysql_error());
+        ?>
+        <h2>Sinkronisasi Harga Jual - <?php echo $rak['namaRak']; ?></h2>
+        <?php
+        if (mysql_num_rows($result) > 0) {
             ?>
-            <h2>Sinkronisasi Harga Jual - <?php echo $rak['namaRak']; ?></h2>
-            <?php
-            if (mysql_num_rows($result) > 0) {
-                ?>
-                <form method="POST">
-                    <input type="hidden" name="rak" value="<?php echo $idRak; ?>" />
-                    <button type="submit" name="sinkronisasi_harga" accesskey="u"><u>U</u>pdate Harga ke Harga Jual Baru</button>
-                </form>
-                <br />
-                <table class="tabel">
-                    <tr>
-                        <th>No</th>
-                        <th>Barcode</th>
-                        <th>Nama Barang</th>
-                        <th>Kategori Barang</th>
-                        <th>Satuan Barang</th>
-                        <th>Harga Jual Awal</th>
-                        <th>Harga Jual Baru</th>
+            <form method="POST">
+                <input type="hidden" name="rak" value="<?php echo $idRak; ?>" />
+                <button type="submit" name="sinkronisasi_harga" accesskey="u"><u>U</u>pdate Harga ke Harga Jual Baru</button>
+            </form>
+            <br />
+            <table class="tabel">
+                <tr>
+                    <th>No</th>
+                    <th>Barcode</th>
+                    <th>Nama Barang</th>
+                    <th>Kategori Barang</th>
+                    <th>Satuan Barang</th>
+                    <th>Harga Jual Awal</th>
+                    <th>Harga Jual Baru</th>
+                </tr>
+                <?php
+                $no = 1;
+                while ($data_audit = mysql_fetch_array($result)):
+                    ?>
+                    <tr <?php echo $no % 2 == 0 ? 'class="alt"' : ''; ?>>
+                        <td class="center"><?php echo $no; ?></td>
+                        <td><?php echo $data_audit['barcode']; ?></td>
+                        <td><?php echo $data_audit['namaBarang']; ?></td>
+                        <td class="center"><?php echo $data_audit['namaKategoriBarang']; ?></td>
+                        <td class="center"><?php echo $data_audit['namaSatuanBarang']; ?></td>
+                        <td class="right"><?php echo $data_audit['hargaJualAwal']; ?></td>
+                        <td class="right"><?php echo $data_audit['hargaJualBaru']; ?></td>
                     </tr>
                     <?php
-                    $no = 1;
-                    while ($data_audit = mysql_fetch_array($result)):
-                        ?>
-                        <tr <?php echo $no % 2 == 0 ? 'class="alt"' : ''; ?>>
-                            <td class="center"><?php echo $no; ?></td>
-                            <td><?php echo $data_audit['barcode']; ?></td>
-                            <td><?php echo $data_audit['namaBarang']; ?></td>
-                            <td class="center"><?php echo $data_audit['namaKategoriBarang']; ?></td>
-                            <td class="center"><?php echo $data_audit['namaSatuanBarang']; ?></td>
-                            <td class="right"><?php echo $data_audit['hargaJualAwal']; ?></td>
-                            <td class="right"><?php echo $data_audit['hargaJualBaru']; ?></td>
-                        </tr>
-                        <?php
-                        $no++;
-                    endwhile;
-                    ?>
-                </table>
-                <br />
-                <form method="POST">
-                    <input type="hidden" name="rak" value="<?php echo $idRak; ?>" />
-                    <button type="submit" name="sinkronisasi_harga" accesskey="u"><u>U</u>pdate Harga ke Harga Jual Baru</button>
-                </form
-                <?php
-            } else {
+                    $no++;
+                endwhile;
                 ?>
-                <p>Harga Sudah OK, tidak ada yang perlu disinkronisasi</p>
-                <?php
-            }
-            ?>
+            </table>
             <br />
+            <form method="POST">
+                <input type="hidden" name="rak" value="<?php echo $idRak; ?>" />
+                <button type="submit" name="sinkronisasi_harga" accesskey="u"><u>U</u>pdate Harga ke Harga Jual Baru</button>
+            </form
             <?php
-            break;
+        } else {
+            ?>
+            <p>Harga Sudah OK, tidak ada yang perlu disinkronisasi</p>
+            <?php
+        }
+        ?>
+        <br />
+        <?php
+        break;
 
-        case 'cetakhargajualsync':
-            include "../../config/config.php";
-            if ($_POST['cetak']) {
-                $lastupdate = $_POST['lastupdate'];
-                $sql = "select *
+    case 'cetakhargajualsync':
+        include "../../config/config.php";
+        if ($_POST['cetak']) {
+            $lastupdate = $_POST['lastupdate'];
+            $sql = "select *
 					from barang
 					join audit_ubah_harga_jual audit on audit.barcode = barang.barcode
 					where audit.lastupdate = '{$lastupdate}'";
-                $result = mysql_query($sql) or die(mysql_error());
+            $result = mysql_query($sql) or die(mysql_error());
 
-                $lebar_label = 200;
-                $tinggi_label = 112;
-                $label_per_baris = 3;
-                $baris_per_halaman = 7;
+            $lebar_label = 200;
+            $tinggi_label = 112;
+            $label_per_baris = 3;
+            $baris_per_halaman = 7;
 
-                $total = mysql_num_rows($result);
-                $baris = 1;
-                $kolom = 1;
-                echo "<div style=\"float:none\">";
+            $total = mysql_num_rows($result);
+            $baris = 1;
+            $kolom = 1;
+            echo "<div style=\"float:none\">";
 
-                for ($i = 1; $i <= $total; $i++) {
+            for ($i = 1; $i <= $total; $i++) {
 
-                    $r = mysql_fetch_array($result);
+                $r = mysql_fetch_array($result);
 
-                    $clear = "";
-                    // cek posisi saat ini
-                    if ($kolom > $label_per_baris) {
-                        $kolom = 1;
-                        $baris++;
-                        $clear = " clear:left; "; //echo "</div><div style=\"float:none\">"; // ganti baris
-                    };
-                    if ($baris > $baris_per_halaman) {
-                        $baris = 1;
-                        echo '<p style="page-break-after: always" />';
-                    };
+                $clear = "";
+                // cek posisi saat ini
+                if ($kolom > $label_per_baris) {
+                    $kolom = 1;
+                    $baris++;
+                    $clear = " clear:left; "; //echo "</div><div style=\"float:none\">"; // ganti baris
+                };
+                if ($baris > $baris_per_halaman) {
+                    $baris = 1;
+                    echo '<p style="page-break-after: always" />';
+                };
 
-                    $namaBarang = $r['namaBarang'];
-                    // jika terlalu panjang nama barangnya
-                    if (strlen($namaBarang) > 15) {
-                        // bikin menjadi 2 baris
-                        $namaBarang = substr($namaBarang, 0, 15) .
-                                "</p><p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">" . substr($namaBarang, 15);
-                    };
+                $namaBarang = $r['namaBarang'];
+                // jika terlalu panjang nama barangnya
+                if (strlen($namaBarang) > 15) {
+                    // bikin menjadi 2 baris
+                    $namaBarang = substr($namaBarang, 0, 15) .
+                            "</p><p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">" . substr($namaBarang, 15);
+                };
 
-                    // cetak label
-                    echo "\n
+                // cetak label
+                echo "\n
 
 				<div style=\"border: thin solid #000000; $clear float:left; margin-right:10px; margin-bottom:10px; width:" . $lebar_label . "px; height:" . $tinggi_label . "px\">
 				<p style=\"line-height:0px; letter-spacing:-2px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
@@ -1848,220 +1959,253 @@ switch ($_GET['act']) {
 				</div>
 			";
 
-                    $kolom++;
-                } // for
+                $kolom++;
+            } // for
 
-                echo "</div>";
+            echo "</div>";
+        }
+
+
+
+
+        break;
+    case 'diskon':
+        $sql = "select uid, nama, deskripsi from diskon_tipe where uid >= 1000 order by uid";
+        $rDiskonTipe = mysql_query($sql) or die(mysql_error());
+        if (isset($_POST['submit'])) {
+            $diskonDetail = $_POST['diskon_detail'];
+            //echo '<pre>';
+            //print_r($diskonDetail);
+            //echo '</pre>';
+            $ketemuError = false;
+            if (!($diskonDetail['diskon_tipe_id'] > 0)) {
+                $errorDiskonTipeId = 'Tipe Diskon Harus Dipilih!';
+                $ketemuError = true;
+            }
+            if ($diskonDetail['barcode'] == '') {
+                $errorBarcode = 'Barcode Harus Diisi!';
+                $ketemuError = true;
+            }
+            $min_item = 1;
+            if ($diskonDetail['min_item'] > 1) {
+                $min_item = $diskonDetail['min_item'];
             }
 
-
-
-
-            break;
-        case 'diskon':
-            $sql = "select uid, nama, deskripsi from diskon_tipe where uid >= 1000 order by uid";
-            $rDiskonTipe = mysql_query($sql) or die(mysql_error());
-            if (isset($_POST['submit'])) {
-                $diskonDetail = $_POST['diskon_detail'];
-                //echo '<pre>';
-                //print_r($diskonDetail);
-                //echo '</pre>';
-                $ketemuError = false;
-                if (!($diskonDetail['diskon_tipe_id'] > 0)) {
-                    $errorDiskonTipeId = 'Tipe Diskon Harus Dipilih!';
-                    $ketemuError = true;
-                }
-                if ($diskonDetail['barcode'] == '') {
-                    $errorBarcode = 'Barcode Harus Diisi!';
-                    $ketemuError = true;
-                }
-                $min_item = 1;
-                if ($diskonDetail['min_item'] > 1) {
-                    $min_item = $diskonDetail['min_item'];
-                }
-
-                if (!$ketemuError) {
-                    $tanggalDari = date_format(date_create_from_format('d-m-Y H:i', $diskonDetail['tanggal_dari']), 'Y-m-d H:i');
-                    $tanggalSampai = date_format(date_create_from_format('d-m-Y H:i', $diskonDetail['tanggal_sampai']), 'Y-m-d H:i');
-                    $rDiskon = mysql_query("select uid, nama from diskon_tipe where uid={$diskonDetail['diskon_tipe_id']}") or die(mysql_error());
-                    $diskonTipe = mysql_fetch_array($rDiskon);
-                    $sqlInsert = "insert into diskon_detail (diskon_tipe_id, diskon_tipe_nama, barcode, tanggal_dari, tanggal_sampai, diskon_persen, diskon_rupiah, min_item, max_item) "
-                            . "values({$diskonDetail['diskon_tipe_id']},"
-                            . "'{$diskonTipe['nama']}',"
-                            . "'{$diskonDetail['barcode']}',"
-                            . "'{$tanggalDari}',"
-                            . "'{$tanggalSampai}',"
-                            . "{$diskonDetail['diskon_persen']},"
-                            . "{$diskonDetail['diskon_rupiah']},"
-                            . "{$min_item},"
-                            . "{$diskonDetail['max_item']})";
-                    //echo $sqlInsert;
-                    mysql_query($sqlInsert) or die(mysql_error());
-                }
+            if (!$ketemuError) {
+                $tanggalDari = date_format(date_create_from_format('d-m-Y H:i', $diskonDetail['tanggal_dari']), 'Y-m-d H:i');
+                $tanggalSampai = date_format(date_create_from_format('d-m-Y H:i', $diskonDetail['tanggal_sampai']), 'Y-m-d H:i');
+                $rDiskon = mysql_query("select uid, nama from diskon_tipe where uid={$diskonDetail['diskon_tipe_id']}") or die(mysql_error());
+                $diskonTipe = mysql_fetch_array($rDiskon);
+                $sqlInsert = "insert into diskon_detail (diskon_tipe_id, diskon_tipe_nama, barcode, tanggal_dari, tanggal_sampai, diskon_persen, diskon_rupiah, min_item, max_item) "
+                        . "values({$diskonDetail['diskon_tipe_id']},"
+                        . "'{$diskonTipe['nama']}',"
+                        . "'{$diskonDetail['barcode']}',"
+                        . "'{$tanggalDari}',"
+                        . "'{$tanggalSampai}',"
+                        . "{$diskonDetail['diskon_persen']},"
+                        . "{$diskonDetail['diskon_rupiah']},"
+                        . "{$min_item},"
+                        . "{$diskonDetail['max_item']})";
+                //echo $sqlInsert;
+                mysql_query($sqlInsert) or die(mysql_error());
             }
-            ?>
-            <h2>Diskon</h2>
-            <form method="POST">
-                <table>
-                    <tr>
-                        <td>Tipe Diskon</td>
-                        <td>
-                            <select name="diskon_detail[diskon_tipe_id]" id="diskonTipeId">
-                                <option>Pilih satu..</option>
-                                <?php
-                                while ($diskonTipe = mysql_fetch_array($rDiskonTipe)):
-                                    ?>
-                                    <option value="<?php echo $diskonTipe['uid']; ?>"><?php echo $diskonTipe['nama'] . ' :: ' . $diskonTipe['deskripsi']; ?></option>
-                                    <?php
-                                endwhile;
+        }
+        ?>
+        <h2>Diskon</h2>
+        <form method="POST">
+            <table>
+                <tr>
+                    <td>Tipe Diskon</td>
+                    <td>
+                        <select name="diskon_detail[diskon_tipe_id]" id="diskonTipeId">
+                            <option>Pilih satu..</option>
+                            <?php
+                            while ($diskonTipe = mysql_fetch_array($rDiskonTipe)):
                                 ?>
-                            </select>
-                            <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Barcode</td>
-                        <td><input type="text" id="barcode" name="diskon_detail[barcode]" style="margin-right:5px;" /><?php echo isset($errorBarcode) ? $errorBarcode : ''; ?><span id="barcode-info"></span></td>
-                    </tr>
-                    <tr>
-                        <td>Periode</td>
-                        <td>
-                            <input type="text" id="tanggal_dari" name="diskon_detail[tanggal_dari]" value="">
-                            -
-                            <input type="text" id="tanggal_sampai" name="diskon_detail[tanggal_sampai]" value="">
-                            <script type="text/javascript">
-                                $("#diskonTipeId").change(function () {
-                                    var diskonId = $(this).val();
-                                    // 1000:gudang; 10001:waktu
-                                    if (diskonId == 1000) {
-                                        $(".show-on-grosir-only").show();
-                                        $(".show-on-waktu-only").hide();
-                                    } else if (diskonId == 1001) {
-                                        $(".show-on-grosir-only").hide();
-                                        $(".show-on-waktu-only").show();
-                                    }
-                                });
+                                <option value="<?php echo $diskonTipe['uid']; ?>"><?php echo $diskonTipe['nama'] . ' :: ' . $diskonTipe['deskripsi']; ?></option>
+                                <?php
+                            endwhile;
+                            ?>
+                        </select>
+                        <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Barcode</td>
+                    <td><input type="text" id="barcode" name="diskon_detail[barcode]" style="margin-right:5px;" /><?php echo isset($errorBarcode) ? $errorBarcode : ''; ?><span id="barcode-info"></span></td>
+                </tr>
+                <tr>
+                    <td>Periode</td>
+                    <td>
+                        <input type="text" id="tanggal_dari" name="diskon_detail[tanggal_dari]" value="">
+                        -
+                        <input type="text" id="tanggal_sampai" name="diskon_detail[tanggal_sampai]" value="">
+                        <script type="text/javascript">
+                            $("#diskonTipeId").change(function () {
+                                var diskonId = $(this).val();
+                                // 1000:gudang; 10001:waktu
+                                if (diskonId == 1000) {
+                                    $(".show-on-grosir-only").show();
+                                    $(".show-on-waktu-only").hide();
+                                } else if (diskonId == 1001) {
+                                    $(".show-on-grosir-only").hide();
+                                    $(".show-on-waktu-only").show();
+                                }
+                            });
 
-                                $("#barcode").keydown(function (e) {
+                            $("#barcode").keydown(function (e) {
                                 if (e.keyCode === 13) {
                                     $('#tanggal_dari').focus();
                                     return false;
                                 }
-                                });
+                            });
 
-                                $(function () {
-                                    $('#tanggal_dari').appendDtpicker({
-                                        "closeOnSelected": true,
-                                        'locale': 'id',
-                                        'dateFormat': 'DD-MM-YYYY hh:mm'
-                                    });
+                            $(function () {
+                                $('#tanggal_dari').appendDtpicker({
+                                    "closeOnSelected": true,
+                                    'locale': 'id',
+                                    'dateFormat': 'DD-MM-YYYY hh:mm'
                                 });
-                                $(function () {
-                                    $('#tanggal_sampai').appendDtpicker({
-                                        "closeOnSelected": true,
-                                        'locale': 'id',
-                                        'dateFormat': 'DD-MM-YYYY hh:mm'
-                                    });
+                            });
+                            $(function () {
+                                $('#tanggal_sampai').appendDtpicker({
+                                    "closeOnSelected": true,
+                                    'locale': 'id',
+                                    'dateFormat': 'DD-MM-YYYY hh:mm'
                                 });
-                                $("#barcode").blur(function () {
-                                    $("#barcode-info").load("aksi.php?module=diskon&act=getbarcodeinfo&barcode=" + $(this).val());
-                                })
-                            </script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Diskon (%)</td>
-                        <td><input type="text" name="diskon_detail[diskon_persen]" value="0"/></td>
-                    </tr>
-                    <tr>
-                        <td>Diskon @ (Rp)</td>
-                        <td><input type="text" name="diskon_detail[diskon_rupiah]" value="0"/></td>
-                    </tr>
-                    <tr class="show-on-grosir-only">
-                        <td>Jumlah Barang Minimum</td>
-                        <td><input type="text" name="diskon_detail[min_item]" value="0"/></td>
-                    </tr>
-                    <tr class="show-on-waktu-only">
-                        <td>Jumlah Barang Maksimum</td>
-                        <td><input type="text" name="diskon_detail[max_item]" value="0" /></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="submit" name="submit" value="submit" /></td>
-                    </tr>
-                </table>
-            </form>
-            <hr />
-            <table class="tabel">
-                <tr>
-                    <th>Tipe Diskon</th>
-                    <th>Barcode</th>
-                    <th>Nama Barang</th>
-                    <th>Dari</th>
-                    <th>Sampai</th>
-                    <th>Diskon(%)</th>
-                    <th>Diskon@(Rp)</th>
-                    <th>Qty Min</th>
-                    <th>Qty Max</th>
-                    <th>Aktif</th>
+                            });
+                            $("#barcode").blur(function () {
+                                $("#barcode-info").load("aksi.php?module=diskon&act=getbarcodeinfo&barcode=" + $(this).val());
+                            })
+                        </script>
+                    </td>
                 </tr>
-                <?php
-                $sql = "select dd.uid, diskon_tipe_nama, dd.barcode, barang.namaBarang, tanggal_dari, tanggal_sampai, diskon_persen, diskon_rupiah, min_item, max_item, dd.status
+                <tr>
+                    <td>Diskon (%)</td>
+                    <td><input type="text" name="diskon_detail[diskon_persen]" value="0"/></td>
+                </tr>
+                <tr>
+                    <td>Diskon @ (Rp)</td>
+                    <td><input type="text" name="diskon_detail[diskon_rupiah]" value="0"/></td>
+                </tr>
+                <tr class="show-on-grosir-only">
+                    <td>Jumlah Barang Minimum</td>
+                    <td><input type="text" name="diskon_detail[min_item]" value="0"/></td>
+                </tr>
+                <tr class="show-on-waktu-only">
+                    <td>Jumlah Barang Maksimum</td>
+                    <td><input type="text" name="diskon_detail[max_item]" value="0" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" name="submit" value="submit" /></td>
+                </tr>
+            </table>
+        </form>
+        <hr />
+        <table class="tabel">
+            <tr>
+                <th>Tipe Diskon</th>
+                <th>Barcode</th>
+                <th>Nama Barang</th>
+                <th>Dari</th>
+                <th>Sampai</th>
+                <th>Diskon(%)</th>
+                <th>Diskon@(Rp)</th>
+                <th>Qty Min</th>
+                <th>Qty Max</th>
+                <th>Aktif</th>
+            </tr>
+            <?php
+            $sql = "select dd.uid, diskon_tipe_nama, dd.barcode, barang.namaBarang, tanggal_dari, tanggal_sampai, diskon_persen, diskon_rupiah, min_item, max_item, dd.status
 							from diskon_detail dd
 							join barang on barang.barcode = dd.barcode
                             where dd.status=1
 							order by dd.status desc, dd.uid desc";
-                $result = mysql_query($sql) or die(mysql_error());
-                while ($diskonDetail = mysql_fetch_array($result)):
+            $result = mysql_query($sql) or die(mysql_error());
+            while ($diskonDetail = mysql_fetch_array($result)):
+                ?>
+                <tr>
+                    <td><?php echo $diskonDetail['diskon_tipe_nama']; ?></td>
+                    <td><?php echo $diskonDetail['barcode']; ?></td>
+                    <td><?php echo $diskonDetail['namaBarang']; ?></td>
+                    <td><?php echo date_format(date_create_from_format('Y-m-d H:i:s', $diskonDetail['tanggal_dari']), 'd-m-Y H:i'); ?></td>
+                    <td><?php echo date_format(date_create_from_format('Y-m-d H:i:s', $diskonDetail['tanggal_sampai']), 'd-m-Y H:i'); ?></td>
+                    <td><?php echo $diskonDetail['diskon_persen']; ?></td>
+                    <td><?php echo $diskonDetail['diskon_rupiah']; ?></td>
+                    <td><?php echo $diskonDetail['min_item']; ?></td>
+                    <td><?php echo $diskonDetail['max_item']; ?></td>
+                    <td>
+                        <select class="status-diskon" id="<?php echo $diskonDetail['uid']; ?>" >
+                            <option value="1" <?php echo $diskonDetail['status'] ? 'selected' : ''; ?>>Ya</option>
+                            <option value="0" <?php echo $diskonDetail['status'] ? '' : 'selected'; ?>>Tidak</option>
+                        </select>
+                    </td>
+                </tr>
+                <?php
+            endwhile;
+            ?>
+        </table>
+        <script>
+            $(".status-diskon").change(function () {
+                var diskonId = $(this).attr("id");
+                var status = $(this).val();
+                var data = "id=" + diskonId + "&status=" + status;
+                var url = "aksi.php?module=barang&act=diskonupdate";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    success: function () {
+                        //location.reload()
+                    },
+                });
+            });
+
+        </script>
+        <?php
+        break;
+    case 'pindahsupplier':
+        $sqlSupplier = getSupplier();
+        ?>
+        <h2>Pindah Supplier</h2>
+        <form method="POST">
+            <label for="supplierasal">Pilih Supplier Asal</label><br />
+            <select name="idSupplier" id="supplierasal" style="width:30%">
+                <?php
+                while ($data = mysql_fetch_array($sqlSupplier)) :
                     ?>
-                    <tr>
-                        <td><?php echo $diskonDetail['diskon_tipe_nama']; ?></td>
-                        <td><?php echo $diskonDetail['barcode']; ?></td>
-                        <td><?php echo $diskonDetail['namaBarang']; ?></td>
-                        <td><?php echo date_format(date_create_from_format('Y-m-d H:i:s', $diskonDetail['tanggal_dari']), 'd-m-Y H:i'); ?></td>
-                        <td><?php echo date_format(date_create_from_format('Y-m-d H:i:s', $diskonDetail['tanggal_sampai']), 'd-m-Y H:i'); ?></td>
-                        <td><?php echo $diskonDetail['diskon_persen']; ?></td>
-                        <td><?php echo $diskonDetail['diskon_rupiah']; ?></td>
-                        <td><?php echo $diskonDetail['min_item']; ?></td>
-                        <td><?php echo $diskonDetail['max_item']; ?></td>
-                        <td>
-                            <select class="status-diskon" id="<?php echo $diskonDetail['uid']; ?>" >
-                                <option value="1" <?php echo $diskonDetail['status'] ? 'selected' : ''; ?>>Ya</option>
-                                <option value="0" <?php echo $diskonDetail['status'] ? '' : 'selected'; ?>>Tidak</option>
-                            </select>
-                        </td>
-                    </tr>
+                    <option value="<?php echo $data['idSupplier']; ?>" <?php echo $data['idSupplier'] == $_POST['idSupplier'] ? 'selected' : ''; ?>>
+                        <?php
+                        echo $data['namaSupplier'];
+                        echo trim($data['alamatSupplier']) === '' ? '' : ' | ' . $data['alamatSupplier'];
+                        ?>
+                    </option>
                     <?php
                 endwhile;
                 ?>
-            </table>
-            <script>
-                $(".status-diskon").change(function () {
-                    var diskonId = $(this).attr("id");
-                    var status = $(this).val();
-                    var data = "id=" + diskonId + "&status=" + status;
-                    var url = "aksi.php?module=barang&act=diskonupdate";
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: data,
-                        success: function () {
-                            //location.reload()
-                        },
-                    });
-                });
-
-            </script>
-            <?php
-            break;
-        case 'pindahsupplier':
-            $sqlSupplier = getSupplier();
+            </select>
+            <input type=submit value='(D)isplay Barang' accesskey='d' name='displayBarang' />
+        </form>
+        <br />
+        <?php
+        /*
+         * Jika ada post displayBarang, tampilkan barang supplier tersebut
+         */
+        if (isset($_POST['displayBarang'])):
+            $sql = "select barcode, namaBarang, kb.namaKategoriBarang, sb.namaSatuanBarang, jumBarang, hargaJual
+							from barang b
+							left join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
+							left join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
+							where b.idSupplier={$_POST['idSupplier']} and (b.nonAktif <> 1 or b.nonAktif is null)";
+            $result = mysql_query($sql) or die("Gagal ambil dari barang, supplier id#{$_POST['idSupplier']}, error:" . mysql_error());
             ?>
-            <h2>Pindah Supplier</h2>
-            <form method="POST">
-                <label for="supplierasal">Pilih Supplier Asal</label><br />
-                <select name="idSupplier" id="supplierasal" style="width:30%">
+            <form method="POST" action="?module=barang&act=pindahsupplier2">
+                <input type="hidden" name="idSupplierAsal" value="<?php echo $_POST['idSupplier']; ?>"/>
+                <label for="suppliertujuan">Pilih Supplier Tujuan</label><br />
+                <select name="idSupplierTujuan" id="raktujuan" style="width:30%">
                     <?php
+                    mysql_data_seek($sqlSupplier, 0);
                     while ($data = mysql_fetch_array($sqlSupplier)) :
                         ?>
                         <option value="<?php echo $data['idSupplier']; ?>" <?php echo $data['idSupplier'] == $_POST['idSupplier'] ? 'selected' : ''; ?>>
@@ -2074,95 +2218,7 @@ switch ($_GET['act']) {
                     endwhile;
                     ?>
                 </select>
-                <input type=submit value='(D)isplay Barang' accesskey='d' name='displayBarang' />
-            </form>
-            <br />
-            <?php
-            /*
-             * Jika ada post displayBarang, tampilkan barang supplier tersebut
-             */
-            if (isset($_POST['displayBarang'])):
-                $sql = "select barcode, namaBarang, kb.namaKategoriBarang, sb.namaSatuanBarang, jumBarang, hargaJual
-							from barang b
-							left join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
-							left join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
-							where b.idSupplier={$_POST['idSupplier']} and (b.nonAktif <> 1 or b.nonAktif is null)";
-                $result = mysql_query($sql) or die("Gagal ambil dari barang, supplier id#{$_POST['idSupplier']}, error:" . mysql_error());
-                ?>
-                <form method="POST" action="?module=barang&act=pindahsupplier2">
-                    <input type="hidden" name="idSupplierAsal" value="<?php echo $_POST['idSupplier']; ?>"/>
-                    <label for="suppliertujuan">Pilih Supplier Tujuan</label><br />
-                    <select name="idSupplierTujuan" id="raktujuan" style="width:30%">
-                        <?php
-                        mysql_data_seek($sqlSupplier, 0);
-                        while ($data = mysql_fetch_array($sqlSupplier)) :
-                            ?>
-                            <option value="<?php echo $data['idSupplier']; ?>" <?php echo $data['idSupplier'] == $_POST['idSupplier'] ? 'selected' : ''; ?>>
-                                <?php
-                                echo $data['namaSupplier'];
-                                echo trim($data['alamatSupplier']) === '' ? '' : ' | ' . $data['alamatSupplier'];
-                                ?>
-                            </option>
-                            <?php
-                        endwhile;
-                        ?>
-                    </select>
-                    <br />
-                    <table class="tabel">
-                        <thead>
-                            <tr>
-                                <th>Barcode</th>
-                                <th>Nama Barang</th>
-                                <th>Kategori</th>
-                                <th>Satuan</th>
-                                <th>Jumlah</th>
-                                <th>Harga Jual</th>
-                                <th>Pilih</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $i = 1;
-                            while ($barang = mysql_fetch_array($result)):
-                                ?>
-                                <tr <?php echo ($i % 2 === 0) ? 'class="alt"' : ''; ?>>
-                                    <td><?php echo $barang['barcode']; ?></td>
-                                    <td><?php echo $barang['namaBarang']; ?></td>
-                                    <td><?php echo $barang['namaKategoriBarang']; ?></td>
-                                    <td><?php echo $barang['namaSatuanBarang']; ?></td>
-                                    <td class="center"><?php echo $barang['jumBarang']; ?></td>
-                                    <td class="right"><?php echo number_format($barang['hargaJual'], 0, ',', '.'); ?></td>
-                                    <td class="center"><input type="checkbox" name="barcode[]" value="<?php echo $barang['barcode']; ?>"/></td>
-                                </tr>
-                                <?php
-                                $i++;
-                            endwhile;
-                            ?>
-                        </tbody>
-                    </table>
-                    <input type="submit" name="pilihBarang" value="Pindahkan Barang" />
-                </form>
-                <?php
-            endif;
-            break;
-        case 'pindahsupplier2':
-            if (isset($_POST['pilihBarang'])):
-                foreach ($_POST['barcode'] as $barcode):
-                    mysql_query("update barang set idSupplier={$_POST['idSupplierTujuan']} where barcode='{$barcode}'") or die('Gagal update supplier barang, error: ' . mysql_error());
-                endforeach;
-
-                $result = mysql_query("select * from supplier where idSupplier={$_POST['idSupplierAsal']}") or die(mysql_error());
-                $supplierAsal = mysql_fetch_array($result);
-                $result = mysql_query("select * from supplier where idSupplier={$_POST['idSupplierTujuan']}") or die(mysql_error());
-                $supplierTujuan = mysql_fetch_array($result);
-                ?>
-                <h2>Pindah Supplier</h2>
-                <p>
-                    Barang sudah dipindahkan dari <?php echo $supplierAsal['namaSupplier']; ?> ke <?php echo $supplierTujuan['namaSupplier']; ?>
-                </p>
-                <p>
-                    Daftar Barang:
-                </p>
+                <br />
                 <table class="tabel">
                     <thead>
                         <tr>
@@ -2172,19 +2228,13 @@ switch ($_GET['act']) {
                             <th>Satuan</th>
                             <th>Jumlah</th>
                             <th>Harga Jual</th>
+                            <th>Pilih</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $i = 1;
-                        foreach ($_POST['barcode'] as $barcode):
-                            $sql = "select barcode, namaBarang, kb.namaKategoriBarang, sb.namaSatuanBarang, jumBarang, hargaJual
-							from barang b
-							left join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
-							left join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
-							where b.barcode='{$barcode}'";
-                            $result = mysql_query($sql) or die("Gagal ambil data barang, barcode#{$barcode}, error:" . mysql_error());
-                            $barang = mysql_fetch_array($result);
+                        while ($barang = mysql_fetch_array($result)):
                             ?>
                             <tr <?php echo ($i % 2 === 0) ? 'class="alt"' : ''; ?>>
                                 <td><?php echo $barang['barcode']; ?></td>
@@ -2193,28 +2243,124 @@ switch ($_GET['act']) {
                                 <td><?php echo $barang['namaSatuanBarang']; ?></td>
                                 <td class="center"><?php echo $barang['jumBarang']; ?></td>
                                 <td class="right"><?php echo number_format($barang['hargaJual'], 0, ',', '.'); ?></td>
+                                <td class="center"><input type="checkbox" name="barcode[]" value="<?php echo $barang['barcode']; ?>"/></td>
                             </tr>
                             <?php
                             $i++;
-                        endforeach;
+                        endwhile;
                         ?>
                     </tbody>
                 </table>
-                <?php
-            endif;
-            break;
-        case 'pindahrak':
+                <input type="submit" name="pilihBarang" value="Pindahkan Barang" />
+            </form>
+            <?php
+        endif;
+        break;
+    case 'pindahsupplier2':
+        if (isset($_POST['pilihBarang'])):
+            foreach ($_POST['barcode'] as $barcode):
+                mysql_query("update barang set idSupplier={$_POST['idSupplierTujuan']} where barcode='{$barcode}'") or die('Gagal update supplier barang, error: ' . mysql_error());
+            endforeach;
+
+            $result = mysql_query("select * from supplier where idSupplier={$_POST['idSupplierAsal']}") or die(mysql_error());
+            $supplierAsal = mysql_fetch_array($result);
+            $result = mysql_query("select * from supplier where idSupplier={$_POST['idSupplierTujuan']}") or die(mysql_error());
+            $supplierTujuan = mysql_fetch_array($result);
             ?>
-            <h2>Pindah Rak</h2>
-            <form method="POST">
-                <label for="rakasal">Pilih Rak Asal</label><br />
-                <select name="idRak" id="rakasal" style="width:30%">
+            <h2>Pindah Supplier</h2>
+            <p>
+                Barang sudah dipindahkan dari <?php echo $supplierAsal['namaSupplier']; ?> ke <?php echo $supplierTujuan['namaSupplier']; ?>
+            </p>
+            <p>
+                Daftar Barang:
+            </p>
+            <table class="tabel">
+                <thead>
+                    <tr>
+                        <th>Barcode</th>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Satuan</th>
+                        <th>Jumlah</th>
+                        <th>Harga Jual</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php
-                    $sqlRak = "select * from rak";
-                    $hasilSqlRak = mysql_query($sqlRak) or die('Gagal ambil data rak, error:' . mysql_error());
+                    $i = 1;
+                    foreach ($_POST['barcode'] as $barcode):
+                        $sql = "select barcode, namaBarang, kb.namaKategoriBarang, sb.namaSatuanBarang, jumBarang, hargaJual
+							from barang b
+							left join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
+							left join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
+							where b.barcode='{$barcode}'";
+                        $result = mysql_query($sql) or die("Gagal ambil data barang, barcode#{$barcode}, error:" . mysql_error());
+                        $barang = mysql_fetch_array($result);
+                        ?>
+                        <tr <?php echo ($i % 2 === 0) ? 'class="alt"' : ''; ?>>
+                            <td><?php echo $barang['barcode']; ?></td>
+                            <td><?php echo $barang['namaBarang']; ?></td>
+                            <td><?php echo $barang['namaKategoriBarang']; ?></td>
+                            <td><?php echo $barang['namaSatuanBarang']; ?></td>
+                            <td class="center"><?php echo $barang['jumBarang']; ?></td>
+                            <td class="right"><?php echo number_format($barang['hargaJual'], 0, ',', '.'); ?></td>
+                        </tr>
+                        <?php
+                        $i++;
+                    endforeach;
+                    ?>
+                </tbody>
+            </table>
+            <?php
+        endif;
+        break;
+    case 'pindahrak':
+        ?>
+        <h2>Pindah Rak</h2>
+        <form method="POST">
+            <label for="rakasal">Pilih Rak Asal</label><br />
+            <select name="idRak" id="rakasal" style="width:30%">
+                <?php
+                $sqlRak = "select * from rak";
+                $hasilSqlRak = mysql_query($sqlRak) or die('Gagal ambil data rak, error:' . mysql_error());
+                while ($data = mysql_fetch_array($hasilSqlRak)) :
+                    ?>
+                    <option value="<?php echo $data['idRak']; ?>" <?php echo $data['idRak'] == $_POST['idRak'] ? 'selected' : ''; ?>>
+                        <?php
+                        echo $data['namaRak'];
+                        ?>
+                    </option>
+                    <?php
+                endwhile;
+                ?>
+            </select>
+            <input type=submit value='(D)isplay Barang' accesskey='d' name='displayBarang' />
+        </form>
+        <br />
+        <?php
+        /*
+         * Jika ada post displayBarang, tampilkan barang rak tersebut
+         */
+        if (isset($_POST['displayBarang'])):
+            $sql = "select barcode, namaBarang, kb.namaKategoriBarang, supplier.namaSupplier, sb.namaSatuanBarang, jumBarang, hargaJual
+							from barang b
+							left join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
+							left join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
+							left join supplier on supplier.idSupplier = b.idSupplier
+							left join rak on rak.idRak = b.idRak
+                            where b.idRak = {$_POST['idRak']} and (b.nonAktif <> 1 or b.nonAktif is null)
+                            order by namaSupplier, namaBarang";
+            $result = mysql_query($sql) or die("Gagal ambil dari barang, supplier id#{$_POST['idSupplier']}, error:" . mysql_error());
+            ?>
+            <form method="POST" action="?module=barang&act=pindahrak2">
+                <input type="hidden" name="idRakAsal" value="<?php echo $_POST['idRak']; ?>"/>
+                <label for="raktujuan">Pilih Rak Tujuan</label><br />
+                <select name="idRakTujuan" id="raktujuan" style="width:30%">
+                    <?php
+                    mysql_data_seek($hasilSqlRak, 0);
                     while ($data = mysql_fetch_array($hasilSqlRak)) :
                         ?>
-                        <option value="<?php echo $data['idRak']; ?>" <?php echo $data['idRak'] == $_POST['idRak'] ? 'selected' : ''; ?>>
+                        <option value="<?php echo $data['idRak']; ?>">
                             <?php
                             echo $data['namaRak'];
                             ?>
@@ -2223,99 +2369,7 @@ switch ($_GET['act']) {
                     endwhile;
                     ?>
                 </select>
-                <input type=submit value='(D)isplay Barang' accesskey='d' name='displayBarang' />
-            </form>
-            <br />
-            <?php
-            /*
-             * Jika ada post displayBarang, tampilkan barang rak tersebut
-             */
-            if (isset($_POST['displayBarang'])):
-                $sql = "select barcode, namaBarang, kb.namaKategoriBarang, supplier.namaSupplier, sb.namaSatuanBarang, jumBarang, hargaJual
-							from barang b
-							left join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
-							left join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
-							left join supplier on supplier.idSupplier = b.idSupplier
-							left join rak on rak.idRak = b.idRak
-                            where b.idRak = {$_POST['idRak']} and (b.nonAktif <> 1 or b.nonAktif is null)
-                            order by namaSupplier, namaBarang";
-                $result = mysql_query($sql) or die("Gagal ambil dari barang, supplier id#{$_POST['idSupplier']}, error:" . mysql_error());
-                ?>
-                <form method="POST" action="?module=barang&act=pindahrak2">
-                    <input type="hidden" name="idRakAsal" value="<?php echo $_POST['idRak']; ?>"/>
-                    <label for="raktujuan">Pilih Rak Tujuan</label><br />
-                    <select name="idRakTujuan" id="raktujuan" style="width:30%">
-                        <?php
-                        mysql_data_seek($hasilSqlRak, 0);
-                        while ($data = mysql_fetch_array($hasilSqlRak)) :
-                            ?>
-                            <option value="<?php echo $data['idRak']; ?>">
-                                <?php
-                                echo $data['namaRak'];
-                                ?>
-                            </option>
-                            <?php
-                        endwhile;
-                        ?>
-                    </select>
-                    <br />
-                    <table class="tabel">
-                        <thead>
-                            <tr>
-                                <th>Barcode</th>
-                                <th>Nama Barang</th>
-                                <th>Kategori</th>
-                                <th>Supplier</th>
-                                <th>Satuan</th>
-                                <th>Jumlah</th>
-                                <th>Harga Jual</th>
-                                <th>Pilih</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $i = 1;
-                            while ($barang = mysql_fetch_array($result)):
-                                ?>
-                                <tr <?php echo ($i % 2 === 0) ? 'class="alt"' : ''; ?>>
-                                    <td><?php echo $barang['barcode']; ?></td>
-                                    <td><?php echo $barang['namaBarang']; ?></td>
-                                    <td><?php echo $barang['namaKategoriBarang']; ?></td>
-                                    <td><?php echo $barang['namaSupplier']; ?></td>
-                                    <td><?php echo $barang['namaSatuanBarang']; ?></td>
-                                    <td class="center"><?php echo $barang['jumBarang']; ?></td>
-                                    <td class="right"><?php echo number_format($barang['hargaJual'], 0, ',', '.'); ?></td>
-                                    <td class="center"><input type="checkbox" name="barcode[]" value="<?php echo $barang['barcode']; ?>"/></td>
-                                </tr>
-                                <?php
-                                $i++;
-                            endwhile;
-                            ?>
-                        </tbody>
-                    </table>
-                    <input type="submit" name="pilihBarang" value="Pindahkan Barang" />
-                </form>
-                <?php
-            endif;
-            break;
-        case 'pindahrak2':
-            if (isset($_POST['pilihBarang'])):
-                foreach ($_POST['barcode'] as $barcode):
-                    mysql_query("update barang set idRak={$_POST['idRakTujuan']} where barcode='{$barcode}'") or die('Gagal update rak barang, error: ' . mysql_error());
-                endforeach;
-
-                $result = mysql_query("select * from rak where idRak={$_POST['idRakAsal']}") or die(mysql_error());
-                $rakAsal = mysql_fetch_array($result);
-                $result = mysql_query("select * from rak where idRak={$_POST['idRakTujuan']}") or die(mysql_error());
-                $rakTujuan = mysql_fetch_array($result);
-                ?>
-                <h2>Pindah Rak</h2>
-                <p>
-                    Barang sudah dipindahkan dari <?php echo $rakAsal['namaRak']; ?> ke <?php echo $rakTujuan['namaRak']; ?>
-                </p>
-                <p>
-                    Daftar Barang:
-                </p>
+                <br />
                 <table class="tabel">
                     <thead>
                         <tr>
@@ -2326,20 +2380,13 @@ switch ($_GET['act']) {
                             <th>Satuan</th>
                             <th>Jumlah</th>
                             <th>Harga Jual</th>
+                            <th>Pilih</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $i = 1;
-                        foreach ($_POST['barcode'] as $barcode):
-                            $sql = "select barcode, namaBarang, kb.namaKategoriBarang, supplier.namaSupplier, sb.namaSatuanBarang, jumBarang, hargaJual
-							from barang b
-							left join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
-							left join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
-                            left join supplier on supplier.idSupplier = b.idSupplier
-							where b.barcode='{$barcode}'";
-                            $result = mysql_query($sql) or die("Gagal ambil data barang, barcode#{$barcode}, error:" . mysql_error());
-                            $barang = mysql_fetch_array($result);
+                        while ($barang = mysql_fetch_array($result)):
                             ?>
                             <tr <?php echo ($i % 2 === 0) ? 'class="alt"' : ''; ?>>
                                 <td><?php echo $barang['barcode']; ?></td>
@@ -2349,210 +2396,274 @@ switch ($_GET['act']) {
                                 <td><?php echo $barang['namaSatuanBarang']; ?></td>
                                 <td class="center"><?php echo $barang['jumBarang']; ?></td>
                                 <td class="right"><?php echo number_format($barang['hargaJual'], 0, ',', '.'); ?></td>
+                                <td class="center"><input type="checkbox" name="barcode[]" value="<?php echo $barang['barcode']; ?>"/></td>
                             </tr>
                             <?php
                             $i++;
-                        endforeach;
+                        endwhile;
                         ?>
                     </tbody>
                 </table>
-                <?php
-            endif;
-            break;
-
-        case "ApprovePdtSO1":  // ----------------------------------------------------------------------------
-            // cari SO yang belum di approve
-            $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 and username='pdt-so' order by fast_stock_opname.uid";
-            $hasil1 = mysql_query($sql);
-            ?>
-            <h2>Approve Stock Opname dengan PDT (Portable Data Terminal)</h2>
-            <form method=POST action='?module=barang&act=ApprovePdtSO2'>
-
-                <br /><br />
-
-                <table class="tabel">
-                    <tr>
-                        <th>Rak</th>
-                        <th>Barcode</th>
-                        <th>Nama Barang</th>
-                        <th>Jumlah<br />Tercatat</th>
-                        <th>Ditemukan</th>
-                        <th>Selisih</th>
-                        <th>Approve</th>
-                        <th>#</th>
-                        <th>Batal</td>
-                    </tr>
-                    <?php
-                    $ctr = 1;
-                    while ($x = mysql_fetch_array($hasil1)) {
-
-                        $sql = "SELECT namaBarang FROM barang WHERE barcode='" . $x[barcode] . "'";
-                        $hasil2 = mysql_query($sql);
-                        $z = mysql_fetch_array($hasil2);
-                        ?>
-                        <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
-                            <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="dataApproval[<?php echo $ctr; ?>][idRak]" value="<?php echo $x['idRak']; ?>" />
-                        <td><?php echo $x['barcode']; ?><input type=hidden name="dataApproval[<?php echo $ctr; ?>][barcode]" value=<?php echo $x['barcode']; ?>></td>
-                        <td><?php echo $z['namaBarang']; ?></td>
-                        <td class="center"><?php echo $x['jmlTercatat']; ?></td>
-                        <td class="center"><?php echo $x['jmlTercatat'] + $x['selisih']; ?></td>
-                        <td class="center"><?php echo $x['selisih']; ?>	<input type=hidden name="dataApproval[<?php echo $ctr; ?>][selisih]" value=<?php echo $x['selisih']; ?>></td>
-                        <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][appr]" checked=yes></td>
-                        <td class="center">#</td>
-                        <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][batal]"></td>
-                        </tr>
-                        <?php
-                        $ctr++;
-                    }
-                    ?>
-                </table>
-
-                <input type=submit accesskey='s' value='(s) Submit'>
-
+                <input type="submit" name="pilihBarang" value="Pindahkan Barang" />
             </form>
             <?php
-            break;
+        endif;
+        break;
+    case 'pindahrak2':
+        if (isset($_POST['pilihBarang'])):
+            foreach ($_POST['barcode'] as $barcode):
+                mysql_query("update barang set idRak={$_POST['idRakTujuan']} where barcode='{$barcode}'") or die('Gagal update rak barang, error: ' . mysql_error());
+            endforeach;
 
-        case "ApprovePdtSO2":  // ----------------------------------------------------------------------------
+            $result = mysql_query("select * from rak where idRak={$_POST['idRakAsal']}") or die(mysql_error());
+            $rakAsal = mysql_fetch_array($result);
+            $result = mysql_query("select * from rak where idRak={$_POST['idRakTujuan']}") or die(mysql_error());
+            $rakTujuan = mysql_fetch_array($result);
             ?>
-            <h2>Proses PDT Stock Opname</h2>
-            <a href="#" onclick="printTable();" class="tombol" accesskey="c"><u>C</u>etak</a>
+            <h2>Pindah Rak</h2>
+            <p>
+                Barang sudah dipindahkan dari <?php echo $rakAsal['namaRak']; ?> ke <?php echo $rakTujuan['namaRak']; ?>
+            </p>
+            <p>
+                Daftar Barang:
+            </p>
+            <table class="tabel">
+                <thead>
+                    <tr>
+                        <th>Barcode</th>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Supplier</th>
+                        <th>Satuan</th>
+                        <th>Jumlah</th>
+                        <th>Harga Jual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 1;
+                    foreach ($_POST['barcode'] as $barcode):
+                        $sql = "select barcode, namaBarang, kb.namaKategoriBarang, supplier.namaSupplier, sb.namaSatuanBarang, jumBarang, hargaJual
+							from barang b
+							left join kategori_barang kb on kb.idKategoriBarang = b.idKategoriBarang
+							left join satuan_barang sb on sb.idSatuanBarang = b.idSatuanBarang
+                            left join supplier on supplier.idSupplier = b.idSupplier
+							where b.barcode='{$barcode}'";
+                        $result = mysql_query($sql) or die("Gagal ambil data barang, barcode#{$barcode}, error:" . mysql_error());
+                        $barang = mysql_fetch_array($result);
+                        ?>
+                        <tr <?php echo ($i % 2 === 0) ? 'class="alt"' : ''; ?>>
+                            <td><?php echo $barang['barcode']; ?></td>
+                            <td><?php echo $barang['namaBarang']; ?></td>
+                            <td><?php echo $barang['namaKategoriBarang']; ?></td>
+                            <td><?php echo $barang['namaSupplier']; ?></td>
+                            <td><?php echo $barang['namaSatuanBarang']; ?></td>
+                            <td class="center"><?php echo $barang['jumBarang']; ?></td>
+                            <td class="right"><?php echo number_format($barang['hargaJual'], 0, ',', '.'); ?></td>
+                        </tr>
+                        <?php
+                        $i++;
+                    endforeach;
+                    ?>
+                </tbody>
+            </table>
             <?php
-            if (isset($_POST['dataApproval'])):
-                $dataApproval = $_POST['dataApproval'];
-                //echo '<pre>';
-                //print_r($dataApproval);
-                //echo '</pre>';
+        endif;
+        break;
+
+    case "ApprovePdtSO1":  // ----------------------------------------------------------------------------
+        // cari SO yang belum di approve
+        $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 and username='pdt-so' order by fast_stock_opname.uid";
+        $hasil1 = mysql_query($sql);
+        ?>
+        <h2>Approve Stock Opname dengan PDT (Portable Data Terminal)</h2>
+        <form method=POST action='?module=barang&act=ApprovePdtSO2'>
+
+            <br /><br />
+
+            <table class="tabel">
+                <tr>
+                    <th>Rak</th>
+                    <th>Barcode</th>
+                    <th>Nama Barang</th>
+                    <th>Jumlah<br />Tercatat</th>
+                    <th>Ditemukan</th>
+                    <th>Selisih</th>
+                    <th>Approve</th>
+                    <th>#</th>
+                    <th>Batal</td>
+                </tr>
+                <?php
+                $ctr = 1;
+                while ($x = mysql_fetch_array($hasil1)) {
+
+                    $sql = "SELECT namaBarang FROM barang WHERE barcode='" . $x[barcode] . "'";
+                    $hasil2 = mysql_query($sql);
+                    $z = mysql_fetch_array($hasil2);
+                    ?>
+                    <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
+                        <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="dataApproval[<?php echo $ctr; ?>][idRak]" value="<?php echo $x['idRak']; ?>" />
+                    <td><?php echo $x['barcode']; ?><input type=hidden name="dataApproval[<?php echo $ctr; ?>][barcode]" value=<?php echo $x['barcode']; ?>></td>
+                    <td><?php echo $z['namaBarang']; ?></td>
+                    <td class="center"><?php echo $x['jmlTercatat']; ?></td>
+                    <td class="center"><?php echo $x['jmlTercatat'] + $x['selisih']; ?></td>
+                    <td class="center"><?php echo $x['selisih']; ?>	<input type=hidden name="dataApproval[<?php echo $ctr; ?>][selisih]" value=<?php echo $x['selisih']; ?>></td>
+                    <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][appr]" checked=yes></td>
+                    <td class="center">#</td>
+                    <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][batal]"></td>
+                    </tr>
+                    <?php
+                    $ctr++;
+                }
                 ?>
-                <div id="tableToPrint">
-                    <style>
-                        .tabel{
-                            font-size: 11px;
-                            border-collapse: collapse;
-                        }
-                        th, td{
-                            padding: 2px 2px;
-                        }
+            </table>
 
-                        td, th{
-                            border: 1px solid #ccc;
-                        }
-                        .right{
-                            text-align: right;
-                        }
-                    </style>
-                    <table class="tabel">
-                        <caption>Stock Opname PDT</caption>
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Barcode</th>
-                                <th>Nama Barang</th>
-                                <th>Jumlah Barang<br /></th>
-                                <th>Selisih</th>
-                                <th>Jumlah Barang<br />Saat ini</th>
-                                <th>Rak</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $i = 1;
-                            foreach ($dataApproval as $data):
-                                // Cek barang dihapus
-                                if ($data['batal'] == 'on'):
-                                    // Berarti barang tidak jadi di SO
-                                    // Hapus dari tabel fast SO
-                                    $sql = "delete from fast_stock_opname where barcode = '{$data['barcode']}' and username='pdt-so'";
-                                    mysql_query($sql) or die('Gagal hapus data so: ' . mysql_error());
+            <input type=submit accesskey='s' value='(s) Submit'>
 
-                                // Jika diapprove, ubah jumlah barang di tabel barang dan detail_beli, ubah status approve di tabel so
-                                // Dan tampilkan layar
-                                elseif ($data['appr'] == 'on') :
-                                    // data barang
-                                    $sql = "update barang set jumBarang = jumBarang+{$data['selisih']}, idRak = {$data['idRak']} where barcode='{$data['barcode']}'";
-                                    mysql_query($sql) or die('Gagal update jumBarang: ' . mysql_error());
+        </form>
+        <?php
+        break;
 
-                                    // Update detail beli juga
-                                    // Init detail beli (dinol kan)
-                                    $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$data['barcode']}' ";
-                                    mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
+    case "ApprovePdtSO2":  // ----------------------------------------------------------------------------
+        ?>
+        <h2>Proses PDT Stock Opname</h2>
+        <a href="#" onclick="printTable();" class="tombol" accesskey="c"><u>C</u>etak</a>
+        <?php
+        if (isset($_POST['dataApproval'])):
+            $dataApproval = $_POST['dataApproval'];
+            //echo '<pre>';
+            //print_r($dataApproval);
+            //echo '</pre>';
+            ?>
+            <div id="tableToPrint">
+                <style>
+                    .tabel{
+                        font-size: 11px;
+                        border-collapse: collapse;
+                    }
+                    th, td{
+                        padding: 2px 2px;
+                    }
 
-                                    // Ambil jumlah barang setelah diupdate (SO)
-                                    $sql = "select jumBarang, namaBarang,namaRak from barang join rak on barang.idRak = rak.idRak where barcode = '{$data['barcode']}' ";
-                                    $hasil = mysql_query($sql) or die('Gagal ambil data barang: ' . mysql_error());
-                                    $barang = mysql_fetch_row($hasil, MYSQL_ASSOC);
-                                    $sql = "select *
+                    td, th{
+                        border: 1px solid #ccc;
+                    }
+                    .right{
+                        text-align: right;
+                    }
+                </style>
+                <table class="tabel">
+                    <caption>Stock Opname PDT</caption>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Barcode</th>
+                            <th>Nama Barang</th>
+                            <th>Jumlah Barang<br /></th>
+                            <th>Selisih</th>
+                            <th>Jumlah Barang<br />Saat ini</th>
+                            <th>Rak</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 1;
+                        foreach ($dataApproval as $data):
+                            // Cek barang dihapus
+                            if ($data['batal'] == 'on'):
+                                // Berarti barang tidak jadi di SO
+                                // Hapus dari tabel fast SO
+                                $sql = "delete from fast_stock_opname where barcode = '{$data['barcode']}' and username='pdt-so'";
+                                mysql_query($sql) or die('Gagal hapus data so: ' . mysql_error());
+
+                            // Jika diapprove, ubah jumlah barang di tabel barang dan detail_beli, ubah status approve di tabel so
+                            // Dan tampilkan layar
+                            elseif ($data['appr'] == 'on') :
+                                // data barang
+                                $sql = "update barang set jumBarang = jumBarang+{$data['selisih']}, idRak = {$data['idRak']} where barcode='{$data['barcode']}'";
+                                mysql_query($sql) or die('Gagal update jumBarang: ' . mysql_error());
+
+                                // Update detail beli juga
+                                // Init detail beli (dinol kan)
+                                $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$data['barcode']}' ";
+                                mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
+
+                                // Ambil jumlah barang setelah diupdate (SO)
+                                $sql = "select jumBarang, namaBarang,namaRak from barang join rak on barang.idRak = rak.idRak where barcode = '{$data['barcode']}' ";
+                                $hasil = mysql_query($sql) or die('Gagal ambil data barang: ' . mysql_error());
+                                $barang = mysql_fetch_row($hasil, MYSQL_ASSOC);
+                                $sql = "select *
                                 from detail_beli db
                                 join transaksibeli tb on tb.idTransaksiBeli = db.idTransaksiBeli
                                 where barcode = '{$data['barcode']}'
                                 order by db.idTransaksiBeli desc";
-                                    $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
+                                $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
 
-                                    $jumBarang = $barang['jumBarang'];
+                                $jumBarang = $barang['jumBarang'];
 
-                                    $simulasi = false; // Variabel untuk testing.. (just for programmers)
-                                    // Sesuaikan jumlah barang di tabel detail_beli
-                                    while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
+                                $simulasi = false; // Variabel untuk testing.. (just for programmers)
+                                // Sesuaikan jumlah barang di tabel detail_beli
+                                while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
 
-                                        /*
-                                         * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
-                                         * langsung update detail_beli.jumBarang  dengan barang.jumBarang
-                                         * Jika lebih kecil
-                                         * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
-                                         * yang kemudian mencari lagi di row selanjutnya
-                                         */
-                                        if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
-                                            if (!$simulasi) {
-                                                mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
-                                            }
-                                            //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
-                                            $jumBarang = 0;
+                                    /*
+                                     * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
+                                     * langsung update detail_beli.jumBarang  dengan barang.jumBarang
+                                     * Jika lebih kecil
+                                     * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
+                                     * yang kemudian mencari lagi di row selanjutnya
+                                     */
+                                    if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
+                                        if (!$simulasi) {
+                                            mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
                                         }
-                                        else {
-                                            if (!$simulasi) {
-                                                mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
+                                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
+                                        $jumBarang = 0;
+                                    }
+                                    else {
+                                        if (!$simulasi) {
+                                            mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
                                               where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 2, error: ' . mysql_error());
-                                            }
-                                            $jumBarang -= $detailBeli['jumBarangAsli'];
-
-                                            //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
                                         }
-                                    //echo '<br />';
-                                    endwhile;
+                                        $jumBarang -= $detailBeli['jumBarangAsli'];
 
-                                    // Approve SO
-                                    $sql = "update fast_stock_opname set approved = 1 where barcode = '{$data['barcode']}' and username='pdt-so' ";
-                                    mysql_query($sql) or die('Gagal approved pdt SO: ' . mysql_error());
-                                    ?>
-                                    <tr class="<?php echo $i % 2 === 0 ? 'alt' : ''; ?>">
-                                        <td class="right"><?php echo $i; ?></td>
-                                        <td><?php echo $data['barcode']; ?></td>
-                                        <td><?php echo $barang['namaBarang']; ?></td>
-                                        <td class="right"><?php echo $barang['jumBarang'] - $data['selisih']; ?></td>
-                                        <td class="right"><?php echo $data['selisih']; ?></td>
-                                        <td class="right"><?php echo $barang['jumBarang']; ?></td>
-                                        <td><?php echo $barang['namaRak']; ?></td>
-                                    </tr>
-                                    <?php
-                                    $i++;
-                                endif;
-                            endforeach;
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-                <script>
-                    function printTable()
-                    {
-                        var divToPrint = document.getElementById('tableToPrint');
-                        newWin = window.open("");
-                        newWin.document.write(divToPrint.outerHTML);
-                        newWin.print();
-                        newWin.close();
-                    }
-                </script>
-                <?php
-            endif;
+                                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
+                                    }
+                                //echo '<br />';
+                                endwhile;
+
+                                // Approve SO
+                                $sql = "update fast_stock_opname set approved = 1 where barcode = '{$data['barcode']}' and username='pdt-so' ";
+                                mysql_query($sql) or die('Gagal approved pdt SO: ' . mysql_error());
+                                ?>
+                                <tr class="<?php echo $i % 2 === 0 ? 'alt' : ''; ?>">
+                                    <td class="right"><?php echo $i; ?></td>
+                                    <td><?php echo $data['barcode']; ?></td>
+                                    <td><?php echo $barang['namaBarang']; ?></td>
+                                    <td class="right"><?php echo $barang['jumBarang'] - $data['selisih']; ?></td>
+                                    <td class="right"><?php echo $data['selisih']; ?></td>
+                                    <td class="right"><?php echo $barang['jumBarang']; ?></td>
+                                    <td><?php echo $barang['namaRak']; ?></td>
+                                </tr>
+                                <?php
+                                $i++;
+                            endif;
+                        endforeach;
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <script>
+                function printTable()
+                {
+                    var divToPrint = document.getElementById('tableToPrint');
+                    newWin = window.open("");
+                    newWin.document.write(divToPrint.outerHTML);
+                    newWin.print();
+                    newWin.close();
+                }
+            </script>
+            <?php
+        endif;
 
 
 //            for ($i = 1; $i <= $_POST[ctr]; $i++) {
@@ -2580,103 +2691,104 @@ switch ($_GET['act']) {
 //                };
 //            }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
 
-            break;
-        case 'hargabanded':
-            ?>
-            <h2>Skema Harga Jual (Harga Banded)</h2>
-            <form method=POST action='?module=barang&act=hargabanded2'>
-                <table>
-                    <tr>
-                        <td><b>B</b>arcode: </td>
-                        <td><input type="text" name="barcode" accesskey="b" autofocus="autofocus" id="barcode" autocomplete="off"/></td>
-                    </tr>
-                    <tr>
-                        <td><b>N</b>ama: </td>
-                        <td><input type="text" name="namabarang" accesskey="n" id="namaBarang" placeholder="Minimal 3 karakter"/></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: right"><input type=submit value='Submit'></td>
-                    </tr>
-                </table>
-            </form>
-            <script>
-                $("#namaBarang").autocomplete({
-                    source: "aksi.php?module=hargabanded&act=getnamabarang",
-                    minLength: 3,
-                    select: function(event, ui) {
-                            console.log( ui.item ?
+        break;
+    case 'hargabanded':
+        ?>
+        <h2>Skema Harga Jual (Harga Banded)</h2>
+        <form method=POST action='?module=barang&act=hargabanded2'>
+            <table>
+                <tr>
+                    <td><b>B</b>arcode: </td>
+                    <td><input type="text" name="barcode" accesskey="b" autofocus="autofocus" id="barcode" autocomplete="off"/></td>
+                </tr>
+                <tr>
+                    <td><b>N</b>ama: </td>
+                    <td><input type="text" name="namabarang" accesskey="n" id="namaBarang" placeholder="Minimal 3 karakter"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: right"><input type=submit value='Submit'></td>
+                </tr>
+            </table>
+        </form>
+        <script>
+            $("#namaBarang").autocomplete({
+                source: "aksi.php?module=hargabanded&act=getnamabarang",
+                minLength: 3,
+                select: function (event, ui) {
+                    console.log(ui.item ?
                             "Nama: " + ui.item.value + "; Barcode " + ui.item.id :
-                            "Nothing selected, input was " + this.value );
-                            if (ui.item){
-                                $("#barcode").val(ui.item.id);
-                            }
-                        }
-                });
-            </script>
-            <?php
-            break;
-        case 'hargabanded2':
-            /*
-             * Insert harga banded, update jika sudah ada.
-             * Satu barang, satu harga banded
-             * Jika qty tidak positif, hapus harga banded
-             */
-            if (isset($_POST['qty'])):
-                $qty = $_POST['qty'];
-                $barcode = $_POST['barcode'];
-                $harga = $_POST['hargasatuan'];
-                if ($qty > 0){
+                            "Nothing selected, input was " + this.value);
+                    if (ui.item) {
+                        $("#barcode").val(ui.item.id);
+                    }
+                }
+            });
+        </script>
+        <?php
+        break;
+    case 'hargabanded2':
+        /*
+         * Insert harga banded, update jika sudah ada.
+         * Satu barang, satu harga banded
+         * Jika qty tidak positif, hapus harga banded
+         */
+        if (isset($_POST['qty'])):
+            $qty = $_POST['qty'];
+            $barcode = $_POST['barcode'];
+            $harga = $_POST['hargasatuan'];
+            if ($qty > 0) {
                 $sql = "INSERT INTO harga_banded (barcode,qty,harga) "
                         . "VALUES('{$barcode}',{$qty},{$harga}) "
                         . "ON DUPLICATE KEY UPDATE qty={$qty}, harga={$harga} ";
-                } else {
-                    $sql = "DELETE FROM harga_banded WHERE barcode = '{$barcode}'";
-                }
-                mysql_query($sql) or die(mysql_error());
-            endif;
+            }
+            else {
+                $sql = "DELETE FROM harga_banded WHERE barcode = '{$barcode}'";
+            }
+            mysql_query($sql) or die(mysql_error());
+        endif;
 
-            /*
-             * Tampilkan data barang, dan harga banded (qty dan harga satuannya)
-             */
-            if (isset($_POST['barcode'])):
-                $barcode = $_POST['barcode'];
-                $sql = "SELECT namaBarang, hargaJual
+        /*
+         * Tampilkan data barang, dan harga banded (qty dan harga satuannya)
+         */
+        if (isset($_POST['barcode'])):
+            $barcode = $_POST['barcode'];
+            $sql = "SELECT namaBarang, hargaJual
                     FROM barang
                     WHERE barcode = '{$barcode}' ";
 
-                $query = mysql_query($sql) or die(mysql_error());
-                $dataBarang = mysql_fetch_array($query, MYSQL_ASSOC);
-                //print_r($dataBarang);
+            $query = mysql_query($sql) or die(mysql_error());
+            $dataBarang = mysql_fetch_array($query, MYSQL_ASSOC);
+            //print_r($dataBarang);
 
-                $sql = "select qty, harga
+            $sql = "select qty, harga
                         from harga_banded
                         where barcode = '{$barcode}'
                         ";
-                $query = mysql_query($sql);
-                $dataHargaBanded = mysql_fetch_array($query, MYSQL_ASSOC);
-                if ($dataHargaBanded){
-                    $hbQty = $dataHargaBanded['qty'];
-                    $hbHarga = $dataHargaBanded['harga'];
-                }
-                ?>
+            $query = mysql_query($sql);
+            $dataHargaBanded = mysql_fetch_array($query, MYSQL_ASSOC);
+            if ($dataHargaBanded) {
+                $hbQty = $dataHargaBanded['qty'];
+                $hbHarga = $dataHargaBanded['harga'];
+            }
+            ?>
             <h2>Barang: <small><?php echo $dataBarang['namaBarang']; ?> | <?php echo $barcode; ?></small></h2>
             <form method="POST">
                 <table>
                     <tr>
                         <td>Harga jual satuan</td>
-                        <td><input type="text" value="<?php echo number_format($dataBarang['hargaJual'],0,',','.'); ?>" disabled="disabled" /></td>
+                        <td><input type="text" value="<?php echo number_format($dataBarang['hargaJual'], 0, ',', '.'); ?>" disabled="disabled" /></td>
                     </tr>
                     <tr>
                         <td>Qty banded</td>
                         <td>
-                            <input type="number" name="qty" id="hb-qty" value="<?php echo isset($hbQty) ? $hbQty:''; ?>" autofocus="autofocus"/>
+                            <input type="number" name="qty" id="hb-qty" value="<?php echo isset($hbQty) ? $hbQty : ''; ?>" autofocus="autofocus"/>
                             <input type="hidden" name="hargaJual" id="hb-hargajual" value="<?php echo $dataBarang['hargaJual']; ?>" />
                             <input type="hidden" name="barcode" value="<?php echo $barcode; ?>" />
                         </td>
                     </tr>
                     <tr>
                         <td>Total</td>
-                        <td><input type="text" id="hb-total" value="<?php echo isset($hbQty) ? $hbQty * $dataBarang['hargaJual']: ''; ?>" disabled="disabled" /></td>
+                        <td><input type="text" id="hb-total" value="<?php echo isset($hbQty) ? $hbQty * $dataBarang['hargaJual'] : ''; ?>" disabled="disabled" /></td>
                     </tr>
                     <tr>
                         <td>Harga banded</td>
@@ -2686,7 +2798,7 @@ switch ($_GET['act']) {
                     </tr>
                     <tr>
                         <td>Harga Satuan Banded</td>
-                        <td><input type="text" id="hb-hargasatuan" name="hargasatuan" value="<?php echo isset($hbHarga) ? $hbHarga:''; ?>"/></td>
+                        <td><input type="text" id="hb-hargasatuan" name="hargasatuan" value="<?php echo isset($hbHarga) ? $hbHarga : ''; ?>"/></td>
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit" class="tombol" value="(s) Simpan" accept="s"/></td>
@@ -2694,62 +2806,62 @@ switch ($_GET['act']) {
                 </table>
             </form>
             <script>
-                $("#hb-qty").change(function(){
+                $("#hb-qty").change(function () {
                     var total = parseInt($("#hb-hargajual").val()) * parseInt($("#hb-qty").val());
                     //console.log(total);
                     $("#hb-total").val(total);
                 });
-                $("#hb-hargabanded").keyup(function(){
+                $("#hb-hargabanded").keyup(function () {
                     var hargaBanded = $(this).val();
                     var hargaSatuan = parseInt(hargaBanded) / parseInt($("#hb-qty").val());
                     //console.log(hargaSatuan);
                     $("#hb-hargasatuan").val(hargaSatuan);
                 });
-                $("#hb-hargasatuan").keyup(function(){
+                $("#hb-hargasatuan").keyup(function () {
                     var hargaSatuan = $(this).val();
                     var hargaBanded = parseInt(hargaSatuan) * parseInt($("#hb-qty").val());
                     $("#hb-hargabanded").val(hargaBanded);
                 });
             </script>
             <?php
-            endif;
-            break;
-    }
-    ?>
-    <?php
-    /* CHANGELOG -----------------------------------------------------------
+        endif;
+        break;
+}
+?>
+<?php
+/* CHANGELOG -----------------------------------------------------------
 
-      1.6.0 / 2013-05-01 : Herwono		: fitur : cetak label harga perbarcode
-      1.6.0 / 2013-02-24 : Harry Sufehmi	: fitur : transfer barang antar sesama pengguna AhadPOS
-      1.5.5 / 2013-01-25 : Harry Sufehmi 	: bugfix: https://github.com/sufehmi/AhadPOS/issues/1 ,
-      terimakasih http://www.facebook.com/civo.pras untuk laporannya.
+  1.6.0 / 2013-05-01 : Herwono		: fitur : cetak label harga perbarcode
+  1.6.0 / 2013-02-24 : Harry Sufehmi	: fitur : transfer barang antar sesama pengguna AhadPOS
+  1.5.5 / 2013-01-25 : Harry Sufehmi 	: bugfix: https://github.com/sufehmi/AhadPOS/issues/1 ,
+  terimakasih http://www.facebook.com/civo.pras untuk laporannya.
 
-      1.5.0 / 2012-11-25 : Harry Sufehmi 	: optimisasi : query yang menampilkan seluruh data barang.
-      Credit : Insan Fajar
-      1.5.0 / 2012-09-09 : Harry Sufehmi	: bugfix: form inputSO3 gagal jika ada > 250 item di suatu rak.
-      Ternyata... default setting max_input_vars = 1000, sedangkan setiap item menyimpan 4 jenis informasi = lebih besar dari batas max_input_vars
-      Solusi: set max_input_vars di php.ini menjadi 20000 atau lebih
+  1.5.0 / 2012-11-25 : Harry Sufehmi 	: optimisasi : query yang menampilkan seluruh data barang.
+  Credit : Insan Fajar
+  1.5.0 / 2012-09-09 : Harry Sufehmi	: bugfix: form inputSO3 gagal jika ada > 250 item di suatu rak.
+  Ternyata... default setting max_input_vars = 1000, sedangkan setiap item menyimpan 4 jenis informasi = lebih besar dari batas max_input_vars
+  Solusi: set max_input_vars di php.ini menjadi 20000 atau lebih
 
-      1.2.5 / 2012-03-02 : Harry Sufehmi 	: bugfix: editbarang kini menemukan item berdasarkan barcode - bukan idBarang
-      1.0.3 / 2011-10-21 : Harry Sufehmi	: Kategori Barang & Satuan Barang kini muncul pada tabel daftar barang (tadinya kosong)
-      Juga pada sub-modul :
-      # caribarang2
-      # cetaklabel2
+  1.2.5 / 2012-03-02 : Harry Sufehmi 	: bugfix: editbarang kini menemukan item berdasarkan barcode - bukan idBarang
+  1.0.3 / 2011-10-21 : Harry Sufehmi	: Kategori Barang & Satuan Barang kini muncul pada tabel daftar barang (tadinya kosong)
+  Juga pada sub-modul :
+  # caribarang2
+  # cetaklabel2
 
-      Thanks kepada Alexander (mr.s4scha@gmail.com) untuk laporannya.
+  Thanks kepada Alexander (mr.s4scha@gmail.com) untuk laporannya.
 
-      1.0.2 / 2011-07-14 : Harry Sufehmi	: menu "editbarang", bisa mendeteksi perubahan barcode.
-      (sehingga di aksi.php bisa update juga field barcode di table-table lainnya)
+  1.0.2 / 2011-07-14 : Harry Sufehmi	: menu "editbarang", bisa mendeteksi perubahan barcode.
+  (sehingga di aksi.php bisa update juga field barcode di table-table lainnya)
 
-      1.0.1 / 2010-06-03 : Harry Sufehmi	: various enhancements, bugfixes
-      # fitur Stock Opname
-      # Cari Barang : bisa per Rak
-      2010-12-16  : Harry Sufehmi	: Cetak Stock Barang
+  1.0.1 / 2010-06-03 : Harry Sufehmi	: various enhancements, bugfixes
+  # fitur Stock Opname
+  # Cari Barang : bisa per Rak
+  2010-12-16  : Harry Sufehmi	: Cetak Stock Barang
 
-      2011-01-07  : Harry Sufehmi	: Input Fast Stock Opname & Approve Fast Stock Opname
+  2011-01-07  : Harry Sufehmi	: Input Fast Stock Opname & Approve Fast Stock Opname
 
 
-      0.6.5		    : Gregorius Arief	: initial release
+  0.6.5		    : Gregorius Arief	: initial release
 
-      ------------------------------------------------------------------------ */
-    ?>
+  ------------------------------------------------------------------------ */
+?>
