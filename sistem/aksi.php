@@ -442,7 +442,7 @@ elseif ($module == 'customer' AND $act == 'hapus') {
 } // end hapus customer
 // Input Transaksi Beli =================================================================================================================
 // Ditambahkan pengecekan variabel $_SESSION untuk memastikan input pembelian jika masih ada session
-elseif ($module == 'pembelian_barang' AND $act == 'input'  AND isset($_SESSION['uname'])) {
+elseif ($module == 'pembelian_barang' AND $act == 'input' AND isset($_SESSION['uname'])) {
     $tgl = $_POST[TanggalInvoice];
 
     //HS - idTransaksi sekarang di generate MySQL, untuk menghindari duplikat / dobel
@@ -498,8 +498,22 @@ elseif ($module == 'pembelian_barang' AND $act == 'input'  AND isset($_SESSION['
 
         mysql_query("UPDATE barang SET jumBarang = '$jumlahAkhir',
                      hargaJual = '$simpan[hargaJual]' WHERE barcode = '$simpan[barcode]'") or die(mysql_error());
+
+        // harga banded
+        $hb = mysql_query("SELECT barcode, qty, harga_satuan FROM tmp_harga_banded WHERE barcode = '{$simpan['barcode']}'");
+        $tmpHargaBanded = mysql_fetch_array($hb, MYSQL_ASSOC);
+        print_r($tmpHargaBanded);
+        $sql = "INSERT INTO harga_banded (barcode, qty, harga) "
+                                            . "VALUES('{$simpan['barcode']}',{$tmpHargaBanded['qty']},{$tmpHargaBanded['harga_satuan']}) "
+                                            . "ON DUPLICATE KEY UPDATE qty={$tmpHargaBanded['qty']}, harga={$tmpHargaBanded['harga_satuan']} ";
+        if ($tmpHargaBanded){
+            mysql_query($sql) or die(mysql_error());
+        }
     }
     mysql_query("DELETE FROM tmp_detail_beli where idSupplier = '$_SESSION[idSupplier]' and username = '$_SESSION[uname]'") or die(mysql_error());
+
+    // hapus harga banded
+    mysql_query("DELETE FROM tmp_harga_banded WHERE supplier_id = '{$_SESSION['idSupplier']}' and user_name = '{$_SESSION['uname']}'") or die(mysql_error());
 
     releaseSupplier();
     header('location:media.php?module=pembelian_barang');
@@ -581,15 +595,17 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     //echo $sql;
     $hasil = mysql_query($sql);
 
-    /**
-     * Init printer, dan buka cash drawer
-     */
-    $command = chr(27) . "@"; //Init printer
-    //$command .= chr(27) . chr(101) . chr(1); //1 reverse lf
-    $command .= chr(27) . chr(112) . chr(48) . chr(60) . chr(120); // buka cash drawer
-    $command .= chr(27) . chr(101) . chr(1); //1 reverse lf
-    $perintah = "echo \"$command\" |lpr $perintah_printer ";
-    exec($perintah, $output);
+    if ($jenis_printer == 'rlpr') {
+        /**
+         * Init printer, dan buka cash drawer
+         */
+        $command = chr(27) . "@"; //Init printer
+        //$command .= chr(27) . chr(101) . chr(1); //1 reverse lf
+        $command .= chr(27) . chr(112) . chr(48) . chr(60) . chr(120); // buka cash drawer
+        $command .= chr(27) . chr(101) . chr(1); //1 reverse lf
+        $perintah = "echo \"$command\" |lpr $perintah_printer ";
+        exec($perintah, $output);
+    }
     /**
      *
      */
@@ -647,7 +663,9 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     $struk .= "----------------------------------------\n";
     $struk .= str_pad($footer1, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($footer2, 40, " ", STR_PAD_BOTH) . "\n\n\n\n\n\n\n\n\n\n";
     // tambahan perintah untuk cutter epson
-    $struk .= chr(27) . "@" . chr(29) . "V" . chr(1);
+    if ($jenis_printer == 'rlpr') {
+        $struk .= chr(27) . "@" . chr(29) . "V" . chr(1);
+    }
 
     if ($jenis_printer == 'pdf') {
         require('classes/fpdf.php');
@@ -1358,7 +1376,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                     ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                       ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
@@ -1462,6 +1480,25 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
         $barcode = $_GET['barcode'];
         $hasil = cekBarang($barcode);
         echo $hasil['namaBarang'] . ' :: Rp. ' . number_format($hasil['hargaJual'], 0, ',', '.');
+    }
+}
+
+elseif ($module === 'hargabanded' && $act === 'getnamabarang'){
+    if (isset($_GET['term'])){
+        $namaBarang = $_GET['term'];
+        echo $term;
+        $sql = "SELECT barcode, namaBarang FROM barang where namaBarang like '%{$namaBarang}%'";
+        $hasil = mysql_query($sql);
+        $barangs = array();
+        while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)){
+            $barangs[] = array(
+                'id' => $barang['barcode'],
+                'label' => $barang['namaBarang'],
+                'value' => $barang['namaBarang'],
+            );
+        }
+
+        echo json_encode($barangs);
     }
 }
 // else

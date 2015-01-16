@@ -27,6 +27,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<title>Halaman AhadPOS</title>
 
+			<link rel="stylesheet" type="text/css" href="../css/jquery-ui-ac.min.css" />
 			<link rel="stylesheet" type="text/css" href="../css/style.css" />
 			<link rel="stylesheet" type="text/css" href="../css/jquery.simple-dtpicker.css" />
 

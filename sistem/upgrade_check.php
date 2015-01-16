@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 4;
+$revision = 6;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -364,6 +364,14 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
     if ($dbrevision < 4) {
         echo "Upgrading database to version 2.0.4 <br />";
         upgrade_203_to_204();
+    }
+    if ($dbrevision < 5) {
+        echo "Upgrading database to version 2.0.5 <br />";
+        upgrade_204_to_205();
+    }
+    if ($dbrevision < 6) {
+        echo "Upgrading database to version 2.0.6 <br />";
+        upgrade_205_to_206();
     }
 }
 
@@ -771,6 +779,63 @@ function upgrade_203_to_204() {
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }
 
+function upgrade_204_to_205() {
+    // Create Tabel harga_banded
+    $sql = "CREATE TABLE `harga_banded` (
+          `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+          `barcode` varchar(25) NOT NULL,
+          `qty` int(10) unsigned NOT NULL,
+          `harga` int(11) NOT NULL,
+          PRIMARY KEY (`id`),
+          UNIQUE KEY `barcode_UNIQUE` (`barcode`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Tambahkan menu Harga banded
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Harga Banded', 'media.php?module=barang&act=hargabanded', '', 2, 'Harga Banded', '', 'Y', 2, 12, 0, '')";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 5)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 5)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
+function upgrade_205_to_206() {
+    // Create Tabel tmp_harga_banded
+    $sql = "CREATE TABLE `tmp_harga_banded` (
+              `barcode` varchar(25) NOT NULL,
+              `supplier_id` int(11) NOT NULL,
+              `user_name` varchar(30) NOT NULL,
+              `qty` int(11) NOT NULL,
+              `harga_satuan` float NOT NULL,
+              PRIMARY KEY (`barcode`,`user_name`,`supplier_id`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 6)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 6)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
 // =================================== PATCH VERSI 3.x.x ==========================================
 function check_minor_major3($dbminor, $minor, $dbrevision, $revision) {
 
