@@ -610,22 +610,22 @@ switch ($_GET['act']) {
                     // cetak label
                     ?>
                     <div style="border: 1px solid #000; <?php echo $clear; ?> float:left; margin-right:5px; margin-bottom:0px; width:<?php echo $lebar_label - 10; ?>px; height:<?php echo $tinggi_label; ?>px; padding: 0 5px;">
-                        <p style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:13pt; font-weight:normal; text-transform:capitalize;">
+                        <p style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:11pt; font-weight:normal; text-transform:capitalize;">
                             <?php echo $namaBarang1; ?>
                         </p>
-                        <p style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:13pt; font-weight:normal; text-transform:capitalize;">
+                        <p style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:11pt; font-weight:normal; text-transform:capitalize;">
                             <?php echo $namaBarang2; ?>
                         </p>
-                        <table style="font-family:'Times New Roman';width: 100%; margin-bottom: 15px; margin-top: -7px">
+                        <table style="font-family:'Times New Roman';width: 100%; margin-bottom: 10px; margin-top: -6px;border-top: 1px solid #000;">
                             <tr>
                                 <td style="width: 20%;">Rp.</td>
-                                <td style="width: 55%;font-size: 21pt;text-align: right; vertical-align: bottom"><?php echo number_format($r['hargaJual'], 0, ',', '.'); ?></td>
-                                <td>/ <?php echo $r['namaSatuanBarang']; ?></td>
+                                <td style="width: 55%;font-size: 27pt;text-align: right; vertical-align: bottom"><?php echo number_format($r['hargaJual'], 0, ',', '.'); ?></td>
+                                <td style="font-size: 10pt;">/ <?php echo $r['namaSatuanBarang']; ?></td>
                             </tr>
                             <tr>
                                 <td>Rp.</td>
-                                <td style="font-size: 21pt;text-align: right; vertical-align: bottom"><?php echo number_format($hargaBanded['harga'] * $hargaBanded['qty'], 0, ',', '.'); ?></td>
-                                <td>/ <?php echo $hargaBanded['qty'] . $r['namaSatuanBarang']; ?></td>
+                                <td style="font-size: 27pt;text-align: right; vertical-align: bottom"><?php echo number_format($hargaBanded['harga'] * $hargaBanded['qty'], 0, ',', '.'); ?></td>
+                                <td style="font-size: 10pt;">/ <?php echo $hargaBanded['qty'] . $r['namaSatuanBarang']; ?></td>
                             </tr>
                         </table>
                         <span style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:8pt; font-style: italic ">
