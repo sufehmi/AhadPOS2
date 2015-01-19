@@ -232,7 +232,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonaktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                 ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                  ?>
                         </td>
                     </tr>
                     <?php
@@ -406,7 +406,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                 ?>
                     </td>
                 </tr>
                 <?php
@@ -519,9 +519,9 @@ switch ($_GET['act']) {
             </table> <br />
             <label for="layout-tinggi">Pilih Layout : </label>
             <select id="layout-tinggi" name="layout">
-                <option value="0">Tinggi: 3 mm</option>
-                <option value="1">Tinggi: 3,3 mm</option>
-                <option value="2">Harga Banded: 6cm x 4cm</option>
+                <option value="0">Tinggi: 3 cm; Letter, Potrait</option>
+                <option value="1">Tinggi: 3,3 cm; Letter, Potrait</option>
+                <option value="2">Harga Banded: 6cm x 4cm; A4, Landscape</option>
             </select>
             <input type=submit accesskey='l' value='(l) Cetak Label Barang'>
         </form>
@@ -801,9 +801,9 @@ switch ($_GET['act']) {
             <div>
                 <label for="layout-tinggi">Pilih Layout : </label>
                 <select id="layout-tinggi" name="layout">
-                    <option value="0">Tinggi: 3 mm</option>
-                    <option value="1">Tinggi: 3,3 mm</option>
-                    <option value="2">Harga Banded: 6cm x 4cm</option>
+                    <option value="0">Tinggi: 3 cm; Letter, Potrait</option>
+                    <option value="1">Tinggi: 3,3 cm; Letter, Potrait</option>
+                    <option value="2">Harga Banded: 6cm x 4cm; A4, Landscape</option>
                 </select>
                 <input type='submit' name='printBarcode' value='Print' />
             </div>
