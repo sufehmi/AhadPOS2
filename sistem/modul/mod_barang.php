@@ -232,7 +232,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonaktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                              ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                               ?>
                         </td>
                     </tr>
                     <?php
@@ -406,7 +406,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                             ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                              ?>
                     </td>
                 </tr>
                 <?php
@@ -1165,6 +1165,20 @@ switch ($_GET['act']) {
                     </td>
                     <td style="color:red"><?php echo isset($_GET['nonAktif']) ? 'Status barang sudah diperbarui' : '' ?></td>
                 </tr>
+                <?php
+                $hQuery = mysql_query("SELECT qty, harga FROM harga_banded WHERE barcode = '{$data['barcode']}'");
+                $hargaBanded = mysql_fetch_array($hQuery, MYSQL_ASSOC);
+                if ($hargaBanded) :
+                    $totalBanded = number_format($hargaBanded['qty'] * $hargaBanded['harga'], 0, ',', '.');
+                    $hargaBandedSatuan = number_format($hargaBanded['harga'], 0, ',', '.');
+                    ?>
+                    <tr>
+                        <td>Harga Banded</td>
+                        <td> : <a href="media.php?module=barang&act=hargabanded2&barcode=<?php echo $data['barcode']; ?>"><?php echo "{$totalBanded} / {$hargaBanded['qty']} = {$hargaBandedSatuan}" ?></a></td>
+                    </tr>
+                    <?php
+                endif;
+                ?>
                 <tr><td colspan=2>&nbsp;</td></tr>
                 <tr><td colspan=2 align='right'><input type=submit value=(S)impan accesskey=s>&nbsp;&nbsp;&nbsp;
                         <input type=button value=Batal onclick=self.history.back()></td></tr>
@@ -2758,8 +2772,8 @@ switch ($_GET['act']) {
         /*
          * Tampilkan data barang, dan harga banded (qty dan harga satuannya)
          */
-        if (isset($_POST['barcode'])):
-            $barcode = $_POST['barcode'];
+        if (isset($_POST['barcode']) || isset($_GET['barcode'])):
+            $barcode = isset($_POST['barcode']) ? $_POST['barcode'] : $_GET['barcode'];
             $sql = "SELECT namaBarang, hargaJual
                     FROM barang
                     WHERE barcode = '{$barcode}' ";
