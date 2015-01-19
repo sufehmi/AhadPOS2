@@ -2818,13 +2818,13 @@ switch ($_GET['act']) {
                     </tr>
                     <tr>
                         <td>Harga banded</td>
-                        <td><input type="text" id="hb-hargabanded" name="harga" value="<?php echo isset($hbHarga) ? $hbHarga * $hbQty : ''; ?>"/></td>
+                        <td><input type="text" id="hb-hargabanded" name="harga" value="<?php echo isset($hbHarga) ? $hbHarga * $hbQty : ''; ?>"  autocomplete="off"/></td>
                     </tr>
                     <tr>
                     </tr>
                     <tr>
                         <td>Harga Satuan Banded</td>
-                        <td><input type="text" id="hb-hargasatuan" name="hargasatuan" value="<?php echo isset($hbHarga) ? $hbHarga : ''; ?>"/></td>
+                        <td><input type="text" id="hb-hargasatuan" name="hargasatuan" value="<?php echo isset($hbHarga) ? $hbHarga : ''; ?>" autocomplete="off"/></td>
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit" class="tombol" value="(s) Simpan" accept="s"/></td>
