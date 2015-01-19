@@ -156,6 +156,8 @@ switch ($_GET['act']) {
                     <th>Satuan Barang</th>
                     <th>Jumlah</th>
                     <th>Harga Jual</th>
+                    <th>Harga Banded</th>
+                    <th>Qty Banded</th>
                     <th>Non Aktif</th>
                     <th>aksi</th>
                 </tr>
@@ -189,12 +191,16 @@ switch ($_GET['act']) {
 				`barang`.`jumBarang`,
 				`barang`.`hargaJual`,
 				`barang`.`barcode`,
+                (`harga_banded`.`harga` * `harga_banded`.`qty`) hargaBanded,
+                `harga_banded`.`qty` qtyBanded,
 				`barang`.`nonAktif`
 			FROM `barang`
 				LEFT JOIN `kategori_barang`
 					ON `barang`.`idKategoriBarang` = `kategori_barang`.`idKategoriBarang`
 				LEFT JOIN `satuan_barang`
 					ON `barang`.`idSatuanBarang` = `satuan_barang`.`idSatuanBarang`
+                LEFT JOIN `harga_banded`
+                    ON `barang`.`barcode` = `harga_banded`.`barcode`
 				ORDER BY `namaBarang` ASC LIMIT $mulai,100");
 
 
@@ -223,7 +229,9 @@ switch ($_GET['act']) {
                         <td class="center"><?php echo $r['namaSatuanBarang']; ?></td>
                         <td class="right"><?php echo $r['jumBarang']; ?></td>
                         <td class="right"><?php echo $r['hargaJual']; ?></td>
-                        <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
+                        <td class="right"><?php echo $r['hargaBanded']; ?></td>
+                        <td class="right"><?php echo $r['qtyBanded']; ?></td>
+                        <td class="center"><?php echo $r['nonaktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
                         <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                              ?>
                         </td>
                     </tr>
