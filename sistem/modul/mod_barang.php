@@ -232,7 +232,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonaktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                 ?>
                         </td>
                     </tr>
                     <?php
@@ -406,7 +406,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                               ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                ?>
                     </td>
                 </tr>
                 <?php
@@ -2788,10 +2788,18 @@ switch ($_GET['act']) {
                 $hbQty = $dataHargaBanded['qty'];
                 $hbHarga = $dataHargaBanded['harga'];
             }
+
+            $sql = "SELECT hargaBeli FROM detail_beli WHERE barcode = '{$barcode}' ORDER BY idBarang desc LIMIT 1";
+            $query = mysql_query($sql);
+            $pembelian = mysql_fetch_array($query, MYSQL_ASSOC);
             ?>
             <h2>Barang: <small><?php echo $dataBarang['namaBarang']; ?> | <?php echo $barcode; ?></small></h2>
             <form method="POST">
                 <table>
+                    <tr>
+                        <td>Harga Beli Satuan</td>
+                        <td><input type="text" disabled="disabled" value="<?php echo number_format($pembelian['hargaBeli'], 0, ',', '.'); ?>"/></td>
+                    </tr>
                     <tr>
                         <td>Harga jual satuan</td>
                         <td><input type="text" value="<?php echo number_format($dataBarang['hargaJual'], 0, ',', '.'); ?>" disabled="disabled" /></td>
