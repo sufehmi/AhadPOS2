@@ -232,7 +232,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonaktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                  ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                   ?>
                         </td>
                     </tr>
                     <?php
@@ -426,7 +426,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['hargaBanded']; ?></td>
                     <td class="right"><?php echo $r['qtyBanded']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                 ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                  ?>
                     </td>
                 </tr>
                 <?php
@@ -542,6 +542,7 @@ switch ($_GET['act']) {
                 <option value="0">Tinggi: 3 cm; Letter, Potrait</option>
                 <option value="1">Tinggi: 3,3 cm; Letter, Potrait</option>
                 <option value="2">Harga Banded: 6cm x 4cm; A4, Landscape</option>
+                <option value="3">Harga Banded: Tinggi: 3cm; Letter, Potrait</option>
             </select>
             <input type=submit accesskey='l' value='(l) Cetak Label Barang'>
         </form>
@@ -657,6 +658,88 @@ switch ($_GET['act']) {
                             </tr>
                         </table>
                         <span style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:8pt; font-style: italic ">
+                            <?php echo $r['barcode']; ?>
+                        </span>
+                    </div>
+                    <?php
+                    $kolom++;
+                }
+                ?>
+            </div>
+            <?php
+        }
+        elseif ($_POST['layout'] == '3') {
+            // Layout 3 = Layout harga banded dengan ukuran lebih kecil
+            ?>
+            <style>
+                @font-face {
+                    font-family: 'Questrial';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: url('../../font/Questrial-Regular.ttf');
+                }
+            </style>
+            <?php
+            $lebar_label = 200;
+            $tinggi_label = 112;
+            $label_per_baris = 3;
+            $baris_per_halaman = 7;
+
+            $jumlahKarakterNamaBarang = 30;
+
+            $tanggal = date('dmY');
+            $total = $_POST[total];
+            $baris = 1;
+            $kolom = 1;
+            ?>
+            <div style="float:none">
+                <?php
+                for ($i = 1; $i <= $total; $i++) {
+
+                    $r = mysql_fetch_array($cari);
+
+                    $clear = "";
+                    // cek posisi saat ini
+                    if ($kolom > $label_per_baris) {
+                        $kolom = 1;
+                        $baris++;
+                        $clear = " clear:left; "; //echo "</div><div style=\"float:none\">"; // ganti baris
+                    }
+                    if ($baris > $baris_per_halaman) {
+                        $baris = 1;
+                        ?>
+                        <p style="page-break-after: always; margin-top: -10px" />
+                        <?php
+                    }
+                    // Harga Banded
+                    $sql = "SELECT qty, harga FROM harga_banded WHERE barcode='{$r['barcode']}'";
+                    $hasil = mysql_query($sql);
+                    $hargaBanded = mysql_fetch_array($hasil, MYSQL_ASSOC);
+
+                    $namaBarang1 = $r['namaBarang'];
+
+                    // cetak label
+                    echo "\n";
+                    ?>
+                    <div style="border: 1px solid #000; <?php echo $clear; ?> float:left; margin-right:5px; margin-bottom:10px; width:<?php echo $lebar_label - 10; ?>px; height:<?php echo $tinggi_label; ?>px; padding: 0 5px;">
+                        <p style="margin-top: 3px; text-align:left; font-family:'Questrial'; font-size:8pt; font-weight:normal; text-transform:capitalize; border-bottom: 1px solid #000">
+                            <?php echo $namaBarang1; ?>
+                        </p>
+                        <table style="border-collapse: collapse;font-family:'Times New Roman';width: 100%; margin-bottom: 15px; margin-top: -10px;">
+                            <tr style="padding: 0">
+                                <td style="width: 15%; vertical-align: bottom; padding-bottom: 7px; white-space: nowrap">Rp.</td>
+                                <td style="font-size: 27pt;text-align: right; vertical-align: bottom; white-space: nowrap"><?php echo number_format($r['hargaJual'], 0, ',', '.'); ?></td>
+                                <td style="font-size: 8pt; width: 20%; vertical-align: bottom; padding-bottom: 7px; white-space: nowrap">/<?php echo $r['namaSatuanBarang']; ?></td>
+                            </tr>
+                        </table>
+                        <table style="border-collapse: collapse;font-family:'Times New Roman';width: 100%; margin-bottom: 10px; margin-top: -25px;">
+                            <tr>
+                                <td style="width: 15%; vertical-align: bottom; padding-bottom: 7px; white-space: nowrap">Rp.</td>
+                                <td style="font-size: 27pt;text-align: right; vertical-align: bottom; white-space: nowrap"><?php echo number_format($hargaBanded['harga'] * $hargaBanded['qty'], 0, ',', '.'); ?></td>
+                                <td style="font-size: 8pt; width: 20%; vertical-align: bottom; padding-bottom: 7px; white-space: nowrap">/<?php echo $hargaBanded['qty'] . $r['namaSatuanBarang']; ?></td>
+                            </tr>
+                        </table>
+                        <span style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:7pt; font-style: italic">
                             <?php echo $r['barcode']; ?>
                         </span>
                     </div>
@@ -824,6 +907,7 @@ switch ($_GET['act']) {
                     <option value="0">Tinggi: 3 cm; Letter, Potrait</option>
                     <option value="1">Tinggi: 3,3 cm; Letter, Potrait</option>
                     <option value="2">Harga Banded: 6cm x 4cm; A4, Landscape</option>
+                    <option value="3">Harga Banded: Tinggi: 3cm; Letter, Potrait</option>
                 </select>
                 <input type='submit' name='printBarcode' value='Print' />
             </div>
