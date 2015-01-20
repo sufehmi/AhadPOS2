@@ -364,20 +364,36 @@ switch ($_GET['act']) {
         };
 
         if ($_POST[barcode] == '0') {
-            $sql = "SELECT b.idBarang,b.namaBarang,b.jumBarang,b.hargaJual,b.barcode, k.namaKategoriBarang, s.namaSatuanBarang, b.nonAktif
-                        FROM barang AS b, kategori_barang AS k, satuan_barang AS s
+            $sql = "SELECT b.idBarang,b.namaBarang,b.jumBarang,b.hargaJual,b.barcode, k.namaKategoriBarang, s.namaSatuanBarang,
+                        (`harga_banded`.`harga` * `harga_banded`.`qty`) hargaBanded,
+                        `harga_banded`.`qty` qtyBanded, b.nonAktif
+                        FROM barang AS b
+                        LEFT JOIN `kategori_barang` k
+                            ON b.`idKategoriBarang` = k.`idKategoriBarang`
+                        LEFT JOIN `satuan_barang` s
+                        ON b.`idSatuanBarang` = s.`idSatuanBarang`
+                        LEFT JOIN `harga_banded`
+                            ON b.`barcode` = `harga_banded`.`barcode`
 			WHERE $q_rak namaBarang LIKE '%$_POST[namaBarang]%' AND
 				b.idKategoriBarang = k.idKategoriBarang AND b.idSatuanBarang = s.idSatuanBarang
                         ORDER BY namaBarang ASC";
         }
         else {
-            $sql = "SELECT b.idBarang,b.namaBarang,b.jumBarang,b.hargaJual,b.barcode, k.namaKategoriBarang, s.namaSatuanBarang, b.nonAktif
-                        FROM barang AS b, kategori_barang AS k, satuan_barang AS s
-			WHERE $q_rak barcode LIKE '$_POST[barcode]%' AND
+            $sql = "SELECT b.idBarang,b.namaBarang,b.jumBarang,b.hargaJual,b.barcode, k.namaKategoriBarang, s.namaSatuanBarang,
+                        (`harga_banded`.`harga` * `harga_banded`.`qty`) hargaBanded,
+                        `harga_banded`.`qty` qtyBanded, b.nonAktif
+                        FROM barang AS b
+                        LEFT JOIN `kategori_barang` k
+                            ON b.`idKategoriBarang` = k.`idKategoriBarang`
+                        LEFT JOIN `satuan_barang` s
+                        ON b.`idSatuanBarang` = s.`idSatuanBarang`
+                        LEFT JOIN `harga_banded`
+                            ON b.barcode = `harga_banded`.`barcode`
+			WHERE $q_rak b.barcode LIKE '$_POST[barcode]%' AND
 				b.idKategoriBarang = k.idKategoriBarang AND b.idSatuanBarang = s.idSatuanBarang
                         ORDER BY namaBarang ASC";
         };
-        $cari = mysql_query($sql);
+        $cari = mysql_query($sql) or die(mysql_error());
         //echo $sql;
         ?>
         <table class="tabel">
@@ -389,6 +405,8 @@ switch ($_GET['act']) {
                 <th>Satuan Barang</th>
                 <th>Jumlah</th>
                 <th>Harga Jual</th>
+                <th>Harga Banded</th>
+                <th>Qty Banded</th>
                 <th>Non Aktif</th>
                 <th>aksi</th>
             </tr>
@@ -405,6 +423,8 @@ switch ($_GET['act']) {
                     <td class="center"><?php echo $r['namaSatuanBarang']; ?></td>
                     <td class="right"><?php echo $r['jumBarang']; ?></td>
                     <td class="right"><?php echo $r['hargaJual']; ?></td>
+                    <td class="right"><?php echo $r['hargaBanded']; ?></td>
+                    <td class="right"><?php echo $r['qtyBanded']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
                     <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                 ?>
                     </td>
@@ -2789,7 +2809,7 @@ switch ($_GET['act']) {
                 $hbHarga = $dataHargaBanded['harga'];
             }
 
-            $sql = "SELECT hargaBeli FROM detail_beli WHERE barcode = '{$barcode}' ORDER BY idBarang desc LIMIT 1";
+            $sql = "SELECT hargaBeli FROM detail_beli WHERE barcode = '{$barcode}' ORDER BY idDetailBeli desc LIMIT 1";
             $query = mysql_query($sql);
             $pembelian = mysql_fetch_array($query, MYSQL_ASSOC);
             ?>
