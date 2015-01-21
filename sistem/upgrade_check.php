@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 6;
+$revision = 7;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -372,6 +372,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
     if ($dbrevision < 6) {
         echo "Upgrading database to version 2.0.6 <br />";
         upgrade_205_to_206();
+    }
+    if ($dbrevision < 7) {
+        echo "Upgrading database to version 2.0.7 <br />";
+        upgrade_205_to_207();
     }
 }
 
@@ -836,6 +840,46 @@ function upgrade_205_to_206() {
     };
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }
+
+function upgrade_206_to_207() {
+    // Penambahan field customer
+    $sql = "ALTER TABLE `customer`
+                ADD COLUMN `nomor_ktp` VARCHAR(45) NULL,
+                ADD COLUMN `jenis_kelamin` TINYINT(1) NULL COMMENT '0=Laki-laki; 1=Perempuan',
+                ADD COLUMN `tanggal_lahir` DATE NULL,
+                ADD COLUMN `handhone` VARCHAR(45) NULL,
+                ADD COLUMN `email` VARCHAR(255) NULL,
+                ADD COLUMN `member` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=bukan, 1=member'
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Menambahkan konfigurasi untuk point member
+    $sql = "INSERT INTO config (`option`, `value`, `description`)
+                VALUES ('point_value', '', 'Nilai rupiah untuk member mendapatkan 1 point')
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Tambahkan menu Membership
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Membership', 'media.php?module=membership', '', 7, 'Membership', '', 'Y', 2, 7, 0, '')";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 7)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 7)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
 // =================================== PATCH VERSI 3.x.x ==========================================
 function check_minor_major3($dbminor, $minor, $dbrevision, $revision) {
 
