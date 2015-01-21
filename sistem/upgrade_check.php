@@ -375,7 +375,7 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
     }
     if ($dbrevision < 7) {
         echo "Upgrading database to version 2.0.7 <br />";
-        upgrade_205_to_207();
+        upgrade_206_to_207();
     }
 }
 
