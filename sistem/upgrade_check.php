@@ -373,6 +373,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
         echo "Upgrading database to version 2.0.6 <br />";
         upgrade_205_to_206();
     }
+    if ($dbrevision < 7) {
+        echo "Upgrading database to version 2.0.7 <br />";
+        upgrade_205_to_207();
+    }
 }
 
 function upgrade_161_to_200() {
@@ -844,9 +848,22 @@ function upgrade_206_to_207() {
                 ADD COLUMN `jenis_kelamin` TINYINT(1) NULL COMMENT '0=Laki-laki; 1=Perempuan',
                 ADD COLUMN `tanggal_lahir` DATE NULL,
                 ADD COLUMN `handhone` VARCHAR(45) NULL,
-                ADD COLUMN `email` VARCHAR(255) NULL
+                ADD COLUMN `email` VARCHAR(255) NULL,
                 ADD COLUMN `member` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=bukan, 1=member'
             ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Menambahkan konfigurasi untuk point member
+    $sql = "INSERT INTO config (`option`, `value`, `description`)
+                VALUES ('point_value', '', 'Nilai rupiah untuk member mendapatkan 1 point')
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Tambahkan menu Membership
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Membership', 'media.php?module=membership', '', 7, 'Membership', '', 'Y', 2, 7, 0, '')";
     $hasil = exec_query($sql);
     echo mysql_error();
 
