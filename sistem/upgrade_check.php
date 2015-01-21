@@ -854,6 +854,14 @@ function upgrade_206_to_207() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
+    // Penambahan field nomor_kartu, dan perubahan idCustomer menjadi auto increment
+    $sql = "ALTER TABLE `customer`
+            CHANGE COLUMN `idCustomer` `idCustomer` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+            ADD COLUMN `nomor_kartu` VARCHAR(45) NULL AFTER `idCustomer`;
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
     // Menambahkan konfigurasi untuk point member
     $sql = "INSERT INTO config (`option`, `value`, `description`)
                 VALUES ('point_value', '', 'Nilai rupiah untuk member mendapatkan 1 point')
