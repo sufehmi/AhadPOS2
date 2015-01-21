@@ -847,7 +847,7 @@ function upgrade_206_to_207() {
                 ADD COLUMN `nomor_ktp` VARCHAR(45) NULL,
                 ADD COLUMN `jenis_kelamin` TINYINT(1) NULL COMMENT '0=Laki-laki; 1=Perempuan',
                 ADD COLUMN `tanggal_lahir` DATE NULL,
-                ADD COLUMN `handhone` VARCHAR(45) NULL,
+                ADD COLUMN `handphone` VARCHAR(45) NULL,
                 ADD COLUMN `email` VARCHAR(255) NULL,
                 ADD COLUMN `member` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=bukan, 1=member'
             ";
