@@ -42,23 +42,25 @@ switch ($_GET[act]) {
                 <th>aksi</th>
             </tr>
             <?php
-            $tampil = mysql_query("select idCustomer, namaCustomer, alamatCustomer, telpCustomer, diskon_persen, diskon_rupiah, keterangan from customer");
+            $tampil = mysql_query("select idCustomer, namaCustomer, alamatCustomer, telpCustomer, diskon_persen, diskon_rupiah, keterangan, "
+                    . "nomor_ktp, jenis_kelamin, tanggal_lahir, handphone, email, member "
+                    . "from customer");
             $no = 1;
             while ($r = mysql_fetch_array($tampil)) {
                 ?>
                 <tr <?php echo $no % 2 === 0 ? 'class="alt"' : ''; ?>>
                     <td class="right"><?php echo $no; ?></td>
                     <td><?php echo $r['namaCustomer']; ?></td>
-                    <td class="center"><?php echo $r['alamatCustomer']; ?></td>
-                    <td class="center"><?php echo $r['telpCustomer']; ?></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><?php echo $r['alamatCustomer']; ?></td>
+                    <td><?php echo $r['telpCustomer']; ?></td>
+                    <td><?php echo $r['handphone']; ?></td>
+                    <td><?php echo $r['nomor_ktp']; ?></td>
+                    <td><?php echo $r['jenis_kelamin'] == 0 ? 'Laki-laki' : 'Perempuan'; ?></td>
+                    <td><?php echo date_format(date_create_from_format('Y-m-d', $r['tanggal_lahir']), 'd-m-Y'); ?></td>
+                    <td><?php echo $r['email']; ?></td>
                     <td class="right"><?php echo $r['diskon_persen']; ?>%</td>
                     <td class="right"><?php echo number_format($r['diskon_rupiah'], 2, ',', '.'); ?></td>
-                    <td>Non Member</td>
+                    <td><?php echo $r['member'] == 0 ? 'Non member' : 'Member'; ?></td>
                     <td><?php echo $r['keterangan']; ?></td>
                     <td><a href=?module=customer&act=editcustomer&id=<?php echo $r['idCustomer']; ?>>Edit</a> |
                         <a href=./aksi.php?module=customer&act=hapus&id=<?php echo $r['idCustomer']; ?>>Hapus</a>
@@ -80,7 +82,7 @@ switch ($_GET[act]) {
         <form method=POST action='./aksi.php?module=customer&act=input' name='tambahcustomer'>
             <table style="border-collapse: collapse">
                 <tr>
-                    <td>Nama Customer</td>
+                    <td>Nama</td>
                     <td> : <input type=text name='namaCustomer' size=40 autofocus="autofocus"></td>
                 </tr>
                 <tr>
@@ -88,7 +90,7 @@ switch ($_GET[act]) {
                     <td> : <input type="text" name="nomor_ktp" size=40/></td>
                 </tr>
                 <tr>
-                    <td>Alamat Customer</td>
+                    <td>Alamat</td>
                     <td> : <textarea name='alamatCustomer' rows='2' cols='35'></textarea></td>
                 </tr>
                 <tr>
@@ -101,7 +103,7 @@ switch ($_GET[act]) {
                 </tr>
                 <tr>
                     <td>Tanggal Lahir</td>
-                    <td> : <input type="text" name="tanggal_lahir" /></td>
+                    <td> : <input type="text" name="tanggal_lahir" placeholder="dd-mm-yyyy"/></td>
                 </tr>
                 <tr>
                     <td>Telp</td>
@@ -116,6 +118,14 @@ switch ($_GET[act]) {
                     <td> : <input type=text name='email' size=40 /></td>
                 </tr>
                 <tr>
+                    <td>Member</td>
+                    <td> : <select name="member">
+                            <option value="0">Non Member</option>
+                            <option value="1" selected="selected">Member</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td>Keterangan</td>
                     <td> : <textarea name='keterangan' rows='4' cols='35'></textarea></td>
                 </tr>
@@ -128,7 +138,8 @@ switch ($_GET[act]) {
                         <input type=button value=Batal onclick=self.history.back()>
                     </td>
                 </tr>
-            </table></form>
+            </table>
+        </form>
         <?php
         break;
 
