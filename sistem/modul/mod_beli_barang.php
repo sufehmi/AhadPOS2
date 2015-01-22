@@ -1460,9 +1460,15 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								$hasil = mysql_query($sql);
 								$z = mysql_fetch_array($hasil);
 								$hargaSekarang = $z[hargaJual];
-
+                                $warna = '#fff';
+                                if ($hargaSekarang != $data[6]){
+                                    $warna = '#edc240'; // Jika harga jual berubah, diberi tanda warna kuning
+                                }
+                                if (!$z){
+                                    $warna = '#4da74d'; // Jika barang belum ada, diberi tanda warna hijau
+                                }
 								echo "
-				<tr>
+				<tr style='background-color:{$warna}'>
 					<td><input type=text name=barcode$n value='".$data[0]."' size=10 readonly>
 					</td>
 					<td><center><input type=text name=namabarang$n value='".$data[2]."' readonly>
