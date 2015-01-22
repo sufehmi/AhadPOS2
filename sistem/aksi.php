@@ -1501,6 +1501,17 @@ elseif ($module === 'hargabanded' && $act === 'getnamabarang'){
         echo json_encode($barangs);
     }
 }
+
+elseif ($module === 'membership' && $act === 'simpan'){
+       if (isset($_POST['config'])) {
+        $config = $_POST['config'];
+        foreach ($config as $option => $value) {
+            mysql_query("update config set value = '{$value}' where `option` = '{$option}'") or die(mysql_error());
+        }
+        header("Refresh:1; url=media.php?module={$module}&act=setting", true, 303);
+        echo 'Setting membership sudah disimpan..';
+    }
+}
 // else
 else { // =======================================================================================================================================
     echo "Tidak Ada Aksi untuk modul ini";

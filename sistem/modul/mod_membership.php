@@ -16,39 +16,49 @@
 include "../config/config.php";
 check_user_access(basename($_SERVER['SCRIPT_NAME']));
 
-$result = mysql_query('select `option`, value, description from config') or die(mysql_error());
-$config = array();
+$act = $_GET['act'];
 
-while ($configItem = mysql_fetch_array($result)) {
-    $config[$configItem['option']] = array(
-        'value' => $configItem['value'],
-        'description' => $configItem['description']
-    );
+switch ($act) {
+    default:
+        setting();
+        break;
 }
-?>
-<style>
-    input[type='text']{
-        font-family: "Courier New", Courier, monospace;
-        font-size: 1.2em;
-    }
-</style>
-<h2>Membership Configuration</h2>
-<form method="POST" action="./aksi.php?module=membership&act=simpan">
-    <table>
-        <tbody>
-            <tr>
-                <td><?php echo $config['point_value']['description']; ?></td>
-                <td> : <input type="text" name="config[point_value]" value="<?php echo $config['point_value']['value']; ?>"></td>
-            </tr>
-            <tr>
-                <td colspan="2">&nbsp;</td>
-            </tr>
-            <tr>
-                <td colspan="2" align="right">
-                    <input type="submit" value="Simpan">
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</form>
 
+function setting() {
+    $result = mysql_query('select `option`, value, description from config') or die(mysql_error());
+    $config = array();
+
+    while ($configItem = mysql_fetch_array($result)) {
+        $config[$configItem['option']] = array(
+            'value' => $configItem['value'],
+            'description' => $configItem['description']
+        );
+    }
+    ?>
+    <style>
+        input[type='text']{
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1.2em;
+        }
+    </style>
+    <h2>Membership Configuration</h2>
+    <form method="POST" action="./aksi.php?module=membership&act=simpan">
+        <table>
+            <tbody>
+                <tr>
+                    <td><?php echo $config['point_value']['description']; ?></td>
+                    <td> : <input type="text" name="config[point_value]" value="<?php echo $config['point_value']['value']; ?>"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">
+                        <input type="submit" value="Simpan">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <?php
+}
