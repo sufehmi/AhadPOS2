@@ -28,6 +28,7 @@ switch ($_GET[act]) {
         <table class="tabel">
             <tr>
                 <th>No</th>
+                <th>Nomor</th>
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>No.Telp</th>
@@ -42,7 +43,7 @@ switch ($_GET[act]) {
                 <th>aksi</th>
             </tr>
             <?php
-            $tampil = mysql_query("select idCustomer, namaCustomer, alamatCustomer, telpCustomer, diskon_persen, diskon_rupiah, keterangan, "
+            $tampil = mysql_query("select idCustomer, nomor_kartu, namaCustomer, alamatCustomer, telpCustomer, diskon_persen, diskon_rupiah, keterangan, "
                     . "nomor_ktp, jenis_kelamin, tanggal_lahir, handphone, email, member "
                     . "from customer");
             $no = 1;
@@ -50,6 +51,7 @@ switch ($_GET[act]) {
                 ?>
                 <tr <?php echo $no % 2 === 0 ? 'class="alt"' : ''; ?>>
                     <td class="right"><?php echo $no; ?></td>
+                    <td><?php echo $r['nomor_kartu']; ?></td>
                     <td><?php echo $r['namaCustomer']; ?></td>
                     <td><?php echo $r['alamatCustomer']; ?></td>
                     <td><?php echo $r['telpCustomer']; ?></td>
@@ -81,6 +83,10 @@ switch ($_GET[act]) {
         <h2>Tambah Customer</h2>
         <form method=POST action='./aksi.php?module=customer&act=input' name='tambahcustomer'>
             <table style="border-collapse: collapse">
+                <tr>
+                    <td>Nomor Kartu Member</td>
+                    <td> : <input type="text" name="nomor_kartu" size=40 /></td>
+                </tr>
                 <tr>
                     <td>Nama</td>
                     <td> : <input type=text name='namaCustomer' size=40 autofocus="autofocus"></td>
@@ -151,6 +157,10 @@ switch ($_GET[act]) {
         <form method=POST action=./aksi.php?module=customer&act=update name='editcustomer'>
             <input type=hidden name='idCustomer' value='<?php echo $data['idCustomer']; ?>'>
             <table>
+                <tr>
+                    <td>Nomor Kartu Member</td>
+                    <td> : <input type="text" name="nomor_kartu" size=40 value="<?php echo $data['nomor_kartu']; ?>"/></td>
+                </tr>
                 <tr>
                     <td>Nama</td>
                     <td> : <input type=text name='namaCustomer' size=40 value='<?php echo $data['namaCustomer']; ?>'></td>
