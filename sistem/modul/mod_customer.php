@@ -36,9 +36,9 @@ switch ($_GET[act]) {
                 <th>Jenis Kelamin</th>
                 <th>Tanggal Lahir</th>
                 <th>E-mail</th>
-                <th colspan="2">Diskon</th>
                 <th>Status</th>
                 <th>Keterangan</th>
+                <th colspan="2">Diskon</th>
                 <th>aksi</th>
             </tr>
             <?php
@@ -58,10 +58,10 @@ switch ($_GET[act]) {
                     <td><?php echo $r['jenis_kelamin'] == 0 ? 'Laki-laki' : 'Perempuan'; ?></td>
                     <td><?php echo date_format(date_create_from_format('Y-m-d', $r['tanggal_lahir']), 'd-m-Y'); ?></td>
                     <td><?php echo $r['email']; ?></td>
-                    <td class="right"><?php echo $r['diskon_persen']; ?>%</td>
-                    <td class="right"><?php echo number_format($r['diskon_rupiah'], 2, ',', '.'); ?></td>
                     <td><?php echo $r['member'] == 0 ? 'Non member' : 'Member'; ?></td>
                     <td><?php echo $r['keterangan']; ?></td>
+                    <td class="right"><?php echo $r['diskon_persen']; ?>%</td>
+                    <td class="right"><?php echo number_format($r['diskon_rupiah'], 2, ',', '.'); ?></td>
                     <td><a href=?module=customer&act=editcustomer&id=<?php echo $r['idCustomer']; ?>>Edit</a> |
                         <a href=./aksi.php?module=customer&act=hapus&id=<?php echo $r['idCustomer']; ?>>Hapus</a>
                     </td>
