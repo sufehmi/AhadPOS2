@@ -388,8 +388,8 @@ fieldset[disabled] select {
   cursor: not-allowed;
   background-color: #eeeeee;
 }
-textareainput,
-textareaselect {
+textarea input,
+textarea select {
   height: auto;
 }
 select {
@@ -960,6 +960,9 @@ div.pembayaran {
 .ui-menu-item.ui-state-focus {
   background-color: #eef4d2;
   margin: 0;
+}
+textarea {
+  margin-bottom: 5px;
 }
 /*!
  *  Font Awesome 4.0.3 by @davegandy - http://fontawesome.io - @fontawesome

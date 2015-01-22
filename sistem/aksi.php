@@ -418,13 +418,20 @@ elseif ($module == 'customer' AND $act == 'input') {
 // Update Customer
 elseif ($module == 'customer' AND $act == 'update') {
     $tgl = date("Y-m-d");
+    $tanggalLahir = date_format(date_create_from_format('d-m-Y', $_POST['tanggal_lahir']), 'Y-m-d');
     mysql_query("UPDATE customer SET namaCustomer = '$_POST[namaCustomer]',
-                    alamatCustomer = '$_POST[alamatCustomer]',
-                    telpCustomer = '$_POST[telpCustomer]',
-                    keterangan = '$_POST[keterangan]',
-						  diskon_persen = $_POST[diskon_persen],
-						  diskon_rupiah = $_POST[diskon_rupiah],
-                    last_update = '$tgl'
+                        alamatCustomer = '$_POST[alamatCustomer]',
+                        telpCustomer = '$_POST[telpCustomer]',
+                        keterangan = '$_POST[keterangan]',
+                        diskon_persen = $_POST[diskon_persen],
+                        diskon_rupiah = $_POST[diskon_rupiah],
+                        last_update = '$tgl',
+                        nomor_ktp = '{$_POST['nomor_ktp']}',
+                        jenis_kelamin = {$_POST['jenis_kelamin']},
+                        tanggal_lahir = '{$tanggalLahir}',
+                        handphone = '{$_POST['handphone']}',
+                        email = '{$_POST['email']}',
+                        member = {$_POST['member']}
                     WHERE idCustomer = '$_POST[idCustomer]'");
     header('location:media.php?module=' . $module);
 }// end Update Customer
