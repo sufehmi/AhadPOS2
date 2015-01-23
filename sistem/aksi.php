@@ -910,6 +910,23 @@ elseif ($module == 'penjualan_barang' AND $act == 'selfcheckoutinput') {
     }
 }
 
+// Nomor Kartu Customer
+elseif ($module == 'penjualan_barang' AND $act == 'nomorkartuinput') {
+    if (isset($_POST['nomor-kartu'])) {
+        $return = array('sukses' => false);
+        $nomorKartu = $_POST['nomor-kartu'];
+        $result = mysql_query("select idCustomer from customer where nomor_kartu='{$nomorKartu}'");
+        $customer = mysql_fetch_array($result);
+        if ($customer){
+            findCustomer($customer['idCustomer']);
+            mysql_query("UPDATE tmp_detail_jual SET idCustomer = {$customer['idCustomer']} WHERE username = '{$_SESSION['uname']}'");
+            $return = array('sukses'=>true);
+        }
+    }
+    header('Content-type: application/json');
+    echo json_encode($return);
+}
+
 //ukmMode: Cek Harga untuk input harga jual manual
 elseif ($module == 'penjualan_barang' AND $act == 'get_harga_jual') {
     if (isset($_POST['barcode'])) {

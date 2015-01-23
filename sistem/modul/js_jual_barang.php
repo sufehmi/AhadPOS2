@@ -174,7 +174,7 @@ else {
                         <form id="entry-barang" method=POST action='js_jual_barang.php?act=caricustomer&action=tambah'>
                             <div class="input-group">
                                 <label for="barcode"><span class="u">B</span>arcode</label>
-                                <input type="text" name="barcode" accesskey="b" id="barcode">
+                                <input type="text" name="barcode" accesskey="b" id="barcode" autofocus="autofocus">
                             </div>
                             <?php
                             // ----- TERLALU LAMBAT ! ----- jangan gunakan dropbox terlampir untuk memilih barcode
@@ -381,7 +381,7 @@ else {
                                           </td>
                                          *
                                          */ ?>
-                                        <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1':''; ?>'><i class="fa fa-times"></i></a></td>
+                                        <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1' : ''; ?>'><i class="fa fa-times"></i></a></td>
                                     </tr>
                                     <?php
                                     $tot_pembelian += $total;
@@ -478,7 +478,7 @@ else {
                                             <tr>
                                                 <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
                                                 <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
-                                                                        this.disabled = true;'></td>
+                                                        this.disabled = true;'></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -526,18 +526,33 @@ else {
                  box-shadow: 0px 0px 4px 0px #d2e28b;
                  padding: 15px;">
                 <form id="form-sc">
-                    <input type="text" id="self-checkout-id" name="self-checkout-id" placeholder="Nomor Self Checkout" /><br />
+                    <input type="text" id="self-checkout-id" name="self-checkout-id" placeholder="Nomor Self Checkout" autocomplete="off"/><br />
                     <!--<input type="password" id="password" name="password" placeholder="Password" /><br />-->
                     <!--<a href="js_jual_barang.php?act=caricustomer" class="tombol" id="tombol-batal-sc" accesskey="l">Bata<u>l</u></a>-->
                     <input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
                 </form>
             </div>
+            <div id="ganti-customer" style="
+                 display: none;
+                 position: fixed;
+                 border: 1px solid #a8cf45;
+                 bottom: 50px;
+                 margin-left: 200px;
+                 background-color: #eef4d2;
+                 box-shadow: 0px 0px 4px 0px #d2e28b;
+                 padding: 15px;">
+                <form id="form-nomor-kartu">
+                    <input type="text" id="nomor-kartu-id" name="nomor_kartu" placeholder="Nomor Kartu" autocomplete="off"/><br />
+                    <input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
+                </form>
+            </div>
             <div id="footer" >
-                <a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1':''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
+                <a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
                 <a class="tombol" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
                     <?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
                 </a>
                 <a class="tombol" href="#" id="tombol-self-checkout" accesskey="f" >Sel<b><u>f</u></b> Checkout</a>
+                <a class="tombol" href="#" id="tombol-nomor-kartu" accesskey="k" >Nomor <b><u>K</u></b>artu</a>
             </div>
             <script>
                 $(document).ready(function () {
@@ -551,6 +566,21 @@ else {
                             }
                         }
                     });
+                });
+
+                $("#tombol-nomor-kartu").click(function () {
+                    //$("#self-checkout").show(500);
+                    $("#ganti-customer").toggle(500, function () {
+                        if ($("#ganti-customer").css('display') === 'none') {
+                            console.log('hidden');
+                        } else {
+                            console.log("show");
+                            $("#nomor-kartu-id").val("");
+                            $("#nomor-kartu-id").focus();
+                        }
+                    });
+
+                    return false;
                 });
 
                 $("#tombol-self-checkout").click(function () {
@@ -567,6 +597,28 @@ else {
 
                     return false;
                 });
+
+                $("#form-nomor-kartu").submit(function () {
+                    console.log($("#nomor-kartu-id").val());
+                    var datakirim = {
+                        'nomor-kartu': $("#nomor-kartu-id").val()
+                    };
+                    dataurl = "../aksi.php?module=penjualan_barang&act=nomorkartuinput";
+                    $.ajax({
+                        type: "POST",
+                        url: dataurl,
+                        data: datakirim,
+                        success: function (data) {
+                            console.log(data);
+                            if (data.sukses) {
+                                window.location = "js_jual_barang.php?act=caricustomer"
+                            }
+                        }
+
+                    });
+                    $("#ganti-customer").hide(500);
+                    return false;
+                })
 
                 $("#form-sc").submit(function () {
                     console.log($("#self-checkout-id").val());
