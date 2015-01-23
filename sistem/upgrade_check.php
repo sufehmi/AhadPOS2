@@ -857,7 +857,8 @@ function upgrade_206_to_207() {
     // Penambahan field nomor_kartu, dan perubahan idCustomer menjadi auto increment
     $sql = "ALTER TABLE `customer`
             CHANGE COLUMN `idCustomer` `idCustomer` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-            ADD COLUMN `nomor_kartu` VARCHAR(45) NULL AFTER `idCustomer`;
+            ADD COLUMN `nomor_kartu` VARCHAR(45) NULL AFTER `idCustomer`,
+            ADD UNIQUE INDEX `nomor_kartu_UNIQUE` (`nomor_kartu` ASC)
             ";
     $hasil = exec_query($sql);
     echo mysql_error();
