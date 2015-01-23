@@ -46,6 +46,11 @@ Style for ahad pos 2
   font-style: normal;
   src: url('fonts/ubuntu-r.ttf');
 }
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  src: url('fonts/ubuntu-r.ttf');
+}
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
 article,
 aside,
@@ -339,7 +344,8 @@ fieldset[disabled] .tombol {
   box-shadow: none;
 }
 input,
-select {
+select,
+a.tombol {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
@@ -357,23 +363,28 @@ select {
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 input:-moz-placeholder,
-select:-moz-placeholder {
+select:-moz-placeholder,
+a.tombol:-moz-placeholder {
   color: #999999;
 }
 input::-moz-placeholder,
-select::-moz-placeholder {
+select::-moz-placeholder,
+a.tombol::-moz-placeholder {
   color: #999999;
 }
 input:-ms-input-placeholder,
-select:-ms-input-placeholder {
+select:-ms-input-placeholder,
+a.tombol:-ms-input-placeholder {
   color: #999999;
 }
 input::-webkit-input-placeholder,
-select::-webkit-input-placeholder {
+select::-webkit-input-placeholder,
+a.tombol::-webkit-input-placeholder {
   color: #999999;
 }
 input:focus,
-select:focus {
+select:focus,
+a.tombol:focus {
   border-color: #a8cf45;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(168, 207, 69, 0.6);
@@ -381,15 +392,19 @@ select:focus {
 }
 input[disabled],
 select[disabled],
+a.tombol[disabled],
 input[readonly],
 select[readonly],
+a.tombol[readonly],
 fieldset[disabled] input,
-fieldset[disabled] select {
+fieldset[disabled] select,
+fieldset[disabled] a.tombol {
   cursor: not-allowed;
   background-color: #eeeeee;
 }
 textareainput,
-textareaselect {
+textareaselect,
+textareaa.tombol {
   height: auto;
 }
 select {
@@ -623,26 +638,35 @@ body {
   font-weight: 300;
   background: white;
   /*		&.kasir{
-                //background-color: #272727;
-                //background-image: url('carbon_fibre.png');
-                //background-image: url('linen-gray.png');
-                background-color: black;
-                color: greenyellow;
-                th{
-                    color:white;
-                    background-color: darkgreen;
-                    border: thin solid gray;
-                }
-                tr.alt{
-                    background-color: #444;
-                }
-            }*/
+				//background-color: #272727;
+				//background-image: url('carbon_fibre.png');
+				//background-image: url('linen-gray.png');
+				background-color: black;
+				color: greenyellow;
+				th{
+					color:white;
+					background-color: darkgreen;
+					border: thin solid gray;
+				}
+				tr.alt{
+					background-color: #444;
+				}
+			}*/
 }
 body.kasir {
   display: inline;
 }
 body.kasir form {
   display: inline;
+}
+body.kasir #footer {
+  margin-left: -20px;
+  padding: 5px 20px;
+  background-color: #ccc;
+}
+body.kasir #footer a {
+  color: #2c3e50;
+  float: left;
 }
 a {
   text-decoration: none;
@@ -828,6 +852,11 @@ fieldset[disabled] #login form #tombol-login.active {
   top: 0px;
   font-size: 7em;
 }
+#tot_pembelian small {
+  color: red;
+  text-decoration: line-through;
+  font-size: 0.5em;
+}
 #kembalian {
   text-align: right;
   font-size: 6em;
@@ -882,9 +911,25 @@ table.top td {
 }
 .tabel .pilih:focus {
   /*		color: white;
-                background-color: red;*/
+				background-color: red;*/
   outline: 1px solid #6fa738;
   background-color: yellow;
+}
+.tabel.print th {
+  background-color: #fff;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.tabel.print tr.alt {
+  background-color: #eef4d2;
+}
+.tabel.print tr td {
+  border-right: thin solid #ccc;
+  padding: 3px 5px;
+}
+.tabel.print tr td.error {
+  color: orange;
+  font-weight: bold;
 }
 div.top {
   margin-top: 90px;
@@ -896,28 +941,29 @@ div.pembayaran {
   display: inline;
   float: right;
   padding: 10px;
+  margin-bottom: 55px;
 }
 /*#submenu{
-    ul{
-        margin: 0px;
-        padding-left: 20px;
-        background-color: @hijau-front;
-        line-height: 25px;
-        li{
-            display: inline;
-            a{
-                text-transform: uppercase;
-                color: black;
-                font-size:12px;
-                font-weight:bold;
-                text-decoration:none;
-                margin-right: 15px;
-            }
-            &.active a{
-                .active;
-            }
-        }
-    }
+	ul{
+		margin: 0px;
+		padding-left: 20px;
+		background-color: @hijau-front;
+		line-height: 25px;
+		li{
+			display: inline;
+			a{
+				text-transform: uppercase;
+				color: black;
+				font-size:12px;
+				font-weight:bold;
+				text-decoration:none;
+				margin-right: 15px;
+			}
+			&.active a{
+				.active;
+			}
+		}
+	}
 }*/
 #header {
   position: fixed;
@@ -960,6 +1006,9 @@ div.pembayaran {
 .ui-menu-item.ui-state-focus {
   background-color: #eef4d2;
   margin: 0;
+}
+textarea {
+  margin-bottom: 5px;
 }
 /*!
  *  Font Awesome 4.0.3 by @davegandy - http://fontawesome.io - @fontawesome
