@@ -1428,6 +1428,7 @@ elseif ($module == 'system' && $act == 'maintenance-upd-barang') {
 
 // Cek login admin
 // Untuk ability diskon manual di jual barang
+// Diturunkan level aksesnya ke level gudang
 elseif ($module == 'diskon' && $act == 'loginadmin') {
     if (isset($_POST['username'])) {
         $username = htmlspecialchars($_POST['username']);
@@ -1435,7 +1436,7 @@ elseif ($module == 'diskon' && $act == 'loginadmin') {
         $sql = "select idUser
 					from user
 					join leveluser lu on lu.idLevelUser = user.idLevelUser
-					where uname='{$username}' and pass='{$pass}' and lu.levelUser='admin'";
+					where uname='{$username}' and pass='{$pass}' and lu.levelUser in ('admin','gudang')";
         $result = mysql_query($sql) or die(mysql_error());
         $ketemu = mysql_num_rows($result);
         if ($ketemu) {
