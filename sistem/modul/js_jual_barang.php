@@ -155,9 +155,12 @@ else {
                             <?php
                         }
                         else {
+                            $sql = "SELECT nomor_kartu FROM customer WHERE idCustomer = '{$_SESSION['idCustomer']}'";
+                            $hasil = mysql_query($sql);
+                            $customer = mysql_fetch_array($hasil, MYSQL_ASSOC) or die('Gagal ambil data customer');
                             ?>
                             <div class="top">
-                                Customer : <?php echo $_SESSION['namaCustomer']; ?>
+                                Customer : <?php echo $customer =='' ? $customer['nomor_kartu'].' - ' : ''; ?><?php echo $_SESSION['namaCustomer']; ?>
                                 <?php
                                 if ($_SESSION['customerDiskonP'] > 0) {
                                     echo " ({$_SESSION['customerDiskonP']}%)";
@@ -478,7 +481,7 @@ else {
                                             <tr>
                                                 <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
                                                 <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
-                                                        this.disabled = true;'></td>
+                                                                        this.disabled = true;'></td>
                                             </tr>
                                         </table>
                                     </div>
