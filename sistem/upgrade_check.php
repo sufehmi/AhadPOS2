@@ -876,6 +876,12 @@ function upgrade_206_to_207() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
+    // Tambahkan field jumlah point pada transaksi penjualan, jika ada
+    $sql = "ALTER TABLE `transaksijual`
+            ADD COLUMN `jumlah_point` INT NULL DEFAULT 0 AFTER `uangDibayar`";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
     // update version number ------------------------------------------------------
     $sql = "SELECT * FROM config WHERE `option` = 'version'";
     $hasil = mysql_query($sql);
