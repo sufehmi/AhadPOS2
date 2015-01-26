@@ -155,12 +155,16 @@ else {
                             <?php
                         }
                         else {
-                            $sql = "SELECT nomor_kartu FROM customer WHERE idCustomer = '{$_SESSION['idCustomer']}'";
+                            $sql = "SELECT nomor_kartu, member FROM customer WHERE idCustomer = '{$_SESSION['idCustomer']}'";
                             $hasil = mysql_query($sql);
                             $customer = mysql_fetch_array($hasil, MYSQL_ASSOC) or die('Gagal ambil data customer');
+                            $isMember = false;
+                            if ($customer && $customer['member'] == 1) {
+                                $isMember = true;
+                            }
                             ?>
                             <div class="top">
-                                Customer : <?php echo $customer =='' ? $customer['nomor_kartu'].' - ' : ''; ?><?php echo $_SESSION['namaCustomer']; ?>
+                                <?php echo $isMember ? 'Member' : 'Customer'; ?> : <?php echo empty($customer['nomor_kartu']) ? '' : "[{$customer['nomor_kartu']}] "; ?><?php echo $_SESSION['namaCustomer']; ?>
                                 <?php
                                 if ($_SESSION['customerDiskonP'] > 0) {
                                     echo " ({$_SESSION['customerDiskonP']}%)";
@@ -421,6 +425,21 @@ else {
                                                 <td class="right">Total Pembelian :</td>
                                                 <td><div id='TotalBeli'><?php echo number_format($tot_pembelian, 0, ',', '.'); ?></div></td>
                                             </tr>
+                                            <?php
+                                            if ($isMember) {
+                                                $sql = "SELECT `value` FROM `config` where `option`='point_value'";
+                                                //echo $sql;
+                                                $query = mysql_query($sql);
+                                                $nilaiPoin = mysql_fetch_array($query, MYSQL_ASSOC);
+                                                $jumlahPoin = floor($tot_pembelian / $nilaiPoin['value']);
+                                                ?>
+                                                <tr>
+                                                    <td class="right">Jumlah Poin :</td>
+                                                    <td><div id='jumlahPoin'><?php echo number_format($jumlahPoin, 0, ',', '.'); ?></div></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
 
                                             <script>
                                                 document.getElementById('tot_pembelian').innerHTML = '<span><small><?php echo $diskonCustomer > 0 ? ' ' . number_format($diskonCustomer + $tot_pembelian, 0, ', ', '.') : ''; ?></small> <?php echo number_format($tot_pembelian, 0, ', ', '.'); ?> </span>';
