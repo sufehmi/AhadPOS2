@@ -505,9 +505,9 @@ elseif ($module == 'pembelian_barang' AND $act == 'input' AND isset($_SESSION['u
         $tmpHargaBanded = mysql_fetch_array($hb, MYSQL_ASSOC);
         print_r($tmpHargaBanded);
         $sql = "INSERT INTO harga_banded (barcode, qty, harga) "
-                                            . "VALUES('{$simpan['barcode']}',{$tmpHargaBanded['qty']},{$tmpHargaBanded['harga_satuan']}) "
-                                            . "ON DUPLICATE KEY UPDATE qty={$tmpHargaBanded['qty']}, harga={$tmpHargaBanded['harga_satuan']} ";
-        if ($tmpHargaBanded){
+                . "VALUES('{$simpan['barcode']}',{$tmpHargaBanded['qty']},{$tmpHargaBanded['harga_satuan']}) "
+                . "ON DUPLICATE KEY UPDATE qty={$tmpHargaBanded['qty']}, harga={$tmpHargaBanded['harga_satuan']} ";
+        if ($tmpHargaBanded) {
             mysql_query($sql) or die(mysql_error());
         }
     }
@@ -552,12 +552,14 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     $tgl = date("Y-m-d H:i:s");
 
     $NomorStruk = 0;
+    $jumlahPoin = isset($_POST['jumlah_poin']) ? $_POST['jumlah_poin'] : 0;
+
     if (($_POST['transferahad'] != 1)) {
         $sql = "INSERT INTO transaksijual(tglTransaksiJual,
-	                    idCustomer,idTipePembayaran,nominal,idUser,last_update,uangDibayar)
+	                    idCustomer,idTipePembayaran,nominal,idUser,last_update,uangDibayar,jumlah_poin)
         	            VALUES('$tgl','$_SESSION[idCustomer]',
         	                   '$_POST[tipePembayaran]','$_POST[tot_pembayaran]',
-        	                    '$_SESSION[iduser]','$tgl', $_POST[uangDibayar])";
+        	                    '$_SESSION[iduser]','$tgl', $_POST[uangDibayar], $jumlahPoin)";
         $hasil = mysql_query($sql) or die(mysql_error());
         //echo $sql;
         $NomorStruk = mysql_insert_id();
@@ -917,10 +919,10 @@ elseif ($module == 'penjualan_barang' AND $act == 'nomorkartuinput') {
         $nomorKartu = $_POST['nomor-kartu'];
         $result = mysql_query("select idCustomer from customer where nomor_kartu='{$nomorKartu}'");
         $customer = mysql_fetch_array($result);
-        if ($customer){
+        if ($customer) {
             findCustomer($customer['idCustomer']);
             mysql_query("UPDATE tmp_detail_jual SET idCustomer = {$customer['idCustomer']} WHERE username = '{$_SESSION['uname']}'");
-            $return = array('sukses'=>true);
+            $return = array('sukses' => true);
         }
     }
     header('Content-type: application/json');
@@ -1394,7 +1396,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                       ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                        ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
@@ -1500,15 +1502,14 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
         echo $hasil['namaBarang'] . ' :: Rp. ' . number_format($hasil['hargaJual'], 0, ',', '.');
     }
 }
-
-elseif ($module === 'hargabanded' && $act === 'getnamabarang'){
-    if (isset($_GET['term'])){
+elseif ($module === 'hargabanded' && $act === 'getnamabarang') {
+    if (isset($_GET['term'])) {
         $namaBarang = $_GET['term'];
         echo $term;
         $sql = "SELECT barcode, namaBarang FROM barang where namaBarang like '%{$namaBarang}%'";
         $hasil = mysql_query($sql);
         $barangs = array();
-        while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)){
+        while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
             $barangs[] = array(
                 'id' => $barang['barcode'],
                 'label' => $barang['namaBarang'],
@@ -1519,9 +1520,8 @@ elseif ($module === 'hargabanded' && $act === 'getnamabarang'){
         echo json_encode($barangs);
     }
 }
-
-elseif ($module === 'membership' && $act === 'simpan'){
-       if (isset($_POST['config'])) {
+elseif ($module === 'membership' && $act === 'simpan') {
+    if (isset($_POST['config'])) {
         $config = $_POST['config'];
         foreach ($config as $option => $value) {
             mysql_query("update config set value = '{$value}' where `option` = '{$option}'") or die(mysql_error());

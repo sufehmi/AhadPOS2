@@ -436,6 +436,7 @@ else {
                                                 <tr>
                                                     <td class="right">Jumlah Poin :</td>
                                                     <td><div id='jumlahPoin'><?php echo number_format($jumlahPoin, 0, ',', '.'); ?></div></td>
+                                                <input type=hidden name='jumlah_poin' value="<?php echo $jumlahPoin; ?>" >
                                                 </tr>
                                                 <?php
                                             }
