@@ -876,9 +876,9 @@ function upgrade_206_to_207() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
-    // Tambahkan field jumlah point pada transaksi penjualan, jika ada
+    // Tambahkan field jumlah poin pada transaksi penjualan, jika ada
     $sql = "ALTER TABLE `transaksijual`
-            ADD COLUMN `jumlah_point` INT NULL DEFAULT 0 AFTER `uangDibayar`";
+            ADD COLUMN `jumlah_poin` INT NULL DEFAULT 0 AFTER `uangDibayar`";
     $hasil = exec_query($sql);
     echo mysql_error();
 
