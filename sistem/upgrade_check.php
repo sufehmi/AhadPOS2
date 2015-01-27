@@ -876,9 +876,28 @@ function upgrade_206_to_207() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
-    // Tambahkan field jumlah point pada transaksi penjualan, jika ada
+    // Tambahkan menu Laporan Jumlah Poin
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Jumlah POIN member', 'media.php?module=laporan&act=jumlahpoin', '', 5, 'Jumlah Poin', '', 'Y', 3, 8, 0, '')";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Tambahkan field jumlah poin pada transaksi penjualan, jika ada
     $sql = "ALTER TABLE `transaksijual`
-            ADD COLUMN `jumlah_point` INT NULL DEFAULT 0 AFTER `uangDibayar`";
+            ADD COLUMN `jumlah_poin` INT NULL DEFAULT 0 AFTER `uangDibayar`";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // Membuat tabel periode_poin untuk menentukan perhitungan di tampilan POS,
+    // Dan memudahkan dalam melihat laporan
+    $sql = "CREATE TABLE `periode_poin` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(45) NOT NULL,
+                `awal` tinyint(4) NOT NULL,
+                `akhir` tinyint(4) NOT NULL,
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `nama_UNIQUE` (`nama`)
+              ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
     $hasil = exec_query($sql);
     echo mysql_error();
 
