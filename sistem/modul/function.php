@@ -1268,7 +1268,7 @@ function getJumlahPoinPeriodeBerjalan($customerId) {
         $query = mysql_query($sql);
         $jumlahPoin = mysql_fetch_array($query);
         //echo $sql;
-        return $jumlahPoin['jumlah_poin'];
+        return $jumlahPoin ? $jumlahPoin['jumlah_poin'] : 0;
     }
     else {
         return '0';
