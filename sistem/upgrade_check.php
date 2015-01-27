@@ -882,6 +882,19 @@ function upgrade_206_to_207() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
+    // Membuat tabel periode_poin untuk menentukan perhitungan di tampilan POS,
+    // Dan memudahkan dalam melihat laporan
+    $sql = "CREATE TABLE `periode_poin` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(45) NOT NULL,
+                `awal` tinyint(4) NOT NULL,
+                `akhir` tinyint(4) NOT NULL,
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `nama_UNIQUE` (`nama`)
+              ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
     // update version number ------------------------------------------------------
     $sql = "SELECT * FROM config WHERE `option` = 'version'";
     $hasil = mysql_query($sql);
