@@ -1396,7 +1396,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                        ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                          ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
@@ -1529,6 +1529,23 @@ elseif ($module === 'membership' && $act === 'simpan') {
         header("Refresh:1; url=media.php?module={$module}&act=setting", true, 303);
         echo 'Setting membership sudah disimpan..';
     }
+}
+elseif ($module === 'membership' && $act === 'tambahperiode') {
+    if (isset($_POST['periode'])) {
+        $periode = $_POST['periode'];
+        //insert ke tabel
+        mysql_query("INSERT INTO periode_poin (nama, awal, akhir) VALUES('{$periode['nama']}',{$periode['awal']},{$periode['akhir']})") or die('Gagal Insert Periode Poin');
+
+        header('location:media.php?module=membership');
+    }
+}
+elseif ($module === 'membership' && $act === 'hapusperiode') {
+    if (isset($_GET['periodeId'])) {
+        $periodeId = $_GET['periodeId'];
+        //hapus periode
+        mysql_query("DELETE FROM periode_poin WHERE id = {$periodeId}") or die('Gagal Hapus Periode Poin: '.  mysql_error());
+    }
+    header('location:media.php?module=membership');
 }
 // else
 else { // =======================================================================================================================================

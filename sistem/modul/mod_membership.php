@@ -61,4 +61,85 @@ function setting() {
         </table>
     </form>
     <?php
+    $bulanIndonesia = array(
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember'
+    );
+
+    ?>
+    <h4>Periode Poin</h4>
+    <form method="POST" action="./aksi.php?module=membership&act=tambahperiode">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Nama:</td>
+                    <td><input type="text" name="periode[nama]" placeholder="Deskripsi Periode"></td>
+                    <td>Awal:</td>
+                    <td>
+                        <select name="periode[awal]">
+                            <?php
+                            foreach ($bulanIndonesia as $nomor => $nama) {
+                                ?>
+                                <option value="<?php echo $nomor; ?>"><?php echo $nama; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </td>
+                    <td>Akhir:</td>
+                    <td>
+                        <select name="periode[akhir]">
+                            <?php
+                            foreach ($bulanIndonesia as $nomor => $nama) {
+                                ?>
+                                <option value="<?php echo $nomor; ?>"><?php echo $nama; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </td>
+                    <td colspan="2" align="right">
+                        <input type="submit" value="Tambah">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <table class="tabel">
+        <thead>
+            <tr>
+                <th>Nama Periode</th>
+                <th>Awal</th>
+                <th>Akhir</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $sql = "SELECT id, nama, awal, akhir FROM periode_poin ORDER BY nama";
+            $query = mysql_query($sql);
+            while ($dataPeriode = mysql_fetch_array($query, MYSQL_ASSOC)) {
+                ?>
+                <tr>
+                    <td><?php echo $dataPeriode['nama']; ?></td>
+                    <td><?php echo $bulanIndonesia[$dataPeriode['awal']]; ?></td>
+                    <td><?php echo $bulanIndonesia[$dataPeriode['akhir']]; ?></td>
+                    <td><a href="./aksi.php?module=membership&act=hapusperiode&periodeId=<?php echo $dataPeriode['id']; ?>"><i class="fa fa-times"></i></a></td>
+                </tr>
+                <?php
+            }
+            ?>
+        </tbody>
+    </table>
+    <?php
 }
