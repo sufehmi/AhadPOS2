@@ -201,7 +201,7 @@ switch ($_GET[act]) {
                     <td>Member</td>
                     <td> : <select name="member">
                             <option value="0" <?php echo $data['member'] == 0 ? 'selected' : '' ?>>Non Member</option>
-                            <option value="1" <?php echo $data['member'] == 0 ? 'selected' : '' ?>>Member</option>
+                            <option value="1" <?php echo $data['member'] == 1 ? 'selected' : '' ?>>Member</option>
                         </select>
                     </td>
                 </tr>
