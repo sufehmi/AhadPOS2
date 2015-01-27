@@ -1396,7 +1396,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                          ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                          ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
@@ -1543,9 +1543,83 @@ elseif ($module === 'membership' && $act === 'hapusperiode') {
     if (isset($_GET['periodeId'])) {
         $periodeId = $_GET['periodeId'];
         //hapus periode
-        mysql_query("DELETE FROM periode_poin WHERE id = {$periodeId}") or die('Gagal Hapus Periode Poin: '.  mysql_error());
+        mysql_query("DELETE FROM periode_poin WHERE id = {$periodeId}") or die('Gagal Hapus Periode Poin: ' . mysql_error());
     }
     header('location:media.php?module=membership');
+}
+elseif ($module === 'laporan' && $act === 'jumlahpoin') {
+    if (isset($_POST['laporan'])) {
+        $param = $_POST['laporan'];
+        $sql = "SELECT awal, akhir FROM periode_poin WHERE id= {$param['periode']}";
+        $query = mysql_query($sql);
+        $periode = mysql_fetch_array($query, MYSQL_ASSOC);
+        $sort = $param['sort'] == 1 ? 'DESC' : 'ASC';
+
+        $sql = "SELECT poin.*, customer.nomor_kartu, customer.namaCustomer, customer.alamatCustomer,
+                customer.telpCustomer, customer.email, customer.handphone, customer.nomor_ktp, customer.tanggal_lahir
+                FROM
+                (
+                SELECT SUM(jumlah_poin) jumlah_poin, idCustomer
+                            FROM transaksijual
+                            WHERE YEAR(tglTransaksiJual)= {$param['tahun']} AND
+                            MONTH(tglTransaksiJual) BETWEEN {$periode['awal']} AND {$periode['akhir']}
+                GROUP BY idCustomer
+                HAVING SUM(jumlah_poin) >= {$param['kondisiJumlah']}
+                ) AS poin
+                JOIN customer ON poin.idCustomer = customer.idCustomer AND customer.member=1
+                ORDER BY poin.jumlah_poin {$sort}, customer.namaCustomer";
+        $query = mysql_query($sql);
+        ?>
+        <html>
+            <head>
+                <link rel="stylesheet" type="text/css" href="../css/style.css" />
+            </head>
+            <body>
+                <h2>Laporan Jumlah Poin</h2>
+                <h4>Periode <?php echo bulanIndonesia($periode['awal']); ?> - <?php echo bulanIndonesia($periode['akhir']); ?> <?php echo $param['tahun']; ?></h4>
+                <table class="tabel">
+                    <thead>
+                        <tr style="border-bottom: 1px solid gray">
+                            <th>No Kartu</th>
+                            <th>Nama</th>
+                            <th>Jumlah Poin</th>
+                            <th>Alamat</th>
+                            <th>Telp</th>
+                            <th>Handphone</th>
+                            <th>Email</th>
+                            <th>No KTP</th>
+                            <th>Tgl Lahir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        while ($data = mysql_fetch_array($query, MYSQL_ASSOC)) {
+                            //print_r($data);
+                            ?>
+                            <tr>
+                                <td><?php echo $data['nomor_kartu']; ?></td>
+                                <td><?php echo $data['namaCustomer']; ?></td>
+                                <td class="right"><?php echo $data['jumlah_poin']; ?></td>
+                                <td><?php echo $data['alamatCustomer']; ?></td>
+                                <td><?php echo $data['telpCustomer']; ?></td>
+                                <td><?php echo $data['handphone']; ?></td>
+                                <td><?php echo $data['email']; ?></td>
+                                <td><?php echo $data['nomor_ktp']; ?></td>
+                                <td><?php echo date_format(date_create_from_format('Y-m-d', $data['tanggal_lahir']), 'd-m-Y'); ?></td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </body>
+        </html>
+
+        <?php
+    }
+    else {
+        echo 'Error';
+    }
 }
 // else
 else { // =======================================================================================================================================
