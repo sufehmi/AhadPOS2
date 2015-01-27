@@ -1231,6 +1231,66 @@ switch ($_GET[act]) { //--------------------------------------------------------
                 echo "</table>";
             }
             exit;
+
+        case 'jumlahpoin':
+            $bulanIndonesia = array(
+                1 => 'Januari',
+                2 => 'Februari',
+                3 => 'Maret',
+                4 => 'April',
+                5 => 'Mei',
+                6 => 'Juni',
+                7 => 'Juli',
+                8 => 'Agustus',
+                9 => 'September',
+                10 => 'Oktober',
+                11 => 'November',
+                12 => 'Desember'
+            );
+            $sql = "SELECT id, nama, awal, akhir FROM periode_poin ORDER BY nama";
+            $query = mysql_query($sql);
+            $periode = array();
+            while ($row = mysql_fetch_array($query, MYSQL_ASSOC)) {
+                $periode[] = $row;
+            }
+            ?>
+            <h2>Laporan Jumlah Poin Member</h2>
+            <form method="POST" target="_blank" action="./aksi.php?module=laporan&act=jumlahpoin">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Tahun:</td>
+                            <td><input type="text"  name="laporan[tahun]" placeholder="yyyy" size="4" value="<?php echo date('Y'); ?>" autofocus="autofocus"/></td>
+                            <td>Periode:</td>
+                            <td>
+                                <select name="laporan[periode]">
+                                    <?php
+                                    foreach ($periode as $period) {
+                                        ?>
+                                        <option value="<?php echo $period['id']; ?>"><?php echo $period['nama']; ?> (<?php echo $bulanIndonesia[$period['awal']]; ?> - <?php echo $bulanIndonesia[$period['akhir']]; ?>)</option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                            <td>Sort by:</td>
+                            <td>
+                                <select name="laporan[sort]">
+                                    <option value="1">Jumlah Poin (dari tertinggi)</option>
+                                    <option value="2">Jumlah Poin (dari terendah)</option>
+                                </select>
+                            </td>
+                            <td>Jumlah Poin >=</td>
+                            <td><input type="text" name="laporan[kondisiJumlah]" value="0" size="1"/>
+                            </td>
+                            <td colspan="7"></td>
+                            <td><input type="submit" value="Submit" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <?php
+            break;
     }
 
 

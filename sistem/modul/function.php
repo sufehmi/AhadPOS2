@@ -1252,6 +1252,47 @@ function insertTempLabel($cekBarcode) {
     }
 }
 
+function getJumlahPoinPeriodeBerjalan($customerId) {
+    $bulanSekarang = date('n');
+    $sql = "SELECT awal, akhir FROM periode_poin WHERE {$bulanSekarang}>=awal AND {$bulanSekarang}<=akhir";
+    $query = mysql_query($sql);
+    $periode = mysql_fetch_array($query, MYSQL_ASSOC);
+    //echo $sql.'<br />';
+    if ($periode) {
+        $tahunSekarang = date('Y');
+        $sql = "SELECT SUM(jumlah_poin) jumlah_poin
+            FROM transaksijual
+            WHERE YEAR(tglTransaksiJual)={$tahunSekarang} AND
+            MONTH(tglTransaksiJual) BETWEEN {$periode['awal']} AND {$periode['akhir']} AND
+            idCustomer = {$customerId}";
+        $query = mysql_query($sql);
+        $jumlahPoin = mysql_fetch_array($query);
+        //echo $sql;
+        return $jumlahPoin['jumlah_poin'];
+    }
+    else {
+        return '0';
+    }
+}
+
+function bulanIndonesia($nomor) {
+    $bulanIndonesia = array(
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember'
+    );
+    return $bulanIndonesia[$nomor];
+}
+
 /* CHANGELOG -----------------------------------------------------------
 
   1.6.0 / 2013-05-01 : Herwono			: fitur : cetak label harga perbarcode

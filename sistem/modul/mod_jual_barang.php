@@ -17,7 +17,7 @@ check_user_access(basename($_SERVER['SCRIPT_NAME']));
 
 
 //HS javascript untuk menampilkan popup
-?>	
+?>
 
 <SCRIPT TYPE="text/javascript">
 <!--
@@ -33,9 +33,10 @@ check_user_access(basename($_SERVER['SCRIPT_NAME']));
 </SCRIPT>
 
 <?php
-// ambil daftar customer
-$sql = "SELECT idCustomer, namaCustomer   
-		FROM customer ORDER BY namaCustomer ASC";
+// ambil daftar customer yang bukan member saja
+// Untuk member, nanti dientry di tampilan POS
+$sql = "SELECT idCustomer, namaCustomer
+		FROM customer WHERE member=0 ORDER BY idCustomer ASC";
 $namaCustomer = mysql_query($sql);
 ?>
 <h2>Penjualan Barang</h2>
@@ -47,16 +48,16 @@ $namaCustomer = mysql_query($sql);
           <h2>Penjualan Barang</h2>
           <form method=POST target="_blank" action="modul/js_jual_barang_2.php?act=caricustomer">
           (i) ID Customer : <select name='idCustomer' accesskey='i'>";
-         * 
+         *
          */
         ?>
         <?php
         while ($cust = mysql_fetch_array($namaCustomer)) :
             if ($cust[idCustomer] == 1) {
-                echo "<option value='$cust[idCustomer]' selected>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
+                echo "<option value='$cust[idCustomer]' selected>$cust[namaCustomer]</option>\n";
             }
             else {
-                echo "<option value='$cust[idCustomer]'>$cust[namaCustomer] :: $cust[idCustomer]</option>\n";
+                echo "<option value='$cust[idCustomer]'>$cust[namaCustomer]</option>\n";
             };
         endwhile;
         ?>
@@ -97,15 +98,15 @@ if ($_SESSION['leveluser'] === 'admin') {
     <?php
 } else if ($_SESSION['leveluser'] === 'kasir') {
     /** Jika kasir, ada tombol buka cash drawer
-     * 
+     *
      */
     $result = mysql_query("SELECT workstation.workstation_address ip
-                            FROM kasir 
+                            FROM kasir
                             JOIN workstation on workstation.idWorkstation = kasir.currentWorkstation
                             where kasTutup is null and idUser={$_SESSION['iduser']}");
     $workstation = mysql_fetch_array($result);
     ?>
-    <a href="#" id="tombol-buka" class="tombol" accesskey="C">Buka <u>C</u>ash Drawer</a> 
+    <a href="#" id="tombol-buka" class="tombol" accesskey="C">Buka <u>C</u>ash Drawer</a>
     <script>
         $("#tombol-buka").click(function() {
             var dataKirim = {

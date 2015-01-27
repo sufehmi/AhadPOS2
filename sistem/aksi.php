@@ -407,31 +407,32 @@ elseif ($module == 'supplier' AND $act == 'hapus') {
 } // end hapus user
 // Input Customer =====================================================================================================
 elseif ($module == 'customer' AND $act == 'input') {
-    $ambilID = mysql_query("select max(idCustomer)+1 from customer");
-    $ID = mysql_fetch_array($ambilID);
-    $id_customer;
-    if ($ID[0] == '')
-        $id_customer = '1';
-    else
-        $id_customer = $ID[0];
     $tgl = date("Y-m-d");
-    mysql_query("INSERT INTO customer(idCustomer,namaCustomer,
-                    alamatCustomer,telpCustomer,keterangan,last_update)
-                    VALUES('$id_customer','$_POST[namaCustomer]',
-                    '$_POST[alamatCustomer]','$_POST[telpCustomer]',
-                    '$_POST[keterangan]','$tgl')");
+    $tanggalLahir = date_format(date_create_from_format('d-m-Y', $_POST['tanggal_lahir']), 'Y-m-d');
+    mysql_query("INSERT INTO customer(nomor_kartu, namaCustomer, alamatCustomer,telpCustomer,keterangan,last_update,
+                    nomor_ktp, jenis_kelamin, tanggal_lahir, handphone, email, member)
+                    VALUES('{$_POST['nomor_kartu']}', '{$_POST['namaCustomer']}', '{$_POST['alamatCustomer']}', '{$_POST['telpCustomer']}', '{$_POST['keterangan']}','$tgl',
+            '{$_POST['nomor_ktp']}', {$_POST['jenis_kelamin']}, '{$tanggalLahir}', '{$_POST['handphone']}', '{$_POST['email']}', {$_POST['member']})") or die(mysql_error());
     header('location:media.php?module=' . $module);
 }// end Input Customer
 // Update Customer
 elseif ($module == 'customer' AND $act == 'update') {
     $tgl = date("Y-m-d");
+    $tanggalLahir = date_format(date_create_from_format('d-m-Y', $_POST['tanggal_lahir']), 'Y-m-d');
     mysql_query("UPDATE customer SET namaCustomer = '$_POST[namaCustomer]',
-                    alamatCustomer = '$_POST[alamatCustomer]',
-                    telpCustomer = '$_POST[telpCustomer]',
-                    keterangan = '$_POST[keterangan]',
-						  diskon_persen = $_POST[diskon_persen],
-						  diskon_rupiah = $_POST[diskon_rupiah],
-                    last_update = '$tgl'
+                        nomor_kartu = '{$_POST['nomor_kartu']}',
+                        alamatCustomer = '$_POST[alamatCustomer]',
+                        telpCustomer = '$_POST[telpCustomer]',
+                        keterangan = '$_POST[keterangan]',
+                        diskon_persen = $_POST[diskon_persen],
+                        diskon_rupiah = $_POST[diskon_rupiah],
+                        last_update = '$tgl',
+                        nomor_ktp = '{$_POST['nomor_ktp']}',
+                        jenis_kelamin = {$_POST['jenis_kelamin']},
+                        tanggal_lahir = '{$tanggalLahir}',
+                        handphone = '{$_POST['handphone']}',
+                        email = '{$_POST['email']}',
+                        member = {$_POST['member']}
                     WHERE idCustomer = '$_POST[idCustomer]'");
     header('location:media.php?module=' . $module);
 }// end Update Customer
@@ -504,9 +505,9 @@ elseif ($module == 'pembelian_barang' AND $act == 'input' AND isset($_SESSION['u
         $tmpHargaBanded = mysql_fetch_array($hb, MYSQL_ASSOC);
         print_r($tmpHargaBanded);
         $sql = "INSERT INTO harga_banded (barcode, qty, harga) "
-                                            . "VALUES('{$simpan['barcode']}',{$tmpHargaBanded['qty']},{$tmpHargaBanded['harga_satuan']}) "
-                                            . "ON DUPLICATE KEY UPDATE qty={$tmpHargaBanded['qty']}, harga={$tmpHargaBanded['harga_satuan']} ";
-        if ($tmpHargaBanded){
+                . "VALUES('{$simpan['barcode']}',{$tmpHargaBanded['qty']},{$tmpHargaBanded['harga_satuan']}) "
+                . "ON DUPLICATE KEY UPDATE qty={$tmpHargaBanded['qty']}, harga={$tmpHargaBanded['harga_satuan']} ";
+        if ($tmpHargaBanded) {
             mysql_query($sql) or die(mysql_error());
         }
     }
@@ -551,12 +552,14 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     $tgl = date("Y-m-d H:i:s");
 
     $NomorStruk = 0;
+    $jumlahPoin = isset($_POST['jumlah_poin']) ? $_POST['jumlah_poin'] : 0;
+
     if (($_POST['transferahad'] != 1)) {
         $sql = "INSERT INTO transaksijual(tglTransaksiJual,
-	                    idCustomer,idTipePembayaran,nominal,idUser,last_update,uangDibayar)
+	                    idCustomer,idTipePembayaran,nominal,idUser,last_update,uangDibayar,jumlah_poin)
         	            VALUES('$tgl','$_SESSION[idCustomer]',
         	                   '$_POST[tipePembayaran]','$_POST[tot_pembayaran]',
-        	                    '$_SESSION[iduser]','$tgl', $_POST[uangDibayar])";
+        	                    '$_SESSION[iduser]','$tgl', $_POST[uangDibayar], $jumlahPoin)";
         $hasil = mysql_query($sql) or die(mysql_error());
         //echo $sql;
         $NomorStruk = mysql_insert_id();
@@ -907,6 +910,23 @@ elseif ($module == 'penjualan_barang' AND $act == 'selfcheckoutinput') {
             tambahBarangJual($barang['barcode'], $jumBarang);
         }
     }
+}
+
+// Nomor Kartu Customer
+elseif ($module == 'penjualan_barang' AND $act == 'nomorkartuinput') {
+    if (isset($_POST['nomor-kartu'])) {
+        $return = array('sukses' => false);
+        $nomorKartu = $_POST['nomor-kartu'];
+        $result = mysql_query("select idCustomer from customer where nomor_kartu='{$nomorKartu}'");
+        $customer = mysql_fetch_array($result);
+        if ($customer) {
+            findCustomer($customer['idCustomer']);
+            mysql_query("UPDATE tmp_detail_jual SET idCustomer = {$customer['idCustomer']} WHERE username = '{$_SESSION['uname']}'");
+            $return = array('sukses' => true);
+        }
+    }
+    header('Content-type: application/json');
+    echo json_encode($return);
 }
 
 //ukmMode: Cek Harga untuk input harga jual manual
@@ -1376,7 +1396,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                       ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                          ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
@@ -1483,15 +1503,14 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
         echo $hasil['namaBarang'] . ' :: Rp. ' . number_format($hasil['hargaJual'], 0, ',', '.');
     }
 }
-
-elseif ($module === 'hargabanded' && $act === 'getnamabarang'){
-    if (isset($_GET['term'])){
+elseif ($module === 'hargabanded' && $act === 'getnamabarang') {
+    if (isset($_GET['term'])) {
         $namaBarang = $_GET['term'];
         echo $term;
         $sql = "SELECT barcode, namaBarang FROM barang where namaBarang like '%{$namaBarang}%'";
         $hasil = mysql_query($sql);
         $barangs = array();
-        while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)){
+        while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
             $barangs[] = array(
                 'id' => $barang['barcode'],
                 'label' => $barang['namaBarang'],
@@ -1500,6 +1519,107 @@ elseif ($module === 'hargabanded' && $act === 'getnamabarang'){
         }
 
         echo json_encode($barangs);
+    }
+}
+elseif ($module === 'membership' && $act === 'simpan') {
+    if (isset($_POST['config'])) {
+        $config = $_POST['config'];
+        foreach ($config as $option => $value) {
+            mysql_query("update config set value = '{$value}' where `option` = '{$option}'") or die(mysql_error());
+        }
+        header("Refresh:1; url=media.php?module={$module}&act=setting", true, 303);
+        echo 'Setting membership sudah disimpan..';
+    }
+}
+elseif ($module === 'membership' && $act === 'tambahperiode') {
+    if (isset($_POST['periode'])) {
+        $periode = $_POST['periode'];
+        //insert ke tabel
+        mysql_query("INSERT INTO periode_poin (nama, awal, akhir) VALUES('{$periode['nama']}',{$periode['awal']},{$periode['akhir']})") or die('Gagal Insert Periode Poin');
+
+        header('location:media.php?module=membership');
+    }
+}
+elseif ($module === 'membership' && $act === 'hapusperiode') {
+    if (isset($_GET['periodeId'])) {
+        $periodeId = $_GET['periodeId'];
+        //hapus periode
+        mysql_query("DELETE FROM periode_poin WHERE id = {$periodeId}") or die('Gagal Hapus Periode Poin: ' . mysql_error());
+    }
+    header('location:media.php?module=membership');
+}
+elseif ($module === 'laporan' && $act === 'jumlahpoin') {
+    if (isset($_POST['laporan'])) {
+        $param = $_POST['laporan'];
+        $sql = "SELECT awal, akhir FROM periode_poin WHERE id= {$param['periode']}";
+        $query = mysql_query($sql);
+        $periode = mysql_fetch_array($query, MYSQL_ASSOC);
+        $sort = $param['sort'] == 1 ? 'DESC' : 'ASC';
+
+        $sql = "SELECT poin.*, customer.nomor_kartu, customer.namaCustomer, customer.alamatCustomer,
+                customer.telpCustomer, customer.email, customer.handphone, customer.nomor_ktp, customer.tanggal_lahir
+                FROM
+                (
+                SELECT SUM(jumlah_poin) jumlah_poin, idCustomer
+                            FROM transaksijual
+                            WHERE YEAR(tglTransaksiJual)= {$param['tahun']} AND
+                            MONTH(tglTransaksiJual) BETWEEN {$periode['awal']} AND {$periode['akhir']}
+                GROUP BY idCustomer
+                HAVING SUM(jumlah_poin) >= {$param['kondisiJumlah']}
+                ) AS poin
+                JOIN customer ON poin.idCustomer = customer.idCustomer AND customer.member=1
+                ORDER BY poin.jumlah_poin {$sort}, customer.namaCustomer";
+        $query = mysql_query($sql);
+        ?>
+        <html>
+            <head>
+                <link rel="stylesheet" type="text/css" href="../css/style.css" />
+            </head>
+            <body>
+                <h2>Laporan Jumlah Poin</h2>
+                <h4>Periode <?php echo bulanIndonesia($periode['awal']); ?> - <?php echo bulanIndonesia($periode['akhir']); ?> <?php echo $param['tahun']; ?></h4>
+                <table class="tabel">
+                    <thead>
+                        <tr style="border-bottom: 1px solid gray">
+                            <th>No Kartu</th>
+                            <th>Nama</th>
+                            <th>Jumlah Poin</th>
+                            <th>Alamat</th>
+                            <th>Telp</th>
+                            <th>Handphone</th>
+                            <th>Email</th>
+                            <th>No KTP</th>
+                            <th>Tgl Lahir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        while ($data = mysql_fetch_array($query, MYSQL_ASSOC)) {
+                            //print_r($data);
+                            ?>
+                            <tr>
+                                <td><?php echo $data['nomor_kartu']; ?></td>
+                                <td><?php echo $data['namaCustomer']; ?></td>
+                                <td class="right"><?php echo $data['jumlah_poin']; ?></td>
+                                <td><?php echo $data['alamatCustomer']; ?></td>
+                                <td><?php echo $data['telpCustomer']; ?></td>
+                                <td><?php echo $data['handphone']; ?></td>
+                                <td><?php echo $data['email']; ?></td>
+                                <td><?php echo $data['nomor_ktp']; ?></td>
+                                <td><?php echo date_format(date_create_from_format('Y-m-d', $data['tanggal_lahir']), 'd-m-Y'); ?></td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </body>
+        </html>
+
+        <?php
+    }
+    else {
+        echo 'Error';
     }
 }
 // else
