@@ -164,13 +164,20 @@ else {
                             }
                             ?>
                             <div class="top">
-                                <?php echo $isMember ? 'Member' : 'Customer'; ?> : <?php echo empty($customer['nomor_kartu']) ? '' : "[{$customer['nomor_kartu']}] "; ?><?php echo $_SESSION['namaCustomer']; ?>
+                                <?php echo $isMember ? 'Member' : 'Customer'; ?><?php echo empty($customer['nomor_kartu']) ? '' : " #{$customer['nomor_kartu']}"; ?> : <?php echo $_SESSION['namaCustomer']; ?>
                                 <?php
                                 if ($_SESSION['customerDiskonP'] > 0) {
                                     echo " ({$_SESSION['customerDiskonP']}%)";
                                 }
                                 elseif ($_SESSION['customerDiskonR'] > 0) {
                                     echo ' (' . number_format($_SESSION['customerDiskonR'], 0, ',', '.') . ')';
+                                }
+                                ?>
+                                <?php
+                                if ($isMember) {
+                                    ?>
+                                    <br />Jumlah Poin Periode Berjalan = <?php echo getJumlahPoinPeriodeBerjalan($_SESSION['idCustomer']); ?>
+                                    <?php
                                 }
                                 ?>
                             </div>
