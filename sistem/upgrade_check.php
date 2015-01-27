@@ -876,6 +876,12 @@ function upgrade_206_to_207() {
     $hasil = exec_query($sql);
     echo mysql_error();
 
+    // Tambahkan menu Laporan Jumlah Poin
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Jumlah POIN member', 'media.php?module=laporan&act=jumlahpoin', '', 5, 'Jumlah Poin', '', 'Y', 3, 8, 0, '')";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
     // Tambahkan field jumlah poin pada transaksi penjualan, jika ada
     $sql = "ALTER TABLE `transaksijual`
             ADD COLUMN `jumlah_poin` INT NULL DEFAULT 0 AFTER `uangDibayar`";
