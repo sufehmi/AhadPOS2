@@ -582,7 +582,7 @@ else {
                     <?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
                 </a>
                 <a class="tombol" href="#" id="tombol-self-checkout" accesskey="f" >Sel<b><u>f</u></b> Checkout</a>
-                <a class="tombol" href="#" id="tombol-nomor-kartu" accesskey="k" >Nomor <b><u>K</u></b>artu</a>
+                <a class="tombol" href="#" id="tombol-nomor-kartu" accesskey="k" ><b><u>K</u></b>artu Member</a>
             </div>
             <script>
                 $(document).ready(function () {
