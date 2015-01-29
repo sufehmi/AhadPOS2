@@ -409,9 +409,10 @@ elseif ($module == 'supplier' AND $act == 'hapus') {
 elseif ($module == 'customer' AND $act == 'input') {
     $tgl = date("Y-m-d");
     $tanggalLahir = date_format(date_create_from_format('d-m-Y', $_POST['tanggal_lahir']), 'Y-m-d');
+    $nomorKartu = $_POST['nomor_kartu'] == '' ? 'NULL' : "'{$_POST['nomor_kartu']}'";
     mysql_query("INSERT INTO customer(nomor_kartu, namaCustomer, alamatCustomer,telpCustomer,keterangan,last_update,
                     nomor_ktp, jenis_kelamin, tanggal_lahir, handphone, email, member)
-                    VALUES('{$_POST['nomor_kartu']}', '{$_POST['namaCustomer']}', '{$_POST['alamatCustomer']}', '{$_POST['telpCustomer']}', '{$_POST['keterangan']}','$tgl',
+                    VALUES({$nomorKartu}, '{$_POST['namaCustomer']}', '{$_POST['alamatCustomer']}', '{$_POST['telpCustomer']}', '{$_POST['keterangan']}','$tgl',
             '{$_POST['nomor_ktp']}', {$_POST['jenis_kelamin']}, '{$tanggalLahir}', '{$_POST['handphone']}', '{$_POST['email']}', {$_POST['member']})") or die(mysql_error());
     header('location:media.php?module=' . $module);
 }// end Input Customer
@@ -1396,7 +1397,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                          ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                             ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
