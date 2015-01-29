@@ -22,9 +22,28 @@ switch ($_GET[act]) {
     default:
         ?>
         <h2>Data Customer</h2>
-        <form method=POST action='?module=customer&act=tambahcustomer'>
-            <input type=submit value='Tambah Customer'></form>
-        <br/>
+        <table>
+            <tr>
+                <td>
+                    <form method="POST" action="">
+                        <fieldset>
+                            <legend>Cari Customer</legend>
+                            <input type="text" name="nomor-kartu" placeholder="Masukkan nomor kartu" autofocus="autofocus"/>
+                            <input type="text" name="nama-customer" placeholder="Nama Customer (min 3 karakter) "/>
+                            <input type="submit" value="Submit"/>
+                        </fieldset>
+                    </form>
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form method=POST action='?module=customer&act=tambahcustomer'>
+                        <input type=submit value='Tambah Customer'>
+                    </form>
+                </td>
+            </tr>
+        </table>
         <table class="tabel">
             <tr>
                 <th>No</th>
@@ -43,9 +62,16 @@ switch ($_GET[act]) {
                 <th>aksi</th>
             </tr>
             <?php
-            $tampil = mysql_query("select idCustomer, nomor_kartu, namaCustomer, alamatCustomer, telpCustomer, diskon_persen, diskon_rupiah, keterangan, "
+            $sql = "select idCustomer, nomor_kartu, namaCustomer, alamatCustomer, telpCustomer, diskon_persen, diskon_rupiah, keterangan, "
                     . "nomor_ktp, jenis_kelamin, tanggal_lahir, handphone, email, member "
-                    . "from customer");
+                    . "from customer ";
+            if (isset($_POST['nomor-kartu']) && ($_POST['nomor-kartu'] != '')) {
+                $sql .= "where nomor_kartu like '%{$_POST['nomor-kartu']}%'";
+            }
+            elseif ($_POST['nama-customer'] && ($_POST['nama-customer'])) {
+                $sql .= "where namaCustomer like '%{$_POST['nama-customer']}%'";
+            }
+            $tampil = mysql_query($sql);
             $no = 1;
             while ($r = mysql_fetch_array($tampil)) {
                 ?>
@@ -183,7 +209,7 @@ switch ($_GET[act]) {
                 </tr>
                 <tr>
                     <td>Tanggal Lahir</td>
-                    <td> : <input type="text" name="tanggal_lahir" placeholder="dd-mm-yyyy" value="<?php echo date_format(date_create_from_format('Y-m-d', $data['tanggal_lahir']), 'd-m-Y')?>"/></td>
+                    <td> : <input type="text" name="tanggal_lahir" placeholder="dd-mm-yyyy" value="<?php echo date_format(date_create_from_format('Y-m-d', $data['tanggal_lahir']), 'd-m-Y') ?>"/></td>
                 </tr>
                 <tr>
                     <td>Telp</td>
