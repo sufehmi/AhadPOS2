@@ -843,14 +843,9 @@ function upgrade_205_to_206() {
 
 function upgrade_206_to_207() {
     // Create Tabel tmp_harga_banded
-    $sql = "CREATE TABLE `tmp_harga_banded` (
-              `barcode` varchar(25) NOT NULL,
-              `supplier_id` int(11) NOT NULL,
-              `user_name` varchar(30) NOT NULL,
-              `qty` int(11) NOT NULL,
-              `harga_satuan` float NOT NULL,
-              PRIMARY KEY (`barcode`,`user_name`,`supplier_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+    $sql = "ALTER TABLE `detail_jual`
+            ADD COLUMN `harga_jual_asli` BIGINT NULL AFTER `hargaJual`
+            ";
     $hasil = exec_query($sql);
     echo mysql_error();
 
