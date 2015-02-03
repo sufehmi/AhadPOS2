@@ -74,6 +74,7 @@ function findCustomer($idCustomer) {
     $_SESSION[namaCustomer] = $dataCustomer[namaCustomer];
     $_SESSION['customerDiskonP'] = $dataCustomer['diskon_persen'];
     $_SESSION['customerDiskonR'] = $dataCustomer['diskon_rupiah'];
+    $_SESSION['isMember'] = $dataCustomer['member']; // 0=bukan member; 1=member
 }
 
 function releaseCustomer() {

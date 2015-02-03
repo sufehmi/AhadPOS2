@@ -923,6 +923,19 @@ elseif ($module == 'penjualan_barang' AND $act == 'nomorkartuinput') {
         if ($customer) {
             findCustomer($customer['idCustomer']);
             mysql_query("UPDATE tmp_detail_jual SET idCustomer = {$customer['idCustomer']} WHERE username = '{$_SESSION['uname']}'");
+            $query = mysql_query("SELECT barcode, sum(jumBarang) qty
+                                    FROM tmp_detail_jual
+                                    WHERE username = '{$_SESSION['uname']}' AND idCustomer = {$customer['idCustomer']}
+                                    group by barcode");
+            // Hapus semuanya
+            // Ulangi proses input
+            while ($barang = mysql_fetch_array($query)) {
+            mysql_query("delete from tmp_detail_jual where idCustomer={$customer['idCustomer']} "
+                            . "and barcode = '{$barang['barcode']}' "
+                            . "and username='{$_SESSION['uname']}'") or die('Gagal clean ' . mysql_error());
+                tambahBarangJual($barang['barcode'], $barang['qty']);
+            }
+
             $return = array('sukses' => true);
         }
     }
@@ -1397,7 +1410,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                             ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                                 ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
