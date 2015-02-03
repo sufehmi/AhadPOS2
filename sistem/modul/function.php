@@ -280,7 +280,10 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
 
 function cekDiskon($uid, $barcode, $jumBarang) {
     // Cek dan tambahkan diskon waktu/promo jika ada
-    cekDiskonWaktu($uid);
+    // Jika ada diskon waktu/promo, maka diskon member tidak ada (untuk barang yang sama)
+    if (!cekDiskonWaktu($uid) && $_SESSION['isMember']) {
+        cekDiskonWaktuMember($uid);
+    }
     // eo diskon waktu
     // Cek dan tambahkan diskon grosir jika ada
     // ctt: Diskon grosir akan menambah diskon waktu/promo jika ada
@@ -435,6 +438,7 @@ function tambahkanDiskonGrosir($barcode, $diskonGrosir) {
 }
 
 function cekDiskonWaktu($uid) {
+    $adaDiskonWaktu = false;
     // diskon_tipe_id = 1001
     $sql = "select dd.uid, dd.diskon_persen, dd.diskon_rupiah, b.hargaJual, tdj.jumBarang, dd.max_item,
 				tdj.tglTransaksi, tdj.barcode, tdj.hargaBeli, tdj.idCustomer,tdj.username, tdj.idBarang
@@ -482,19 +486,79 @@ function cekDiskonWaktu($uid) {
 								{$sisaBarang},{$dataDiskon['hargaBeli']},{$dataDiskon['hargaJual']},'{$dataDiskon['username']}', '{$dataDiskon['idBarang']}')";
             mysql_query($sql) or die('Gagal menambahkan diskon promo2, error: ' . mysql_error());
             $uid2 = mysql_insert_id();
-            $return = array($uid => true, $uid2 => false);
+            //$return = array($uid => true, $uid2 => false);
         }
         else {
             $sql = "update tmp_detail_jual set hargaJual = '{$hargaJualNet}', diskon_persen = $diskonPersen, diskon_rupiah = '$diskonNet', diskon_detail_uids='{$diskonUids}' "
                     . "where uid=$uid";
             mysql_query($sql) or die('Gagal menambahkan diskon promo0, error: ' . mysql_error());
-            $return = array($uid => true);
+            //$return = array($uid => true);
         }
-        return $return;
+        $adaDiskonWaktu = true;
     }
-    else {
-        return false;
+    return $adaDiskonWaktu;
+}
+
+function cekDiskonWaktuMember($uid) {
+    $adaDiskonWaktu = false;
+    // diskon_tipe_id = 1002
+    $sql = "select dd.uid, dd.diskon_persen, dd.diskon_rupiah, b.hargaJual, tdj.jumBarang, dd.max_item,
+				tdj.tglTransaksi, tdj.barcode, tdj.hargaBeli, tdj.idCustomer,tdj.username, tdj.idBarang
+				from tmp_detail_jual tdj
+				join diskon_detail dd on dd.barcode = tdj.barcode
+				join barang b on b.barcode = dd.barcode
+				where tdj.uid=$uid and dd.status=1 and
+				dd.tanggal_dari<= now() and
+				(dd.tanggal_sampai='0000-00-00 00:00:00' or tanggal_sampai >= now() ) and
+				diskon_tipe_id=1002
+				order by dd.uid desc
+				limit 1";
+    $result = mysql_query($sql) or die('Gagal cek diskon promo untuk member, error: ' . mysql_error());
+    $dataDiskon = mysql_fetch_array($result);
+    if ($dataDiskon) {
+        $diskonDetailId = $dataDiskon['uid'];
+        $diskonPersen = $dataDiskon['diskon_persen'];
+        $diskonRupiah = $dataDiskon['diskon_rupiah'];
+        $hargaJual = $dataDiskon['hargaJual'];
+        // Jika ada diskon persen, diskon rupiah diabaikan (dianggap kesalahan input)
+        if ($diskonPersen > 0) {
+            $diskon = $diskonPersen / 100 * $hargaJual;
+            // harga jual dibulatkan ke atas jika berkoma.
+            $hargaJualNet = ceil($hargaJual - $diskon);
+            $diskonNet = $hargaJual - $hargaJualNet;
+        }
+        elseif ($diskonRupiah > 0) {
+            $diskon = $diskonRupiah;
+            $hargaJualNet = $hargaJual - $diskon;
+            $diskonNet = $diskon;
+        }
+
+        // diskon uid dan value disimpan dalam bentuk json, jika item dikenakan lebih dari 1 diskon
+        $diskonUids = json_encode(array($diskonDetailId => $diskonNet));
+        $jumbarang = $dataDiskon['jumBarang'];
+        $maxItem = $dataDiskon['max_item'];
+        if ($jumbarang > $maxItem) {
+            $sql = "update tmp_detail_jual set jumBarang = {$maxItem}, hargaJual = '{$hargaJualNet}', diskon_persen = $diskonPersen, diskon_rupiah = '$diskonNet', diskon_detail_uids='{$diskonUids}' "
+                    . "where uid=$uid";
+            mysql_query($sql) or die('Gagal menambahkan diskon member promo1, error: ' . mysql_error());
+            $sisaBarang = $jumbarang - $maxItem;
+            $sql = "INSERT into tmp_detail_jual(idCustomer, tglTransaksi,
+                            barcode,jumBarang,hargaBeli,hargaJual,username, idBarang)
+                        VALUES('{$dataDiskon['idCustomer']}','{$dataDiskon['tglTransaksi']}','{$dataDiskon['barcode']}',
+								{$sisaBarang},{$dataDiskon['hargaBeli']},{$dataDiskon['hargaJual']},'{$dataDiskon['username']}', '{$dataDiskon['idBarang']}')";
+            mysql_query($sql) or die('Gagal menambahkan diskon member promo2, error: ' . mysql_error());
+            $uid2 = mysql_insert_id();
+            //$return = array($uid => true, $uid2 => false);
+        }
+        else {
+            $sql = "update tmp_detail_jual set hargaJual = '{$hargaJualNet}', diskon_persen = $diskonPersen, diskon_rupiah = '$diskonNet', diskon_detail_uids='{$diskonUids}' "
+                    . "where uid=$uid";
+            mysql_query($sql) or die('Gagal menambahkan diskon member promo0, error: ' . mysql_error());
+            //$return = array($uid => true);
+        }
+        $adaDiskonWaktu = true;
     }
+    return $adaDiskonWaktu;
 }
 
 function cekDiskonAdmin($uid, $barcode, $jumlah) {

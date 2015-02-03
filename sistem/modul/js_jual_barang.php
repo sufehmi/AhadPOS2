@@ -162,6 +162,7 @@ else {
                             if ($customer && $customer['member'] == 1) {
                                 $isMember = true;
                             }
+                            $_SESSION['isMember'] = $isMember;
                             ?>
                             <div class="top">
                                 <?php echo $isMember ? 'Member' : 'Customer'; ?><?php echo empty($customer['nomor_kartu']) ? '' : " #{$customer['nomor_kartu']}"; ?> : <?php echo $_SESSION['namaCustomer']; ?>
