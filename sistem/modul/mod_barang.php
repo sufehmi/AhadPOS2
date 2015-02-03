@@ -2169,7 +2169,7 @@ switch ($_GET['act']) {
                                 if (diskonId == 1000) {
                                     $(".show-on-grosir-only").show();
                                     $(".show-on-waktu-only").hide();
-                                } else if (diskonId == 1001) {
+                                } else if (diskonId == 1001 || diskonId == 1002) {
                                     $(".show-on-grosir-only").hide();
                                     $(".show-on-waktu-only").show();
                                 }
