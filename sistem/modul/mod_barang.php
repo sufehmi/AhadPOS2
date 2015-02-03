@@ -2165,7 +2165,7 @@ switch ($_GET['act']) {
                         <script type="text/javascript">
                             $("#diskonTipeId").change(function () {
                                 var diskonId = $(this).val();
-                                // 1000:gudang; 10001:waktu
+                                // 1000:gudang; 1001:waktu; 1002: waktu khusus member
                                 if (diskonId == 1000) {
                                     $(".show-on-grosir-only").show();
                                     $(".show-on-waktu-only").hide();
