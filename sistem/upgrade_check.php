@@ -900,6 +900,10 @@ function upgrade_207_to_208() {
               ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
     $hasil = exec_query($sql);
     echo mysql_error();
+    //INSERT INTO `insan`.`diskon_tipe` (`uid`, `nama`, `deskripsi`, `trigger_time`) VALUES ('1002', 'Member: Waktu', 'Turun Harga selama waktu tertentu', '1');
+
+    $sql = "INSERT INTO `diskon_tipe` (`uid`, `nama`, `deskripsi`, `trigger_time`) VALUES ('1002', 'Member: Waktu', 'Turun Harga selama waktu tertentu', '1')";
+    $hasil = exec_query($sql);
 
     // update version number ------------------------------------------------------
     $sql = "SELECT * FROM config WHERE `option` = 'version'";
