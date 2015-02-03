@@ -252,24 +252,25 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
             // Cek dan sekaligus tambahkan diskon jika ada
             if ($ukmMode) {
                 /*
-                 * ukmMode: cek diskon admin terlebih dahulu
+                 * ukmMode: cek diskon admin terlebih dahulu, lainnya diabaikan
                  */
                 cekDiskonAdmin($uid, $barcode, $jumlah);
             }
             else {
-                cekDiskon($uid, $barcode, $jumlah);
+                /*
+                 * Cek dan terapkan harga banded, diskon akan diabaikan (overwrite)
+                 */
+                $paramJual = array(
+                    'tgl' => $tgl,
+                    'hargaBeli' => $hargaBeli,
+                    'hargaBarang' => $hargaBarang,
+                    'idBarang' => $idBarang,
+                );
+                if (!cekHargaBanded($uid, $barcode, $jumlah, $paramJual)) {
+                    // Jika tidak ada harga banded, cek diskon
+                    cekDiskon($uid, $barcode, $jumlah);
+                }
             }
-
-            /*
-             * Cek dan terapkan harga banded, diskon akan diabaikan (overwrite)
-             */
-            $paramJual = array(
-                'tgl' => $tgl,
-                'hargaBeli' => $hargaBeli,
-                'hargaBarang' => $hargaBarang,
-                'idBarang' => $idBarang,
-            );
-            cekHargaBanded($uid, $barcode, $jumlah, $paramJual);
         }
     }
     else {
@@ -528,6 +529,7 @@ function cekCustomerDiskon($customerId) {
 
 // ======= HARGA BANDED =======
 function cekHargaBanded($uid, $barcode, $jumlah, $paramJual) {
+    $adaHargaBanded = false;
     $sql = "SELECT qty, harga "
             . "FROM harga_banded "
             . "WHERE barcode = '{$barcode}'";
@@ -549,7 +551,9 @@ function cekHargaBanded($uid, $barcode, $jumlah, $paramJual) {
                             '$sisa',{$paramJual['hargaBeli']},{$paramJual['hargaBarang']},'$_SESSION[uname]', {$paramJual['idBarang']})";
             mysql_query($sql) or die(mysql_error());
         }
+        $adaHargaBanded = true;
     }
+    return $adaHargaBanded;
 }
 
 // =========================================== RPO ===========================================
