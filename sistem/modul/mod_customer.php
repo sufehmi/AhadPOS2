@@ -29,7 +29,7 @@ switch ($_GET[act]) {
                         <fieldset>
                             <legend>Cari Customer</legend>
                             <input type="text" name="nomor-kartu" placeholder="Masukkan nomor kartu" autofocus="autofocus"/>
-                            <input type="text" name="nama-customer" placeholder="Nama Customer (min 3 karakter) "/>
+                            <input type="text" name="nama-customer" placeholder="Nama Customer"/>
                             <input type="submit" value="Submit"/>
                         </fieldset>
                     </form>
