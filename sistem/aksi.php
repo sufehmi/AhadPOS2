@@ -785,12 +785,25 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	$sql = "UPDATE barang SET jumBarang = '$jumlahAkhir' WHERE barcode = '$simpan[barcode]'";
         $hasil = mysql_query($sql);
 
+        // Cek jika ini adalah harga banded
+        $query = mysql_query("SELECT qty, harga FROM harga_banded WHERE barcode = '{$simpan['barcode']}'");
+        $hargaBanded = mysql_fetch_array($query);
+        $hargaJualAsli = 'null';
+        if ($hargaBanded) {
+            $query = mysql_query("SELECT hargaJual FROM barang WHERE barcode = '{$simpan['barcode']}'");
+            $hargaJual = mysql_fetch_array($query);
+            // Jika jika qty "terkena" harga banded, maka harga_jual_asli diisi
+            if (($simpan['jumBarang'] % $hargaBanded['qty']) == 0) {
+                $hargaJualAsli = $hargaJual['hargaJual'];
+            }
+        }
+
 
         if (($_POST['transferahad'] != 1)) {
             $sql = "INSERT INTO detail_jual(idBarang, barcode,
-	                        jumBarang,hargaJual,username, nomorStruk, hargaBeli)
+	                        jumBarang,hargaJual,harga_jual_asli,username, nomorStruk, hargaBeli)
 							  VALUES({$simpan['idBarang']}, '{$simpan['barcode']}',
-							  {$simpan['jumBarang']},{$simpan['hargaJual']},'{$_SESSION['uname']}', {$NomorStruk}, {$simpan['hargaBeli']})";
+							  {$simpan['jumBarang']},{$simpan['hargaJual']},{$hargaJualAsli},'{$_SESSION['uname']}', {$NomorStruk}, {$simpan['hargaBeli']})";
             mysql_query($sql) or die('Gagal simpan transaksi detail ' . mysql_error());
             $detailJualId = mysql_insert_id();
             // Diskon
@@ -1410,7 +1423,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                                 ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;

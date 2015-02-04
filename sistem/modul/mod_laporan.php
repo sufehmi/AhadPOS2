@@ -663,12 +663,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
                         <th>Jumlah</th>
                         <th>Total</th>
                         <th>Total Diskon</th>
+                        <th>Harga Jual Asli<br />(Selisih)</th>
                     </tr>
                     <?php
                     // $sql = "SELECT d.barcode, b.namaBarang, d.hargaJual, d.hargaBeli, d.jumBarang
                     // 			FROM detail_jual AS d, barang AS b
                     // 			WHERE d.nomorStruk = $_GET[id] AND d.barcode = b.barcode";
-                    $sql = "select dj.barcode, b.namaBarang, dj.hargaBeli, dj.hargaJual,
+                    $sql = "select dj.barcode, b.namaBarang, dj.hargaBeli, dj.hargaJual, dj.harga_jual_asli,
 								dj.jumBarang, dt.diskon_persen, dt.diskon_rupiah
 								from detail_jual dj
 								join barang b on b.barcode = dj.barcode
@@ -701,6 +702,9 @@ switch ($_GET[act]) { //--------------------------------------------------------
                                     $total_diskon += $r['diskon_rupiah'];
                                 }
                                 ?>
+                            </td>
+                            <td>
+                                <?php echo is_null($r['harga_jual_asli']) ? '' : number_format($r['harga_jual_asli'], 0, ',', '.').' (' . number_format($r['harga_jual_asli'] - $r['hargaJual'], 0, ',', '.') . ')'; ?>
                             </td>
                         </tr>
                         <?php

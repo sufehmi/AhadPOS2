@@ -373,6 +373,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
         echo "Upgrading database to version 2.0.6 <br />";
         upgrade_205_to_206();
     }
+    if ($dbrevision < 7) {
+        echo "Upgrading database to version 2.0.7 <br />";
+        upgrade_206_to_207();
+    }
     if ($dbrevision < 8) {
         echo "Upgrading database to version 2.0.8 <br />";
         upgrade_207_to_208();
@@ -841,6 +845,27 @@ function upgrade_205_to_206() {
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }
 
+function upgrade_206_to_207() {
+    // Create Tabel tmp_harga_banded
+    $sql = "ALTER TABLE `detail_jual`
+            ADD COLUMN `harga_jual_asli` BIGINT NULL AFTER `hargaJual`
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 7)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 7)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
 function upgrade_207_to_208() {
     // Penambahan field customer
     $sql = "ALTER TABLE `customer`
@@ -914,7 +939,7 @@ function upgrade_207_to_208() {
     }
     else {
         $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 7)) . "', '')";
-    };
+    }
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }
 
@@ -944,9 +969,8 @@ function selesai() {
 
 /* CHANGELOG -----------------------------------------------------------
 
-  1.6.0 / 2013-02-07  : Harry Sufehmi	: table arsip_barang
+      1.6.0 / 2013-02-07  : Harry Sufehmi	: table arsip_barang
 
-  1.5.0 / 2012-11-25  : Harry Sufehmi	: initial release
+      1.5.0 / 2012-11-25  : Harry Sufehmi	: initial release
 
-  ------------------------------------------------------------------------ */
-
+      ------------------------------------------------------------------------ */
