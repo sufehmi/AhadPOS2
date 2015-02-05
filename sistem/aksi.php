@@ -1592,7 +1592,7 @@ elseif ($module === 'laporan' && $act === 'jumlahpoin') {
                             WHERE YEAR(tglTransaksiJual)= {$param['tahun']} AND
                             MONTH(tglTransaksiJual) BETWEEN {$periode['awal']} AND {$periode['akhir']}
                 GROUP BY idCustomer
-                HAVING SUM(jumlah_poin) >= {$param['kondisiJumlah']}
+                HAVING SUM(jumlah_poin) between {$param['jumlahDari']} AND {$param['jumlahSampai']}
                 ) AS poin
                 JOIN customer ON poin.idCustomer = customer.idCustomer AND customer.member=1
                 ORDER BY poin.jumlah_poin {$sort}, customer.namaCustomer";

@@ -1284,8 +1284,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
                                     <option value="2">Jumlah Poin (dari terendah)</option>
                                 </select>
                             </td>
-                            <td>Jumlah Poin >=</td>
-                            <td><input type="text" name="laporan[kondisiJumlah]" value="0" size="1"/>
+                            <td>Jumlah Poin dari</td>
+                            <td>
+                                <input type="text" name="laporan[jumlahDari]" value="0" size="1"/>
+                            </td>
+                            <td>sampai</td>
+                            <td>
+                                <input type="text" name="laporan[jumlahSampai]" value="99" size="1"/>
                             </td>
                             <td colspan="7"></td>
                             <td><input type="submit" value="Submit" /></td>
