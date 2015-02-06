@@ -231,7 +231,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaJual']; ?></td>
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
-                        <td class="center"><?php echo $r['nonaktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
+                        <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
                         <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                   ?>
                         </td>
                     </tr>
