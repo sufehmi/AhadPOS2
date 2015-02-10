@@ -615,8 +615,8 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
      */
     // siapkan string yang akan dicetak
     $struk = ''; //chr(27) . "@"; //Init printer
-    $struk .= str_pad($store_name, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($header1, 40, " ", STR_PAD_BOTH) . "\n"
-            . str_pad($_SESSION[uname] . " : " . date("d-m-Y H:i") . " #$NomorStruk", 40, " ", STR_PAD_BOTH) . " \n";
+    $struk .= str_pad($store_name, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($header1, 40, " ", STR_PAD_BOTH) . "\n";
+    $struk .= str_pad($_SESSION[uname] . " : " . date("d-m-Y H:i") . " #$NomorStruk", 40, " ", STR_PAD_BOTH) . "\n";
     if ($_SESSION['isMember']) {
         $queryCustomer = mysql_query("SELECT nomor_kartu, namaCustomer FROM customer WHERE idCustomer = {$_SESSION['idCustomer']}");
         //print_r($_SESSION);
