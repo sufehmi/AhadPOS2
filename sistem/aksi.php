@@ -617,7 +617,12 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     $struk = ''; //chr(27) . "@"; //Init printer
     $struk .= str_pad($store_name, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($header1, 40, " ", STR_PAD_BOTH) . "\n"
             . str_pad($_SESSION[uname] . " : " . date("d-m-Y H:i") . " #$NomorStruk", 40, " ", STR_PAD_BOTH) . " \n";
-
+    if ($_SESSION['isMember']) {
+        $queryCustomer = mysql_query("SELECT nomor_kartu, namaCustomer FROM customer WHERE idCustomer = {$_SESSION['idCustomer']}");
+        //print_r($_SESSION);
+        $customer = mysql_fetch_array($queryCustomer, MYSQL_ASSOC);
+        $struk .= str_pad("{$customer['namaCustomer']} : {$customer['nomor_kartu']}", 40, " ", STR_PAD_BOTH) . "\n";
+    }
     $struk .= "----------------------------------------\n";
 
     $diskonHargaPerBarangTotal = 0;
@@ -625,8 +630,9 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     while ($x = mysql_fetch_array($hasil)) {
         //$temp = $x[jumBarang] . "x ". $x[namaBarang]. " @".number_format($x[hargaJual],0,',','.').
         //		": ".number_format(($x[hargaJual] * $x[jumBarang]),0,',','.')."\n";
-        $temp = $x['namaBarang'] . "\n        @ " . number_format($x['hargaJual'] + $x['diskon_rupiah'], 0, ',', '.') . " x " . $x['jumBarang'] .
-                " = " . number_format(($x['hargaJual'] + $x['diskon_rupiah']) * $x['jumBarang'], 0, ',', '.') . "\n";
+        $tempNamaBarang = $x['namaBarang'];
+        $textSubTotal = number_format(($x['hargaJual'] + $x['diskon_rupiah']) * $x['jumBarang'], 0, ',', '.');
+        $tempHarga = "@ " . number_format($x['hargaJual'] + $x['diskon_rupiah'], 0, ',', '.') . " x " . $x['jumBarang'] . " : " . str_pad($textSubTotal, 11, ' ', STR_PAD_LEFT);
 
         $diskon = '';
         // Bilamana ada diskon per barang
@@ -640,33 +646,48 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
                 $diskonPersen = $x['diskon_persen'];
                 $diskonRupiah = $x['diskon_rupiah'] * $x['jumBarang'];
                 $diskonHargaPerBarangTotal += $diskonRupiah;
-                $diskon = "        Potongan (" . $diskonPersen . '%) = (' . number_format($diskonRupiah, 0, ',', '.') . ')' . "\n";
+                $textDiskon = "Potongan (" . $diskonPersen . '%) : ' . str_pad('(' . number_format($diskonRupiah, 0, ',', '.') . ')', 12, ' ', STR_PAD_LEFT);
             }
             elseif ($x['diskon_rupiah'] > 0) {
                 $diskonRupiah = $x['diskon_rupiah'] * $x['jumBarang'];
                 $diskonHargaPerBarangTotal += $diskonRupiah;
-                $diskon = "        Potongan (" . number_format($diskonRupiah, 0, ',', '.') . ')' . "\n";
+                $textDiskon = "Potongan : " . str_pad("(" . number_format($diskonRupiah, 0, ',', '.') . ')', 12, ' ', STR_PAD_LEFT);
             }
+            $diskon = str_pad($textDiskon, 40, ' ', STR_PAD_LEFT) . "\n";
         }
         // jika panjang baris > 40 huruf, pecah jadi 2 baris
         //if (strlen($temp) > 40) {
         //	$tmp = substr($temp, 0, 40) . "- \n -" . substr($temp, 40);
         //	$temp = $tmp;
         //};
-        $struk .= $temp . $diskon;
+        $struk .= ' ' . $tempNamaBarang . "\n";
+        $struk .= str_pad($tempHarga, 39, ' ', STR_PAD_LEFT) . "\n";
+        $struk .= $diskon;
     }
 
     $diskonHargaPerBarangTotal -= $diskonCustomer;
     $struk .= "----------------------------------------\n";
-    $struk .= $diskonHargaPerBarangTotal > 0 && $diskonCustomer > 0 ? " Total Potongan   : " . str_pad(number_format($diskonHargaPerBarangTotal, 0, ',', '.'), 11, ' ', STR_PAD_LEFT) . " \n" : '';
-    $struk .= $diskonCustomer > 0 ? ' Potongan Spesial : ' . str_pad(number_format($diskonCustomer, 0, ',', '.'), 11, ' ', STR_PAD_LEFT) . " \n" : '';
-    $struk .= " TOTAL            : " . str_pad(number_format($_POST[tot_pembayaran], 0, ',', '.'), 11, " ", STR_PAD_LEFT) . " \n";
-    $struk .= " Dibayar          : " . str_pad(number_format($_POST[uangDibayar], 0, ',', '.'), 11, " ", STR_PAD_LEFT) . " \n";
-    $struk .= " Kembali          : " . str_pad(number_format($_POST[uangDibayar] - $_POST[tot_pembayaran], 0, ',', '.'), 11, " ", STR_PAD_LEFT) . " \n";
-    $struk .= $diskonHargaPerBarangTotal > 0 ? " ANDA HEMAT       : " . str_pad(number_format($diskonHargaPerBarangTotal + $diskonCustomer, 0, ',', '.'), 11, " ", STR_PAD_LEFT) . " \n" : '';
+    $textTotalPotongan = "Total Potongan   : " . str_pad(number_format($diskonHargaPerBarangTotal, 0, ',', '.'), 11, ' ', STR_PAD_LEFT);
+    $textDiskonCustomer = 'Potongan Spesial : ' . str_pad(number_format($diskonCustomer, 0, ',', '.'), 11, ' ', STR_PAD_LEFT);
+    $textTotal = "TOTAL            : " . str_pad(number_format($_POST[tot_pembayaran], 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+    $textDibayar = "Dibayar          : " . str_pad(number_format($_POST[uangDibayar], 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+    $textKembali = "Kembali          : " . str_pad(number_format($_POST[uangDibayar] - $_POST[tot_pembayaran], 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+    $textAndaHemat = "ANDA HEMAT       : " . str_pad(number_format($diskonHargaPerBarangTotal + $diskonCustomer, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+
+    $struk .= $diskonHargaPerBarangTotal > 0 && $diskonCustomer > 0 ? str_pad($textTotalPotongan, 39, ' ', STR_PAD_LEFT) . " \n" : '';
+    $struk .= $diskonCustomer > 0 ? str_pad($textDiskonCustomer, 39, ' ', STR_PAD_LEFT) . "\n" : '';
+    $struk .= str_pad($textTotal, 39, ' ', STR_PAD_LEFT) . "\n";
+    $struk .= str_pad($textDibayar, 39, ' ', STR_PAD_LEFT) . " \n";
+    $struk .= str_pad($textKembali, 39, ' ', STR_PAD_LEFT) . " \n";
+    $struk .= $diskonHargaPerBarangTotal > 0 ? str_pad($textAndaHemat, 39, ' ', STR_PAD_LEFT) . "\n" : '';
     $struk .= "----------------------------------------\n";
-    $struk .= str_pad($footer1, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($footer2, 40, " ", STR_PAD_BOTH) . "\n\n\n\n\n\n\n\n\n\n";
-    // tambahan perintah untuk cutter epson
+    $struk .= str_pad($footer1, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($footer2, 40, " ", STR_PAD_BOTH) . "\n\n";
+
+    if ($_SESSION['isMember']) {
+        $struk .= 'Jumlah poin terkumpul: ' . getJumlahPoinPeriodeBerjalan($_SESSION['idCustomer']);
+    }
+    $struk .= "\n\n\n\n\n\n\n\n\n\n";
+// tambahan perintah untuk cutter epson
     if ($jenis_printer == 'rlpr') {
         $struk .= chr(27) . "@" . chr(29) . "V" . chr(1);
     }
@@ -943,9 +964,9 @@ elseif ($module == 'penjualan_barang' AND $act == 'nomorkartuinput') {
             // Hapus semuanya
             // Ulangi proses input
             while ($barang = mysql_fetch_array($query)) {
-            mysql_query("delete from tmp_detail_jual where idCustomer={$customer['idCustomer']} "
-                            . "and barcode = '{$barang['barcode']}' "
-                            . "and username='{$_SESSION['uname']}'") or die('Gagal clean ' . mysql_error());
+                mysql_query("delete from tmp_detail_jual where idCustomer={$customer['idCustomer']} "
+                                . "and barcode = '{$barang['barcode']}' "
+                                . "and username='{$_SESSION['uname']}'") or die('Gagal clean ' . mysql_error());
                 tambahBarangJual($barang['barcode'], $barang['qty']);
             }
 
@@ -1423,7 +1444,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';              ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;
