@@ -189,7 +189,8 @@ else {
                         <form id="entry-barang" method=POST action='js_jual_barang.php?act=caricustomer&action=tambah'>
                             <div class="input-group">
                                 <label for="barcode"><span class="u">B</span>arcode</label>
-                                <input type="text" name="barcode" accesskey="b" id="barcode" autofocus="autofocus">
+                                <input type="text" name="barcode" accesskey="b" id="barcode" autofocus="autofocus" autocomplete="off">
+
                             </div>
                             <?php
                             // ----- TERLALU LAMBAT ! ----- jangan gunakan dropbox terlampir untuk memilih barcode
@@ -214,7 +215,7 @@ else {
                                 ?>
                                 <div class="input-group">
                                     <label for="hargaBarang"><span class="u">H</span>arga</label>
-                                    <input type="text" id="hargaBarang" name='hargaBarang' value='1' size=5 accesskey="h">
+                                    <input type="text" id="hargaBarang" name='hargaBarang' value='1' size=5 accesskey="h" autocomplete="off">
                                 </div>
                                 <?php
                             }
@@ -222,7 +223,7 @@ else {
 
                             <div class="input-group">
                                 <label for="jumBarang"><span class="u">Q</span>ty</label>
-                                <input type="text" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q">
+                                <input type="text" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q" autocomplete="off">
                             </div>
                         <!--<input type="submit" name="btnTambah" value="Tambah" accesskey="t">-->
                             <button type="submit"><span class="u">T</span>ambah</button>
