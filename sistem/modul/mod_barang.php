@@ -235,7 +235,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                 ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                    ?>
                         </td>
                     </tr>
                     <?php
@@ -429,7 +429,10 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['hargaBanded']; ?></td>
                     <td class="right"><?php echo $r['qtyBanded']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                                ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a>
+                        <?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>
+                        //
+                        ?>
                     </td>
                 </tr>
                 <?php
@@ -643,10 +646,10 @@ switch ($_GET['act']) {
                     ?>
                     <div style="border: 1px solid #000; <?php echo $clear; ?> float:left; margin-right:5px; margin-bottom:0px; width:<?php echo $lebar_label - 10; ?>px; height:<?php echo $tinggi_label; ?>px; padding: 0 5px;">
                         <p style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:11pt; font-weight:normal; text-transform:capitalize;">
-                            <?php echo $namaBarang1; ?>
+                <?php echo $namaBarang1; ?>
                         </p>
                         <p style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:11pt; font-weight:normal; text-transform:capitalize;">
-                            <?php echo $namaBarang2; ?>
+                <?php echo $namaBarang2; ?>
                         </p>
                         <table style="font-family:'Times New Roman';width: 100%; margin-bottom: 10px; margin-top: -6px;border-top: 1px solid #000;">
                             <tr>
@@ -661,7 +664,7 @@ switch ($_GET['act']) {
                             </tr>
                         </table>
                         <span style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:8pt; font-style: italic ">
-                            <?php echo $r['barcode']; ?>
+                <?php echo $r['barcode']; ?>
                         </span>
                     </div>
                     <?php
@@ -726,7 +729,7 @@ switch ($_GET['act']) {
                     ?>
                     <div style="border: 1px solid #000; <?php echo $clear; ?> float:left; margin-right:5px; margin-bottom:10px; width:<?php echo $lebar_label - 10; ?>px; height:<?php echo $tinggi_label; ?>px; padding: 0 5px;">
                         <p style="margin-top: 3px; text-align:left; font-family:'Questrial'; font-size:8pt; font-weight:normal; text-transform:capitalize; border-bottom: 1px solid #000">
-                            <?php echo $namaBarang1; ?>
+                <?php echo $namaBarang1; ?>
                         </p>
                         <table style="border-collapse: collapse;font-family:'Times New Roman';width: 100%; margin-bottom: 15px; margin-top: -10px;">
                             <tr style="padding: 0">
@@ -743,7 +746,7 @@ switch ($_GET['act']) {
                             </tr>
                         </table>
                         <span style="line-height:0px; text-align:left; font-family:'Questrial'; font-size:7pt; font-style: italic">
-                            <?php echo $r['barcode']; ?>
+                <?php echo $r['barcode']; ?>
                         </span>
                     </div>
                     <?php
@@ -2152,7 +2155,7 @@ switch ($_GET['act']) {
                             endwhile;
                             ?>
                         </select>
-                        <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
+        <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
                     </td>
                 </tr>
                 <tr>
@@ -3045,12 +3048,16 @@ switch ($_GET['act']) {
                         <th>Saldo</th>
                     </tr>
                 </thead>
-                <tr>
-                    <td><?php echo $tanggal['dari']; ?></td>
-                    <td colspan="8">Saldo Awal</td>
-                    <td class="right"><?php echo $saldoAwal; ?></td>
-                </tr>
                 <?php
+                if ($saldoAwal) {
+                    ?>
+                    <tr>
+                        <td><?php echo $tanggal['dari']; ?></td>
+                        <td colspan="8">Saldo Awal</td>
+                        <td class="right"><?php echo $saldoAwal; ?></td>
+                    </tr>
+                    <?php
+                }
                 $saldo = $saldoAwal;
                 $alt = false;
                 while ($baris = mysql_fetch_array($mutasi, MYSQL_ASSOC)) {
