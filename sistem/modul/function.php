@@ -1252,6 +1252,106 @@ function insertTempLabel($cekBarcode) {
     }
 }
 
+function kartuStok($barcode, $tanggal) {
+    $dariTanggal = date_format(date_create_from_format('d-m-Y', $tanggal['dari']), 'Y-m-d');
+    $sampaiTanggal = date_format(date_create_from_format('d-m-Y', $tanggal['sampai']), 'Y-m-d');
+
+    // Saldo Awal Barang
+    $sql = "select
+					sum(
+					case
+					when posisi=1 then qty   #beli
+					when posisi=2 then -qty  #jual
+					when posisi=3 then qty  #so
+					when posisi=4 then -qty  #returbeli
+                    when posisi=5 then qty #fso
+                    when posisi=6 then qty #returjual
+					else 0 end
+					) as saldo
+					from(
+					(select db.username, tb.idTransaksiBeli as nota, tb.tglTransaksiBeli as tgl, jumBarangAsli as qty, '1' as posisi
+					from detail_beli db
+					join transaksibeli as tb on db.idTransaksiBeli = tb.idTransaksiBeli
+					where db.barcode = '{$barcode}' and date(tb.tglTransaksiBeli) < '{$dariTanggal}'
+					order by tb.tglTransaksiBeli)
+					union
+					(select dj.username, tj.idTransaksiJual,  tj.tglTransaksiJual, dj.jumBarang, '2' as posisi
+					from detail_jual dj
+					join transaksijual as tj on tj.idTransaksiJual = dj.nomorStruk
+					where dj.barcode = '{$barcode}' and date(tj.tglTransaksiJual) < '{$dariTanggal}'
+					order by tj.tglTransaksiJual)
+					union
+					(select so.username, so.idStockOpname, so.tanggalSO, dso.selisih, '3' as posisi
+					from detail_stock_opname as dso
+					join stock_opname as so on so.idStockOpname = dso.idStockOpname
+					where dso.barcode = '{$barcode}' and date(so.tanggalSO) < '{$dariTanggal}')
+					union
+					(select username, NomorInvoice, tglRetur, jumRetur, '4' as posisi
+					from detail_retur_beli
+					where barcode = '{$barcode}' and date(tglRetur) < '{$dariTanggal}')
+					union
+					(select username, '', tanggalSO, selisih, '5' as posisi
+					from fast_stock_opname
+					where barcode = '{$barcode}' and date(tanggalSO) < '{$dariTanggal}')
+					union
+					(select username, '', tglTransaksi, jumBarang, '6' as posisi
+					from detail_retur_barang
+					where barcode = '{$barcode}' and date(tglTransaksi) < '{$dariTanggal}')
+					) as t1
+					";
+    $result = mysql_query($sql) or die(mysql_error());
+    $dataSaldo = mysql_fetch_array($result);
+    $saldo = $dataSaldo['saldo'];
+
+    // Mutasi Transaksi Stock Barang
+    $sql = "select tgl, nota, username,
+            case posisi
+            when 1 then qty else '' end as 'beli',
+            case posisi
+            when 4 then qty else '' end as 'rbeli',
+            case posisi
+            when 2 then qty else '' end as 'jual',
+            case posisi
+            when 6 then qty else '' end as 'rjual',
+            case posisi
+            when 3 then qty else '' end as 'so',
+            case posisi
+            when 5 then qty else '' end as 'fso'
+            from(
+            (select db.username, concat(tb.idTransaksiBeli,' ',tb.NomorInvoice)  as nota, tb.tglTransaksiBeli as tgl, jumBarangAsli as qty, '1' as posisi
+            from detail_beli db
+            join transaksibeli as tb on db.idTransaksiBeli = tb.idTransaksiBeli
+            where db.barcode = '{$barcode}' and date(tb.tglTransaksiBeli) between '{$dariTanggal}' and '{$sampaiTanggal}'
+            order by tb.tglTransaksiBeli)
+            union all
+            (select dj.username, tj.idTransaksiJual,  tj.tglTransaksiJual, dj.jumBarang, '2' as posisi
+            from detail_jual dj
+            join transaksijual as tj on tj.idTransaksiJual = dj.nomorStruk
+            where dj.barcode = '{$barcode}' and date(tj.tglTransaksiJual) between '{$dariTanggal}' and '{$sampaiTanggal}'
+            order by tj.tglTransaksiJual)
+            union all
+            (select so.username, so.idStockOpname, so.tanggalSO, dso.selisih, '3' as posisi
+            from detail_stock_opname as dso
+            join stock_opname as so on so.idStockOpname = dso.idStockOpname
+            where dso.barcode = '{$barcode}' and date(so.tanggalSO) between '{$dariTanggal}' and '{$sampaiTanggal}')
+            union all
+            (select username, '', tanggalSO, selisih, '5' as posisi
+            from fast_stock_opname
+            where barcode = '{$barcode}' and date(tanggalSO) between '{$dariTanggal}' and '{$sampaiTanggal}')
+            union all
+            (select username, '', tglTransaksi, jumBarang, '6' as posisi
+            from detail_retur_barang
+            where barcode = '{$barcode}' and date(tglTransaksi) between '{$dariTanggal}' and '{$sampaiTanggal}')
+            union all
+            (select username, concat(NomorInvoice,' ',idTransaksiBeli), tglRetur, jumRetur, '4' as posisi
+            from detail_retur_beli
+            where barcode = '{$barcode}' and date(tglRetur) between '{$dariTanggal}' and '{$sampaiTanggal}')
+            ) as t1
+            order by tgl";
+    $result = mysql_query($sql) or die(mysql_error());
+    return array('saldo' => $saldo, 'mutasi' => $result);
+}
+
 /* CHANGELOG -----------------------------------------------------------
 
   1.6.0 / 2013-05-01 : Herwono			: fitur : cetak label harga perbarcode
