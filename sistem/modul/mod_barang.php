@@ -139,6 +139,9 @@ switch ($_GET['act']) {
             <input type=submit value='Sinkronisasi Harga Jual' >
         </form>
 
+        <form class="inline"  method=POST action='?module=barang&act=kartustok'>
+            <input type=submit value='Kartu Stok' >
+        </form>
         <?php
 //	<div style=\"float:left\">
 //          <form method=POST action='?module=barang&act=transfer1'>
@@ -232,7 +235,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                   ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                 ?>
                         </td>
                     </tr>
                     <?php
@@ -426,7 +429,7 @@ switch ($_GET['act']) {
                     <td class="right"><?php echo $r['hargaBanded']; ?></td>
                     <td class="right"><?php echo $r['qtyBanded']; ?></td>
                     <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                  ?>
+                    <td><a href=?module=barang&act=editbarang&id=<?php echo $r[barcode]; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['idBarang']; >pus</a>                                                                                                                ?>
                     </td>
                 </tr>
                 <?php
@@ -2955,6 +2958,129 @@ switch ($_GET['act']) {
             </script>
             <?php
         endif;
+        break;
+    case 'kartustok':
+        ?>
+        <h2>Kartu Stok (Mutasi per barang)</h2>
+        <form method=POST action='?module=barang&act=kartustok2'>
+            <table>
+                <tr>
+                    <td><b>B</b>arcode: </td>
+                    <td><input type="text" name="barcode" accesskey="b" autofocus="autofocus" id="barcode" autocomplete="off"/></td>
+                </tr>
+                <tr>
+                    <td><b>N</b>ama: </td>
+                    <td><input type="text" name="namabarang" accesskey="n" id="namaBarang" placeholder="Minimal 3 karakter"/></td>
+                </tr>
+                <tr>
+                    <td>Periode</td>
+                    <td>
+                        <input type="text" id="tanggal_dari" name="tanggal[dari]" value="" size="4" placeholder="Optional">
+                        -
+                        <input type="text" id="tanggal_sampai" name="tanggal[sampai]" value="" size="4">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: right"><input type=submit value='Submit'></td>
+                </tr>
+            </table>
+        </form>
+        <script>
+            $("#namaBarang").autocomplete({
+                source: "aksi.php?module=hargabanded&act=getnamabarang",
+                minLength: 3,
+                select: function (event, ui) {
+                    console.log(ui.item ?
+                            "Nama: " + ui.item.value + "; Barcode " + ui.item.id :
+                            "Nothing selected, input was " + this.value);
+                    if (ui.item) {
+                        $("#barcode").val(ui.item.id);
+                    }
+                }
+            });
+            $(function () {
+                $('#tanggal_dari').appendDtpicker({
+                    "closeOnSelected": true,
+                    'locale': 'id',
+                    'dateFormat': 'DD-MM-YYYY',
+                    "dateOnly": true,
+                    "autodateOnStart": false
+                });
+            });
+            $(function () {
+                $('#tanggal_sampai').appendDtpicker({
+                    "closeOnSelected": true,
+                    'locale': 'id',
+                    'dateFormat': 'DD-MM-YYYY',
+                    "dateOnly": true
+                });
+            });
+        </script>
+        <?php
+        break;
+    case 'kartustok2':
+        if (isset($_POST['barcode'])) {
+            $barang = cekBarang($_POST['barcode']);
+            $tanggal = $_POST['tanggal'];
+            // print_r($barang);
+            $kartuStok = kartuStok($barang['barcode'], $tanggal);
+            $saldoAwal = $kartuStok['saldo'];
+            $mutasi = $kartuStok['mutasi'];
+            ?>
+            <h2>Kartu Stok <small><?php echo $tanggal['dari'] . ' s.d ' . $tanggal['sampai']; ?></small></h2>
+            <h3><?php echo $barang['namaBarang']; ?> <small><?php echo $barang['barcode']; ?></small></h3>
+            <h4>Harga Beli <small><?php echo $barang['hargaBeli']; ?></small> Harga Jual <small><?php echo $barang['hargaJual']; ?></small></h4>
+            <table class="tabel">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Nota</th>
+                        <th>User</th>
+                        <th>Beli (+)</th>
+                        <th>R Beli (-)</th>
+                        <th>Jual (-)</th>
+                        <th>R Jual (+)</th>
+                        <th>SO</th>
+                        <th>f/m SO</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td><?php echo $tanggal['dari']; ?></td>
+                    <td colspan="8">Saldo Awal</td>
+                    <td class="right"><?php echo $saldoAwal; ?></td>
+                </tr>
+                <?php
+                $saldo = $saldoAwal;
+                $alt = false;
+                while ($baris = mysql_fetch_array($mutasi, MYSQL_ASSOC)) {
+                    //print_r($baris);
+                    $saldo += $baris['beli'] - $baris['rbeli'] - $baris['jual'] + $baris['rjual'] + $baris['so'] + $baris['fso'];
+                    ?>
+                    <tr<?php
+                    $alt = !$alt;
+                    echo $alt ? ' class="alt"' : '';
+                    ?>>
+                        <td><?php echo date_format(date_create_from_format('Y-m-d', $baris['tgl']), 'd-m-Y'); ?></td>
+                        <td><?php echo $baris['nota']; ?></td>
+                        <td><?php echo $baris['username']; ?></td>
+                        <td class="right"><?php echo $baris['beli']; ?></td>
+                        <td class="right"><?php echo $baris['rbeli']; ?></td>
+                        <td class="right"><?php echo $baris['jual']; ?></td>
+                        <td class="right"><?php echo $baris['rjual']; ?></td>
+                        <td class="right"><?php echo $baris['so']; ?></td>
+                        <td class="right"><?php echo $baris['fso']; ?></td>
+                        <td class="right"><?php echo $saldo; ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </table>
+            <?php
+        }
+        else {
+            echo 'Input Barcode!';
+        }
         break;
 }
 ?>
