@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 7;
+$revision = 8;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -376,6 +376,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
     if ($dbrevision < 7) {
         echo "Upgrading database to version 2.0.7 <br />";
         upgrade_206_to_207();
+    }
+    if ($dbrevision < 8) {
+        echo "Upgrading database to version 2.0.8 <br />";
+        upgrade_207_to_208();
     }
 }
 
@@ -858,6 +862,58 @@ function upgrade_206_to_207() {
     }
     else {
         $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 7)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
+function upgrade_207_to_208() {
+
+    // Pembuatan tabel untuk menyimpan transaksi transfer antar ahad
+    $sql = "CREATE TABLE `transaksitransferbarang` (
+                  `idTransaksi` bigint(20) NOT NULL AUTO_INCREMENT,
+                  `tglTransaksi` datetime DEFAULT NULL,
+                  `idCustomer` varchar(10) DEFAULT NULL,
+                  `tglKirimBarang` date DEFAULT NULL,
+                  `idTipePembayaran` int(3) DEFAULT NULL,
+                  `nominal` bigint(20) DEFAULT '0',
+                  `idUser` int(3) DEFAULT NULL,
+                  `last_update` date DEFAULT NULL,
+                  PRIMARY KEY (`idTransaksi`),
+                  KEY `idUser` (`idUser`),
+                  KEY `tglTransaksi` (`tglTransaksi`),
+                  KEY `nominal` (`nominal`)
+                ) ENGINE=MyISAM
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+    $sql = "CREATE TABLE `detail_transfer_barang` (
+                  `uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                  `idBarang` bigint(20) NOT NULL,
+                  `jumBarang` int(10) NOT NULL,
+                  `hargaBeli` bigint(20) DEFAULT NULL,
+                  `hargaJual` bigint(20) NOT NULL,
+                  `username` varchar(30) DEFAULT NULL,
+                  `barcode` varchar(25) DEFAULT NULL,
+                  `nomorStruk` bigint(20) DEFAULT NULL,
+                  PRIMARY KEY (`uid`),
+                  KEY `username` (`username`),
+                  KEY `nomorStruk` (`nomorStruk`),
+                  KEY `barcode` (`barcode`)
+                ) ENGINE=MyISAM
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+	 
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 8)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 8)) . "', '')";
     };
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }
