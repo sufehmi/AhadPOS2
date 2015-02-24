@@ -551,7 +551,11 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
     $tgl = date("Y-m-d H:i:s");
 
     $NomorStruk = 0;
-    if (($_POST['transferahad'] != 1)) {
+    $transferahad = false;
+    if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
+        $transferahad = true;
+    }
+    if (!$transferahad) {
         $sql = "INSERT INTO transaksijual(tglTransaksiJual,
 	                    idCustomer,idTipePembayaran,nominal,idUser,last_update,uangDibayar)
         	            VALUES('$tgl','$_SESSION[idCustomer]',
@@ -560,7 +564,17 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         $hasil = mysql_query($sql) or die(mysql_error());
         //echo $sql;
         $NomorStruk = mysql_insert_id();
-    };
+    }
+    else if ($transferahad) {
+        $sql = "INSERT INTO transaksitransferbarang(tglTransaksi,
+	                    idCustomer,idTipePembayaran,nominal,idUser,last_update)
+        	            VALUES('$tgl','$_SESSION[idCustomer]',
+        	                   '$_POST[tipePembayaran]','$_POST[tot_pembayaran]',
+        	                    '$_SESSION[iduser]','$tgl')";
+        $hasil = mysql_query($sql) or die(mysql_error());
+        //echo $sql;
+        $NomorStruk = mysql_insert_id();
+    }
 
     // cetak struk -------------
     // ambil footer & header struk
@@ -795,7 +809,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         }
 
 
-        if (($_POST['transferahad'] != 1)) {
+        if (!$transferahad) {
             $sql = "INSERT INTO detail_jual(idBarang, barcode,
 	                        jumBarang,hargaJual,harga_jual_asli,username, nomorStruk, hargaBeli)
 							  VALUES({$simpan['idBarang']}, '{$simpan['barcode']}',
@@ -811,11 +825,18 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
             }
             // End of Diskon
         }
+        else if ($transferahad) {
+            $sql = "INSERT INTO detail_transfer_barang(idBarang, barcode,
+	                        jumBarang,hargaJual, username, nomorStruk, hargaBeli)
+							  VALUES({$simpan['idBarang']}, '{$simpan['barcode']}',
+							  {$simpan['jumBarang']},{$simpan['hargaJual']}, '{$_SESSION['uname']}', {$NomorStruk}, {$simpan['hargaBeli']})";
+            mysql_query($sql) or die('Gagal simpan transaksi detail transfer' . mysql_error());
+        }
     }
 
     // jika transfer antar Ahad,
     // generate file CSV nya
-    if (($_POST['transferahad'] == 1)) {
+    if ($transferahad) {
 
         // format isi file CSV :
         // $data[0]  = barcode
@@ -842,11 +863,12 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         while ($x = mysql_fetch_array($hasil1)) {
 
             // cari namaBarang
-            $hasil2 = mysql_query("SELECT namaBarang, idKategoriBarang, idSatuanBarang FROM barang WHERE barcode='" . $x['barcode'] . "'");
+            $hasil2 = mysql_query("SELECT namaBarang, idKategoriBarang, idSatuanBarang, hargaJual FROM barang WHERE barcode='" . $x['barcode'] . "'");
             $y = mysql_fetch_array($hasil2);
             $namaBarang = $y['namaBarang'];
             $idKategoriBarang = $y['idKategoriBarang'];
             $idSatuanBarang = $y['idSatuanBarang'];
+				$hargaJual = $y['hargaJual'];
 
             // cari namaSatuanBarang
             $hasil2 = mysql_query("SELECT namaSatuanBarang FROM satuan_barang WHERE idSatuanBarang=" . $idSatuanBarang);
@@ -858,7 +880,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
             $y = mysql_fetch_array($hasil2);
             $namaKategoriBarang = $y[namaKategoriBarang];
 
-            $csv .= "\"" . $x['barcode'] . "\",\"" . $x['idBarang'] . "\",\"" . $namaBarang . "\",\"" . $x['jumBarang'] . "\",\"" . $x['hargaBeli'] . "\",\"" . $x['hargaBeli'] . "\",\"" . $x['hargaJual'] . "\",\"" . $namaSatuanBarang . "\",\"" . $namaKategoriBarang . "\",\"" . $namaGudang . "\",\"" . $_SESSION['uname'] . "\"\n";
+            $csv .= "\"" . $x['barcode'] . "\",\"" . $x['idBarang'] . "\",\"" . $namaBarang . "\",\"" . $x['jumBarang'] . "\",\"" . $x['hargaBeli'] . "\",\"" . $x['hargaBeli'] . "\",\"" . $hargaJual . "\",\"" . $namaSatuanBarang . "\",\"" . $namaKategoriBarang . "\",\"" . $namaGudang . "\",\"" . $_SESSION['uname'] . "\"\n";
         }; // while ($x = mysql_fetch_array($hasil)) {
         //header('location:media.php?module='.$module);
         //echo "<script>window.close();</script>";
@@ -1389,7 +1411,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                         <td><?php echo $barang['barcode']; ?></td>
                         <td><?php echo $barang['namaBarang']; ?></td>
                         <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                         ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                           ?>><?php echo $barang['idSatuanBarang']; ?></td>
                     </tr>
                     <?php
                     $i++;

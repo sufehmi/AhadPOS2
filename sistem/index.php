@@ -25,7 +25,7 @@
 			<div class="header"><img src="../img/logo-login.png" /></div>
 
 			<form method="POST" action="cek_login.php">
-				<input type="text" id="username" name="username" placeholder="User Name">
+				<input type="text" id="username" name="username" placeholder="User Name" autofocus="autofocus">
 				<input type="password" id="password" name="password" placeholder="Password">
 				<input type="submit" class="tombol" id="tombol-login" value="Login">
 			</form>

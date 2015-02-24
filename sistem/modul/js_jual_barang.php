@@ -381,7 +381,7 @@ else {
                                           </td>
                                          *
                                          */ ?>
-                                        <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1':''; ?>'><i class="fa fa-times"></i></a></td>
+                                        <td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1' : ''; ?>'><i class="fa fa-times"></i></a></td>
                                     </tr>
                                     <?php
                                     $tot_pembelian += $total;
@@ -467,18 +467,24 @@ else {
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="right"><span class="u">U</span>ang Dibayar :</td>
-                                                <td class=""><input type="text" accesskey="u" name="uangDibayar" id="uangDibayar" value="0" onBlur="RecalcTotal(<?php echo $tot_pembelian; ?>)"  tabindex=3></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="right">Kembali :</td>
-                                                <td class=""><input type=text name='uangKembali' id='uangKembali' value=0></td>
-                                            </tr>
+                                            <?php
+                                            if (!$transferahad) {
+                                                ?>
+                                                <tr>
+                                                    <td class="right"><span class="u">U</span>ang Dibayar :</td>
+                                                    <td class=""><input type="text" accesskey="u" name="uangDibayar" id="uangDibayar" value="0" onBlur="RecalcTotal(<?php echo $tot_pembelian; ?>)"  tabindex=3></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">Kembali :</td>
+                                                    <td class=""><input type=text name='uangKembali' id='uangKembali' value=0></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
                                             <tr>
                                                 <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
                                                 <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
-                                                                        this.disabled = true;'></td>
+                                                        this.disabled = true;'></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -533,7 +539,7 @@ else {
                 </form>
             </div>
             <div id="footer" >
-                <a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1':''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
+                <a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
                 <a class="tombol" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
                     <?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
                 </a>
