@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 8;
+$revision = 7;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
