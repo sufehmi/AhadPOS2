@@ -32,10 +32,11 @@ echo "
         //-->
         </SCRIPT>
 	";
+?>
 
-
-
-
+<?php // JqueryUI untuk autocomplete cari nama barang ?>
+<script type="text/javascript" src="../js/jquery-ui.min-ac.js"></script>
+<?php
 switch ($_GET[act]) { //------------------------------------------------------------------------
 	default:
 
@@ -214,32 +215,32 @@ switch ($_GET[act]) { //--------------------------------------------------------
 						<a href='?module=laporan&act=aksi&action=lihatjual&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Lihat</a></td>
 					<td class="right"> Ha<a href='?module=laporan&act=aksi&action=hapusjual&id=<?php echo $r['idTransaksiJual']; ?>&idKasir=<?php echo $_GET['idKasir']; ?>&DariTanggal=<?php echo $_GET['DariTanggal']; ?>&SampaiTanggal=<?php echo $_GET['SampaiTanggal']; ?>'>p</a>us</td>
 				</tr>
-			<?php
-			//fixme: tampilkan juga profit dari setiap invoice
+				<?php
+				//fixme: tampilkan juga profit dari setiap invoice
 
-			$total_transaksi = $total_transaksi + $r[nominal];
-			$no++;
-		}
+				$total_transaksi = $total_transaksi + $r[nominal];
+				$no++;
+			}
 
 
-		// hitung profit
-		if ($_GET[idKasir] == 'SEMUA') {
-			$sql = "SELECT SUM((d.hargaJual - d.hargaBeli) * jumBarang) AS profit
+			// hitung profit
+			if ($_GET[idKasir] == 'SEMUA') {
+				$sql = "SELECT SUM((d.hargaJual - d.hargaBeli) * jumBarang) AS profit
 				FROM transaksijual AS t, detail_jual AS d
 				WHERE t.tglTransaksiJual BETWEEN '$dariTanggal' AND '$sampaiTanggal' AND t.idTransaksiJual=d.nomorStruk
  					ORDER BY t.idTransaksiJual ASC";
-		} else {
-			$sql = "SELECT SUM((d.hargaJual - d.hargaBeli) * jumBarang) AS profit
+			} else {
+				$sql = "SELECT SUM((d.hargaJual - d.hargaBeli) * jumBarang) AS profit
 				FROM transaksijual AS t, detail_jual AS d
 				WHERE t.idUser = $_GET[idKasir] AND t.idTransaksiJual=d.nomorStruk
 				AND t.tglTransaksiJual BETWEEN '$dariTanggal' AND '$sampaiTanggal' ORDER BY t.idTransaksiJual ASC";
-		};
-		$tampil = mysql_query($sql);
-		$r = mysql_fetch_array($tampil);
-		$total_profit = 0;
-		$total_profit = $total_profit + $r[profit];
+			};
+			$tampil = mysql_query($sql);
+			$r = mysql_fetch_array($tampil);
+			$total_profit = 0;
+			$total_profit = $total_profit + $r[profit];
 
-		echo "</table>
+			echo "</table>
 
 			<h2>Total Transaksi: ".number_format($total_transaksi, 0, ',', '.')."</h2>
 			<h2>Total Profit: ".number_format($total_profit, 0, ',', '.')."</h2>
@@ -249,10 +250,10 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 		";
 
-		break;
+			break;
 
-	case 'diskon1':
-		?>
+		case 'diskon1':
+			?>
 			<h2>Laporan Diskon</h2>
 			<form method=GET action='?module=laporan'>
 
@@ -270,15 +271,15 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					<tr>
 						<td>Pilih Kasir </td>
 						<td>: <select name='idKasir'> <option value='SEMUA' selected>SEMUA</option>
-		<?php
-		// ambil daftar nama kasir
-		// idLevelUser : 4 = kasir
-		$sql = "SELECT namaUser, idUser
+								<?php
+								// ambil daftar nama kasir
+								// idLevelUser : 4 = kasir
+								$sql = "SELECT namaUser, idUser
 											FROM user
 											WHERE idLevelUser = 4 ORDER BY namaUser ASC";
-		$namaKasir = mysql_query($sql);
-		while ($kasir = mysql_fetch_array($namaKasir)) :
-			?>
+								$namaKasir = mysql_query($sql);
+								while ($kasir = mysql_fetch_array($namaKasir)) :
+									?>
 									<option value='<?php echo $kasir['idUser']; ?>'><?php echo $kasir['namaUser']; ?></option>
 									<?php
 								endwhile;
@@ -290,11 +291,11 @@ switch ($_GET[act]) { //--------------------------------------------------------
 						<td>Pilih Jenis Diskon </td>
 						<td>: <select name="tipeDiskon">
 								<option value="SEMUA" selected>SEMUA</option>
-		<?php
-		$sql = "select uid, nama, deskripsi from diskon_tipe order by uid";
-		$hasil = mysql_query($sql) or die('Gagal ambil tipe diskon, error: '.mysql_error());
-		while ($tipeDiskon = mysql_fetch_array($hasil)):
-			?>
+								<?php
+								$sql = "select uid, nama, deskripsi from diskon_tipe order by uid";
+								$hasil = mysql_query($sql) or die('Gagal ambil tipe diskon, error: '.mysql_error());
+								while ($tipeDiskon = mysql_fetch_array($hasil)):
+									?>
 									<option value="<?php echo $tipeDiskon['uid']; ?>"><?php echo "{$tipeDiskon['nama']} | {$tipeDiskon['deskripsi']}"; ?></option>
 									<?php
 								endwhile;
@@ -316,20 +317,20 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					});
 				});
 			</script>
-		<?php
-		break;
+			<?php
+			break;
 
-	case 'diskon2':
-		// ambil daftar nama kasir
-		if ($_GET['idKasir'] == 'SEMUA') {
-			$x['namaUser'] = 'SEMUA';
-		} else {
-			$sql = "SELECT namaUser FROM user WHERE idUser = {$_GET['idKasir']}";
-			$hasil = mysql_query($sql);
-			$x = mysql_fetch_array($hasil);
-		}
-		$tipeDiskon = $_GET['tipeDiskon'];
-		?>
+		case 'diskon2':
+			// ambil daftar nama kasir
+			if ($_GET['idKasir'] == 'SEMUA') {
+				$x['namaUser'] = 'SEMUA';
+			} else {
+				$sql = "SELECT namaUser FROM user WHERE idUser = {$_GET['idKasir']}";
+				$hasil = mysql_query($sql);
+				$x = mysql_fetch_array($hasil);
+			}
+			$tipeDiskon = $_GET['tipeDiskon'];
+			?>
 			<h2>Laporan Diskon</h2>
 			<h3>Kasir: <?php echo $x['namaUser']; ?>, Dari: <?php echo $_GET['DariTanggal']; ?>, Sampai: <?php echo $_GET['SampaiTanggal']; ?></h3>
 			<table class="tabel">
@@ -344,18 +345,18 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					<th>Total<br />Diskon</th>
 					<th>Diskon @</th>
 					<th>Detail<br />Diskon @</th>
-		<?php
-		if ($tipeDiskon != 'SEMUA'):
-			?>
+					<?php
+					if ($tipeDiskon != 'SEMUA'):
+						?>
 						<th>Sub Total</th>
 						<?php
 					endif;
 					?>
 				</tr>
-					<?php
-					$dariTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['DariTanggal']), 'Y-m-d H:i');
-					$sampaiTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['SampaiTanggal']), 'Y-m-d H:i');
-					$sql = "select
+				<?php
+				$dariTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['DariTanggal']), 'Y-m-d H:i');
+				$sampaiTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['SampaiTanggal']), 'Y-m-d H:i');
+				$sql = "select
 						dj.nomorStruk,
 						tj.tglTransaksiJual,
 						dt.barcode,
@@ -370,44 +371,44 @@ switch ($_GET[act]) { //--------------------------------------------------------
 						join detail_jual dj on dt.idDetailJual = dj.uid
 						join transaksijual tj on tj.idTransaksiJual = dj.nomorStruk
 						where tj.tglTransaksiJual between '{$dariTanggal}' and '{$sampaiTanggal}' ";
-					if ($_GET['idKasir'] != 'SEMUA') {
-						$sql.= "and tj.idUser = {$_GET['idKasir']} ";
-					}
-					$sql.= "order by nomorStruk";
+				if ($_GET['idKasir'] != 'SEMUA') {
+					$sql.= "and tj.idUser = {$_GET['idKasir']} ";
+				}
+				$sql.= "order by nomorStruk";
 
-					$result = mysql_query($sql) or die('Gagal ambil data diskon, error: '.mysql_error());
+				$result = mysql_query($sql) or die('Gagal ambil data diskon, error: '.mysql_error());
 
-					$no = 1;
-					$totalDiskon = 0;
-					while ($data = mysql_fetch_array($result)):
-						//$totalDiskon += $data['totalDiskon'];
+				$no = 1;
+				$totalDiskon = 0;
+				while ($data = mysql_fetch_array($result)):
+					//$totalDiskon += $data['totalDiskon'];
+					/*
+					 * Cek Tipe Diskon dulu !!
+					 */
+					$diskonDetail = '';
+					$dariTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['DariTanggal']), 'Y-m-d H:i');
+					$sampaiTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['SampaiTanggal']), 'Y-m-d H:i');
+					$diskonDetail = json_decode($data['diskon_detail_uids'], true);
+					$adaDiskon = false;
+					foreach ($diskonDetail as $key => $value) {
 						/*
-						 * Cek Tipe Diskon dulu !!
+						 * Jika tipe diskon adalah admin / customer
 						 */
-						$diskonDetail = '';
-						$dariTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['DariTanggal']), 'Y-m-d H:i');
-						$sampaiTanggal = date_format(date_create_from_format('d-m-Y H:i', $_GET['SampaiTanggal']), 'Y-m-d H:i');
-						$diskonDetail = json_decode($data['diskon_detail_uids'], true);
-						$adaDiskon = false;
-						foreach ($diskonDetail as $key => $value) {
-							/*
-							 * Jika tipe diskon adalah admin / customer
-							 */
-							if ($key < 3 && $key == $tipeDiskon) {
+						if ($key < 3 && $key == $tipeDiskon) {
+							$adaDiskon = true;
+							break;
+						} else {
+							$dataDiskon = null;
+							$hasil = mysql_query("select * from diskon_detail where uid=$key") or die("Gagal ambil detail diskon $key, error:".mysql_error());
+							$dataDiskon = mysql_fetch_array($hasil);
+							if ($tipeDiskon == $dataDiskon['diskon_tipe_id']) {
 								$adaDiskon = true;
 								break;
-							} else {
-								$dataDiskon = null;
-								$hasil = mysql_query("select * from diskon_detail where uid=$key") or die("Gagal ambil detail diskon $key, error:".mysql_error());
-								$dataDiskon = mysql_fetch_array($hasil);
-								if ($tipeDiskon == $dataDiskon['diskon_tipe_id']) {
-									$adaDiskon = true;
-									break;
-								}
 							}
 						}
-						if ($tipeDiskon === 'SEMUA' || $adaDiskon):
-							?>
+					}
+					if ($tipeDiskon === 'SEMUA' || $adaDiskon):
+						?>
 						<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
 							<td><?php echo $data['nomorStruk']; ?></td>
 							<td><?php echo $data['tglTransaksiJual']; ?></td>
@@ -419,155 +420,155 @@ switch ($_GET[act]) { //--------------------------------------------------------
 							<td class="right"><?php echo number_format($data['totalDiskon'], 0, ',', '.'); ?></td>
 							<td class="right"><?php echo number_format($data['diskon'], 0, ',', '.'); ?></td>
 							<td class="right"><?php
-				// var_dump($diskonDetail);
-				// mysql_query("select * from diskon_detail where uid=")
-				$subTotal = 0;
-				foreach ($diskonDetail as $key => $value) {
-					if ($key < 3) {
-						/*
-						 * Untuk diskon admin dan diskon per customer
-						 */
-						switch ($key):
-							case 1:
-								if ($tipeDiskon === 'SEMUA' || $tipeDiskon == 1) {
-									$s = '(Admin) '.number_format($value, 0, ',', '.');
-									$subTotal = $value * $data['jumBarang'];
-									$totalDiskon += $subTotal;
+								// var_dump($diskonDetail);
+								// mysql_query("select * from diskon_detail where uid=")
+								$subTotal = 0;
+								foreach ($diskonDetail as $key => $value) {
+									if ($key < 3) {
+										/*
+										 * Untuk diskon admin dan diskon per customer
+										 */
+										switch ($key):
+											case 1:
+												if ($tipeDiskon === 'SEMUA' || $tipeDiskon == 1) {
+													$s = '(Admin) '.number_format($value, 0, ',', '.');
+													$subTotal = $value * $data['jumBarang'];
+													$totalDiskon += $subTotal;
+												}
+												break;
+											case 2:
+												if ($tipeDiskon === 'SEMUA' || $tipeDiskon == 2) {
+													$s = '(Customer) '.number_format($value, 0, ',', '.');
+													$subTotal = $value * $data['jumBarang'];
+													$totalDiskon += $subTotal;
+												}
+												break;
+										endswitch;
+										echo $s;
+									} else {
+										/*
+										 * Untuk diskon grosir dan diskon waktu
+										 */
+										$dataDiskon = null;
+										$hasil = mysql_query("select * from diskon_detail where uid=$key") or die("Gagal ambil detail diskon $key, error:".mysql_error());
+										$dataDiskon = mysql_fetch_array($hasil);
+										//echo "<br />dataDiskonTipeId: {$dataDiskon['diskon_tipe_id']}<br />tipeDiskon: {$tipeDiskon}<br />";
+										$s = '';
+										if ($tipeDiskon === 'SEMUA' || $tipeDiskon == $dataDiskon['diskon_tipe_id']) {
+											$s = "({$dataDiskon['diskon_tipe_nama']}) ";
+											if ($dataDiskon['diskon_persen'] > 0) {
+												$s.=$dataDiskon['diskon_persen'].'%';
+											} else {
+												$s.=number_format($dataDiskon['diskon_rupiah'], 0, ',', '.');
+											}
+											$subTotal = $dataDiskon['diskon_rupiah'] * $data['jumBarang'];
+											$totalDiskon += $subTotal;
+											echo $s.'<br />';
+										}
+									}
 								}
-								break;
-							case 2:
-								if ($tipeDiskon === 'SEMUA' || $tipeDiskon == 2) {
-									$s = '(Customer) '.number_format($value, 0, ',', '.');
-									$subTotal = $value * $data['jumBarang'];
-									$totalDiskon += $subTotal;
-								}
-								break;
-						endswitch;
-						echo $s;
-					} else {
-						/*
-						 * Untuk diskon grosir dan diskon waktu
-						 */
-						$dataDiskon = null;
-						$hasil = mysql_query("select * from diskon_detail where uid=$key") or die("Gagal ambil detail diskon $key, error:".mysql_error());
-						$dataDiskon = mysql_fetch_array($hasil);
-						//echo "<br />dataDiskonTipeId: {$dataDiskon['diskon_tipe_id']}<br />tipeDiskon: {$tipeDiskon}<br />";
-						$s = '';
-						if ($tipeDiskon === 'SEMUA' || $tipeDiskon == $dataDiskon['diskon_tipe_id']) {
-							$s = "({$dataDiskon['diskon_tipe_nama']}) ";
-							if ($dataDiskon['diskon_persen'] > 0) {
-								$s.=$dataDiskon['diskon_persen'].'%';
-							} else {
-								$s.=number_format($dataDiskon['diskon_rupiah'], 0, ',', '.');
-							}
-							$subTotal = $dataDiskon['diskon_rupiah'] * $data['jumBarang'];
-							$totalDiskon += $subTotal;
-							echo $s.'<br />';
-						}
-					}
-				}
-							?>
+								?>
 							</td>
-								<?php
-								/*
-								 * Jika diskon tidak semua, maka tampilkan sub total diskon
-								 */
-								if ($tipeDiskon != 'SEMUA'):
-									?>
+							<?php
+							/*
+							 * Jika diskon tidak semua, maka tampilkan sub total diskon
+							 */
+							if ($tipeDiskon != 'SEMUA'):
+								?>
 								<td><?php echo number_format($subTotal, 0, ',', '.'); ?></td>
 								<?php
 							endif;
 							?>
 						</tr>
-							<?php
-							$no++;
-						endif;
-					endwhile;
-					?>
+						<?php
+						$no++;
+					endif;
+				endwhile;
+				?>
 			</table>
 			<h2>Total Diskon: <?php echo number_format($totalDiskon, 0, ',', '.'); ?></h2>
 			<p>&nbsp;</p>
 			<a href=javascript:history.go(-1)><< Kembali</a>
-				<?php
-				break;
+			<?php
+			break;
 
-			case "aksi":  // ===========================================================================================================
+		case "aksi":  // ===========================================================================================================
 
 
-				if ($_GET[action] == 'hapusjual') { // ---------------------------------------------------------------------------------
-					// cek transaksi jualnya
-					$sql = "SELECT idBarang, barcode, jumBarang, hargaJual FROM detail_jual WHERE nomorStruk = $_GET[id]";
-					$hasil = mysql_query($sql);
+			if ($_GET[action] == 'hapusjual') { // ---------------------------------------------------------------------------------
+				// cek transaksi jualnya
+				$sql = "SELECT idBarang, barcode, jumBarang, hargaJual FROM detail_jual WHERE nomorStruk = $_GET[id]";
+				$hasil = mysql_query($sql);
 
-					$grandtotal = 0;
-					while ($x = mysql_fetch_array($hasil)) {
+				$grandtotal = 0;
+				while ($x = mysql_fetch_array($hasil)) {
 
-						$grandtotal = $grandtotal + ($x[jumBarang] * $x[hargaJual]);
+					$grandtotal = $grandtotal + ($x[jumBarang] * $x[hargaJual]);
 
-						// kembalikan jumlah stok sebelumnya di tabel barang
-						// cari jumlah saat ini di table barang
-						$sql = "SELECT jumBarang FROM barang WHERE barcode = '".$x[barcode]."'";
-						$hasil1 = mysql_query($sql);
-						$x1 = mysql_fetch_array($hasil1);
+					// kembalikan jumlah stok sebelumnya di tabel barang
+					// cari jumlah saat ini di table barang
+					$sql = "SELECT jumBarang FROM barang WHERE barcode = '".$x[barcode]."'";
+					$hasil1 = mysql_query($sql);
+					$x1 = mysql_fetch_array($hasil1);
 
-						$jumlahbaru = $x1[jumBarang] + $x[jumBarang];
-						// simpan jumlah yang baru
-						$sql = "UPDATE barang SET jumBarang = $jumlahbaru WHERE barcode = '".$x[barcode]."'";
-						$hasil1 = mysql_query($sql);
+					$jumlahbaru = $x1[jumBarang] + $x[jumBarang];
+					// simpan jumlah yang baru
+					$sql = "UPDATE barang SET jumBarang = $jumlahbaru WHERE barcode = '".$x[barcode]."'";
+					$hasil1 = mysql_query($sql);
 
-						// kembalikan jumlah stok sebelumnya di tabel detail_beli
-						// cari jumlah saat ini di table barang
-						$BarangHabis = false;
-						$sql = "SELECT jumBarang FROM detail_beli WHERE barcode = '".$x[barcode]."'
+					// kembalikan jumlah stok sebelumnya di tabel detail_beli
+					// cari jumlah saat ini di table barang
+					$BarangHabis = false;
+					$sql = "SELECT jumBarang FROM detail_beli WHERE barcode = '".$x[barcode]."'
 					  AND isSold = 'N' AND idBarang = ".$x[idBarang]."
 					  ORDER BY idDetailBeli ASC";
-						$hasil2 = mysql_query($sql);
+					$hasil2 = mysql_query($sql);
 
-						// kalau tidak ada yang ketemu, cari lagi - kali ini isSold = 'Y'
-						if (mysql_num_rows($hasil2) < 1) {
-							$sql = "SELECT jumBarang FROM detail_beli WHERE barcode = '".$x[barcode]."'
+					// kalau tidak ada yang ketemu, cari lagi - kali ini isSold = 'Y'
+					if (mysql_num_rows($hasil2) < 1) {
+						$sql = "SELECT jumBarang FROM detail_beli WHERE barcode = '".$x[barcode]."'
 					  AND isSold = 'Y' AND idBarang = ".$x[idBarang]."
 					  ORDER BY idDetailBeli DESC";
-							$hasil2 = mysql_query($sql);
-							$BarangHabis = true;
-						};
-						$x2 = mysql_fetch_array($hasil2);
+						$hasil2 = mysql_query($sql);
+						$BarangHabis = true;
+					};
+					$x2 = mysql_fetch_array($hasil2);
 
-						$jumlahbaru = $x2[jumBarang] + $x[jumBarang];
-						// simpan jumlah yang baru
-						if ($BarangHabis) {
-							$sql = "UPDATE detail_beli SET jumBarang = $jumlahbaru, isSold = 'N' WHERE idBarang = '".$x[idBarang]."'";
-						} else {
-							$sql = "UPDATE detail_beli SET jumBarang = $jumlahbaru WHERE idBarang = '".$x[idBarang]."'";
-						};
-						$hasil1 = mysql_query($sql);
-					}; // while ($x = mysql_fetch_array($hasil))
-					// simpan audit trail nya
-					$sql = "INSERT INTO audit (jenisTransaksi, username, tglTransaksi,
+					$jumlahbaru = $x2[jumBarang] + $x[jumBarang];
+					// simpan jumlah yang baru
+					if ($BarangHabis) {
+						$sql = "UPDATE detail_beli SET jumBarang = $jumlahbaru, isSold = 'N' WHERE idBarang = '".$x[idBarang]."'";
+					} else {
+						$sql = "UPDATE detail_beli SET jumBarang = $jumlahbaru WHERE idBarang = '".$x[idBarang]."'";
+					};
+					$hasil1 = mysql_query($sql);
+				}; // while ($x = mysql_fetch_array($hasil))
+				// simpan audit trail nya
+				$sql = "INSERT INTO audit (jenisTransaksi, username, tglTransaksi,
 					  nomorStruk, nominalStruk)
 					  VALUES ('returnotajual', '$_SESSION[uname]', '".date("Y-m-d H:i:s")."',
 					  $_GET[id], $grandtotal)";
-					$hasil = mysql_query($sql) or die(mysql_error());
+				$hasil = mysql_query($sql) or die(mysql_error());
 
 
-					// hapus di transaksi_jual
-					$sql = "DELETE FROM transaksijual WHERE idTransaksiJual = $_GET[id]";
-					$hasil = mysql_query($sql) or die(mysql_error());
+				// hapus di transaksi_jual
+				$sql = "DELETE FROM transaksijual WHERE idTransaksiJual = $_GET[id]";
+				$hasil = mysql_query($sql) or die(mysql_error());
 
-					// hapus juga seluruh transaksinya di detail_jual
-					$sql = "DELETE FROM detail_jual WHERE nomorStruk = $_GET[id]";
-					$hasil = mysql_query($sql) or die(mysql_error());
+				// hapus juga seluruh transaksinya di detail_jual
+				$sql = "DELETE FROM detail_jual WHERE nomorStruk = $_GET[id]";
+				$hasil = mysql_query($sql) or die(mysql_error());
 
-					// module=laporan&act=penjualan2&DariTanggal=2010-08-02+00%3A00%3A00&SampaiTanggal=2010-08-02+23%3A59%3A59&idKasir=SEMUA
-					header("location:media.php?module = laporan&act = penjualan2&DariTanggal = $_GET[DariTanggal]&SampaiTanggal = $_GET[SampaiTanggal]&idKasir = $_GET[idKasir]");
-				}
+				// module=laporan&act=penjualan2&DariTanggal=2010-08-02+00%3A00%3A00&SampaiTanggal=2010-08-02+23%3A59%3A59&idKasir=SEMUA
+				header("location:media.php?module = laporan&act = penjualan2&DariTanggal = $_GET[DariTanggal]&SampaiTanggal = $_GET[SampaiTanggal]&idKasir = $_GET[idKasir]");
+			}
 
-				if ($_GET[action] == 'cetakjual1') { // ---------------------------------------------------------------------------------
-					// pilih printer
-					$sql = "SELECT namaWorkstation, printer_commands, workstation_address FROM workstation ";
-					$hasil = mysql_query($sql) or die(mysql_error());
+			if ($_GET[action] == 'cetakjual1') { // ---------------------------------------------------------------------------------
+				// pilih printer
+				$sql = "SELECT namaWorkstation, printer_commands, workstation_address FROM workstation ";
+				$hasil = mysql_query($sql) or die(mysql_error());
 
-					echo "
+				echo "
 			<form method = POST action = '?module=laporan&act=aksi&action=cetakjual2'>
 
 			<table>
@@ -575,11 +576,11 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<td>Pilih Printer </td>
 			<td>: <select name = 'namaPrinter'>";
 
-					while ($printer = mysql_fetch_array($hasil)) {
-						echo "<option value = '$printer[printer_commands]'>$printer[namaWorkstation]</option>\n";
-					}
+				while ($printer = mysql_fetch_array($hasil)) {
+					echo "<option value = '$printer[printer_commands]'>$printer[namaWorkstation]</option>\n";
+				}
 
-					echo "
+				echo "
 			</td>
 			</tr>
 
@@ -597,54 +598,54 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			</form>
 			";
 
-					// tampilkan link untuk kembali
-					echo "<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>";
-				} // if ($_GET[action] == 'cetakjual1')
+				// tampilkan link untuk kembali
+				echo "<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>";
+			} // if ($_GET[action] == 'cetakjual1')
 
 
 
-				if ($_GET[action] == 'cetakjual2') { // ---------------------------------------------------------------------------------
-					// ambil info struk ybs
-					$sql = "SELECT nominal, uangDibayar FROM transaksijual WHERE idTransaksiJual = $_POST[idTransaksi]";
-					//echo $sql;
-					$hasil = mysql_query($sql);
-					$x = mysql_fetch_array($hasil);
-					$totalTransaksi = $x[nominal];
-					$uangDibayar = $x[uangDibayar];
+			if ($_GET[action] == 'cetakjual2') { // ---------------------------------------------------------------------------------
+				// ambil info struk ybs
+				$sql = "SELECT nominal, uangDibayar FROM transaksijual WHERE idTransaksiJual = $_POST[idTransaksi]";
+				//echo $sql;
+				$hasil = mysql_query($sql);
+				$x = mysql_fetch_array($hasil);
+				$totalTransaksi = $x[nominal];
+				$uangDibayar = $x[uangDibayar];
 
-					// ambil transaksi yang akan dicetak
-					$sql = "SELECT t.jumBarang, t.hargaJual, b.namaBarang FROM barang AS b, detail_jual AS t
+				// ambil transaksi yang akan dicetak
+				$sql = "SELECT t.jumBarang, t.hargaJual, b.namaBarang FROM barang AS b, detail_jual AS t
 					  WHERE t.nomorStruk = '$_POST[idTransaksi]' AND t.barcode = b.barcode";
 
-					$sql = "select dj.jumBarang, b.namaBarang, dj.hargaJual, dt.diskon_detail_uids, dt.diskon_persen, dt.diskon_rupiah
+				$sql = "select dj.jumBarang, b.namaBarang, dj.hargaJual, dt.diskon_detail_uids, dt.diskon_persen, dt.diskon_rupiah
 					  from detail_jual dj
 					  join barang b on b.barcode = dj.barcode
 					  left join diskon_transaksi dt on dt.idDetailJual = dj.uid
 					  where dj.nomorStruk = {$_POST['idTransaksi']}";
-					//echo $sql;
-					$hasil = mysql_query($sql) or die(mysql_error());
+				//echo $sql;
+				$hasil = mysql_query($sql) or die(mysql_error());
 
-					// cetak struk
-					cetakStruk("$_POST[namaPrinter]", $_POST[idTransaksi], "$_POST[namaKasir]", $totalTransaksi, $uangDibayar, $hasil);
+				// cetak struk
+				cetakStruk("$_POST[namaPrinter]", $_POST[idTransaksi], "$_POST[namaKasir]", $totalTransaksi, $uangDibayar, $hasil);
 
-					// tampilkan link untuk kembali
-					echo "<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>";
+				// tampilkan link untuk kembali
+				echo "<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>";
+			}
+
+
+			if ($_GET[action] == 'lihatjual') { // ---------------------------------------------------------------------------------
+				if ($_GET[kasir] == 'SEMUA') {
+					$namaKasir = 'SEMUA';
+				} else {
+					$namaKasir = $_GET[kasir];
 				}
 
-
-				if ($_GET[action] == 'lihatjual') { // ---------------------------------------------------------------------------------
-					if ($_GET[kasir] == 'SEMUA') {
-						$namaKasir = 'SEMUA';
-					} else {
-						$namaKasir = $_GET[kasir];
-					}
-
-					echo "
+				echo "
 			<br/>
 			<h2>Detail Penjualan</h2>
 
 			<h3>Kasir: $namaKasir, No.Struk: $_GET[id]</h3>";
-					?>
+				?>
 				<table class="tabel">
 					<tr>
 						<th>Barcode</th>
@@ -656,25 +657,25 @@ switch ($_GET[act]) { //--------------------------------------------------------
 						<th>Total Diskon</th>
 						<th>Harga Jual Asli<br />(Selisih)</th>
 					</tr>
-			<?php
-			// $sql = "SELECT d.barcode, b.namaBarang, d.hargaJual, d.hargaBeli, d.jumBarang
-			// 			FROM detail_jual AS d, barang AS b
-			// 			WHERE d.nomorStruk = $_GET[id] AND d.barcode = b.barcode";
-			$sql = "select dj.barcode, b.namaBarang, dj.hargaBeli, dj.hargaJual, dj.harga_jual_asli,
+					<?php
+					// $sql = "SELECT d.barcode, b.namaBarang, d.hargaJual, d.hargaBeli, d.jumBarang
+					// 			FROM detail_jual AS d, barang AS b
+					// 			WHERE d.nomorStruk = $_GET[id] AND d.barcode = b.barcode";
+					$sql = "select dj.barcode, b.namaBarang, dj.hargaBeli, dj.hargaJual, dj.harga_jual_asli,
 								dj.jumBarang, dt.diskon_persen, dt.diskon_rupiah
 								from detail_jual dj
 								join barang b on b.barcode = dj.barcode
 								left join diskon_transaksi dt on dt.idDetailJual = dj.uid
 								where dj.nomorStruk = {$_GET['id']}
 								order by dj.uid";
-			$tampil = mysql_query($sql) or die('Gagal ambil detail penjualan, error:'.mysql_error());
+					$tampil = mysql_query($sql) or die('Gagal ambil detail penjualan, error:'.mysql_error());
 
-			$no = 1;
-			$total_transaksi = 0;
-			$total_profit = 0;
-			$total_diskon = 0;
-			while ($r = mysql_fetch_array($tampil)) {
-				?>
+					$no = 1;
+					$total_transaksi = 0;
+					$total_profit = 0;
+					$total_diskon = 0;
+					while ($r = mysql_fetch_array($tampil)) {
+						?>
 						<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
 							<td><?php echo $r['barcode']; ?></td>
 							<td><?php echo $r['namaBarang']; ?>	</td>
@@ -683,27 +684,27 @@ switch ($_GET[act]) { //--------------------------------------------------------
 							<td class="right"><?php echo number_format($r['jumBarang'], 0, ',', '.'); ?></td>
 							<td class="right"><?php echo number_format(($r['hargaJual'] * $r['jumBarang']), 0, ',', '.'); ?></td>
 							<td class="right">
-						<?php
-						if ($r['diskon_persen'] > 0) {
-							echo $r['diskon_persen'].'%'.' = ';
-							$total_diskon += $r['diskon_persen'] / 100 * $r['hargaJual'] * $r['jumBarang'];
-						}
-						if ($r['diskon_rupiah'] > 0) {
-							echo number_format($r['diskon_rupiah'] * $r['jumBarang'], 0, ',', '.');
-							$total_diskon += $r['diskon_rupiah'];
-						}
-						?>
+								<?php
+								if ($r['diskon_persen'] > 0) {
+									echo $r['diskon_persen'].'%'.' = ';
+									$total_diskon += $r['diskon_persen'] / 100 * $r['hargaJual'] * $r['jumBarang'];
+								}
+								if ($r['diskon_rupiah'] > 0) {
+									echo number_format($r['diskon_rupiah'] * $r['jumBarang'], 0, ',', '.');
+									$total_diskon += $r['diskon_rupiah'];
+								}
+								?>
 							</td>
 							<td>
 								<?php echo is_null($r['harga_jual_asli']) ? '' : number_format($r['harga_jual_asli'], 0, ',', '.').' ('.number_format($r['harga_jual_asli'] - $r['hargaJual'], 0, ',', '.').')'; ?>
 							</td>
 						</tr>
-								<?php
-								$total_transaksi = $total_transaksi + ($r[hargaJual] * $r[jumBarang]);
-								$total_profit = $total_profit + (($r[hargaJual] - $r[hargaBeli]) * $r[jumBarang]);
-								$no++;
-							}
-							?>
+						<?php
+						$total_transaksi = $total_transaksi + ($r[hargaJual] * $r[jumBarang]);
+						$total_profit = $total_profit + (($r[hargaJual] - $r[hargaBeli]) * $r[jumBarang]);
+						$no++;
+					}
+					?>
 				</table>
 
 				<h3>Total Transaksi : <?php echo number_format($total_transaksi, 0, ',', '.'); ?></h3>
@@ -711,14 +712,14 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 				<p>&nbsp;</p>
 				<a href=javascript:history.go(-1)><< Kembali</a>
-					<?php
-				}
+				<?php
+			}
 
-				break;
+			break;
 
 
-			case 'total1': { // ---------------------------------------------------------------------------------
-					echo "
+		case 'total1': { // ---------------------------------------------------------------------------------
+				echo "
               <br/>
               <h2>Laporan Total Stok</h2>
 
@@ -731,14 +732,14 @@ switch ($_GET[act]) { //--------------------------------------------------------
 //			FROM barang AS b, (SELECT barcode, hargaBeli FROM detail_beli WHERE isSold='N' AND hargaBeli > 0 GROUP BY barcode) AS d
 //			WHERE b.jumBarang > 0 AND b.barcode = d.barcode";
 
-					/* 		// query ini mengambil hargaBeli yang paling pertama / lama
-					  $sql	= "SELECT SUM(b.jumBarang * d.hargaBeli) AS TotalStok
-					  FROM barang AS b, (SELECT barcode, hargaBeli FROM detail_beli WHERE hargaBeli > 0 GROUP BY barcode) AS d
-					  WHERE b.jumBarang > 0 AND b.barcode = d.barcode";
-					 */
+				/* 		// query ini mengambil hargaBeli yang paling pertama / lama
+				  $sql	= "SELECT SUM(b.jumBarang * d.hargaBeli) AS TotalStok
+				  FROM barang AS b, (SELECT barcode, hargaBeli FROM detail_beli WHERE hargaBeli > 0 GROUP BY barcode) AS d
+				  WHERE b.jumBarang > 0 AND b.barcode = d.barcode";
+				 */
 
-					// query ini mengambil hargaBeli yang terbaru
-					$sql = "SELECT SUM(b.jumBarang * d.hargaBeli) AS TotalStok
+				// query ini mengambil hargaBeli yang terbaru
+				$sql = "SELECT SUM(b.jumBarang * d.hargaBeli) AS TotalStok
 			FROM barang AS b,
 			(SELECT barcode, hargaBeli FROM
 				(SELECT barcode, hargaBeli, idTransaksiBeli
@@ -746,23 +747,23 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			GROUP BY barcode) AS d
 			WHERE b.jumBarang > 0 AND b.barcode = d.barcode";
 
-					$tampil = mysql_query($sql);
-					$x = mysql_fetch_array($tampil);
+				$tampil = mysql_query($sql);
+				$x = mysql_fetch_array($tampil);
 
-					echo "Total Stok Saat Ini = Rp ".number_format($x[TotalStok], 0, ',', '.')."
+				echo "Total Stok Saat Ini = Rp ".number_format($x[TotalStok], 0, ',', '.')."
 
                 	<p>&nbsp;</p>
 	                <a href=javascript:history.go(-1)><< Kembali</a>
 
 		";
 
-					exit;
-				}
+				exit;
+			}
 
 
-			case 'toprank1': { // ---------------------------------------------------------------------------------
-					$tanggal = date('Y-m-d');
-					echo "
+		case 'toprank1': { // ---------------------------------------------------------------------------------
+				$tanggal = date('Y-m-d');
+				echo "
               <br/>
               <h2>Laporan Top Rank</h2>
 
@@ -786,12 +787,12 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<td>: 	<select name='kategori'>
 				<option value='0' selected>--pilih--</option>
 				<option value='SEMUA'>SEMUA</option>";
-					$hasil = mysql_query("SELECT idKategoriBarang, namaKategoriBarang FROM kategori_barang");
-					while ($x = mysql_fetch_array($hasil)) {
-						echo "<option value='".$x['idKategoriBarang']."'>".$x['namaKategoriBarang']."</option>";
-					};
+				$hasil = mysql_query("SELECT idKategoriBarang, namaKategoriBarang FROM kategori_barang");
+				while ($x = mysql_fetch_array($hasil)) {
+					echo "<option value='".$x['idKategoriBarang']."'>".$x['namaKategoriBarang']."</option>";
+				};
 
-					echo "		</select>
+				echo "		</select>
 			</td>
 		</tr>
 
@@ -800,12 +801,12 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<td>: 	<select name='rak'>
 				<option value='0' selected>--pilih--</option>
 				<option value='SEMUA'>SEMUA</option>";
-					$hasil = mysql_query("SELECT idRak, namaRak FROM rak");
-					while ($x = mysql_fetch_array($hasil)) {
-						echo "<option value='".$x['idRak']."'>".$x['namaRak']."</option>";
-					};
+				$hasil = mysql_query("SELECT idRak, namaRak FROM rak");
+				while ($x = mysql_fetch_array($hasil)) {
+					echo "<option value='".$x['idRak']."'>".$x['namaRak']."</option>";
+				};
 
-					echo "		</select>
+				echo "		</select>
 			</td>
 		</tr>
 
@@ -832,41 +833,41 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		</form>
 
 		";
-					exit;
-				}
+				exit;
+			}
 
-			case 'toprank2': { // ---------------------------------------------------------------------------------
-					if ($_POST['kategori'] == 'SEMUA') {
-						$kategori = 'SEMUA';
-					} else {
-						$hasil = mysql_query("SELECT namaKategoriBarang FROM kategori_barang WHERE idKategoriBarang=".$_POST['kategori']);
-						$x = mysql_fetch_array($hasil);
-						$kategori = $x['namaKategoriBarang'];
-					};
+		case 'toprank2': { // ---------------------------------------------------------------------------------
+				if ($_POST['kategori'] == 'SEMUA') {
+					$kategori = 'SEMUA';
+				} else {
+					$hasil = mysql_query("SELECT namaKategoriBarang FROM kategori_barang WHERE idKategoriBarang=".$_POST['kategori']);
+					$x = mysql_fetch_array($hasil);
+					$kategori = $x['namaKategoriBarang'];
+				};
 
-					if ($_POST['rak'] == 'SEMUA') {
-						$rak = 'SEMUA';
-					} else {
-						$sql = "SELECT namaRak FROM rak WHERE idRak=".$_POST['rak'];
-						$hasil = mysql_query($sql);
-						$x = mysql_fetch_array($hasil);
-						$rak = $x['namaRak'];
-					};
+				if ($_POST['rak'] == 'SEMUA') {
+					$rak = 'SEMUA';
+				} else {
+					$sql = "SELECT namaRak FROM rak WHERE idRak=".$_POST['rak'];
+					$hasil = mysql_query($sql);
+					$x = mysql_fetch_array($hasil);
+					$rak = $x['namaRak'];
+				};
 
-					if ($_POST['kategori'] == 'SEMUA') {
-						$idKategoriBarang = '';
-					} else {
-						$idKategoriBarang = 'AND b.idKategoriBarang = '.$_POST['kategori'];
-					};
+				if ($_POST['kategori'] == 'SEMUA') {
+					$idKategoriBarang = '';
+				} else {
+					$idKategoriBarang = 'AND b.idKategoriBarang = '.$_POST['kategori'];
+				};
 
-					if ($_POST['rak'] == 'SEMUA') {
-						$idRak = '';
-					} else {
-						$idRak = 'AND b.idRak = '.$_POST['rak'];
-					};
+				if ($_POST['rak'] == 'SEMUA') {
+					$idRak = '';
+				} else {
+					$idRak = 'AND b.idRak = '.$_POST['rak'];
+				};
 
-					$sortir = $_POST['sortir'];
-					$sql = "SELECT lb.barcode, lb.namaBarang, COUNT(lb.barcode) AS jumlah, SUM(lb.hargaJual) AS omset,
+				$sortir = $_POST['sortir'];
+				$sql = "SELECT lb.barcode, lb.namaBarang, COUNT(lb.barcode) AS jumlah, SUM(lb.hargaJual) AS omset,
 			SUM(lb.hargaJual - lb.hargaBeli) AS profit, lb.jumBarang
 		FROM 	(SELECT dj.barcode AS barcode, b.namaBarang AS namaBarang, b.jumBarang, dj.hargaJual, dj.hargaBeli, b.idKategoriBarang
       			FROM barang AS b,
@@ -880,8 +881,8 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		LIMIT ".$_POST['jumlah'].";
 		";
 
-					if ($_POST['rak'] <> 0) {
-						$sql = "SELECT lb.barcode, lb.namaBarang, COUNT(lb.barcode) AS jumlah, SUM(lb.hargaJual) AS omset,
+				if ($_POST['rak'] <> 0) {
+					$sql = "SELECT lb.barcode, lb.namaBarang, COUNT(lb.barcode) AS jumlah, SUM(lb.hargaJual) AS omset,
 			SUM(lb.hargaJual - lb.hargaBeli) AS profit, lb.jumBarang
 		FROM 	(SELECT dj.barcode AS barcode, b.namaBarang AS namaBarang, b.jumBarang, dj.hargaJual, dj.hargaBeli, b.idKategoriBarang
       			FROM barang AS b,
@@ -894,21 +895,21 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		ORDER BY $sortir DESC
 		LIMIT ".$_POST['jumlah'].";
 		";
-					};
-					$hasil = mysql_query($sql) or die("Error : ".mysql_error());
-					//echo $sql;
+				};
+				$hasil = mysql_query($sql) or die("Error : ".mysql_error());
+				//echo $sql;
 
-					echo "
+				echo "
 		<br/>
 		<h2>Laporan Top Rank</h2>
 		Tanggal:".$_POST['dari']." s/d ".$_POST['sampai'];
 
-					if ($_POST['rak'] <> 0) {
-						echo " Rak: $rak";
-					} else {
-						echo " Kategori: $kategori";
-					};
-					?>
+				if ($_POST['rak'] <> 0) {
+					echo " Rak: $rak";
+				} else {
+					echo " Kategori: $kategori";
+				};
+				?>
 				<table class="tabel">
 					<tr>
 						<th>No</th>
@@ -920,16 +921,16 @@ switch ($_GET[act]) { //--------------------------------------------------------
 						<th>Avg / day</th>
 						<th>Total Stok</th>
 					</tr>
-				<?php
-				$start = strtotime($_POST['dari']);
-				$end = strtotime($_POST['sampai']);
-				$jmlhari = abs($end - $start) / 86400;
+					<?php
+					$start = strtotime($_POST['dari']);
+					$end = strtotime($_POST['sampai']);
+					$jmlhari = abs($end - $start) / 86400;
 
-				$no = 0;
-				while ($x = mysql_fetch_array($hasil)) {
-					//untuk mewarnai tabel menjadi selang-seling
-					$no++;
-					?>
+					$no = 0;
+					while ($x = mysql_fetch_array($hasil)) {
+						//untuk mewarnai tabel menjadi selang-seling
+						$no++;
+						?>
 						<tr <?php echo $no % 2 === 0 ? 'class="alt"' : ''; ?>>
 							<td class="center"><?php echo $no; ?></td>
 							<td><?php echo $x['barcode']; ?></td>
@@ -944,14 +945,14 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					};
 					?>
 				</table>
-			<?php
-			exit;
-		}
+				<?php
+				exit;
+			}
 
 
-	case 'aging1': { // ---------------------------------------------------------------------------------
-			$tanggal = date('Y-m-d');
-			echo "
+		case 'aging1': { // ---------------------------------------------------------------------------------
+				$tanggal = date('Y-m-d');
+				echo "
               <br/>
               <h2>Laporan Aging / Barang Mati</h2>
 
@@ -974,12 +975,12 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<td>Kategori </td>
 			<td>: 	<select name='kategori'>
 				<option value='SEMUA' selected>SEMUA</option>";
-			$hasil = mysql_query("SELECT idKategoriBarang, namaKategoriBarang FROM kategori_barang");
-			while ($x = mysql_fetch_array($hasil)) {
-				echo "<option value='".$x['idKategoriBarang']."'>".$x['namaKategoriBarang']."</option>";
-			};
+				$hasil = mysql_query("SELECT idKategoriBarang, namaKategoriBarang FROM kategori_barang");
+				while ($x = mysql_fetch_array($hasil)) {
+					echo "<option value='".$x['idKategoriBarang']."'>".$x['namaKategoriBarang']."</option>";
+				};
 
-			echo "		</select>
+				echo "		</select>
 			</td>
 		</tr>
 
@@ -1007,26 +1008,26 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		</form>
 
 		";
-			exit;
-		}
+				exit;
+			}
 
-	case 'aging2': { // ---------------------------------------------------------------------------------
-			if ($_POST['kategori'] == 'SEMUA') {
-				$kategori = 'SEMUA';
-			} else {
-				$hasil = mysql_query("SELECT namaKategoriBarang FROM kategori_barang WHERE idKategoriBarang=".$_POST['kategori']);
-				$x = mysql_fetch_array($hasil);
-				$kategori = $x['namaKategoriBarang'];
-			};
+		case 'aging2': { // ---------------------------------------------------------------------------------
+				if ($_POST['kategori'] == 'SEMUA') {
+					$kategori = 'SEMUA';
+				} else {
+					$hasil = mysql_query("SELECT namaKategoriBarang FROM kategori_barang WHERE idKategoriBarang=".$_POST['kategori']);
+					$x = mysql_fetch_array($hasil);
+					$kategori = $x['namaKategoriBarang'];
+				};
 
-			if ($_POST['kategori'] == 'SEMUA') {
-				$idKategoriBarang = '';
-			} else {
-				$idKategoriBarang = 'AND b.idKategoriBarang = '.$_POST['kategori'];
-			};
+				if ($_POST['kategori'] == 'SEMUA') {
+					$idKategoriBarang = '';
+				} else {
+					$idKategoriBarang = 'AND b.idKategoriBarang = '.$_POST['kategori'];
+				};
 
-			// buat temporary table untuk simpan hasil
-			$sql = "
+				// buat temporary table untuk simpan hasil
+				$sql = "
 		CREATE TABLE IF NOT EXISTS `tmp_lap_aging` (
 		  `uid` bigint(20) NOT NULL AUTO_INCREMENT,
 		  `barcode` varchar(25) DEFAULT NULL,
@@ -1041,11 +1042,11 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		  KEY `avgSales` (`avgSales`)
 		) ENGINE=MEMORY DEFAULT CHARSET=latin1;
 		";
-			$hasil = mysql_query($sql) or die("Error : ".mysql_error());
+				$hasil = mysql_query($sql) or die("Error : ".mysql_error());
 
-			$sortir = $_POST['sortir'];
+				$sortir = $_POST['sortir'];
 
-			$sql = "SELECT lb.barcode, lb.namaBarang, SUM(lb.jumBarang) AS sisastok,
+				$sql = "SELECT lb.barcode, lb.namaBarang, SUM(lb.jumBarang) AS sisastok,
 			SUM(lb.hargaBeli * lb.jumBarang) AS nilaistok,
 			(TIMESTAMPDIFF(DAY, lb.tglTransaksiBeli, NOW())) AS umurstok,
 			lb.tglTransaksiBeli, lb.TotalJumlah
@@ -1070,13 +1071,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		LIMIT ".$_POST['jumlah'].";
 		";
 
-			$hasil = mysql_query($sql) or die("Error : ".mysql_error());
+				$hasil = mysql_query($sql) or die("Error : ".mysql_error());
 
-			// masukkan ke temporary table
-			$sqltmp = "INSERT INTO tmp_lap_aging (barcode,namaBarang,nilaiStok,umurStok,jmlStokIni,jmlStokSemua,avgSales) VALUES ";
-			while ($x = mysql_fetch_array($hasil)) {
-				// hitung Average Sales / Day
-				$sql = "
+				// masukkan ke temporary table
+				$sqltmp = "INSERT INTO tmp_lap_aging (barcode,namaBarang,nilaiStok,umurStok,jmlStokIni,jmlStokSemua,avgSales) VALUES ";
+				while ($x = mysql_fetch_array($hasil)) {
+					// hitung Average Sales / Day
+					$sql = "
 			SELECT SUM(jumBarang) AS total
 			FROM detail_jual AS dj,
 					(
@@ -1084,20 +1085,20 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					FROM transaksijual
 					WHERE tglTransaksiJual BETWEEN '".$_POST['dari']."' AND '".$_POST['sampai']."') AS tj
 			WHERE barcode='".$x['barcode']."' AND dj.nomorStruk = tj.idTransaksiJual";
-				$hasil3 = mysql_query($sql);
-				$y = mysql_fetch_array($hasil3);
-				$avgSales = ($y['total'] / $jmlhari);
+					$hasil3 = mysql_query($sql);
+					$y = mysql_fetch_array($hasil3);
+					$avgSales = ($y['total'] / $jmlhari);
 
-				// buat statement SQL
-				$sqltmp .= "('".$x['barcode']."','".$x['namaBarang']."','".$x['nilaistok']."','".$x['umurstok']."',
+					// buat statement SQL
+					$sqltmp .= "('".$x['barcode']."','".$x['namaBarang']."','".$x['nilaistok']."','".$x['umurstok']."',
 			'".$x['sisastok']."','".$x['TotalJumlah']."','$avgSales'),";
-			};
-			// hapus koma di akhir string
-			$sqltmp = substr($sqltmp, 0, -1);
-			// simpan ke temporary table
-			$hasil = mysql_query($sqltmp) or die("Error : ".mysql_error());
+				};
+				// hapus koma di akhir string
+				$sqltmp = substr($sqltmp, 0, -1);
+				// simpan ke temporary table
+				$hasil = mysql_query($sqltmp) or die("Error : ".mysql_error());
 
-			echo "
+				echo "
 		<br/>
 		<h2>Laporan Aging</h2>
 		Tanggal:".$_POST['dari']." s/d ".$_POST['sampai']." Kategori: $kategori
@@ -1115,33 +1116,33 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		</tr>
 		";
 
-			// ambil data dari temporary table
-			if ($sortir == 'avgSales') {
-				$sortir = 'avgSales,nilaiStok';
-			};
-			$sql = "SELECT * FROM tmp_lap_aging ORDER BY $sortir DESC";
-			$hasil = mysql_query($sql) or die("Error : ".mysql_error());
+				// ambil data dari temporary table
+				if ($sortir == 'avgSales') {
+					$sortir = 'avgSales,nilaiStok';
+				};
+				$sql = "SELECT * FROM tmp_lap_aging ORDER BY $sortir DESC";
+				$hasil = mysql_query($sql) or die("Error : ".mysql_error());
 
 
-			$start = strtotime($_POST['dari']);
-			$end = strtotime(time());
-			$jmlhari = abs($end - $start) / 86400;
+				$start = strtotime($_POST['dari']);
+				$end = strtotime(time());
+				$jmlhari = abs($end - $start) / 86400;
 
-			$no = 0;
-			$nilai = 0;
-			while ($x = mysql_fetch_array($hasil)) {
+				$no = 0;
+				$nilai = 0;
+				while ($x = mysql_fetch_array($hasil)) {
 
 
-				//untuk mewarnai tabel menjadi selang-seling
-				$no++;
-				if (($no % 2) == 0) {
-					$warna = "#EAF0F7";
-				} else {
-					$warna = "#FFFFFF";
-				}
+					//untuk mewarnai tabel menjadi selang-seling
+					$no++;
+					if (($no % 2) == 0) {
+						$warna = "#EAF0F7";
+					} else {
+						$warna = "#FFFFFF";
+					}
 
-				echo "<tr bgcolor=$warna>";
-				echo "
+					echo "<tr bgcolor=$warna>";
+					echo "
 			<td class=td align=center> $no </td>
 			<td class=td> ".$x['barcode']." </td>
 			<td class=td> ".$x['namaBarang']." </td>
@@ -1151,26 +1152,26 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<td class=td align=right> <center>".number_format($x['jmlStokSemua'], 0, ',', '.')." </td>
 			<td class=td align=right> ".number_format($x['avgSales'], 6, ',', '.')." </td>
 			</tr>";
-				$nilai = $nilai + ($x['nilaiStok'] / $x['jmlStokIni'] * $x['jmlStokSemua']);
-			};
-			echo "</table> Nilai Stok : Rp ".number_format($nilai, 0, ',', '.');
+					$nilai = $nilai + ($x['nilaiStok'] / $x['jmlStokIni'] * $x['jmlStokSemua']);
+				};
+				echo "</table> Nilai Stok : Rp ".number_format($nilai, 0, ',', '.');
 
-			// bersihkan temporary table
-			$hasil = mysql_query("DELETE FROM tmp_lap_aging");
+				// bersihkan temporary table
+				$hasil = mysql_query("DELETE FROM tmp_lap_aging");
 
-			exit;
-		}
+				exit;
+			}
 
-	case "po": // =======================================================================================================================
-		echo "<h2>Purchase Order</h2>
+		case "po": // =======================================================================================================================
+			echo "<h2>Purchase Order</h2>
             <form method=POST action='?module=laporan&act=po&action=pesanbarang'>
                 Supplier :
                 <select name=supplierId>";
-		$supplier = getSupplier();
-		while ($dataSupplier = mysql_fetch_array($supplier)) {
-			echo "<option value=$dataSupplier[idSupplier]>$dataSupplier[namaSupplier]::$dataSupplier[alamatSupplier]</option>";
-		}
-		echo "</select>
+			$supplier = getSupplier();
+			while ($dataSupplier = mysql_fetch_array($supplier)) {
+				echo "<option value=$dataSupplier[idSupplier]>$dataSupplier[namaSupplier]::$dataSupplier[alamatSupplier]</option>";
+			}
+			echo "</select>
 		<br />
 		Tampilkan hanya barang dengan jumlah lebih kecil dari : <input type=text name=jumlahmin value=0 size=3>
 		<br />
@@ -1178,61 +1179,120 @@ switch ($_GET[act]) { //--------------------------------------------------------
             <input type=submit value=Pilih>
             </form>";
 
-		if ($_GET[action] == 'pesanbarang') {
+			if ($_GET[action] == 'pesanbarang') {
 
-			$supplier = getDetailSupplier($_POST[supplierId]);
-			$detailSupplier = mysql_fetch_array($supplier);
-			echo "<h2>Pesan Barang di Supplier $detailSupplier[namaSupplier]</h2>
+				$supplier = getDetailSupplier($_POST[supplierId]);
+				$detailSupplier = mysql_fetch_array($supplier);
+				echo "<h2>Pesan Barang di Supplier $detailSupplier[namaSupplier]</h2>
             <br/>Alamat Supplier : $detailSupplier[alamatSupplier]<br/><br/>
             <form method=POST action='modul/js_cetak_PO.php'   onSubmit=\"popupform(this, 'Purchase_Order')\">
             <table width=500>
                 <tr><th>#</th><th>No</th><th>Barcode</th><th>Nama Barang</th><th>Stok<br />Saat Ini</th><th>Harga<br />Beli</th></tr>";
-			$no = 0;
-			$queryBarang = getDaftarBarangSupplier($_POST[supplierId], $_POST[jumlahmin]);
-			while ($barangSupplier = mysql_fetch_array($queryBarang)) {
-				if (($no % 2) == 0) {
-					$warna = "#EAF0F7";
-				} else {
-					$warna = "#FFFFFF";
-				}
-				echo "<tr bgcolor=$warna>"; //end warna
-				echo "<td class=td align=center><input type=checkbox name=cek[] value=$barangSupplier[barcode] id=id$no checked=true></td>";
-				$no++;
-				echo "<td class=td>$no</td>
+				$no = 0;
+				$queryBarang = getDaftarBarangSupplier($_POST[supplierId], $_POST[jumlahmin]);
+				while ($barangSupplier = mysql_fetch_array($queryBarang)) {
+					if (($no % 2) == 0) {
+						$warna = "#EAF0F7";
+					} else {
+						$warna = "#FFFFFF";
+					}
+					echo "<tr bgcolor=$warna>"; //end warna
+					echo "<td class=td align=center><input type=checkbox name=cek[] value=$barangSupplier[barcode] id=id$no checked=true></td>";
+					$no++;
+					echo "<td class=td>$no</td>
                         <td class=td>$barangSupplier[barcode]</td>
                         <td class=td>$barangSupplier[namaBarang]</td>
                         <td class=td align=right><center>$barangSupplier[jumBarang]</center></td>
                         <td class=td align=right>$barangSupplier[hargaBeli]</td>
                         </tr>";
-			}
+				}
 
-			echo "<input type=hidden name=idSupplier value=$_POST[supplierId]>";
-			echo "<tr><td colspan=5 align=center class=td>
+				echo "<input type=hidden name=idSupplier value=$_POST[supplierId]>";
+				echo "<tr><td colspan=5 align=center class=td>
             <input type=radio name=pilih onClick='for (i=0;i<$no;i++){document.getElementById(\"id\"+i).checked=true;}'>Check All
             <input type=radio name=pilih onClick='for (i=0;i<$no;i++){document.getElementById(\"id\"+i).checked=false;}'>Uncheck All
             </td></tr>
             <tr>
 		<td colspan=3 class=td> 		<input type=checkbox name=cetakcsv> Cetak Excel / CSV</td>
 		<td colspan=2 align=right class=td>	<input type=submit value=Cetak></form></td></tr>";
-			echo "</table>";
-		}
-		exit;
-}
+				echo "</table>";
+			}
+			exit;
+
+		case 'transferbarang':
+			$sql = "SELECT idCustomer, namaCustomer FROM customer ORDER BY namaCustomer";
+			$queryCustomer = mysql_query($sql);
+			?>
+			<h2>Laporan Transfer Barang</h2>
+			<form method=POST action='?module=laporan&act=transferbarang2'>
+				<table>
+					<tr>
+						<td><b>C</b>ustomer: </td>
+						<td>
+							<select name="customer" accesskey="c" autofocus="autofocus">
+								<option value="0">Semua</option>
+								<?php
+								while ($customer = mysql_fetch_array($queryCustomer, MYSQL_ASSOC)) {
+									?>
+									<option value="<?php echo $customer['idCustomer']; ?>"><?php echo $customer['namaCustomer']; ?></option>
+									<?php
+								}
+								?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Periode</td>
+						<td>
+							<input type="text" id="tanggal_dari" name="tanggal[dari]" value="" size="4" placeholder="Optional">
+							-
+							<input type="text" id="tanggal_sampai" name="tanggal[sampai]" value="" size="4">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="text-align: right"><input type=submit value='Submit'></td>
+					</tr>
+				</table>
+			</form>
+			<script>
+				$(function () {
+					$('#tanggal_dari').appendDtpicker({
+						"closeOnSelected": true,
+						'locale': 'id',
+						'dateFormat': 'DD-MM-YYYY',
+						"dateOnly": true
+					});
+				});
+				$(function () {
+					$('#tanggal_sampai').appendDtpicker({
+						"closeOnSelected": true,
+						'locale': 'id',
+						'dateFormat': 'DD-MM-YYYY',
+						"dateOnly": true
+					});
+				});
+			</script>
+			<?php
+			break;
+		case 'transferbarang2':
+			
+			break;
+	}
 
 
-/* CHANGELOG -----------------------------------------------------------
+	/* CHANGELOG -----------------------------------------------------------
 
-  1.5.5 / 2013-01-22 : Harry Sufehmi	: Penambahan Laporan : Top Rank
-  1.5.0 / 2013-01-04 : Harry Sufehmi	: bugfix : perbaikan rumus perhitungan Total Stok
-  1.2.5 / 2012-05-14 : Harry Sufehmi	: fitur : audit trail untuk "hapusjual"
-  1.2.5 / 2012-04-17 : Harry Sufehmi	: bugfix : perbaikan rumus perhitungan Total Stok
-  1.2.5 / 2012-03-04 : Harry Sufehmi	: bugfix : perhitungan Total Stok / total nilai stok kini sudah dari hargaBeli
-  (tadinya dari hargaJual)
-  1.2.5 / 2012-02-14 : Harry Sufehmi	: Hapus transaksi jual : kini otomatis mengembalikan jumlah stok barang ke
-  table barang & detail_beli, sejumlah banyak barang yang dibatalkan transaksinya
-  1.2.5 / 2012-02-01 : Harry Sufehmi	: Laporan Total Stok
-  1.0.1 / 2010-06-03 : Harry Sufehmi	: various enhancements, bugfixes
-  0.9.2 / 2010-03-08 : Harry Sufehmi	: initial release
+	  1.5.5 / 2013-01-22 : Harry Sufehmi	: Penambahan Laporan : Top Rank
+	  1.5.0 / 2013-01-04 : Harry Sufehmi	: bugfix : perbaikan rumus perhitungan Total Stok
+	  1.2.5 / 2012-05-14 : Harry Sufehmi	: fitur : audit trail untuk "hapusjual"
+	  1.2.5 / 2012-04-17 : Harry Sufehmi	: bugfix : perbaikan rumus perhitungan Total Stok
+	  1.2.5 / 2012-03-04 : Harry Sufehmi	: bugfix : perhitungan Total Stok / total nilai stok kini sudah dari hargaBeli
+	  (tadinya dari hargaJual)
+	  1.2.5 / 2012-02-14 : Harry Sufehmi	: Hapus transaksi jual : kini otomatis mengembalikan jumlah stok barang ke
+	  table barang & detail_beli, sejumlah banyak barang yang dibatalkan transaksinya
+	  1.2.5 / 2012-02-01 : Harry Sufehmi	: Laporan Total Stok
+	  1.0.1 / 2010-06-03 : Harry Sufehmi	: various enhancements, bugfixes
+	  0.9.2 / 2010-03-08 : Harry Sufehmi	: initial release
 
-  ------------------------------------------------------------------------ */
-?>
+	  ------------------------------------------------------------------------ */
+	?>
