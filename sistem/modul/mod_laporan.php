@@ -1250,7 +1250,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2" style="text-align: right"><input type=submit value='Submit'></td>
+						<td colspan="2" style="text-align: right"><input type=submit name="transfer" value='Submit'></td>
 					</tr>
 				</table>
 			</form>
@@ -1275,7 +1275,103 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<?php
 			break;
 		case 'transferbarang2':
-			
+			if (isset($_POST['transfer'])) {
+				$customerId = $_POST['customer'];
+				$namaCustomer = 'SEMUA';
+
+				if ($customerId > 0) {
+					$queryCustomer = mysql_query("SELECT namaCustomer FROM customer WHERE idCustomer = {$customerId}");
+					$cust = mysql_fetch_array($queryCustomer, MYSQL_ASSOC);
+					$namaCustomer = $cust['namaCustomer'];
+				}
+				?>
+				<h2>Laporan Transfer Barang</h2>
+				<h3>Customer: <?php echo $namaCustomer; ?>, Periode <?php echo $_POST['tanggal']['dari'].' s.d '.$_POST['tanggal']['sampai']; ?></h3>
+				<?php
+				$periode = $_POST['tanggal'];
+				$dariTanggal = date_format(date_create_from_format('d-m-Y', $periode['dari']), 'Y-m-d');
+				$sampaiTanggal = date_format(date_create_from_format('d-m-Y', $periode['sampai']), 'Y-m-d');
+
+				$sql = "SELECT trx.idTransaksi, trx.tglTransaksi, customer.namaCustomer, trx.nominal
+									FROM transaksitransferbarang trx
+									JOIN customer ON trx.idCustomer = customer.idCustomer ";
+				$sql .= $customerId > 0 ? "AND customer.idCustomer = {$customerId} " : '';
+				$sql .= "WHERE date(trx.tglTransaksi) between '{$dariTanggal}' AND '{$sampaiTanggal}'
+									ORDER BY trx.tglTransaksi";
+				$queryHeader = mysql_query($sql);
+				?>
+				<table class="tabel">
+					<thead>
+						<tr>
+							<th>Tgl Transaksi</th>
+							<th>Customer</th>
+							<th>Nominal</th>
+							<th>Aksi</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						while ($trx = mysql_fetch_array($queryHeader, MYSQL_ASSOC)) {
+							?>
+							<tr>
+								<td><?php echo $trx['tglTransaksi']; ?></td>
+								<td><?php echo $trx['namaCustomer']; ?></td>
+								<td class="right"><?php echo number_format($trx['nominal'], 0, ',', '.'); ?></td>
+								<td><a href="media.php?module=laporan&act=transferbarang3&id=<?php echo $trx['idTransaksi']; ?>">Lihat</a></td>
+							</tr>
+							<?php
+						}
+						?>
+					</tbody>
+				</table>
+				<?php
+			}
+			break;
+		case 'transferbarang3':
+			$idTransaksi = $_GET['id'];
+			$sql = "SELECT trx.idTransaksi, trx.tglTransaksi, customer.namaCustomer, trx.nominal
+						FROM transaksitransferbarang trx
+						JOIN customer ON trx.idCustomer = customer.idCustomer
+						WHERE trx.idTransaksi = {$idTransaksi}";
+			$queryHeader = mysql_query($sql);
+			$header = mysql_fetch_array($queryHeader, MYSQL_ASSOC);
+			?>
+			<h2>Transfer Barang <small><?php echo $header['tglTransaksi']; ?></small></h2>
+			<h3>Customer: <?php echo $header['namaCustomer']; ?>, Total: <?php echo number_format($header['nominal'], 0, ',', '.'); ?></h3>
+			<table class="tabel">
+				<thead>
+					<tr>
+						<th>Barcode</th>
+						<th>Nama Barang</th>
+						<th>Qty</th>
+						<th>Harga</th>
+						<th>Sub Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$sql = "SELECT detail.barcode, barang.namaBarang, detail.jumBarang, detail.hargaJual, (detail.jumBarang * detail.hargaJual) subTotal
+								FROM detail_transfer_barang detail
+								JOIN barang on detail.barcode = barang.barcode
+								where detail.nomorStruk = {$idTransaksi}";
+					$queryDetail = mysql_query($sql);
+					$alt = false;
+					while ($detail = mysql_fetch_array($queryDetail, MYSQL_ASSOC)) {
+						?>
+						<tr<?php echo $alt ? ' class="alt"' : ''; ?>>
+							<td><?php echo $detail['barcode']; ?></td>
+							<td><?php echo $detail['namaBarang']; ?></td>
+							<td class="right"><?php echo $detail['jumBarang']; ?></td>
+							<td class="right"><?php echo number_format($detail['hargaJual'], 0, ',', '.'); ?></td>
+							<td class="right"><?php echo number_format($detail['subTotal'], 0, ',', '.'); ?></td>
+						</tr>
+						<?php
+						$alt = !$alt;
+					}
+					?>
+				</tbody>
+			</table>
+			<?php
 			break;
 	}
 
