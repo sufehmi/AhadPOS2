@@ -1311,15 +1311,17 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					</thead>
 					<tbody>
 						<?php
+						$alt = false;
 						while ($trx = mysql_fetch_array($queryHeader, MYSQL_ASSOC)) {
 							?>
-							<tr>
+							<tr<?php echo $alt ? ' class="alt"' : ''; ?>>
 								<td><?php echo $trx['tglTransaksi']; ?></td>
 								<td><?php echo $trx['namaCustomer']; ?></td>
 								<td class="right"><?php echo number_format($trx['nominal'], 0, ',', '.'); ?></td>
 								<td><a href="media.php?module=laporan&act=transferbarang3&id=<?php echo $trx['idTransaksi']; ?>">Lihat</a></td>
 							</tr>
 							<?php
+							$alt = !$alt;
 						}
 						?>
 					</tbody>
