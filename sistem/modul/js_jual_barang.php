@@ -499,18 +499,24 @@ else {
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="right"><span class="u">U</span>ang Dibayar :</td>
-                                                <td class=""><input type="text" accesskey="u" name="uangDibayar" id="uangDibayar" value="0" onBlur="RecalcTotal(<?php echo $tot_pembelian; ?>)"  tabindex=3></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="right">Kembali :</td>
-                                                <td class=""><input type=text name='uangKembali' id='uangKembali' value=0></td>
-                                            </tr>
+                                            <?php
+                                            if (!$transferahad) {
+                                                ?>
+                                                <tr>
+                                                    <td class="right"><span class="u">U</span>ang Dibayar :</td>
+                                                    <td class=""><input type="text" accesskey="u" name="uangDibayar" id="uangDibayar" value="0" onBlur="RecalcTotal(<?php echo $tot_pembelian; ?>)"  tabindex=3></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right">Kembali :</td>
+                                                    <td class=""><input type=text name='uangKembali' id='uangKembali' value=0></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
                                             <tr>
                                                 <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
                                                 <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
-                                                                        this.disabled = true;'></td>
+                                                        this.disabled = true;'></td>
                                             </tr>
                                         </table>
                                     </div>
