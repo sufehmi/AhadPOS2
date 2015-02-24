@@ -827,9 +827,9 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         }
         else if ($transferahad) {
             $sql = "INSERT INTO detail_transfer_barang(idBarang, barcode,
-	                        jumBarang,hargaJual, username, nomorStruk, hargaBeli)
+	                        jumBarang,hargaJual, username, nomorStruk)
 							  VALUES({$simpan['idBarang']}, '{$simpan['barcode']}',
-							  {$simpan['jumBarang']},{$simpan['hargaJual']}, '{$_SESSION['uname']}', {$NomorStruk}, {$simpan['hargaBeli']})";
+							  {$simpan['jumBarang']},{$simpan['hargaBeli']}, '{$_SESSION['uname']}', {$NomorStruk})";
             mysql_query($sql);// or die('Gagal simpan transaksi detail transfer' . mysql_error());
         }
     }

@@ -891,7 +891,6 @@ function upgrade_207_to_208() {
                   `uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                   `idBarang` bigint(20) NOT NULL,
                   `jumBarang` int(10) NOT NULL,
-                  `hargaBeli` bigint(20) DEFAULT NULL,
                   `hargaJual` bigint(20) NOT NULL,
                   `username` varchar(30) DEFAULT NULL,
                   `barcode` varchar(25) DEFAULT NULL,
