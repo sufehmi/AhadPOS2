@@ -863,11 +863,12 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         while ($x = mysql_fetch_array($hasil1)) {
 
             // cari namaBarang
-            $hasil2 = mysql_query("SELECT namaBarang, idKategoriBarang, idSatuanBarang FROM barang WHERE barcode='" . $x['barcode'] . "'");
+            $hasil2 = mysql_query("SELECT namaBarang, idKategoriBarang, idSatuanBarang, hargaJual FROM barang WHERE barcode='" . $x['barcode'] . "'");
             $y = mysql_fetch_array($hasil2);
             $namaBarang = $y['namaBarang'];
             $idKategoriBarang = $y['idKategoriBarang'];
             $idSatuanBarang = $y['idSatuanBarang'];
+				$hargaJual = $y['hargaJual'];
 
             // cari namaSatuanBarang
             $hasil2 = mysql_query("SELECT namaSatuanBarang FROM satuan_barang WHERE idSatuanBarang=" . $idSatuanBarang);
@@ -879,7 +880,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
             $y = mysql_fetch_array($hasil2);
             $namaKategoriBarang = $y[namaKategoriBarang];
 
-            $csv .= "\"" . $x['barcode'] . "\",\"" . $x['idBarang'] . "\",\"" . $namaBarang . "\",\"" . $x['jumBarang'] . "\",\"" . $x['hargaBeli'] . "\",\"" . $x['hargaBeli'] . "\",\"" . $x['hargaJual'] . "\",\"" . $namaSatuanBarang . "\",\"" . $namaKategoriBarang . "\",\"" . $namaGudang . "\",\"" . $_SESSION['uname'] . "\"\n";
+            $csv .= "\"" . $x['barcode'] . "\",\"" . $x['idBarang'] . "\",\"" . $namaBarang . "\",\"" . $x['jumBarang'] . "\",\"" . $x['hargaBeli'] . "\",\"" . $x['hargaBeli'] . "\",\"" . $hargaJual . "\",\"" . $namaSatuanBarang . "\",\"" . $namaKategoriBarang . "\",\"" . $namaGudang . "\",\"" . $_SESSION['uname'] . "\"\n";
         }; // while ($x = mysql_fetch_array($hasil)) {
         //header('location:media.php?module='.$module);
         //echo "<script>window.close();</script>";
