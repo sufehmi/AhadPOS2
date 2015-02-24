@@ -377,10 +377,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
         echo "Upgrading database to version 2.0.7 <br />";
         upgrade_206_to_207();
     }
-    if ($dbrevision < 8) {
-        echo "Upgrading database to version 2.0.8 <br />";
-        upgrade_207_to_208();
-    }
+//    if ($dbrevision < 8) {
+//        echo "Upgrading database to version 2.0.8 <br />";
+//        upgrade_207_to_208();
+//    }
 }
 
 function upgrade_161_to_200() {
