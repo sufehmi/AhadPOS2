@@ -904,7 +904,7 @@ function upgrade_207_to_208() {
     $hasil = exec_query($sql);
     echo mysql_error();
 	 
-    // Tambahkan menu Laporan Transfer Barang !! Belum, cek lagi parent_id ke kanan
+    // Tambahkan menu Laporan Transfer Barang
     $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			('Laporan Transfer Barang', 'media.php?module=laporan&act=transferbarang', '', 5, 'Transfer Barang', '', 'Y', 3, 8, 0, '')";
     $hasil = exec_query($sql);
