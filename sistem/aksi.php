@@ -571,7 +571,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
         	            VALUES('$tgl','$_SESSION[idCustomer]',
         	                   '$_POST[tipePembayaran]','$_POST[tot_pembayaran]',
         	                    '$_SESSION[iduser]','$tgl')";
-        $hasil = mysql_query($sql) or die(mysql_error());
+        $hasil = mysql_query($sql);// or die(mysql_error());
         //echo $sql;
         $NomorStruk = mysql_insert_id();
     }
@@ -830,7 +830,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	                        jumBarang,hargaJual, username, nomorStruk, hargaBeli)
 							  VALUES({$simpan['idBarang']}, '{$simpan['barcode']}',
 							  {$simpan['jumBarang']},{$simpan['hargaJual']}, '{$_SESSION['uname']}', {$NomorStruk}, {$simpan['hargaBeli']})";
-            mysql_query($sql) or die('Gagal simpan transaksi detail transfer' . mysql_error());
+            mysql_query($sql);// or die('Gagal simpan transaksi detail transfer' . mysql_error());
         }
     }
 
