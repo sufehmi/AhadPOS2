@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 7;
+$revision = 8;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -377,10 +377,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
         echo "Upgrading database to version 2.0.7 <br />";
         upgrade_206_to_207();
     }
-//    if ($dbrevision < 8) {
-//        echo "Upgrading database to version 2.0.8 <br />";
-//        upgrade_207_to_208();
-//    }
+    if ($dbrevision < 8) {
+        echo "Upgrading database to version 2.0.8 <br />";
+        upgrade_207_to_208();
+    }
 }
 
 function upgrade_161_to_200() {
@@ -891,7 +891,6 @@ function upgrade_207_to_208() {
                   `uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                   `idBarang` bigint(20) NOT NULL,
                   `jumBarang` int(10) NOT NULL,
-                  `hargaBeli` bigint(20) DEFAULT NULL,
                   `hargaJual` bigint(20) NOT NULL,
                   `username` varchar(30) DEFAULT NULL,
                   `barcode` varchar(25) DEFAULT NULL,
@@ -905,9 +904,9 @@ function upgrade_207_to_208() {
     $hasil = exec_query($sql);
     echo mysql_error();
 	 
-    // Tambahkan menu Laporan Transfer Barang !! Belum, cek lagi parent_id ke kanan
+    // Tambahkan menu Laporan Transfer Barang
     $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
-			('Laporan Transfer Barang', 'media.php?module=laporan&act=transferbarang', '', 2, 'Transfer Barang', '', 'Y', 2, 12, 0, '')";
+			('Laporan Transfer Barang', 'media.php?module=laporan&act=transferbarang', '', 5, 'Transfer Barang', '', 'Y', 3, 8, 0, '')";
     $hasil = exec_query($sql);
     echo mysql_error();
 	 
