@@ -3099,6 +3099,47 @@ switch ($_GET['act']) {
 				}
 			});
 		</script>
+		<table class="tabel">
+			<thead>
+				<tr>
+					<th>Foto</th>
+					<th>Barcode</th>
+					<th>Nama Barang</th>
+					<th>Keterangan</th>
+					<th>Berat (kg)</th>
+					<th>Dimensi (cm)</th>
+					<th colspan="2">Aksi</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				$sql = "SELECT foto_barang.nama_file, foto_barang.barcode, barang.namaBarang, "
+						  ."foto_barang.keterangan, foto_barang.berat, foto_barang.dimensi "
+						  ."FROM foto_barang "
+						  ."JOIN barang ON foto_barang.barcode = barang.barcode";
+				$queryDataFoto = mysql_query($sql);
+				$alt = false;
+				while ($dataFoto = mysql_fetch_array($queryDataFoto)) {
+						$fotoDir = '../foto_barang/';
+						$showDir = $fotoDir.'1';
+						$imgSrc = $showDir.'/'.$dataFoto['nama_file'].'?t='.time();
+					?>
+					<tr<?php echo $alt ? ' class="alt"' : ''; ?>>
+						<td><img src="<?php echo $imgSrc; ?>" /></td>
+						<td><?php echo $dataFoto['barcode']; ?></td>
+						<td><?php echo $dataFoto['namaBarang']; ?></td>
+						<td><?php echo $dataFoto['keterangan']; ?></td>
+						<td><?php echo $dataFoto['berat']; ?></td>
+						<td><?php echo $dataFoto['dimensi']; ?></td>
+						<td><a href="media.php?module=barang&act=uploadfoto2&barcode=<?php echo $dataFoto['barcode']; ?>"><i class="fa fa-edit"></i> Ubah</a></td>
+						<td><a style="color: #ec2328" href="aksi.php?module=barang&act=hapusfoto&barcode=<?php echo $dataFoto['barcode']; ?>"><i class="fa fa-times"></i> Hapus</a></td>
+					</tr>
+					<?php
+					$alt = !$alt;
+				}
+				?>
+			</tbody>
+		</table>
 		<?php
 		break;
 	case 'uploadfoto2':
