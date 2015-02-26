@@ -69,6 +69,10 @@ switch ($act) {
                         </td>
                     </tr>
                     <tr>
+                        <td><?php echo $config['product_image_dir']['description']; ?></td>
+                        <td> : <input type="text" name="product_image_dir" size="40" value="<?php echo $config['product_image_dir']['value']; ?>" /></td>
+                    </tr>
+                    <tr>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>

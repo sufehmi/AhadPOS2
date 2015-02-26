@@ -246,7 +246,7 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
 
 		mysql_query($sql) or die(mysql_error());
 		$uid = mysql_insert_id();
-		
+
 		// Jika transfer ahad, maka diskon dan harga banded diabaikan
 		if ($uid && !$transferAhad) {
 			// Cek dan sekaligus tambahkan diskon jika ada
@@ -1327,6 +1327,24 @@ function kartuStok($barcode, $tanggal) {
             order by tgl";
 	$result = mysql_query($sql) or die(mysql_error());
 	return array('saldo' => $saldo, 'mutasi' => $result);
+}
+
+function resizeFoto($file, $target, $lebar) {
+	list($width, $height, $type, $attr) = getimagesize($file);
+	if ($width > $lebar) {
+		$fn = $file;
+		$size = getimagesize($fn);
+		$ratio = $size[0] / $size[1]; // width/height
+		$width = $lebar;
+		$height = $lebar / $ratio;
+		//echo $size[0] .'/'. $size[1].' = '.$width.' x '.$height;
+		$src = imagecreatefromstring(file_get_contents($fn));
+		$dst = imagecreatetruecolor($width, $height);
+		imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
+		imagedestroy($src);
+		imagejpeg($dst, $target, 75); // adjust format as needed
+		imagedestroy($dst);
+	}
 }
 
 /* CHANGELOG -----------------------------------------------------------
