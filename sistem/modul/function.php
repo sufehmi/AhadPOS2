@@ -1347,6 +1347,28 @@ function resizeFoto($file, $target, $lebar) {
 	}
 }
 
+function getFotoDir() {
+	$mainDir = '../foto_barang/';
+	return array(
+		 'main' => $mainDir,
+		 'big' => $mainDir.'5',
+		 'large' => $mainDir.'4',
+		 'normal' => $mainDir.'3',
+		 'medium' => $mainDir.'2',
+		 'small' => $mainDir.'1'
+	);
+}
+
+function getFotoWidth() {
+	return array(
+		 'big' => 480,
+		 'large' => 264,
+		 'normal' => 198,
+		 'medium' => 80,
+		 'small' => 50,
+	);
+}
+
 /* CHANGELOG -----------------------------------------------------------
 
   1.6.0 / 2013-05-01 : Herwono			: fitur : cetak label harga perbarcode

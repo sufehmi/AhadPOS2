@@ -3120,8 +3120,8 @@ switch ($_GET['act']) {
 				$queryDataFoto = mysql_query($sql);
 				$alt = false;
 				while ($dataFoto = mysql_fetch_array($queryDataFoto)) {
-						$fotoDir = '../foto_barang/';
-						$showDir = $fotoDir.'1';
+						$fotoDir = getFotoDir();
+						$showDir = $fotoDir['medium'];
 						$imgSrc = $showDir.'/'.$dataFoto['nama_file'].'?t='.time();
 					?>
 					<tr<?php echo $alt ? ' class="alt"' : ''; ?>>
@@ -3155,8 +3155,8 @@ switch ($_GET['act']) {
 					<?php
 					/* Tampilkan foto jika sudah ada */
 					if ($dataFoto && !empty($dataFoto['nama_file'])) {
-						$fotoDir = '../foto_barang/';
-						$showDir = $fotoDir.'4';
+						$fotoDir = getFotoDir();
+						$showDir = $fotoDir['normal'];
 						$imgSrc = $showDir.'/'.$dataFoto['nama_file'].'?t='.time();
 						?>
 						<tr>
