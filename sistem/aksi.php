@@ -1391,7 +1391,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                       ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                             ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
@@ -1521,53 +1521,50 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 			  ."VALUES('{$barcode}', '{$keterangan}', '{$dimensi}', '{$berat}') "
 			  ."ON DUPLICATE KEY UPDATE keterangan = '{$keterangan}', dimensi = '{$dimensi}', berat = '{$berat}', last_update = null";
 	mysql_query($sql) or die('Gagal insert/update data foto, error: '.mysql_error());
-	
+
 	// Saat ini hanya menerima jpg/jpeg
 	if ($_FILES['fileFoto']['type'] === 'image/jpeg') {
 		$barang = cekBarang($barcode);
 		$namaFile = $barcode.'_'.str_replace(' ', '-', trim($barang['namaBarang'])).'.jpg';
-		$fotoDir = '../foto_barang/';
-		$bigDir = $fotoDir.'5';
-		$largeDir = $fotoDir.'4';
-		$normalDir = $fotoDir.'3';
-		$mediumDir = $fotoDir.'2';
-		$smallDir = $fotoDir.'1';
 
-		$bigWidth = 480;
-		$largeWidth = 264;
-		$normalWidth = 198;
-		$mediumWidth = 80;
-		$smallWidth = 50;
+		$fotoDir = getFotoDir();
 
-		if (!file_exists($bigDir)) {
+		$lebarFoto = getFotoWidth();
+
+		if (!file_exists($fotoDir['big'])) {
+			mkdir($fotoDir['big'], 0777, true);
 			//echo mkdir($bigDir, 0777, true) ? "Berhasil membuat " : "Gagal membuat ";
 			//echo $bigDir.'<br />';
 		}
-		if (!file_exists($largeDir)) {
+		if (!file_exists($fotoDir['large'])) {
+			mkdir($fotoDir['large'], 0777, true);
 			//echo mkdir($largeDir, 0777, true) ? "Berhasil membuat " : "Gagal membuat ";
 			//echo $largeDir.'<br />';
 		}
-		if (!file_exists($normalDir)) {
+		if (!file_exists($fotoDir['normal'])) {
+			mkdir($fotoDir['normal'], 0777, true);
 			//echo mkdir($normalDir, 0777, true) ? "Berhasil membuat " : "Gagal membuat ";
 			//echo $normalDir.'<br />';
 		}
-		if (!file_exists($mediumDir)) {
+		if (!file_exists($fotoDir['medium'])) {
+			mkdir($fotoDir['medium'], 0777, true);
 			//echo mkdir($mediumDir, 0777, true) ? "Berhasil membuat " : "Gagal membuat ";
 			//echo $mediumDir.'<br />';
 		}
-		if (!file_exists($smallDir)) {
+		if (!file_exists($fotoDir['small'])) {
+			mkdir($fotoDir['small'], 0777, true);
 			// echo mkdir($smallDir, 0777, true) ? "Berhasil membuat " : "Gagal membuat ";
 			// echo $smallDir.'<br />';
 		}
 
-		$uploadfile = $fotoDir.$namaFile;
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $bigDir.'/'.$namaFile, $bigWidth);
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $largeDir.'/'.$namaFile, $largeWidth);
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $normalDir.'/'.$namaFile, $normalWidth);
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $mediumDir.'/'.$namaFile, $mediumWidth);
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $smallDir.'/'.$namaFile, $smallWidth);
+		$uploadfile = $fotoDir['main'].$namaFile;
+		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['big'].'/'.$namaFile, $lebarFoto['big']);
+		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['large'].'/'.$namaFile, $lebarFoto['large']);
+		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['normal'].'/'.$namaFile, $lebarFoto['normal']);
+		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['medium'].'/'.$namaFile, $lebarFoto['medium']);
+		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['small'].'/'.$namaFile, $lebarFoto['small']);
 
-		echo '<pre>';
+		//echo '<pre>';
 		if (move_uploaded_file($_FILES['fileFoto']['tmp_name'], $uploadfile)) {
 			//echo "File is valid, and was successfully uploaded.\n";
 			$sql = "INSERT INTO foto_barang (barcode, nama_file) "
@@ -1577,16 +1574,27 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 		} else {
 			//echo "Possible file upload attack!\n";
 		}
-
-		echo 'Here is some more debugging info:';
-		print_r($_FILES);
-
-		print "</pre>";
+		//echo 'Here is some more debugging info:';
+		//print_r($_FILES);
+		//print "</pre>";
 	} else {
 		//echo 'File bukan jpg/jpeg';
 	}
 
 	header('location:media.php?module=barang&act=uploadfoto2&barcode='.$barcode);
+}
+// ==========
+elseif ($module === 'barang' && $act === 'hapusfoto') {
+	$barcode = $_GET['barcode'];
+	$queryNamaFileFoto = mysql_query("SELECT nama_file FROM foto_barang WHERE barcode = '{$barcode}'");
+	$dataFoto = mysql_fetch_array($queryNamaFileFoto, MYSQL_ASSOC);
+	$namaFile = $dataFoto['nama_file'];
+	$fotoDir = getFotoDir();
+	foreach ($fotoDir as $dir) {
+		unlink($dir.'/'.$namaFile);
+	}
+	mysql_query("DELETE FROM foto_barang WHERE barcode = '{$barcode}'");
+	header('location:media.php?module=barang&act=uploadfoto');
 }
 // else
 else { // =======================================================================================================================================
