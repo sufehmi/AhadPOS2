@@ -3113,16 +3113,23 @@ switch ($_GET['act']) {
 			</thead>
 			<tbody>
 				<?php
+				$itemPerHalaman = 10;
+				$mulai = 0;
+				if ($_GET[p]) {
+					$mulai = $_GET[p] * $itemPerHalaman;
+				}
 				$sql = "SELECT foto_barang.nama_file, foto_barang.barcode, barang.namaBarang, "
 						  ."foto_barang.keterangan, foto_barang.berat, foto_barang.dimensi "
 						  ."FROM foto_barang "
-						  ."JOIN barang ON foto_barang.barcode = barang.barcode";
+						  ."JOIN barang ON foto_barang.barcode = barang.barcode "
+						  ."ORDER BY barang.namaBarang "
+						  ."LIMIT {$mulai}, {$itemPerHalaman}";
 				$queryDataFoto = mysql_query($sql);
 				$alt = false;
 				while ($dataFoto = mysql_fetch_array($queryDataFoto)) {
-						$fotoDir = getFotoDir();
-						$showDir = $fotoDir['medium'];
-						$imgSrc = $showDir.'/'.$dataFoto['nama_file'].'?t='.time();
+					$fotoDir = getFotoDir();
+					$showDir = $fotoDir['medium'];
+					$imgSrc = $showDir.'/'.$dataFoto['nama_file'].'?t='.time();
 					?>
 					<tr<?php echo $alt ? ' class="alt"' : ''; ?>>
 						<td><img src="<?php echo $imgSrc; ?>" /></td>
@@ -3141,6 +3148,15 @@ switch ($_GET['act']) {
 			</tbody>
 		</table>
 		<?php
+		$sql = "SELECT DISTINCT COUNT(barcode) FROM foto_barang";
+		$queryCount = mysql_query($sql);
+		$count = mysql_fetch_array($queryCount, MYSQL_NUM);
+		$jumlah_barang = $count[0] / $itemPerHalaman;
+
+		for ($i = 0; $i <= $jumlah_barang; $i++) {
+			$halaman = $i + 1;
+			echo "[<a href='media.php?module=barang&act=uploadfoto&p=$i'> $halaman </a>] ";
+		}
 		break;
 	case 'uploadfoto2':
 		if (isset($_POST['barcode']) || isset($_GET['barcode'])) {
