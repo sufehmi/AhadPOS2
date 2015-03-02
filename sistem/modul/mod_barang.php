@@ -3203,11 +3203,9 @@ switch ($_GET['act']) {
 						<td><input type="submit" value="Upload" name="submit"></td>
 					</tr>
 				</table>
-
-
-
-
 			</form>
+
+			<a href="?module=barang&act=uploadfoto"><< Kembali</a>
 			<?php
 		}
 		break;
