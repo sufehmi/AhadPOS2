@@ -3161,10 +3161,11 @@ switch ($_GET['act']) {
 	case 'uploadfoto2':
 		if (isset($_POST['barcode']) || isset($_GET['barcode'])) {
 			$barcode = $_POST['barcode'] ? $_POST['barcode'] : $_GET['barcode'];
+			$barang = cekBarang($barcode);
 			$queryDataFoto = mysql_query("SELECT nama_file, keterangan, berat, dimensi FROM foto_barang WHERE barcode = '{$barcode}'");
 			$dataFoto = mysql_fetch_array($queryDataFoto, MYSQL_ASSOC);
 			?>
-			<h2>Upload Foto <small><?php echo $barcode; ?></small></h2>
+			<h2>Upload Foto: <small><?php echo $barcode; ?> - <?php echo $barang['namaBarang']; ?></small></h2>
 			<form action="aksi.php?module=barang&act=uploadfoto" method="post" enctype="multipart/form-data">
 				<input type="hidden" value="<?php echo $barcode; ?>" name="barcode" />
 				<table>
