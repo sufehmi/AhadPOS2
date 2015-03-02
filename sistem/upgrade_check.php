@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 8;
+$revision = 9;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -380,6 +380,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
     if ($dbrevision < 8) {
         echo "Upgrading database to version 2.0.8 <br />";
         upgrade_207_to_208();
+    }
+    if ($dbrevision < 9) {
+        echo "Upgrading database to version 2.0.9 <br />";
+        upgrade_208_to_209();
     }
 }
 
@@ -919,6 +923,50 @@ function upgrade_207_to_208() {
     }
     else {
         $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 8)) . "', '')";
+    };
+    $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
+}
+
+function upgrade_208_to_209() {
+
+    // Pembuatan tabel untuk menyimpan konfigurasi nama directory untuk menyimpan foto barang
+    $sql = "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('product_image_dir', 'foto_barang', 'Foto Barang Directory');
+
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+
+	 // Buat tabel untuk menyimpan data-data foto barang
+    $sql = "CREATE TABLE `foto_barang` (
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `barcode` varchar(25) NOT NULL,
+				  `nama_file` varchar(255) NOT NULL,
+				  `keterangan` varchar(1000) DEFAULT NULL,
+				  `berat` varchar(45) DEFAULT NULL,
+				  `dimensi` varchar(255) DEFAULT NULL,
+				  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `barcode_UNIQUE` (`barcode`)
+				) ENGINE=MyISAM
+            ";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+	 
+    // Tambahkan menu Laporan Transfer Barang
+    $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Laporan Transfer Barang', 'media.php?module=laporan&act=transferbarang', '', 5, 'Transfer Barang', '', 'Y', 3, 8, 0, '')";
+    $hasil = exec_query($sql);
+    echo mysql_error();
+	 
+    // update version number ------------------------------------------------------
+    $sql = "SELECT * FROM config WHERE `option` = 'version'";
+    $hasil = mysql_query($sql);
+
+    if (mysql_num_rows($hasil) > 0) {
+        $sql = "UPDATE `config` SET value = '" . serialize(array(2, 0, 9)) . "' WHERE `option` = 'version'";
+    }
+    else {
+        $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '" . serialize(array(2, 0, 9)) . "', '')";
     };
     $hasil = mysql_query($sql) or die('Gagal update db version, error: ' . mysql_error());
 }
