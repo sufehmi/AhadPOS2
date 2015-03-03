@@ -3129,10 +3129,11 @@ switch ($_GET['act']) {
 				while ($dataFoto = mysql_fetch_array($queryDataFoto)) {
 					$fotoDir = getFotoDir();
 					$showDir = $fotoDir['medium'];
+					$bigDir = $fotoDir['big'];
 					$imgSrc = $showDir.'/'.$dataFoto['nama_file'].'?t='.time();
 					?>
 					<tr<?php echo $alt ? ' class="alt"' : ''; ?>>
-						<td><img src="<?php echo $imgSrc; ?>" /></td>
+						<td><a href="<?php echo $bigDir.'/'.$dataFoto['nama_file'].'?t='.time(); ?>"><img src="<?php echo $imgSrc; ?>" /></a></td>
 						<td><?php echo $dataFoto['barcode']; ?></td>
 						<td><?php echo $dataFoto['namaBarang']; ?></td>
 						<td><?php echo $dataFoto['keterangan']; ?></td>
