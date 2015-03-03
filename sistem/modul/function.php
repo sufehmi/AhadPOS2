@@ -1329,9 +1329,14 @@ function kartuStok($barcode, $tanggal) {
 	return array('saldo' => $saldo, 'mutasi' => $result);
 }
 
-function resizeFoto($file, $target, $lebar) {
+function resizeFoto($file, $target, $lebar, $tipe = 'png') {
 	list($width, $height, $type, $attr) = getimagesize($file);
-	if ($width > $lebar) {
+	// Untuk gambar yang lebarnya lebih kecil dari "big"
+	if ($width < $lebar) {
+		$lebarFoto = getFotoWidth();
+		$fn = fotoTambahkanSpace($file, $lebarFoto['big']);
+		imagepng($fn, $target, 9);
+	} else if ($width > $lebar) {
 		$fn = $file;
 		$size = getimagesize($fn);
 		$ratio = $size[0] / $size[1]; // width/height
@@ -1340,9 +1345,17 @@ function resizeFoto($file, $target, $lebar) {
 		//echo $size[0] .'/'. $size[1].' = '.$width.' x '.$height;
 		$src = imagecreatefromstring(file_get_contents($fn));
 		$dst = imagecreatetruecolor($width, $height);
+		imagealphablending($dst, false);
+		imagesavealpha($dst, true);
+
 		imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
 		imagedestroy($src);
-		imagejpeg($dst, $target, 75); // adjust format as needed
+		// adjust format as needed
+		if ($tipe == 'png') {
+			imagepng($dst, $target, 9);
+		} else if ($tipe == 'jpg') {
+			imagejpeg($dst, $target, 75);
+		}
 		imagedestroy($dst);
 	}
 }
@@ -1367,6 +1380,68 @@ function getFotoWidth() {
 		 'medium' => 80,
 		 'small' => 50,
 	);
+}
+
+function png_to_jpeg($pngfile, $jpgfile) {
+	$input_file = $pngfile;
+	$output_file = $jpgfile;
+
+	$input = imagecreatefrompng($input_file);
+	list($width, $height) = getimagesize($input_file);
+	$output = imagecreatetruecolor($width, $height);
+	$white = imagecolorallocate($output, 255, 255, 255);
+	imagefilledrectangle($output, 0, 0, $width, $height, $white);
+	imagecopy($output, $input, 0, 0, 0, 0, $width, $height);
+	imagejpeg($output, $output_file);
+}
+
+function tempel_watermark($originalFile, $watermarkFile, $paddingFromBottom = 10) {
+	$watermarkImage = imagecreatefrompng($watermarkFile);
+	$watermarkWidth = imagesx($watermarkImage);
+	$watermarkHeight = imagesy($watermarkImage);
+
+	$originalImage = imagecreatefrompng($originalFile);
+	imagealphablending($originalImage, TRUE); //Biar transparent nggak ilang
+	imagesavealpha($originalImage, TRUE);
+	$originalWidth = imagesx($originalImage);
+	$originalHeight = imagesy($originalImage);
+
+	$destX = ($originalWidth - $watermarkWidth) / 2; //ditengah
+	$destY = $originalHeight - $watermarkHeight - $paddingFromBottom;
+
+	$wadah_watermark = imagecreatetruecolor($originalWidth, $originalHeight); //Bikin file true color sebesar (resolusi) file sumber
+	$warna_trans = imagecolorallocatealpha($wadah_watermark, 0, 0, 0, 127); // Tentukan warna transparent nya, (R,G,B,A)
+	imagefill($wadah_watermark, 0, 0, $warna_trans); //Isi sama warna transparent di atas
+	//placing the watermark to wadah_watermark
+	imagecopy($wadah_watermark, $watermarkImage, $destX, $destY, 0, 0, $watermarkWidth, $watermarkHeight);
+	////Jadi sekarang resolusi watermark = resolusi file sumber. Biar nggak keseret ntar gambarnya klo di merge (di bawah)
+	//merging both of the images
+	imagecopyresampled($originalImage, $wadah_watermark, 0, 0, 0, 0, $originalWidth, $originalHeight, $originalWidth, $originalHeight);
+	return $originalImage;
+}
+
+function fotoTambahkanSpace($originalPic, $width) {
+	$originalImage = imagecreatefrompng($originalPic);
+
+	$originalWidth = imagesx($originalImage);
+	$originalHeight = imagesy($originalImage);
+
+	$height = $originalHeight;
+
+	$posisiX = ($width - $originalWidth) / 2; //ditengah
+
+	$wadah_space = imagecreatetruecolor($width, $height);
+	$warna_trans = imagecolorallocatealpha($wadah_space, 0, 0, 0, 127); // Tentukan warna transparent nya, (R,G,B,A)
+	imagefill($wadah_space, 0, 0, $warna_trans); //Isi sama warna transparent di atas
+	imagealphablending($wadah_space, TRUE); //Biar transparent nggak ilang
+	imagesavealpha($wadah_space, TRUE);
+
+	//placing the $originalImage to $wadah_space
+	imagecopy($wadah_space, $originalImage, $posisiX, 0, 0, 0, $originalWidth, $originalHeight);
+	////Jadi sekarang resolusi watermark = resolusi file sumber. Biar nggak keseret ntar gambarnya klo di merge (di bawah)
+	//merging both of the images
+	//imagecopyresampled($originalImage, $wadah_space, 0, 0, 0, 0, $width, $height, $width, $height);
+	return $wadah_space;
 }
 
 /* CHANGELOG -----------------------------------------------------------

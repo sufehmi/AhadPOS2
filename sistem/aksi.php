@@ -1391,7 +1391,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                             ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                                  ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
@@ -1523,9 +1523,10 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	mysql_query($sql) or die('Gagal insert/update data foto, error: '.mysql_error());
 
 	// Saat ini hanya menerima jpg/jpeg
-	if ($_FILES['fileFoto']['type'] === 'image/jpeg') {
+	if ($_FILES['fileFoto']['type'] === 'image/png') {
 		$barang = cekBarang($barcode);
-		$namaFile = $barcode.'_'.str_replace(' ', '-', trim($barang['namaBarang'])).'.jpg';
+		$namaFile = $barcode.'_'.str_replace(' ', '-', trim($barang['namaBarang'])).'.png';
+		$namaFile = str_replace('/', '-', $namaFile);
 
 		$fotoDir = getFotoDir();
 
@@ -1558,18 +1559,24 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 		}
 
 		$uploadfile = $fotoDir['main'].$namaFile;
+		$namaFileJpg = str_replace('png', 'jpg', $namaFile);
 		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['big'].'/'.$namaFile, $lebarFoto['big']);
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['large'].'/'.$namaFile, $lebarFoto['large']);
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['normal'].'/'.$namaFile, $lebarFoto['normal']);
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['medium'].'/'.$namaFile, $lebarFoto['medium']);
-		resizeFoto($_FILES['fileFoto']['tmp_name'], $fotoDir['small'].'/'.$namaFile, $lebarFoto['small']);
 
+		$gambar_wm = tempel_watermark($fotoDir['big'].'/'.$namaFile, $fotoDir['main'].'logo-wm.png');
+		imagepng($gambar_wm, $fotoDir['big'].'/'.$namaFile, 9);
+		png_to_jpeg($fotoDir['big'].'/'.$namaFile, $fotoDir['big'].'/'.$namaFileJpg);
+		unlink($fotoDir['big'].'/'.$namaFile);
+
+		resizeFoto($fotoDir['big'].'/'.$namaFileJpg, $fotoDir['large'].'/'.$namaFileJpg, $lebarFoto['large'], 'jpg');
+		resizeFoto($fotoDir['big'].'/'.$namaFileJpg, $fotoDir['normal'].'/'.$namaFileJpg, $lebarFoto['normal'], 'jpg');
+		resizeFoto($fotoDir['big'].'/'.$namaFileJpg, $fotoDir['medium'].'/'.$namaFileJpg, $lebarFoto['medium'], 'jpg');
+		resizeFoto($fotoDir['big'].'/'.$namaFileJpg, $fotoDir['small'].'/'.$namaFileJpg, $lebarFoto['small'], 'jpg');
 		//echo '<pre>';
 		if (move_uploaded_file($_FILES['fileFoto']['tmp_name'], $uploadfile)) {
 			//echo "File is valid, and was successfully uploaded.\n";
 			$sql = "INSERT INTO foto_barang (barcode, nama_file) "
-					  ."VALUES('{$barcode}', '{$namaFile}') "
-					  ."ON DUPLICATE KEY UPDATE nama_file = '{$namaFile}', last_update = null";
+					  ."VALUES('{$barcode}', '{$namaFileJpg}') "
+					  ."ON DUPLICATE KEY UPDATE nama_file = '{$namaFileJpg}', last_update = null";
 			mysql_query($sql) or die('Gagal insert/update nama file, error: '.mysql_error());
 		} else {
 			//echo "Possible file upload attack!\n";
@@ -1590,8 +1597,11 @@ elseif ($module === 'barang' && $act === 'hapusfoto') {
 	$dataFoto = mysql_fetch_array($queryNamaFileFoto, MYSQL_ASSOC);
 	$namaFile = $dataFoto['nama_file'];
 	$fotoDir = getFotoDir();
-	foreach ($fotoDir as $dir) {
+	foreach ($fotoDir as $key => $dir) {
 		unlink($dir.'/'.$namaFile);
+		if ($key == 'main') {
+			unlink($dir.'/'.str_replace('.jpg', '.png', $namaFile));
+		}
 	}
 	mysql_query("DELETE FROM foto_barang WHERE barcode = '{$barcode}'");
 	header('location:media.php?module=barang&act=uploadfoto');
