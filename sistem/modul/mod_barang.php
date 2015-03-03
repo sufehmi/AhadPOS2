@@ -3151,9 +3151,9 @@ switch ($_GET['act']) {
 		$sql = "SELECT DISTINCT COUNT(barcode) FROM foto_barang";
 		$queryCount = mysql_query($sql);
 		$count = mysql_fetch_array($queryCount, MYSQL_NUM);
-		$jumlah_barang = $count[0] / $itemPerHalaman;
+		$jumlah_halaman = ($count[0] - 1) / $itemPerHalaman;
 
-		for ($i = 0; $i <= $jumlah_barang; $i++) {
+		for ($i = 0; $i <= $jumlah_halaman; $i++) {
 			$halaman = $i + 1;
 			echo "[<a href='media.php?module=barang&act=uploadfoto&p=$i'> $halaman </a>] ";
 		}
