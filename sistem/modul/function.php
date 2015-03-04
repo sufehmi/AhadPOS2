@@ -1395,7 +1395,7 @@ function png_to_jpeg($pngfile, $jpgfile) {
 	imagejpeg($output, $output_file);
 }
 
-function tempel_watermark($originalFile, $watermarkFile, $paddingFromBottom = 10) {
+function tempel_watermark($originalFile, $watermarkFile) {
 	$watermarkImage = imagecreatefrompng($watermarkFile);
 	$watermarkWidth = imagesx($watermarkImage);
 	$watermarkHeight = imagesy($watermarkImage);
@@ -1407,7 +1407,7 @@ function tempel_watermark($originalFile, $watermarkFile, $paddingFromBottom = 10
 	$originalHeight = imagesy($originalImage);
 
 	$destX = ($originalWidth - $watermarkWidth) / 2; //ditengah
-	$destY = $originalHeight - $watermarkHeight - $paddingFromBottom;
+	$destY = ($originalHeight - $watermarkHeight) / 2;
 
 	$wadah_watermark = imagecreatetruecolor($originalWidth, $originalHeight); //Bikin file true color sebesar (resolusi) file sumber
 	$warna_trans = imagecolorallocatealpha($wadah_watermark, 0, 0, 0, 127); // Tentukan warna transparent nya, (R,G,B,A)
