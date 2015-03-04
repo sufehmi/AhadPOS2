@@ -1354,7 +1354,7 @@ function resizeFoto($file, $target, $lebar, $tipe = 'png') {
 		if ($tipe == 'png') {
 			imagepng($dst, $target, 9);
 		} else if ($tipe == 'jpg') {
-			imagejpeg($dst, $target, 75);
+			imagejpeg($dst, $target, 100);
 		}
 		imagedestroy($dst);
 	}
@@ -1392,7 +1392,7 @@ function png_to_jpeg($pngfile, $jpgfile) {
 	$white = imagecolorallocate($output, 255, 255, 255);
 	imagefilledrectangle($output, 0, 0, $width, $height, $white);
 	imagecopy($output, $input, 0, 0, 0, 0, $width, $height);
-	imagejpeg($output, $output_file);
+	imagejpeg($output, $output_file, 100);
 }
 
 function tempel_watermark($originalFile, $watermarkFile) {
