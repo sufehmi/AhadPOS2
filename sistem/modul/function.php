@@ -1361,7 +1361,9 @@ function resizeFoto($file, $target, $lebar, $tipe = 'png') {
 }
 
 function getFotoDir() {
-	$mainDir = '../foto_barang/';
+	$queryProductImageDir = mysql_query("SELECT `value` FROM `config` WHERE `option`='product_image_dir'");
+	$productImageDir = mysql_fetch_array($queryProductImageDir, MYSQL_ASSOC);
+	$mainDir = "../{$productImageDir['value']}/";
 	return array(
 		 'main' => $mainDir,
 		 'big' => $mainDir.'5',
