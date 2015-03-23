@@ -154,7 +154,7 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 						if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
 							echo '		<input type="text" id="bacadisini"	name="jmlbarang" style="height:30px"/>';
 						} else {
-							echo '		<input type="number" id="bacadisini"	name="jmlbarang" style="height:30px"/>';
+							echo '		<input type="number" id="bacadisini" autofocus="autofocus" name="jmlbarang" style="height:30px"/>';
 						};
 						?><input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
 						<input type="hidden" name="nomorrak" value="<?php echo $_GET["nomorrak"]; ?>" />
