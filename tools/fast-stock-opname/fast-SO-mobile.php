@@ -21,6 +21,51 @@ include "../../config/config.php";
 
 $_SESSION['nomorraks'] = $_GET['nomorrak'];
 ?>
+
+<?php
+// simpan data Fast SO
+if ($_GET["jmlbarang"]) { // ================================================================================
+	echo "	<form id='testForm' method='get' action='".$_SERVER['PHP_SELF']."'>";
+
+	if (empty($_GET["jumlahtercatat"])) {
+		$_GET["jumlahtercatat"] = 0;
+	}
+
+	// komplain jika salah input angka barcode ke jumlahTercatat
+	if ($_GET["jmlbarang"] > 2000) {
+		echo "<div class='container'><div class='well'><h4>Salah : Input Barcode sebagai Jumlah Barang. <br />
+			<a href='".$_SERVER["PHP_SELF"]."?nomorrak=".$_GET["nomorrak"]."&username=".$_GET["username"]."'>
+			Klik disini untuk mengulang kembali</a><h4></div></div>";
+		exit;
+	};
+
+	//$selisih 	= ($_GET["jmlbarang"] - $_GET["jumlahtercatat"]);
+	$selisih = $_GET["jmlbarang"];
+
+	// cari apakah sudah ada
+	$sql = "SELECT sum(selisih) AS total FROM fast_stock_opname WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
+	$hasil = mysql_query($sql);
+	$x = mysql_fetch_array($hasil);
+
+	if ($x['total'] > 0) {
+		$selisih = $selisih + $x['total'];
+		$sql = "UPDATE fast_stock_opname SET selisih=$selisih, jmlTercatat=$selisih WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
+		$hasil = mysql_query($sql);
+	} else {
+		// simpan di database
+		$sql = "INSERT INTO fast_stock_opname (barcode, idRak, jmlTercatat, selisih, tanggalSO, username, namaBarang)
+			VALUES ('".$_GET["barcode1"]."',".$_GET["nomorrak"].",".$_GET["jmlbarang"].",
+				".$selisih.",'".date("Y-m-d")."', '".$_GET["username"]."',
+				'".$_GET["namaBarang"]."')";
+		$hasil = mysql_query($sql);
+	};
+
+	$showdiv = $_GET["divAwal"];
+
+	header("Location:redirect.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -48,61 +93,8 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 			</div>
 		</div>
 		<?php
-// Create connection
-//$con=mysql_connect("localhost","root","","ahadpos");
-//$db=mysql_select_db('ahadpos');
-// Check connection
-		?>
-
-
-
-		<?php
-// simpan data Fast SO
-		if ($_GET["jmlbarang"]) { // ================================================================================
-			echo "	<form id='testForm' method='get' action='".$_SERVER['PHP_SELF']."'>";
-
-			if (empty($_GET["jumlahtercatat"])) {
-				$_GET["jumlahtercatat"] = 0;
-			}
-
-			// komplain jika salah input angka barcode ke jumlahTercatat
-			if ($_GET["jmlbarang"] > 2000) {
-				echo "<div class='container'><div class='well'><h4>Salah : Input Barcode sebagai Jumlah Barang. <br />
-			<a href='".$_SERVER["PHP_SELF"]."?nomorrak=".$_GET["nomorrak"]."&username=".$_GET["username"]."'>
-			Klik disini untuk mengulang kembali</a><h4></div></div>";
-				exit;
-			};
-
-			//$selisih 	= ($_GET["jmlbarang"] - $_GET["jumlahtercatat"]);
-			$selisih = $_GET["jmlbarang"];
-
-			// cari apakah sudah ada
-			$sql = "SELECT sum(selisih) AS total FROM fast_stock_opname WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
-			$hasil = mysql_query($sql);
-			$x = mysql_fetch_array($hasil);
-
-			if ($x['total'] > 0) {
-				$selisih = $selisih + $x['total'];
-				$sql = "UPDATE fast_stock_opname SET selisih=$selisih, jmlTercatat=$selisih WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
-				$hasil = mysql_query($sql);
-			} else {
-				// simpan di database
-				$sql = "INSERT INTO fast_stock_opname (barcode, idRak, jmlTercatat, selisih, tanggalSO, username, namaBarang)
-			VALUES ('".$_GET["barcode1"]."',".$_GET["nomorrak"].",".$_GET["jmlbarang"].",
-				".$selisih.",'".date("Y-m-d")."', '".$_GET["username"]."',
-				'".$_GET["namaBarang"]."')";
-				$hasil = mysql_query($sql);
-			};
-
-			$showdiv = $_GET["divAwal"];
-
-			header("refresh:0;url=redirect.php");
-		}
-
-
-
-// minta jumlah barang
-		elseif ($_GET["barcode"]) { // ===================================================================================
+		// minta jumlah barang
+		if ($_GET["barcode"]) { // ===================================================================================
 			echo "	<form id='testForm' method='get' action='".$_SERVER['PHP_SELF']."'>";
 
 			$sql = "SELECT namaBarang FROM barang WHERE barcode='".$_GET["barcode"]."'";
@@ -141,13 +133,13 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 					</div>
 					<h4> Masukkan jumlah barang saat ini </h4>
 					<div class="input-append span12">
-						<?php
-						if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
-							echo '		<input type="text" id="bacadisini" class="span2" name="jmlbarang" style="height:30px"/>';
-						} else {
-							echo '		<input type="number" id="bacadisini" class="span2" autofocus="autofocus" name="jmlbarang" style="height:30px"/>';
-						}
-						?>
+	<?php
+	if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
+		echo '		<input type="text" id="bacadisini" class="span2" name="jmlbarang" style="height:30px"/>';
+	} else {
+		echo '		<input type="number" id="bacadisini" class="span2" autofocus="autofocus" name="jmlbarang" style="height:30px"/>';
+	}
+	?>
 						<button class="btn btn-primary" type="submit" name="submit">OK</button>
 					</div>
 					<input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
@@ -158,17 +150,17 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 				</div>
 			</div>
 
-			<?php
-		}
+	<?php
+}
 
-		if ($_GET["caribarang1"]) { // ===================================================================================
-			$sql = "SELECT namaBarang, jumBarang, hargaJual, barcode
+if ($_GET["caribarang1"]) { // ===================================================================================
+	$sql = "SELECT namaBarang, jumBarang, hargaJual, barcode
                         FROM barang AS b
 						WHERE namaBarang LIKE '%".$_GET['caribarang']."%'
                         ORDER BY namaBarang ASC";
-			$cari = mysql_query($sql);
+	$cari = mysql_query($sql);
 
-			echo "
+	echo "
     	<div class='container'>
 		<div class='well' align='center'>
     	<table border='0' style='align:center' class='table table-condensed table-hover' >
@@ -179,49 +171,49 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 			<th>Harga Jual</th>
 		</tr>";
 
-			$no = 1;
-			while ($r = mysql_fetch_array($cari)) {
-				//untuk mewarnai tabel menjadi selang-seling
-				if (($no % 2) == 0) {
-					$warna = "#EAF0F7";
-				} else {
-					$warna = "#FFFFFF";
-				}
-				echo "<tr bgcolor=$warna>"; //end warna
+	$no = 1;
+	while ($r = mysql_fetch_array($cari)) {
+		//untuk mewarnai tabel menjadi selang-seling
+		if (($no % 2) == 0) {
+			$warna = "#EAF0F7";
+		} else {
+			$warna = "#FFFFFF";
+		}
+		echo "<tr bgcolor=$warna>"; //end warna
 
-				$linkurl = "?noscan=1&username=".$_GET["username"]."&nomorrak=".$_GET["nomorrak"]."&barcode=".$r["barcode"]."";
+		$linkurl = "?noscan=1&username=".$_GET["username"]."&nomorrak=".$_GET["nomorrak"]."&barcode=".$r["barcode"]."";
 
-				echo "<td>$no</td>
+		echo "<td>$no</td>
          	<td>$r[barcode]<br> <a href='$linkurl' class='btn btn-primary btn-small'>PILIH</a></td>
          	<td>$r[namaBarang]</td>
          	<td>$r[hargaJual]</td>
 
          	</tr>";
-				$no++;
-			}
+		$no++;
+	}
 
-			if (mysql_num_rows($cari) < 1) {
-				echo "
+	if (mysql_num_rows($cari) < 1) {
+		echo "
 	<tr><td colspan='4'><h3>Barang tidak ditemukan<a href='".$_SERVER["PHP_SELF"]."?nomorrak=".$_GET["nomorrak"]."&username=".$_GET["username"]."'>
 			Klik disini untuk mengulang kembali</a></h3></td></tr>
     </table>
     </div>
     </div>";
-			} else {
-				echo "</table>
+	} else {
+		echo "</table>
     </div>
     </div>";
-			}
-		}
+	}
+}
 
 
 // minta barcode
 
-		if ($_GET["nomorrak"]) { // ===================================================================================
-			if (!$_GET["noscan"]) {
-				// ref: https://code.google.com/p/zxing/wiki/ScanningFromWebPages
+if ($_GET["nomorrak"]) { // ===================================================================================
+	if (!$_GET["noscan"]) {
+		// ref: https://code.google.com/p/zxing/wiki/ScanningFromWebPages
 
-				echo "
+		echo "
 		<div class='container' name='divAwal'>
 		<div class='well' align='center'>
 
@@ -231,12 +223,12 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 				<table border='0' style='align:center'>
 				<tr><td>";
 
-				//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
-				echo "<input type=text name=barcode autofocus='autofocus' style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary'>";
-				//} else {
-				//echo "<input type=number name=barcode style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary' >";
-				//};
-				echo "
+		//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
+		echo "<input type=text name=barcode autofocus='autofocus' style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary'>";
+		//} else {
+		//echo "<input type=number name=barcode style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary' >";
+		//};
+		echo "
 										<input type=hidden name=noscan value=1>
 										<input type=hidden name=nomorrak value='".$_GET["nomorrak"]."'>
 										<input type=hidden name=username value='".$_GET["username"]."'>
@@ -261,10 +253,10 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 			</div>
 
 			";
-			};
-		} elseif (!$_GET["noscan"]) { //  --------------------------------------------------------------------------------------
-			echo "	<form id='testForm' method='get' action='".$_SERVER['PHP_SELF']."'>";
-			?>
+	};
+} elseif (!$_GET["noscan"]) { //  --------------------------------------------------------------------------------------
+	echo "	<form id='testForm' method='get' action='".$_SERVER['PHP_SELF']."'>";
+	?>
 
 			<div class="container">
 				<div class="well" align="center">
@@ -272,19 +264,19 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 					<h2>Masukkan Nomor Rak</h2>
 					<table border="0">
 						<tr><td>
-								<?php
-								//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
-								//echo '<p><input type="text" id="bacadisini" name="nomorrak" style="height:30px"/></p>';
-								//} else {
-								//echo '<p><input type="number" id="bacadisini" name="nomorrak" style="height:30px"/></p>';
-								//};
-								$sql = "select idRak, namaRak from rak order by namaRak";
-								$raks = mysql_query($sql) or die('Gagal ambil data rak');
-								?>
+	<?php
+	//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
+	//echo '<p><input type="text" id="bacadisini" name="nomorrak" style="height:30px"/></p>';
+	//} else {
+	//echo '<p><input type="number" id="bacadisini" name="nomorrak" style="height:30px"/></p>';
+	//};
+	$sql = "select idRak, namaRak from rak order by namaRak";
+	$raks = mysql_query($sql) or die('Gagal ambil data rak');
+	?>
 								<select name="nomorrak">
-									<?php
-									while ($rak = mysql_fetch_array($raks)) {
-										?>
+								<?php
+								while ($rak = mysql_fetch_array($raks)) {
+									?>
 										<option value="<?php echo $rak['idRak']; ?>"><?php echo $rak['namaRak']; ?></option>
 										<?php
 									}
@@ -302,9 +294,9 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 				</div>
 			</div>
 
-			<?php
-		}
-		?>
+	<?php
+}
+?>
 
 
 	</form>
@@ -312,9 +304,9 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 	<p id="writeroot"></p>
 
 </body></html><?php
-/* CHANGELOG -----------------------------------------------------------
+		/* CHANGELOG -----------------------------------------------------------
 
-  1.0.1 / 2013-07-01 : Harry Sufehmi		: initial release
+		  1.0.1 / 2013-07-01 : Harry Sufehmi		: initial release
 
-  ------------------------------------------------------------------------ */
+		  ------------------------------------------------------------------------ */
 ?>
