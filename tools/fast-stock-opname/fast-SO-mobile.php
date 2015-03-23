@@ -126,67 +126,62 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 			}
 			?>
 
-			<?php echo "
 			<div class='container'>
-			<div class='well' align='center'>
-			<table>
-			<tr>
-				<td><b>".$namaBarang."</b></td>
-				<td>( <a href='".$_SERVER["PHP_SELF"]."?nomorrak=".$_GET["nomorrak"]."&username=".$_GET["username"]."'>
-					klik disini untuk membatalkan</a> karena beda barang)</td>
-			</tr>
+				<div class='well' align='center'>
+					<table>
+						<tr>
+							<td><b><?php echo $namaBarang; ?></b></td>
+							<td>( <a href="<?php echo $_SERVER["PHP_SELF"]; ?>?nomorrak=<?php echo $_GET["nomorrak"]; ?>&username=<?php echo $_GET["username"]; ?>">
+									klik disini untuk membatalkan</a> karena beda barang)</td>
+						</tr>
 
-			<tr>
-				<td></td>
-				<td>( total jumlah barang tercatat pada SO ini : <b>$total</b> )</td>
-			</tr>
+						<tr>
+							<td></td>
+							<td>( total jumlah barang tercatat pada SO ini : <b><?php echo $total; ?></b> )</td>
+						</tr>
 
-			</table>
-			";
-			?>
+					</table>
 
+					<h2> Masukkan jumlah barang saat ini </h2>
+					<table border='0' style='align:center'>
+						<tr><td>
+								<?php
+								if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
+									echo '		<input type="text" id="bacadisini"	name="jmlbarang" style="height:30px"/>';
+								} else {
+									echo '		<input type="number" id="bacadisini" autofocus="autofocus" name="jmlbarang" style="height:30px"/>';
+								};
+								?><input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
+								<input type="hidden" name="nomorrak" value="<?php echo $_GET["nomorrak"]; ?>" />
+								<input type="hidden" name="username" value="<?php echo $_GET["username"]; ?>" />
 
+								<input type="hidden" name="namaBarang" 		value="<?php echo $namaBarang; ?>" />
+							</td></tr>
+						<tr><td>
+								<div align="right">
+									<p><input type="submit" name=submit class="btn btn-primary" /></p>
+								</div>
+							</td></tr>
 
-			<h2> Masukkan jumlah barang saat ini </h2>
-			<table border='0' style='align:center'>
-				<tr><td>
-						<?php
-						if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
-							echo '		<input type="text" id="bacadisini"	name="jmlbarang" style="height:30px"/>';
-						} else {
-							echo '		<input type="number" id="bacadisini" autofocus="autofocus" name="jmlbarang" style="height:30px"/>';
-						};
-						?><input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
+						<input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
 						<input type="hidden" name="nomorrak" value="<?php echo $_GET["nomorrak"]; ?>" />
 						<input type="hidden" name="username" value="<?php echo $_GET["username"]; ?>" />
 
 						<input type="hidden" name="namaBarang" 		value="<?php echo $namaBarang; ?>" />
-					</td></tr>
-				<tr><td>
-						<div align="right">
-							<p><input type="submit" name=submit class="btn btn-primary" /></p>
-						</div>
-					</td></tr>
-
-				<input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
-				<input type="hidden" name="nomorrak" value="<?php echo $_GET["nomorrak"]; ?>" />
-				<input type="hidden" name="username" value="<?php echo $_GET["username"]; ?>" />
-
-				<input type="hidden" name="namaBarang" 		value="<?php echo $namaBarang; ?>" />
+				</div>
 			</div>
-		</div>
 
-		<?php
-	}
+			<?php
+		}
 
-	if ($_GET["caribarang1"]) { // ===================================================================================
-		$sql = "SELECT namaBarang, jumBarang, hargaJual, barcode
+		if ($_GET["caribarang1"]) { // ===================================================================================
+			$sql = "SELECT namaBarang, jumBarang, hargaJual, barcode
                         FROM barang AS b
 						WHERE namaBarang LIKE '%".$_GET['caribarang']."%'
                         ORDER BY namaBarang ASC";
-		$cari = mysql_query($sql);
+			$cari = mysql_query($sql);
 
-		echo "
+			echo "
     	<div class='container'>
 		<div class='well' align='center'>
     	<table border='0' style='align:center' class='table table-condensed table-hover' >
@@ -197,49 +192,49 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 			<th>Harga Jual</th>
 		</tr>";
 
-		$no = 1;
-		while ($r = mysql_fetch_array($cari)) {
-			//untuk mewarnai tabel menjadi selang-seling
-			if (($no % 2) == 0) {
-				$warna = "#EAF0F7";
-			} else {
-				$warna = "#FFFFFF";
-			}
-			echo "<tr bgcolor=$warna>"; //end warna
+			$no = 1;
+			while ($r = mysql_fetch_array($cari)) {
+				//untuk mewarnai tabel menjadi selang-seling
+				if (($no % 2) == 0) {
+					$warna = "#EAF0F7";
+				} else {
+					$warna = "#FFFFFF";
+				}
+				echo "<tr bgcolor=$warna>"; //end warna
 
-			$linkurl = "?noscan=1&username=".$_GET["username"]."&nomorrak=".$_GET["nomorrak"]."&barcode=".$r["barcode"]."";
+				$linkurl = "?noscan=1&username=".$_GET["username"]."&nomorrak=".$_GET["nomorrak"]."&barcode=".$r["barcode"]."";
 
-			echo "<td>$no</td>
+				echo "<td>$no</td>
          	<td>$r[barcode]<br> <a href='$linkurl' class='btn btn-primary btn-small'>PILIH</a></td>
          	<td>$r[namaBarang]</td>
          	<td>$r[hargaJual]</td>
 
          	</tr>";
-			$no++;
-		}
+				$no++;
+			}
 
-		if (mysql_num_rows($cari) < 1) {
-			echo "
+			if (mysql_num_rows($cari) < 1) {
+				echo "
 	<tr><td colspan='4'><h3>Barang tidak ditemukan<a href='".$_SERVER["PHP_SELF"]."?nomorrak=".$_GET["nomorrak"]."&username=".$_GET["username"]."'>
 			Klik disini untuk mengulang kembali</a></h3></td></tr>
     </table>
     </div>
     </div>";
-		} else {
-			echo "</table>
+			} else {
+				echo "</table>
     </div>
     </div>";
+			}
 		}
-	}
 
 
 // minta barcode
 
-	if ($_GET["nomorrak"]) { // ===================================================================================
-		if (!$_GET["noscan"]) {
-			// ref: https://code.google.com/p/zxing/wiki/ScanningFromWebPages
+		if ($_GET["nomorrak"]) { // ===================================================================================
+			if (!$_GET["noscan"]) {
+				// ref: https://code.google.com/p/zxing/wiki/ScanningFromWebPages
 
-			echo "
+				echo "
 		<div class='container' name='divAwal'>
 		<div class='well' align='center'>
 
@@ -249,12 +244,12 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 				<table border='0' style='align:center'>
 				<tr><td>";
 
-			//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
-			echo "<input type=text name=barcode autofocus='autofocus' style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary'>";
-			//} else {
-			//echo "<input type=number name=barcode style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary' >";
-			//};
-			echo "
+				//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
+				echo "<input type=text name=barcode autofocus='autofocus' style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary'>";
+				//} else {
+				//echo "<input type=number name=barcode style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary' >";
+				//};
+				echo "
 										<input type=hidden name=noscan value=1>
 										<input type=hidden name=nomorrak value='".$_GET["nomorrak"]."'>
 										<input type=hidden name=username value='".$_GET["username"]."'>
@@ -279,55 +274,55 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 			</div>
 
 			";
-		};
-	} elseif (!$_GET["noscan"]) { //  --------------------------------------------------------------------------------------
-		echo "	<form id='testForm' method='get' action='".$_SERVER['PHP_SELF']."'>";
+			};
+		} elseif (!$_GET["noscan"]) { //  --------------------------------------------------------------------------------------
+			echo "	<form id='testForm' method='get' action='".$_SERVER['PHP_SELF']."'>";
+			?>
+
+			<div class="container">
+				<div class="well" align="center">
+
+					<h2>Masukkan Nomor Rak</h2>
+					<table border="0">
+						<tr><td>
+								<?php
+								//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
+								//echo '<p><input type="text" id="bacadisini" name="nomorrak" style="height:30px"/></p>';
+								//} else {
+								//echo '<p><input type="number" id="bacadisini" name="nomorrak" style="height:30px"/></p>';
+								//};
+								$sql = "select idRak, namaRak from rak order by namaRak";
+								$raks = mysql_query($sql) or die('Gagal ambil data rak');
+								?>
+								<select name="nomorrak">
+									<?php
+									while ($rak = mysql_fetch_array($raks)) {
+										?>
+										<option value="<?php echo $rak['idRak']; ?>"><?php echo $rak['namaRak']; ?></option>
+										<?php
+									}
+									?>
+								</select>
+							</td></tr>
+						<tr><td>
+								<div align="right">
+									<p><input type="submit" class="btn btn-primary" name="submit"></p>
+								</div>
+						<tr><td>
+					</table>
+
+					<input type="hidden" name="username" value="<?php echo $username; ?>" />
+				</div>
+			</div>
+
+			<?php
+		}
 		?>
 
-		<div class="container">
-			<div class="well" align="center">
 
-				<h2>Masukkan Nomor Rak</h2>
-				<table border="0">
-					<tr><td>
-							<?php
-							//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
-							//echo '<p><input type="text" id="bacadisini" name="nomorrak" style="height:30px"/></p>';
-							//} else {
-							//echo '<p><input type="number" id="bacadisini" name="nomorrak" style="height:30px"/></p>';
-							//};
-							$sql = "select idRak, namaRak from rak order by namaRak";
-							$raks = mysql_query($sql) or die('Gagal ambil data rak');
-							?>
-							<select name="nomorrak">
-								<?php
-								while ($rak = mysql_fetch_array($raks)) {
-									?>
-									<option value="<?php echo $rak['idRak']; ?>"><?php echo $rak['namaRak']; ?></option>
-									<?php
-								}
-								?>
-							</select>
-						</td></tr>
-					<tr><td>
-							<div align="right">
-								<p><input type="submit" class="btn btn-primary" name="submit"></p>
-							</div>
-					<tr><td>
-				</table>
+	</form>
 
-				<input type="hidden" name="username" value="<?php echo $username; ?>" />
-			</div>
-		</div>
-
-		<?php
-	}
-	?>
-
-
-</form>
-
-<p id="writeroot"></p>
+	<p id="writeroot"></p>
 
 </body></html><?php
 /* CHANGELOG -----------------------------------------------------------
