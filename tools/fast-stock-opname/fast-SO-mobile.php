@@ -127,47 +127,34 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
 			?>
 
 			<div class='container'>
-				<div class='well' align='center'>
-					<table>
-						<tr>
-							<td><b><?php echo $namaBarang; ?></b></td>
-							<td>( <a href="<?php echo $_SERVER["PHP_SELF"]; ?>?nomorrak=<?php echo $_GET["nomorrak"]; ?>&username=<?php echo $_GET["username"]; ?>">
-									klik disini untuk membatalkan</a> karena beda barang)</td>
-						</tr>
+				<div class='well'>
+					<div class="row text-left">
+						<div class="span12">
+							<h5><?php echo $namaBarang; ?></h5>
+						</div>
+						<div class="span12">
+							<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?nomorrak=<?php echo $_GET["nomorrak"]; ?>&username=<?php echo $_GET["username"]; ?>">klik disini</a> untuk membatalkan karena beda barang
+						</div>
+						<div class="span12">
+							Total jumlah barang tercatat pada SO ini : <b><?php echo $total; ?></b>
+						</div>
+					</div>
+					<h4> Masukkan jumlah barang saat ini </h4>
+					<div class="input-append span12">
+						<?php
+						if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
+							echo '		<input type="text" id="bacadisini" class="span2" name="jmlbarang" style="height:30px"/>';
+						} else {
+							echo '		<input type="number" id="bacadisini" class="span2" autofocus="autofocus" name="jmlbarang" style="height:30px"/>';
+						}
+						?>
+						<button class="btn btn-primary" type="submit" name="submit">OK</button>
+					</div>
+					<input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
+					<input type="hidden" name="nomorrak" value="<?php echo $_GET["nomorrak"]; ?>" />
+					<input type="hidden" name="username" value="<?php echo $_GET["username"]; ?>" />
 
-						<tr>
-							<td></td>
-							<td>( total jumlah barang tercatat pada SO ini : <b><?php echo $total; ?></b> )</td>
-						</tr>
-
-					</table>
-
-					<h2> Masukkan jumlah barang saat ini </h2>
-					<table border='0' style='align:center'>
-						<tr><td>
-								<?php
-								if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
-									echo '		<input type="text" id="bacadisini"	name="jmlbarang" style="height:30px"/>';
-								} else {
-									echo '		<input type="number" id="bacadisini" autofocus="autofocus" name="jmlbarang" style="height:30px"/>';
-								};
-								?><input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
-								<input type="hidden" name="nomorrak" value="<?php echo $_GET["nomorrak"]; ?>" />
-								<input type="hidden" name="username" value="<?php echo $_GET["username"]; ?>" />
-
-								<input type="hidden" name="namaBarang" 		value="<?php echo $namaBarang; ?>" />
-							</td></tr>
-						<tr><td>
-								<div align="right">
-									<p><input type="submit" name=submit class="btn btn-primary" /></p>
-								</div>
-							</td></tr>
-
-						<input type="hidden" name="barcode1" value="<?php echo $_GET["barcode"]; ?>" />
-						<input type="hidden" name="nomorrak" value="<?php echo $_GET["nomorrak"]; ?>" />
-						<input type="hidden" name="username" value="<?php echo $_GET["username"]; ?>" />
-
-						<input type="hidden" name="namaBarang" 		value="<?php echo $namaBarang; ?>" />
+					<input type="hidden" name="namaBarang" value="<?php echo $namaBarang; ?>" />
 				</div>
 			</div>
 
