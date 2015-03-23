@@ -262,7 +262,7 @@ if ($_GET["nomorrak"]) { // ====================================================
 				<tr><td>";
 
 				//if (substr($_SERVER["HTTP_USER_AGENT"], 0, 19) == "Mozilla/5.0 (iPhone") {
-					echo "<input type=text name=barcode style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary'>";
+					echo "<input type=text name=barcode autofocus='autofocus' style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary'>";
 				//} else {
 					//echo "<input type=number name=barcode style='height:30px'> <div align='right'><input type=submit value='input' class='btn btn-primary' >";
 				//};
