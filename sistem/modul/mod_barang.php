@@ -1769,15 +1769,20 @@ switch ($_GET['act']) {
 
 		for ($i = 1; $i <= $_POST[ctr]; $i++) {
 
-			// cek barang dihapus
-			if ($_POST["hapus$i"] == 'on') {
-				// ....still having thoughts about it, for now just ignore.
-				// cek barang yang di approve SO nya
-			} elseif ($_POST["appr$i"] == 'on') {
-				// cari barang.jumBarang ybs
-				$sql = "SELECT jumBarang FROM barang WHERE barcode='".$_POST["barcode$i"]."'";
-				$hasil1 = mysql_query($sql);
-				$x = mysql_fetch_array($hasil1);
+            // cek barang dihapus
+            if ($_POST["hapus$i"] == 'on') {
+                // ....still having thoughts about it, for now just ignore.
+                // cek barang yang di approve SO nya
+					
+					// bambang abu muhammad: dihapus saja, mengganggu tampilan approval mobile so
+					mysql_query("DELETE FROM fast_stock_opname WHERE barcode = {$_POST["barcode$i"]} AND approved=0") or die ('Gagal hapus data so, error:'.mysql_error()); 
+					echo "Hapus : " . $_POST["barcode$i"] . " dari daftar SO<br />";               
+            }
+            elseif ($_POST["appr$i"] == 'on') {
+                // cari barang.jumBarang ybs
+                $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $_POST["barcode$i"] . "'";
+                $hasil1 = mysql_query($sql);
+                $x = mysql_fetch_array($hasil1);
 
 				$jumBarang = $_POST["selisih$i"];
 
