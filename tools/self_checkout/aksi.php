@@ -346,6 +346,6 @@ function cetak($link, $clientIP, $strukId) {
     $struk .= chr(27) . "!" . chr(1); //font normal
     $struk .= chr(29) . "V" . chr(66) . chr(48); //Feed paper & cut
     $perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
-    echo $perintah;
+    //echo $perintah;
     exec($perintah, $output);
 }
