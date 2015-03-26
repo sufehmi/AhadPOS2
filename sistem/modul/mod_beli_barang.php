@@ -252,75 +252,24 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 
 			case "returpembelian"; // =======================================================================================================================
-				echo "<h2>Retur Pembelian</h2>
-            <form method=POST action='?module=pembelian_barang&act=returpembelian&action=lihatlaporan'>
+				?>
+				<h2>Retur Pembelian</h2>
+            <form method=POST action="?module=pembelian_barang&act=returpembelian&action=lihatlaporan">
                 Supplier :
-                <select name=supplierId>";
+                <select name="supplierId">
+						 <?php
 				$supplier = getSupplier();
 				while ($dataSupplier = mysql_fetch_array($supplier)) {
-					echo "<option value=$dataSupplier[idSupplier]>$dataSupplier[namaSupplier]::$dataSupplier[idSupplier]::$dataSupplier[alamatSupplier]</option>";
-				}
-				echo "  </select>
-                <br/>Periode Laporan : Bulan :
-                <select name=bulanLaporan>";
-				$dataBulan = getMonth();
-				while ($bulan = mysql_fetch_array($dataBulan)) {
-					echo "<option value=$bulan[bulan]>".getBulanku($bulan[bulan])."</option>";
-				}
-				echo "</select>, Tahun :
-            <select name=tahunLaporan>";
-				$dataTahun = getYear();
-				while ($tahun = mysql_fetch_array($dataTahun)) {
-					echo "<option value=$tahun[tahun]>$tahun[tahun]</option>";
-				}
-				echo "</select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value=Lihat>
-            </form>
-            ";
-
-
-				if ($_GET[action] == 'lihatlaporan') {
-					$detail = getDetailSupplier($_POST[supplierId]);
-					$detailSupplier = mysql_fetch_array($detail);
-					echo "<hr/>
-                <br/>Nama Supplier : $detailSupplier[namaSupplier]
-                <br/>Alamat Supplier : $detailSupplier[alamatSupplier]
-                <br/>Periode : ".getBulan($_POST[bulanLaporan])." - $_POST[tahunLaporan]";
-					$pembelian = getDataPembelian($_POST[supplierId], $_POST[bulanLaporan], $_POST[tahunLaporan]);
-					$jmlPembelian = mysql_num_rows($pembelian);
-					if ($jmlPembelian != 0) {
-						?>
-					<br/><br/>
-					<table class="tabel">
-						<tr>
-							<th>No</th>
-							<th>No Nota</th>
-							<th>Tgl Pembelian</th>
-							<th>Nominal</th>
-							<th>Detail</th>
-						</tr>
-						<?php
-						$totalPembelian = 0;
-						$no = 1;
-						while ($dataPembelian = mysql_fetch_array($pembelian)) {
-							?>
-							<tr <?php echo $no % 2 === 0 ? 'class="alt"' : ''; ?>>
-								<td><?php echo $no; ?></td>
-								<td class="right"><?php echo $dataPembelian['noNota']; ?></td>
-								<td class="center"><?php echo tgl_indo($dataPembelian['tglNota']); ?></td>
-								<td class="right"><?php echo uang($dataPembelian['nominal']); ?></td>
-								<td><a href=?module=pembelian_barang&act=detailretur&idnota=<?php echo $dataPembelian['noNota']; ?>>Detail</a></td>
-							</tr>
-							<?php
-							$totalPembelian += $dataPembelian[nominal];
-							$no++;
-						}
-						echo "<tr><td colspan=3 align=right class=td><b>Total</b></td><td class=td align=right><b>".uang($totalPembelian)."</b></td><td class=td>&nbsp;</td></tr>
-                    </table>";
-					} else {
-						echo "<br/><br/>Belum ada pembelian dari supplier ini.";
+					?>
+					<option value="<?php echo $dataSupplier['idSupplier']; ?>"><?php echo "{$dataSupplier['namaSupplier']}::{$dataSupplier['alamatSupplier']}"; ?></option>
+			<?php
 					}
-				}
+					?>
+					 </select>
+                <br/>
+		<input type=submit value='(p) Pilih Supplier' name='cariSupplier' accesskey='p'/>
+				            </form>
+            <?php
 				break;
 
 
