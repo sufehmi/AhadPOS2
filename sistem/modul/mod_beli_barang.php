@@ -254,7 +254,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 			case "returpembelian"; // =======================================================================================================================
 				?>
 			<h2>Retur Pembelian</h2>
-			<form method=POST action="?module=pembelian_barang&act=returpembelian&action=lihatlaporan">
+			<form method=POST action="modul/js_jual_barang.php?act=carisupplier">
 				Supplier :
 				<select name="supplierId">
 					<?php
