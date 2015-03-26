@@ -505,6 +505,9 @@ else {
                         </div>
                         <?php
                         break;
+						  case 'carisupplier':
+							  require '_js_retur_beli.php';
+							  break;
                 }
             } // if (empty($_SESSION[namauser])
             ?>
