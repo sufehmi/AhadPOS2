@@ -19,6 +19,19 @@ if (isset($_POST['supplierId'])) {
 	findSupplier($_POST['supplierId']);
 }
 
+if (isset($_GET['barcode'])) {
+	$barcodeGet = $_GET['barcode'];
+	?>
+	<script>
+		$(document).ready(function () {
+			$("#barcode").val("<?php echo $barcodeGet; ?>");
+			$("#jumBarang").focus();
+			$("#jumBarang").select();
+		});
+	</script>
+	<?php
+}
+
 if ($_GET['action'] === 'tambah') {
 	$barcode = isset($_GET['barcode']) ? $_GET['barcode'] : $_POST['barcode'];
 
