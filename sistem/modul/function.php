@@ -188,6 +188,9 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
 
 	//cek TransferAhad
 	$transferAhad = $_POST['transferahad'] ? true : false;
+	//cek ReturBeli
+	$returBeli = $_POST['returbeli'] ? true : false;
+
 	$dataAda = cekBarang($barcode);
 	if ($dataAda != 0) {
 		$jumlah = 0;
@@ -246,9 +249,9 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
 
 		mysql_query($sql) or die(mysql_error());
 		$uid = mysql_insert_id();
-		
-		// Jika transfer ahad, maka diskon dan harga banded diabaikan
-		if ($uid && !$transferAhad) {
+
+		// Jika transfer ahad / retur beli, maka diskon dan harga banded diabaikan
+		if ($uid && !($transferAhad || $returBeli)) {
 			// Cek dan sekaligus tambahkan diskon jika ada
 			if ($ukmMode) {
 				/*
