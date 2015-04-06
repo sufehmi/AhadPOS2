@@ -1541,7 +1541,37 @@ elseif ($module === 'hargabanded' && $act === 'getnamabarang') {
     }
 }
 elseif ($module == 'inputreturbeli2' AND $act == 'simpan') { 
-	
+	$sql = "SELECT * FROM tmp_edit_detail_retur_beli";
+	$query = mysql_query($sql);
+	while ($barangRetur = mysql_fetch_array($query)){
+		
+		$jumBarangDetail = getJumBarangDetailPembelian($barangRetur['idDetailBeli']);
+		$jumBarangDetailBaru = $jumBarangDetail - $barangRetur['jumRetur'];
+		
+		$jumBarangDiBarang = getJumBarangDiBarang(null, $barangRetur['barcode']);
+		$jumBarangBaru = $jumBarangDiBarang - $barangRetur['jumRetur'];
+		
+      // update nota pembelian
+		if ($jumBarangDetail > 0){// jika stok sudah nol, jangan dikurangi (jadi minus)
+				mysql_query("UPDATE detail_beli SET jumBarang = {$jumBarangDetailBaru}
+	            WHERE idDetailBeli = {$barangRetur['idDetailBeli']}") or die(mysql_error());			
+		}
+		
+		// update stok barang
+		if ($jumBarang > 0) {  // jika stok sudah nol, jangan dikurangi (jadi minus)
+			mysql_query("UPDATE barang SET jumBarang = $jumBarangBaru
+				WHERE barcode = '$tmpEdit[barcode]'") or die(mysql_error());
+		}
+		// input transaksi retur ke database
+        if ($tmpEdit[jumRetur] > 0) { // yang jumRetur 0 (nol) tidak usah dicatat
+            $z = $tmpEdit;
+            $sql = "INSERT INTO detail_retur_beli (idTransaksiBeli,idBarang,tglExpire,jumRetur,hargaBeli,barcode,
+				username,idSupplier,nominal,idTipePembayaran,NomorInvoice,tglRetur)
+			VALUES ($z[idTransaksiBeli],$z[idBarang],'$z[tglExpire]',$z[jumRetur],$z[hargaBeli],'$z[barcode]',
+				'$username','$idSupplier', $totalRetur, $idTipePembayaran, '$NomorInvoice','$last_update')";
+            mysql_query($sql) or die(mysql_error());
+        }
+	}
 }
 // else
 else { // =======================================================================================================================================
