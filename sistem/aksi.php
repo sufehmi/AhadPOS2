@@ -1540,6 +1540,9 @@ elseif ($module === 'hargabanded' && $act === 'getnamabarang') {
         echo json_encode($barangs);
     }
 }
+elseif ($module == 'inputreturbeli2' AND $act == 'simpan') { 
+	
+}
 // else
 else { // =======================================================================================================================================
     echo "Tidak Ada Aksi untuk modul ini";
