@@ -145,14 +145,14 @@ if ($r) {
 	$pmbyrn = mysql_query("SELECT * from pembayaran");
 	?>
 
-	<form method=POST action='../aksi.php?module=penjualan_barang&act=input'>
+	<form method=POST action='../aksi.php?module=retur_barang2&act=input'>
 		<input type=hidden name='tot_pembayaran' value="<?php echo $tot_pembelian; ?>" >
 		<div class="kasir-kanan">
 			<div id='kembalian'></div>
 			<div class="pembayaran">
 				<table class="pembayaran">
 					<tr>
-						<td class="right">Total Pembelian :</td>
+						<td class="right">Total Retur Beli :</td>
 						<td><div id='TotalBeli'><?php echo number_format($tot_pembelian, 0, ',', '.'); ?></div></td>
 					</tr>
 
