@@ -552,9 +552,13 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 
     $NomorStruk = 0;
     $transferahad = false;
+	 $returBeli = false;
     if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
         $transferahad = true;
     }
+	 if ($_POST['returbeli']==1){
+		 $returBeli = true;
+	 }
     if (!$transferahad) {
         $sql = "INSERT INTO transaksijual(tglTransaksiJual,
 	                    idCustomer,idTipePembayaran,nominal,idUser,last_update,uangDibayar)

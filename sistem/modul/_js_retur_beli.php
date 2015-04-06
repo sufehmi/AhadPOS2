@@ -109,7 +109,6 @@ if ($r) {
 			<th>Nama Barang</th>
 			<th>Jumlah</th>
 			<th>Harga</th>
-			<th>Diskon</th>
 			<th>Total</th>
 			<th>Hapus</th>
 		</tr>
@@ -117,35 +116,13 @@ if ($r) {
 		$no = 1;
 		$tot_pembelian = 0;
 
-		$query2 = mysql_query("SELECT tdj.uid, tdj.barcode, b.namaBarang, tdj.jumBarang, tdj.hargaJual, tdj.tglTransaksi, tdj.diskon_persen, tdj.diskon_rupiah
+		$query2 = mysql_query("SELECT tdj.uid, tdj.barcode, b.namaBarang, tdj.jumBarang, tdj.hargaBeli, tdj.hargaJual, tdj.tglTransaksi, tdj.diskon_persen, tdj.diskon_rupiah
                                         FROM tmp_detail_jual tdj, barang b
 										WHERE tdj.barcode = b.barcode AND tdj.idCustomer = '{$_SESSION['idCustomer']}'
 										AND tdj.username = '{$_SESSION['uname']}' ORDER BY tdj.uid DESC");
 		$banyakItem = mysql_num_rows($query2);
 		while ($data = mysql_fetch_array($query2)) {
-
-			// jika ini barang yang akan di transfer,
-			// maka berikan hargaBeli (modal) sebagai hargaJual
-			if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
-				$sql = "SELECT hargaBeli FROM detail_beli
-										WHERE isSold='N' AND barcode='$data[barcode]' ORDER BY idDetailBeli ASC";
-				$hasil = mysql_query($sql);
-				$x = mysql_fetch_array($hasil);
-
-				// jika tidak ada / semua stok barang ini sudah terjual = catatan stok ngaco
-				// maka ambil hargaBeli yang terakhir saja
-				if (mysql_num_rows($hasil) < 1) {
-					$sql = "SELECT hargaBeli FROM detail_beli
-											WHERE barcode='$data[barcode]' ORDER BY idDetailBeli ASC";
-					$hasil = mysql_query($sql);
-					$x = mysql_fetch_array($hasil);
-				};
-
-				$data['hargaJual'] = $x['hargaBeli'];
-			};
-
-			$total = $data['hargaJual'] * $data['jumBarang'];
-			$totalDiskon = 0;
+			$total = $data['hargaBeli'] * $data['jumBarang'];
 			?>
 
 			<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
@@ -153,31 +130,10 @@ if ($r) {
 				<td><?php echo $data[barcode]; ?></td>
 				<td><?php echo $data[namaBarang]; ?></td>
 				<td class="right"><?php echo $data['jumBarang']; ?></td>
-				<td class="right">
-					<?php
-					// Jika punya hak admin, maka muncul link untuk manually update harga jual
-					// Jika tidak, maka hanya muncul text statis harga jual
-					if ($_SESSION['hakAdmin']) {
-						?>
-						<a href="#" class="harga-jual pilih" data-type="text" data-pk="<?php echo $data['uid']; ?>" data-url="../aksi.php?module=diskon&act=updatehj" ><?php echo $data['hargaJual']; ?></a>
-						<?php
-					} else {
-						echo $data['hargaJual'];
-					}
-					?>
-				</td>
-				<td class="right"><?php
-					if ($data['diskon_persen'] > 0) {
-						echo $data['diskon_persen'].'%';
-					} elseif ($data['diskon_rupiah'] > 0) {
-						echo number_format($data['diskon_rupiah'], 0, ',', '.');
-						$totalDiskon += $data['diskon_rupiah'] * $data['jumBarang'];
-					}
-					?>
-				</td>
+				<td class="right"><?php echo $data['hargaBeli']; ?></td>			
 				<td class="right"><?php echo number_format($total, 0, ',', '.'); ?></td>
 
-				<td class="center"> <a class="pilih" href='js_jual_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1' : ''; ?>'><i class="fa fa-times"></i></a></td>
+				<td class="center"> <a class="pilih" href='js_jual_barang.php?act=carisupplier&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1' : ''; ?>'><i class="fa fa-times"></i></a></td>
 			</tr>
 			<?php
 			$tot_pembelian += $total;
@@ -203,7 +159,7 @@ if ($r) {
 					<script>
 						document.getElementById('tot_pembelian').innerHTML = '<span><small><?php echo $diskonCustomer > 0 ? ' '.number_format($diskonCustomer + $tot_pembelian, 0, ', ', '.') : ''; ?></small> <?php echo number_format($tot_pembelian, 0, ', ', '.'); ?> </span>';
 					</script>
-
+					<input type="hidden" name="returbeli" value="1">
 					<?php
 					$_SESSION['tot_pembelian'] = $tot_pembelian;
 					?>

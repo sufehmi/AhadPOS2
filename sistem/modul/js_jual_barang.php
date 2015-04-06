@@ -128,7 +128,10 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 					$hasil = mysql_query("select barcode from tmp_detail_jual where uid = {$_GET['uid']}") or die('Gagal hapus (ambil data), error: '.mysql_error());
 					$r = mysql_fetch_array($hasil);
 
-					$sql = "DELETE FROM tmp_detail_jual WHERE barcode = '{$r['barcode']}' and username='{$_SESSION['uname']}' and idCustomer={$_SESSION['idCustomer']}";
+					$sql = "DELETE FROM tmp_detail_jual WHERE barcode = '{$r['barcode']}' and username='{$_SESSION['uname']}'";
+					if (isset($_SESSION['idCustomer'])) {
+						$sql.= " and idCustomer={$_SESSION['idCustomer']}";
+					}
 					// echo $sql;
 					$hasil = mysql_query($sql) or die('Gagal hapus data, error: '.mysql_error());
 				}
@@ -149,7 +152,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 							?>
 							<div class="top">
 								Transfer Barang antar Ahad : <?php echo $_SESSION['namaCustomer']; ?> <br />
-								<?php echo date('d-m-Y'); ?>
+							<?php echo date('d-m-Y'); ?>
 							</div>
 							<?php
 						} else {
@@ -544,11 +547,11 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 					?>					
 					<a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
 					<a class="tombol" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
-						<?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
+								<?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
 					</a>
 					<a class="tombol" href="#" id="tombol-self-checkout" accesskey="f" >Sel<b><u>f</u></b> Checkout</a>
-							<?php }
-							?>
+<?php }
+?>
 			</div>
 			<script>
 				$(document).ready(function () {
