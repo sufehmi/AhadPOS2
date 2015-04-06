@@ -19,6 +19,12 @@ if (isset($_POST['supplierId'])) {
 	findSupplier($_POST['supplierId']);
 }
 
+if ($_GET[doit] == 'hapus') {
+	$sql = "DELETE FROM tmp_detail_retur_barang WHERE uid = {$_GET['uid']}";	
+	// echo $sql;
+	$hasil = mysql_query($sql) or die('Gagal hapus data, error: '.mysql_error());
+}
+
 if (isset($_GET['barcode'])) {
 	$barcodeGet = $_GET['barcode'];
 	?>
@@ -39,18 +45,13 @@ if ($_GET['action'] === 'tambah') {
 	if (isset($_POST['jumBarang'])) {
 		$tambahBarang = $_POST['jumBarang'];
 	}
-	$trueJual = cekBarangTempJual($_SESSION[idCustomer], $_POST[barcode]);
-	// Jika barang sudah ada (hanya tambah kuantiti) maka tambahkan kuantitinya;
-	if ($trueJual) {
-		$jumBarang = $trueJual['jumBarang'];
-		mysql_query("delete from tmp_detail_jual where idCustomer='{$_SESSION['idCustomer']}' "
-							 ."and barcode = '{$_POST['barcode']}' "
-							 ."and username='{$_SESSION['uname']}'") or die('Gagal clean '.mysql_error());
-		$jumBarang += $tambahBarang;
+	$trueRetur = cekBarangTempRetur($_POST[barcode]);
+
+	if ($trueRetur) {
+		tambahBarangReturAda($_POST['barcode'], $tambahBarang);
 	} else {
-		$jumBarang = $tambahBarang;
+		tambahBarangRetur($_POST['barcode'], $jumBarang);
 	}
-	tambahBarangJual($_POST['barcode'], $jumBarang, $hargaBarang);
 }
 ?>
 <div style="float:right" id="tot_pembelian">
@@ -91,8 +92,8 @@ if ($_GET['action'] === 'tambah') {
 
 <?php
 $sql = "SELECT *
-                                FROM tmp_detail_jual tdj, barang b
-                                WHERE tdj.barcode = b.barcode AND tdj.idCustomer = '$_SESSION[idCustomer]' AND tdj.username = '$_SESSION[uname]'";
+		  FROM tmp_detail_retur_barang tdr, barang b
+		  WHERE tdr.barcode = b.barcode AND tdr.username = '$_SESSION[uname]'";
 //echo $sql;
 $query = mysql_query($sql);
 $r = mysql_fetch_row($query);
@@ -116,10 +117,10 @@ if ($r) {
 		$no = 1;
 		$tot_pembelian = 0;
 
-		$query2 = mysql_query("SELECT tdj.uid, tdj.barcode, b.namaBarang, tdj.jumBarang, tdj.hargaBeli, tdj.hargaJual, tdj.tglTransaksi, tdj.diskon_persen, tdj.diskon_rupiah
-                                        FROM tmp_detail_jual tdj, barang b
-										WHERE tdj.barcode = b.barcode AND tdj.idCustomer = '{$_SESSION['idCustomer']}'
-										AND tdj.username = '{$_SESSION['uname']}' ORDER BY tdj.uid DESC");
+		$query2 = mysql_query("SELECT tdr.uid, tdr.barcode, b.namaBarang, tdr.jumBarang, tdr.hargaBeli, tdr.hargaJual, tdr.tglTransaksi
+                                        FROM tmp_detail_retur_barang tdr, barang b
+										WHERE tdr.barcode = b.barcode
+										AND tdr.username = '{$_SESSION['uname']}' ORDER BY tdr.uid DESC");
 		$banyakItem = mysql_num_rows($query2);
 		while ($data = mysql_fetch_array($query2)) {
 			$total = $data['hargaBeli'] * $data['jumBarang'];
