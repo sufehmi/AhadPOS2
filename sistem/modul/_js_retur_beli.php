@@ -20,7 +20,7 @@ if (isset($_POST['supplierId'])) {
 }
 
 if ($_GET[doit] == 'hapus') {
-	$sql = "DELETE FROM tmp_detail_retur_barang WHERE uid = {$_GET['uid']}";	
+	$sql = "DELETE FROM tmp_edit_detail_retur_beli WHERE idBarang = {$_GET['idBarang']}";
 	// echo $sql;
 	$hasil = mysql_query($sql) or die('Gagal hapus data, error: '.mysql_error());
 }
@@ -45,13 +45,7 @@ if ($_GET['action'] === 'tambah') {
 	if (isset($_POST['jumBarang'])) {
 		$tambahBarang = $_POST['jumBarang'];
 	}
-	$trueRetur = cekBarangTempRetur($_POST[barcode]);
-
-	if ($trueRetur) {
-		tambahBarangReturAda($_POST['barcode'], $tambahBarang);
-	} else {
-		tambahBarangRetur($_POST['barcode'], $jumBarang);
-	}
+	tambahBarangReturBeli($barcode, $tambahBarang);
 }
 ?>
 <div style="float:right" id="tot_pembelian">
@@ -92,8 +86,8 @@ if ($_GET['action'] === 'tambah') {
 
 <?php
 $sql = "SELECT *
-		  FROM tmp_detail_retur_barang tdr, barang b
-		  WHERE tdr.barcode = b.barcode AND tdr.username = '$_SESSION[uname]'";
+		  FROM tmp_edit_detail_retur_beli trb 
+		  JOIN barang b ON trb.barcode = b.barcode";
 //echo $sql;
 $query = mysql_query($sql);
 $r = mysql_fetch_row($query);
@@ -106,9 +100,11 @@ if ($r) {
 	<table class="tabel daftar-pembelian">
 		<tr>
 			<th>No</th>
+			<th>Nota Beli</th>
 			<th>Barcode</th>
 			<th>Nama Barang</th>
-			<th>Jumlah</th>
+			<th>Jumlah Asli</th>
+			<th>Jumlah Retur</th>
 			<th>Harga</th>
 			<th>Total</th>
 			<th>Hapus</th>
@@ -117,24 +113,24 @@ if ($r) {
 		$no = 1;
 		$tot_pembelian = 0;
 
-		$query2 = mysql_query("SELECT tdr.uid, tdr.barcode, b.namaBarang, tdr.jumBarang, tdr.hargaBeli, tdr.hargaJual, tdr.tglTransaksi
-                                        FROM tmp_detail_retur_barang tdr, barang b
-										WHERE tdr.barcode = b.barcode
-										AND tdr.username = '{$_SESSION['uname']}' ORDER BY tdr.uid DESC");
+		$query2 = mysql_query("SELECT @rownum:=@rownum+1 urut, trb.idTransaksiBeli, trb.barcode, b.namaBarang, trb.jumBarang, trb.hargaBeli, trb.jumRetur, trb.idBarang
+                                        FROM tmp_edit_detail_retur_beli trb, barang b, (SELECT @rownum:=0) r
+										WHERE trb.barcode = b.barcode ORDER BY @rownum desc");
 		$banyakItem = mysql_num_rows($query2);
 		while ($data = mysql_fetch_array($query2)) {
-			$total = $data['hargaBeli'] * $data['jumBarang'];
+			$total = $data['hargaBeli'] * $data['jumRetur'];
 			?>
 
 			<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
 				<td class="right"><?php echo $banyakItem - $no + 1; ?></td>
-				<td><?php echo $data[barcode]; ?></td>
-				<td><?php echo $data[namaBarang]; ?></td>
+				<td><?php echo $data['idTransaksiBeli']; ?></td>
+				<td><?php echo $data['barcode']; ?></td>
+				<td><?php echo $data['namaBarang']; ?></td>
 				<td class="right"><?php echo $data['jumBarang']; ?></td>
-				<td class="right"><?php echo $data['hargaBeli']; ?></td>			
+				<td class="right"><?php echo $data['jumRetur']; ?></td>		
+				<td class="right"><?php echo number_format($data['hargaBeli'], 0, ',', '.'); ?></td>	
 				<td class="right"><?php echo number_format($total, 0, ',', '.'); ?></td>
-
-				<td class="center"> <a class="pilih" href='js_jual_barang.php?act=carisupplier&doit=hapus&uid=<?php echo $data['uid']; ?><?php echo $transferahad ? '&transferahad=1' : ''; ?>'><i class="fa fa-times"></i></a></td>
+				<td class="center"> <a class="pilih" href='js_jual_barang.php?act=carisupplier&doit=hapus&idBarang=<?php echo $data['idBarang']; ?>'><i class="fa fa-times"></i></a></td>
 			</tr>
 			<?php
 			$tot_pembelian += $total;
@@ -146,7 +142,7 @@ if ($r) {
 	$pmbyrn = mysql_query("SELECT * from pembayaran");
 	?>
 
-	<form method=POST action='../aksi.php?module=retur_barang2&act=input'>
+	<form method=POST action='../aksi.php?module=inputreturbeli2&act=simpan'>
 		<input type=hidden name='tot_pembayaran' value="<?php echo $tot_pembelian; ?>" >
 		<div class="kasir-kanan">
 			<div id='kembalian'></div>
@@ -215,6 +211,7 @@ if ($r) {
 	<?php
 }
 ?>
+
 <div class="logo-kasir">
 	<img src="../../img/logo-glow.png">
 </div>
