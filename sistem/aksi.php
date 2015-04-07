@@ -1395,7 +1395,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                             ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                           ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
@@ -1517,6 +1517,9 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 } elseif ($module == 'inputreturbeli2' AND $act == 'simpan') {
 	$sql = "SELECT * FROM tmp_edit_detail_retur_beli";
 	$query = mysql_query($sql);
+	$username = $_SESSION['uname'];
+	$idSupplier = $_SESSION['idSupplier'];
+	$last_update = date("Y-m-d");
 	while ($barangRetur = mysql_fetch_array($query)) {
 
 		$jumBarangDetail = getJumBarangDetailPembelian($barangRetur['idDetailBeli']);
@@ -1526,26 +1529,68 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 		$jumBarangBaru = $jumBarangDiBarang - $barangRetur['jumRetur'];
 
 		// update nota pembelian
-		if ($jumBarangDetail > 0) {// jika stok sudah nol, jangan dikurangi (jadi minus)
-			mysql_query("UPDATE detail_beli SET jumBarang = {$jumBarangDetailBaru}
-	            WHERE idDetailBeli = {$barangRetur['idDetailBeli']}") or die(mysql_error());
+		if ($jumBarangDetailBaru >= 0) {
+			$sql = "UPDATE detail_beli SET jumBarang = {$jumBarangDetailBaru}";
+			if ($jumBarangDetailBaru == 0) {
+				$sql.=", isSold='Y'";
+			}
+			$sql .= " WHERE idDetailBeli = {$barangRetur['idDetailBeli']}";
+			mysql_query($sql) or die(mysql_error());
+		} else {
+			// Jika < 0, berarti cari detail_beli
+			$sisa = $barangRetur['jumRetur'];
+			$query = mysql_query("SELECT * FROM detail_beli WHERE barcode='{$barangRetur['barcode']}' and isSold='N' ORDER BY idDetailBeli");
+			while ($dbeli = mysql_fetch_array($query)) {
+				if ($sisa == 0) {
+					break;
+				}
+				$jumBarangDetail = getJumBarangDetailPembelian($dbeli['idDetailBeli']);
+				if ($sisa > $jumBarangDetail) {
+					$sql = "UPDATE detail_beli SET jumBarang=0, isSold='Y' WHERE idDetailBeli = {$dbeli['idDetailBeli']}";
+					mysql_query($sql) or die('Gagal update detail_beli, error:'.mysql_error());
+					$sisa -= $jumBarangDetail;
+					// Masih ada sisa, lanjutkan ke detail_beli selanjutnya
+				} else {
+					$jumBarangDetailB = $jumBarangDetail - $sisa;
+					$sql = "UPDATE detail_beli SET jumBarang={$jumBarangDetailB}";
+					if ($jumBarangDetailB == 0) {
+						$sql.=", isSold='Y'";
+					}
+					$sql.=" WHERE idDetailBeli = {$dbeli['idDetailBeli']}";
+					mysql_query($sql) or die('Gagal update detail_beli, error:'.mysql_error());
+					$sisa = 0;
+				}
+			}
+			/* Jika masih ada sisa (berarti stok tercatat kurang), saat ini diabaikan.  */
 		}
 
 		// update stok barang
 		if ($jumBarang > 0) {  // jika stok sudah nol, jangan dikurangi (jadi minus)
 			mysql_query("UPDATE barang SET jumBarang = $jumBarangBaru
-				WHERE barcode = '$tmpEdit[barcode]'") or die(mysql_error());
+				WHERE barcode = '{$barangRetur['barcode']}'") or die(mysql_error());
 		}
+
+		$z = $barangRetur;
+		$totalRetur = $z['jumRetur'] * $z['hargaBeli'];
+
+		$queryTransaksiBeli = mysql_query("SELECT * FROM transaksibeli where idTransaksiBeli={$z['idTransaksiBeli']}");
+		$transaksiBeli = mysql_fetch_array($queryTransaksiBeli, MYSQL_ASSOC);
+		$nominalBaru = $transaksiBeli['nominal'] - $totalRetur;
+		// simpan nominal baru
+		// update transaksibeli
+		mysql_query("UPDATE transaksibeli SET last_update = '{$last_update}', nominal = {$nominalBaru}
+						 WHERE idTransaksiBeli = {$z['idTransaksiBeli']}") or die(mysql_error());
+
 		// input transaksi retur ke database
-		if ($tmpEdit[jumRetur] > 0) { // yang jumRetur 0 (nol) tidak usah dicatat
-			$z = $tmpEdit;
-			$sql = "INSERT INTO detail_retur_beli (idTransaksiBeli,idBarang,tglExpire,jumRetur,hargaBeli,barcode,
-				username,idSupplier,nominal,idTipePembayaran,NomorInvoice,tglRetur)
-			VALUES ($z[idTransaksiBeli],$z[idBarang],'$z[tglExpire]',$z[jumRetur],$z[hargaBeli],'$z[barcode]',
-				'$username','$idSupplier', $totalRetur, $idTipePembayaran, '$NomorInvoice','$last_update')";
-			mysql_query($sql) or die(mysql_error());
-		}
+		$sql = "INSERT INTO detail_retur_beli (idTransaksiBeli,idBarang,tglExpire,jumRetur,hargaBeli,barcode,
+					username,idSupplier,nominal,idTipePembayaran,NomorInvoice,tglRetur)
+			VALUES ({$z['idTransaksiBeli']},{$z['idBarang']},'{$z['tglExpire']}',{$z['jumRetur']},{$z['hargaBeli']},'{$z['barcode']}',
+				'{$username}', {$idSupplier}, $totalRetur, {$transaksiBeli['idTipePembayaran']}, '{$transaksiBeli['NomorInvoice']}','{$last_update}')";
+		mysql_query($sql) or die('Gagal Insert detail_retur_beli, sql='.$sql.'; error:'.mysql_error());
 	}
+	// hapus data temporary
+	mysql_query("DELETE FROM tmp_edit_detail_retur_beli") or die(mysql_error());
+	header('location:media.php?module=pembelian_barang');
 }
 // else
 else { // =======================================================================================================================================
