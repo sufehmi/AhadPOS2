@@ -188,6 +188,9 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
 
 	//cek TransferAhad
 	$transferAhad = $_POST['transferahad'] ? true : false;
+	//cek ReturBeli
+	$returBeli = $_POST['returbeli'] ? true : false;
+
 	$dataAda = cekBarang($barcode);
 	if ($dataAda != 0) {
 		$jumlah = 0;
@@ -246,9 +249,9 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
 
 		mysql_query($sql) or die(mysql_error());
 		$uid = mysql_insert_id();
-		
-		// Jika transfer ahad, maka diskon dan harga banded diabaikan
-		if ($uid && !$transferAhad) {
+
+		// Jika transfer ahad / retur beli, maka diskon dan harga banded diabaikan
+		if ($uid && !($transferAhad || $returBeli)) {
 			// Cek dan sekaligus tambahkan diskon jika ada
 			if ($ukmMode) {
 				/*
@@ -1327,6 +1330,43 @@ function kartuStok($barcode, $tanggal) {
             order by tgl";
 	$result = mysql_query($sql) or die(mysql_error());
 	return array('saldo' => $saldo, 'mutasi' => $result);
+}
+
+function tambahBarangReturBeli($barcode, $qty) {
+	$tambahBarang = $qty;
+	$query = mysql_query("select * from tmp_edit_detail_retur_beli where barcode = '{$barcode}'");
+	/* Jika barang sudah ada tambahkan qty nya, hapus row nya */
+	if ($adaBarang = mysql_fetch_array($query, MYSQL_ASSOC)){
+		$tambahBarang += $adaBarang['jumRetur'];
+		mysql_query("delete from tmp_edit_detail_retur_beli where barcode = '{$barcode}'");
+	}
+	
+	/* Cari data detail_beli paling awal yang belum habis stok nya 
+	 * fixme: sisa stok yang ada seharusnya diperhitungkan 
+	 */
+	$sql = "select * from detail_beli where barcode = '{$barcode}' and isSold='N' order by idDetailBeli";
+	$query = mysql_query($sql);
+	$count = mysql_num_rows($query);
+
+	if ($count > 0) {
+		$detailBeli = mysql_fetch_array($query);
+	} else {
+		/* Jika tidak ada, maka ambil detail_beli terakhir */
+		$sql = "select * from detail_beli where barcode = '{$barcode}' order by idDetailBeli desc limit 1";
+		$query = mysql_query($sql);
+		$detailBeli = mysql_fetch_array($query);
+	}
+	
+	/* Insert row ke temp */
+	mysql_query("insert into tmp_edit_detail_retur_beli (idDetailBeli, idTransaksiBeli, idBarang, tglExpire, jumBarang, hargaBeli, barcode, jumRetur) "
+			  . "values ({$detailBeli['idDetailBeli']}, "
+			  . "{$detailBeli['idTransaksiBeli']}, "
+			  . "{$detailBeli['idBarang']}, "
+			  . "'{$detailBeli['tglExpire']}', "
+			  . "{$detailBeli['jumBarang']}, "
+			  . "{$detailBeli['hargaBeli']}, "
+			  . "'{$detailBeli['barcode']}', "
+			  . "{$tambahBarang})");
 }
 
 /* CHANGELOG -----------------------------------------------------------
