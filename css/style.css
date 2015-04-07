@@ -5,42 +5,42 @@ Style for ahad pos 2
     Created on : Nov 6, 2013, 1:08:59 PM
     Author     : abufathir
 */
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 300;
-  src: url('fonts/OpenSans-Light.ttf');
+/*@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: url('fonts/OpenSans-Light.ttf');
 }
 @font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: url('fonts/OpenSans.ttf');
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/OpenSans.ttf');
 }
 @font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 700;
-  src: url('fonts/OpenSans-Bold.ttf');
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: url('fonts/OpenSans-Bold.ttf');
 }
 @font-face {
-  font-family: 'Open Sans';
-  font-style: italic;
-  font-weight: 300;
-  src: url('fonts/OpenSans-LightItalic.ttf');
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 300;
+    src: url('fonts/OpenSans-LightItalic.ttf');
 }
 @font-face {
-  font-family: 'Open Sans';
-  font-style: italic;
-  font-weight: 400;
-  src: url('fonts/OpenSans-Italic.ttf');
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 400;
+    src: url('fonts/OpenSans-Italic.ttf');
 }
 @font-face {
-  font-family: 'Open Sans';
-  font-style: italic;
-  font-weight: 700;
-  src: url('fonts/OpenSans-BoldItalic.ttf');
-}
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 700;
+    src: url('fonts/OpenSans-BoldItalic.ttf');
+}*/
 @font-face {
   font-family: 'Ubuntu';
   font-style: normal;
@@ -258,7 +258,7 @@ table {
   img {
     max-width: 100% !important;
   }
-  @page {
+  @page  {
     margin: 2cm .5cm;
   }
   p,
@@ -308,7 +308,7 @@ table {
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 15px;
-  line-height: 1.42857143;
+  line-height: 1.428571429;
   border-radius: 0;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -425,7 +425,7 @@ button {
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 15px;
-  line-height: 1.42857143;
+  line-height: 1.428571429;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -600,6 +600,7 @@ input[type="file"] {
 .input-group {
   position: relative;
   /*display: table;*/
+
   border-collapse: separate;
   display: inline-table;
   width: 50px;
@@ -652,6 +653,7 @@ body {
 					background-color: #444;
 				}
 			}*/
+
 }
 body.kasir {
   display: inline;
@@ -912,6 +914,7 @@ table.top td {
 .tabel .pilih:focus {
   /*		color: white;
 				background-color: red;*/
+
   outline: 1px solid #6fa738;
   background-color: yellow;
 }
@@ -1034,7 +1037,7 @@ textarea {
 }
 /* makes the font 33% larger relative to the icon container */
 .fa-lg {
-  font-size: 1.33333333em;
+  font-size: 1.3333333333333333em;
   line-height: 0.75em;
   vertical-align: -15%;
 }
@@ -1051,12 +1054,12 @@ textarea {
   font-size: 5em;
 }
 .fa-fw {
-  width: 1.28571429em;
+  width: 1.2857142857142858em;
   text-align: center;
 }
 .fa-ul {
   padding-left: 0;
-  margin-left: 2.14285714em;
+  margin-left: 2.142857142857143em;
   list-style-type: none;
 }
 .fa-ul > li {
@@ -1064,13 +1067,13 @@ textarea {
 }
 .fa-li {
   position: absolute;
-  left: -2.14285714em;
-  width: 2.14285714em;
-  top: 0.14285714em;
+  left: -2.142857142857143em;
+  width: 2.142857142857143em;
+  top: 0.14285714285714285em;
   text-align: center;
 }
 .fa-li.fa-lg {
-  left: -1.85714286em;
+  left: -1.8571428571428572em;
 }
 .fa-border {
   padding: .2em .25em .15em;
@@ -2348,4 +2351,3 @@ textarea {
 .fa-plus-square-o:before {
   content: "\f196";
 }
-/*# sourceMappingURL=style.css.map */

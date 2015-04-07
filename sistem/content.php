@@ -27,7 +27,7 @@ if ($_GET[module] == 'home') {
 	?>
 
 	<h2>Selamat Datang</h2>
-	<p>Hai <b><?php echo $_SESSION[namauser]; ?></b>, id Anda = <b><?php echo $_SESSION[iduser]; ?></b>. 
+	<p>Hai <b><?php echo $_SESSION[namauser]; ?></b>, id Anda = <b><?php echo $_SESSION[iduser]; ?></b>.
 		Anda menjabat sebagai <b><?php echo $_SESSION[leveluser]; ?></b>
 		di sistem ini. Pergunakanlah dengan bijak jabatan Anda.</p>
 	<p>Kas Awal Anda adalah : <b>Rp. <?php echo $kas; ?></b></p>
@@ -55,7 +55,7 @@ if ($_GET[module] == 'home') {
 	}
 	?>
 
-	<p>&nbsp;</p>          
+	<p>&nbsp;</p>
 	<p>Waktu Login Saat ini: <?php echo tgl_indo(date("Y m d")); ?> | <?php echo date("H:i"); ?>
 	</p>
 	<?php
@@ -152,6 +152,10 @@ elseif ($_GET[module] == 'system') {
 	include "modul/mod_system.php";
 }
 
+// System
+elseif ($_GET[module] == 'membership') {
+	include "modul/mod_membership.php";
+}
 
 
 /* CHANGELOG -----------------------------------------------------------

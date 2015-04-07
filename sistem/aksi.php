@@ -404,31 +404,33 @@ elseif ($module == 'supplier' AND $act == 'hapus') {
 } // end hapus user
 // Input Customer =====================================================================================================
 elseif ($module == 'customer' AND $act == 'input') {
-	$ambilID = mysql_query("select max(idCustomer)+1 from customer");
-	$ID = mysql_fetch_array($ambilID);
-	$id_customer;
-	if ($ID[0] == '')
-		$id_customer = '1';
-	else
-		$id_customer = $ID[0];
-	$tgl = date("Y-m-d");
-	mysql_query("INSERT INTO customer(idCustomer,namaCustomer,
-                    alamatCustomer,telpCustomer,keterangan,last_update)
-                    VALUES('$id_customer','$_POST[namaCustomer]',
-                    '$_POST[alamatCustomer]','$_POST[telpCustomer]',
-                    '$_POST[keterangan]','$tgl')");
-	header('location:media.php?module='.$module);
+    $tgl = date("Y-m-d");
+    $tanggalLahir = date_format(date_create_from_format('d-m-Y', $_POST['tanggal_lahir']), 'Y-m-d');
+    $nomorKartu = $_POST['nomor_kartu'] == '' ? 'NULL' : "'{$_POST['nomor_kartu']}'";
+    mysql_query("INSERT INTO customer(nomor_kartu, namaCustomer, alamatCustomer,telpCustomer,keterangan,last_update,
+                    nomor_ktp, jenis_kelamin, tanggal_lahir, handphone, email, member)
+                    VALUES({$nomorKartu}, '{$_POST['namaCustomer']}', '{$_POST['alamatCustomer']}', '{$_POST['telpCustomer']}', '{$_POST['keterangan']}','$tgl',
+            '{$_POST['nomor_ktp']}', {$_POST['jenis_kelamin']}, '{$tanggalLahir}', '{$_POST['handphone']}', '{$_POST['email']}', {$_POST['member']})") or die(mysql_error());
+    header('location:media.php?module=' . $module);
 }// end Input Customer
 // Update Customer
 elseif ($module == 'customer' AND $act == 'update') {
-	$tgl = date("Y-m-d");
-	mysql_query("UPDATE customer SET namaCustomer = '$_POST[namaCustomer]',
-                    alamatCustomer = '$_POST[alamatCustomer]',
-                    telpCustomer = '$_POST[telpCustomer]',
-                    keterangan = '$_POST[keterangan]',
-						  diskon_persen = $_POST[diskon_persen],
-						  diskon_rupiah = $_POST[diskon_rupiah],
-                    last_update = '$tgl'
+    $tgl = date("Y-m-d");
+    $tanggalLahir = date_format(date_create_from_format('d-m-Y', $_POST['tanggal_lahir']), 'Y-m-d');
+    mysql_query("UPDATE customer SET namaCustomer = '$_POST[namaCustomer]',
+                        nomor_kartu = '{$_POST['nomor_kartu']}',
+                        alamatCustomer = '$_POST[alamatCustomer]',
+                        telpCustomer = '$_POST[telpCustomer]',
+                        keterangan = '$_POST[keterangan]',
+                        diskon_persen = $_POST[diskon_persen],
+                        diskon_rupiah = $_POST[diskon_rupiah],
+                        last_update = '$tgl',
+                        nomor_ktp = '{$_POST['nomor_ktp']}',
+                        jenis_kelamin = {$_POST['jenis_kelamin']},
+                        tanggal_lahir = '{$tanggalLahir}',
+                        handphone = '{$_POST['handphone']}',
+                        email = '{$_POST['email']}',
+                        member = {$_POST['member']}
                     WHERE idCustomer = '$_POST[idCustomer]'");
 	header('location:media.php?module='.$module);
 }// end Update Customer
@@ -537,36 +539,39 @@ elseif ($module == 'pembelian_barang' AND $act == 'batal') {
 // Input Transaksi Jual ======================================================================================================================
 elseif ($module == 'penjualan_barang' AND $act == 'input') {
 
-	//$ambilID = mysql_query("select max(idTransaksiJual)+1 from transaksijual");
-	//$ID = mysql_fetch_array($ambilID);
-	//$id_transaksi;
-	//if($ID[0]=='')
-	//	$id_transaksi = '1';
-	//else
-	//	$id_transaksi = $ID[0];
-	// simpan transaksi ke database
-	$tgl = date("Y-m-d H:i:s");
+    //$ambilID = mysql_query("select max(idTransaksiJual)+1 from transaksijual");
+    //$ID = mysql_fetch_array($ambilID);
+    //$id_transaksi;
+    //if($ID[0]=='')
+    //	$id_transaksi = '1';
+    //else
+    //	$id_transaksi = $ID[0];
+    // simpan transaksi ke database
+    $tgl = date("Y-m-d H:i:s");
 
-	$NomorStruk = 0;
-	$transferahad = false;
-	$returBeli = false;
-	if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
-		$transferahad = true;
-	}
+    $NomorStruk = 0;
+    $jumlahPoin = isset($_POST['jumlah_poin']) ? $_POST['jumlah_poin'] : 0;
+
+    $transferahad = false;
+	 $returBeli = false;
+    if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
+        $transferahad = true;
+    }
 	if ($_POST['returbeli'] == 1) {
 		$returBeli = true;
 	}
-	if (!$transferahad) {
-		$sql = "INSERT INTO transaksijual(tglTransaksiJual,
-	                    idCustomer,idTipePembayaran,nominal,idUser,last_update,uangDibayar)
+    if (!$transferahad) {
+        $sql = "INSERT INTO transaksijual(tglTransaksiJual,
+	                    idCustomer,idTipePembayaran,nominal,idUser,last_update,uangDibayar,jumlah_poin)
         	            VALUES('$tgl','$_SESSION[idCustomer]',
         	                   '$_POST[tipePembayaran]','$_POST[tot_pembayaran]',
-        	                    '$_SESSION[iduser]','$tgl', $_POST[uangDibayar])";
-		$hasil = mysql_query($sql) or die(mysql_error());
-		//echo $sql;
-		$NomorStruk = mysql_insert_id();
-	} else if ($transferahad) {
-		$sql = "INSERT INTO transaksitransferbarang(tglTransaksi,
+        	                    '$_SESSION[iduser]','$tgl', $_POST[uangDibayar], $jumlahPoin)";
+        $hasil = mysql_query($sql) or die(mysql_error());
+        //echo $sql;
+        $NomorStruk = mysql_insert_id();
+    }
+    else if ($transferahad) {
+        $sql = "INSERT INTO transaksitransferbarang(tglTransaksi,
 	                    idCustomer,idTipePembayaran,nominal,idUser,last_update)
         	            VALUES('$tgl','$_SESSION[idCustomer]',
         	                   '$_POST[tipePembayaran]','$_POST[tot_pembayaran]',
@@ -606,107 +611,130 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	// ambil transaksi yang akan dicetak
 	$sql = "SELECT t.jumBarang,t.hargaJual,b.namaBarang, t.diskon_detail_uids, t.diskon_persen, t.diskon_rupiah FROM barang AS b, tmp_detail_jual AS t
 		WHERE t.username='$_SESSION[uname]' and t.idCustomer = {$_SESSION['idCustomer']} AND t.barcode=b.barcode order by t.uid";
-	//echo $sql;
-	$hasil = mysql_query($sql);
+    //echo $sql;
+    $hasil = mysql_query($sql);
 
-	if ($jenis_printer == 'rlpr') {
-		/**
-		 * Init printer, dan buka cash drawer
-		 */
-		$command = chr(27)."@"; //Init printer
-		//$command .= chr(27) . chr(101) . chr(1); //1 reverse lf
-		$command .= chr(27).chr(112).chr(48).chr(60).chr(120); // buka cash drawer
-		$command .= chr(27).chr(101).chr(1); //1 reverse lf
-		$perintah = "echo \"$command\" |lpr $perintah_printer ";
-		exec($perintah, $output);
-	}
-	/**
-	 *
-	 */
-	// siapkan string yang akan dicetak
-	$struk = ''; //chr(27) . "@"; //Init printer
-	$struk .= str_pad($store_name, 40, " ", STR_PAD_BOTH)."\n".str_pad($header1, 40, " ", STR_PAD_BOTH)."\n"
-			  .str_pad($_SESSION[uname]." : ".date("d-m-Y H:i")." #$NomorStruk", 40, " ", STR_PAD_BOTH)." \n";
+    if ($jenis_printer == 'rlpr') {
+        /**
+         * Init printer, dan buka cash drawer
+         */
+        $command = chr(27) . "@"; //Init printer
+        //$command .= chr(27) . chr(101) . chr(1); //1 reverse lf
+        $command .= chr(27) . chr(112) . chr(48) . chr(60) . chr(120); // buka cash drawer
+        $command .= chr(27) . chr(101) . chr(1); //1 reverse lf
+        $perintah = "echo \"$command\" |lpr $perintah_printer ";
+        exec($perintah, $output);
+    }
+    /**
+     *
+     */
+    // siapkan string yang akan dicetak
+    $struk = ''; //chr(27) . "@"; //Init printer
+    $struk .= str_pad($store_name, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($header1, 40, " ", STR_PAD_BOTH) . "\n";
+    $struk .= str_pad($_SESSION[uname] . " : " . date("d-m-Y H:i") . " #$NomorStruk", 40, " ", STR_PAD_BOTH) . "\n";
+    if ($_SESSION['isMember']) {
+        $queryCustomer = mysql_query("SELECT nomor_kartu, namaCustomer FROM customer WHERE idCustomer = {$_SESSION['idCustomer']}");
+        //print_r($_SESSION);
+        $customer = mysql_fetch_array($queryCustomer, MYSQL_ASSOC);
+        $struk .= str_pad("{$customer['namaCustomer']} : {$customer['nomor_kartu']}", 40, " ", STR_PAD_BOTH) . "\n";
+    }
+    $struk .= "----------------------------------------\n";
 
-	$struk .= "----------------------------------------\n";
+    $diskonHargaPerBarangTotal = 0;
+    $diskonCustomer = 0;
+    while ($x = mysql_fetch_array($hasil)) {
+        //$temp = $x[jumBarang] . "x ". $x[namaBarang]. " @".number_format($x[hargaJual],0,',','.').
+        //		": ".number_format(($x[hargaJual] * $x[jumBarang]),0,',','.')."\n";
+        $tempNamaBarang = $x['namaBarang'];
+        $textSubTotal = number_format(($x['hargaJual'] + $x['diskon_rupiah']) * $x['jumBarang'], 0, ',', '.');
+        $tempHarga = "@ " . number_format($x['hargaJual'] + $x['diskon_rupiah'], 0, ',', '.') . " x " . $x['jumBarang'] . " : " . str_pad($textSubTotal, 11, ' ', STR_PAD_LEFT);
 
-	$diskonHargaPerBarangTotal = 0;
-	$diskonCustomer = 0;
-	while ($x = mysql_fetch_array($hasil)) {
-		//$temp = $x[jumBarang] . "x ". $x[namaBarang]. " @".number_format($x[hargaJual],0,',','.').
-		//		": ".number_format(($x[hargaJual] * $x[jumBarang]),0,',','.')."\n";
-		$temp = $x['namaBarang']."\n        @ ".number_format($x['hargaJual'] + $x['diskon_rupiah'], 0, ',', '.')." x ".$x['jumBarang'].
-				  " = ".number_format(($x['hargaJual'] + $x['diskon_rupiah']) * $x['jumBarang'], 0, ',', '.')."\n";
+        $diskon = '';
+        // Bilamana ada diskon per barang
+        if (!is_null($x['diskon_detail_uids'])) {
+            $detailDiskon = json_decode($x['diskon_detail_uids'], true);
+            // Jika ada diskon customer dipisah tampilannya di struk
+            if (isset($detailDiskon['2'])) {
+                $diskonCustomer+=$detailDiskon['2'];
+            }
+            if ($x['diskon_persen'] > 0) {
+                $diskonPersen = $x['diskon_persen'];
+                $diskonRupiah = $x['diskon_rupiah'] * $x['jumBarang'];
+                $diskonHargaPerBarangTotal += $diskonRupiah;
+                $textDiskon = "Potongan (" . $diskonPersen . '%) : ' . str_pad('(' . number_format($diskonRupiah, 0, ',', '.') . ')', 12, ' ', STR_PAD_LEFT);
+            }
+            elseif ($x['diskon_rupiah'] > 0) {
+                $diskonRupiah = $x['diskon_rupiah'] * $x['jumBarang'];
+                $diskonHargaPerBarangTotal += $diskonRupiah;
+                $textDiskon = "Potongan : " . str_pad("(" . number_format($diskonRupiah, 0, ',', '.') . ')', 12, ' ', STR_PAD_LEFT);
+            }
+            $diskon = str_pad($textDiskon, 40, ' ', STR_PAD_LEFT) . "\n";
+        }
+        // jika panjang baris > 40 huruf, pecah jadi 2 baris
+        //if (strlen($temp) > 40) {
+        //	$tmp = substr($temp, 0, 40) . "- \n -" . substr($temp, 40);
+        //	$temp = $tmp;
+        //};
+        $struk .= ' ' . $tempNamaBarang . "\n";
+        $struk .= str_pad($tempHarga, 39, ' ', STR_PAD_LEFT) . "\n";
+        $struk .= $diskon;
+    }
 
-		$diskon = '';
-		// Bilamana ada diskon per barang
-		if (!is_null($x['diskon_detail_uids'])) {
-			$detailDiskon = json_decode($x['diskon_detail_uids'], true);
-			// Jika ada diskon customer dipisah tampilannya di struk
-			if (isset($detailDiskon['2'])) {
-				$diskonCustomer+=$detailDiskon['2'];
-			}
-			if ($x['diskon_persen'] > 0) {
-				$diskonPersen = $x['diskon_persen'];
-				$diskonRupiah = $x['diskon_rupiah'] * $x['jumBarang'];
-				$diskonHargaPerBarangTotal += $diskonRupiah;
-				$diskon = "        Potongan (".$diskonPersen.'%) = ('.number_format($diskonRupiah, 0, ',', '.').')'."\n";
-			} elseif ($x['diskon_rupiah'] > 0) {
-				$diskonRupiah = $x['diskon_rupiah'] * $x['jumBarang'];
-				$diskonHargaPerBarangTotal += $diskonRupiah;
-				$diskon = "        Potongan (".number_format($diskonRupiah, 0, ',', '.').')'."\n";
-			}
-		}
-		// jika panjang baris > 40 huruf, pecah jadi 2 baris
-		//if (strlen($temp) > 40) {
-		//	$tmp = substr($temp, 0, 40) . "- \n -" . substr($temp, 40);
-		//	$temp = $tmp;
-		//};
-		$struk .= $temp.$diskon;
-	}
+    $diskonHargaPerBarangTotal -= $diskonCustomer;
+    $struk .= "----------------------------------------\n";
+    $textTotalPotongan = "Total Potongan   : " . str_pad(number_format($diskonHargaPerBarangTotal, 0, ',', '.'), 11, ' ', STR_PAD_LEFT);
+    $textDiskonCustomer = 'Potongan Spesial : ' . str_pad(number_format($diskonCustomer, 0, ',', '.'), 11, ' ', STR_PAD_LEFT);
+    $textTotal = "TOTAL            : " . str_pad(number_format($_POST[tot_pembayaran], 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+    $textDibayar = "Dibayar          : " . str_pad(number_format($_POST[uangDibayar], 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+    $textKembali = "Kembali          : " . str_pad(number_format($_POST[uangDibayar] - $_POST[tot_pembayaran], 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+    $textAndaHemat = "ANDA HEMAT       : " . str_pad(number_format($diskonHargaPerBarangTotal + $diskonCustomer, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
 
-	$diskonHargaPerBarangTotal -= $diskonCustomer;
-	$struk .= "----------------------------------------\n";
-	$struk .= $diskonHargaPerBarangTotal > 0 && $diskonCustomer > 0 ? " Total Potongan   : ".str_pad(number_format($diskonHargaPerBarangTotal, 0, ',', '.'), 11, ' ', STR_PAD_LEFT)." \n" : '';
-	$struk .= $diskonCustomer > 0 ? ' Potongan Spesial : '.str_pad(number_format($diskonCustomer, 0, ',', '.'), 11, ' ', STR_PAD_LEFT)." \n" : '';
-	$struk .= " TOTAL            : ".str_pad(number_format($_POST[tot_pembayaran], 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n";
-	$struk .= " Dibayar          : ".str_pad(number_format($_POST[uangDibayar], 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n";
-	$struk .= " Kembali          : ".str_pad(number_format($_POST[uangDibayar] - $_POST[tot_pembayaran], 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n";
-	$struk .= $diskonHargaPerBarangTotal > 0 ? " ANDA HEMAT       : ".str_pad(number_format($diskonHargaPerBarangTotal + $diskonCustomer, 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n" : '';
-	$struk .= "----------------------------------------\n";
-	$struk .= str_pad($footer1, 40, " ", STR_PAD_BOTH)."\n".str_pad($footer2, 40, " ", STR_PAD_BOTH)."\n\n\n\n\n\n\n\n\n\n";
-	// tambahan perintah untuk cutter epson
-	if ($jenis_printer == 'rlpr') {
-		$struk .= chr(27)."@".chr(29)."V".chr(1);
-	}
+    $struk .= $diskonHargaPerBarangTotal > 0 && $diskonCustomer > 0 ? str_pad($textTotalPotongan, 39, ' ', STR_PAD_LEFT) . " \n" : '';
+    $struk .= $diskonCustomer > 0 ? str_pad($textDiskonCustomer, 39, ' ', STR_PAD_LEFT) . "\n" : '';
+    $struk .= str_pad($textTotal, 39, ' ', STR_PAD_LEFT) . "\n";
+    $struk .= str_pad($textDibayar, 39, ' ', STR_PAD_LEFT) . " \n";
+    $struk .= str_pad($textKembali, 39, ' ', STR_PAD_LEFT) . " \n";
+    $struk .= $diskonHargaPerBarangTotal > 0 ? str_pad($textAndaHemat, 39, ' ', STR_PAD_LEFT) . "\n" : '';
+    $struk .= "----------------------------------------\n";
+    $struk .= str_pad($footer1, 40, " ", STR_PAD_BOTH) . "\n" . str_pad($footer2, 40, " ", STR_PAD_BOTH) . "\n\n";
 
-	if ($jenis_printer == 'pdf') {
-		require('classes/fpdf.php');
-		$pdf = new FPDF();
-		$pdf->AddPage();
-		$pdf->SetFont('Courier', '', 9);
-		$struk_pdf = explode("\n", $struk);
-		foreach ($struk_pdf as $baris) {
-			$width = 40;
-			$length = 1;
-			$pdf->Cell($width, $length, $baris);
-			$pdf->Ln(3);
-		}
-		$pdf->Output();
-	} elseif ($jenis_printer == 'rlpr') {
-		include "classes/PrintSend.php";
-		include "classes/PrintSendLPR.php";
-		$perintah = "echo \"$struk\" |lpr $perintah_printer -l";
+    if ($_SESSION['isMember']) {
+        $struk .= 'Jumlah poin terkumpul: ' . getJumlahPoinPeriodeBerjalan($_SESSION['idCustomer']);
+    }
+    $struk .= "\n\n\n\n\n\n\n\n\n\n";
+// tambahan perintah untuk cutter epson
+    if ($jenis_printer == 'rlpr') {
+        $struk .= chr(27) . "@" . chr(29) . "V" . chr(1);
+    }
 
-		// cara test lpr :
-		// export ip=192.168.0.17; echo "Ini AhadPOS \n apakah sukses cetak struk ?" |lpr -H $ip -P printer$ip -l
-		//echo $perintah; exit;
-		exec($perintah, $output);
-	};
+    if ($jenis_printer == 'pdf') {
+        require('classes/fpdf.php');
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Courier', '', 9);
+        $struk_pdf = explode("\n", $struk);
+        foreach ($struk_pdf as $baris) {
+            $width = 40;
+            $length = 1;
+            $pdf->Cell($width, $length, $baris);
+            $pdf->Ln(3);
+        }
+        $pdf->Output();
+    }
+    elseif ($jenis_printer == 'rlpr') {
+        include "classes/PrintSend.php";
+        include "classes/PrintSendLPR.php";
+        $perintah = "echo \"$struk\" |lpr $perintah_printer -l";
+
+        // cara test lpr :
+        // export ip=192.168.0.17; echo "Ini AhadPOS \n apakah sukses cetak struk ?" |lpr -H $ip -P printer$ip -l
+        //echo $perintah; exit;
+        exec($perintah, $output);
+    };
 
 
-	if ($_POST[tipePembayaran] == '2') {
-		mysql_query("INSERT INTO piutang(idTransaksiJual,nominal,tglDiBayar,
+    if ($_POST[tipePembayaran] == '2') {
+        mysql_query("INSERT INTO piutang(idTransaksiJual,nominal,tglDiBayar,
                         idUser,last_update)
                         VALUES('$id_transaksi','$_POST[tot_pembayaran]',
                         '$_POST[tglBayar]','$_SESSION[iduser]','$tgl')") or die(mysql_error());
@@ -934,6 +962,36 @@ elseif ($module == 'penjualan_barang' AND $act == 'selfcheckoutinput') {
 			tambahBarangJual($barang['barcode'], $jumBarang);
 		}
 	}
+}
+
+// Nomor Kartu Customer
+elseif ($module == 'penjualan_barang' AND $act == 'nomorkartuinput') {
+    if (isset($_POST['nomor-kartu'])) {
+        $return = array('sukses' => false);
+        $nomorKartu = $_POST['nomor-kartu'];
+        $result = mysql_query("select idCustomer from customer where nomor_kartu='{$nomorKartu}'");
+        $customer = mysql_fetch_array($result);
+        if ($customer) {
+            findCustomer($customer['idCustomer']);
+            mysql_query("UPDATE tmp_detail_jual SET idCustomer = {$customer['idCustomer']} WHERE username = '{$_SESSION['uname']}'");
+            $query = mysql_query("SELECT barcode, sum(jumBarang) qty
+                                    FROM tmp_detail_jual
+                                    WHERE username = '{$_SESSION['uname']}' AND idCustomer = {$customer['idCustomer']}
+                                    group by barcode");
+            // Hapus semuanya
+            // Ulangi proses input
+            while ($barang = mysql_fetch_array($query)) {
+                mysql_query("delete from tmp_detail_jual where idCustomer={$customer['idCustomer']} "
+                                . "and barcode = '{$barang['barcode']}' "
+                                . "and username='{$_SESSION['uname']}'") or die('Gagal clean ' . mysql_error());
+                tambahBarangJual($barang['barcode'], $barang['qty']);
+            }
+
+            $return = array('sukses' => true);
+        }
+    }
+    header('Content-type: application/json');
+    echo json_encode($return);
 }
 
 //ukmMode: Cek Harga untuk input harga jual manual
@@ -1365,67 +1423,68 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                 left join kategori_barang kb on barang.idKategoriBarang = kb.idKategoriBarang
                 left join satuan_barang sb on barang.idSatuanBarang = sb.idSatuanBarang
                 where kb.idKategoriBarang is null or sb.idSatuanBarang is null
-		  ') or die('Gagal cari data barang error, error: '.mysql_error());
-	?>
-	<table class='tabel'>
-		<thead>
-			<?php
-			if (mysql_num_rows($result) > 0):
-				?>
-				<tr>
-					<td colspan="4" style="text-align: right"><a id="tombol-auto-update" href="#"><button>Auto Update</button></a></td>
-				</tr>
-				<?php
-			endif;
-			?>
-			<tr>
-				<th>Barcode</th>
-				<th>Nama Barang</th>
-				<th>Kategori Barang</th>
-				<th>Satuan Barang</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php
-			$i = 1;
-			if (mysql_num_rows($result) > 0) {
-				while ($barang = mysql_fetch_array($result)) {
-					?>
-					<tr <?php echo $i % 2 == 0 ? 'class="alt"' : ''; ?>>
-						<td><?php echo $barang['barcode']; ?></td>
-						<td><?php echo $barang['namaBarang']; ?></td>
-						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                                                                           ?>><?php echo $barang['idSatuanBarang']; ?></td>
-					</tr>
-					<?php
-					$i++;
-				}
-			} else {
-				?>
-				<tr>
-					<td colspan="4">Data tidak ditemukan</td>
-				</tr>
-				<?php
-			}
-			?>
-		</tbody>
-	</table>
-	<script>
-		$("#tombol-auto-update").click(function () {
-			var aksiurl = 'aksi.php?module=system&act=maintenance-upd-barang';
-			$.ajax({
-				url: aksiurl,
-				type: "GET",
-				success: function (data) {
-					if (data == 'update-selesai') {
-						ambilHasil();
-					}
-				}
-			});
-		});
+		  ') or die('Gagal cari data barang error, error: ' . mysql_error());
+    ?>
+    <table class='tabel'>
+        <thead>
+            <?php
+            if (mysql_num_rows($result) > 0):
+                ?>
+                <tr>
+                    <td colspan="4" style="text-align: right"><a id="tombol-auto-update" href="#"><button>Auto Update</button></a></td>
+                </tr>
+                <?php
+            endif;
+            ?>
+            <tr>
+                <th>Barcode</th>
+                <th>Nama Barang</th>
+                <th>Kategori Barang</th>
+                <th>Satuan Barang</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $i = 1;
+            if (mysql_num_rows($result) > 0) {
+                while ($barang = mysql_fetch_array($result)) {
+                    ?>
+                    <tr <?php echo $i % 2 == 0 ? 'class="alt"' : ''; ?>>
+                        <td><?php echo $barang['barcode']; ?></td>
+                        <td><?php echo $barang['namaBarang']; ?></td>
+                        <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
+                        <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';              ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                    </tr>
+                    <?php
+                    $i++;
+                }
+            }
+            else {
+                ?>
+                <tr>
+                    <td colspan="4">Data tidak ditemukan</td>
+                </tr>
+                <?php
+            }
+            ?>
+        </tbody>
+    </table>
+    <script>
+        $("#tombol-auto-update").click(function () {
+            var aksiurl = 'aksi.php?module=system&act=maintenance-upd-barang';
+            $.ajax({
+                url: aksiurl,
+                type: "GET",
+                success: function (data) {
+                    if (data == 'update-selesai') {
+                        ambilHasil();
+                    }
+                }
+            });
+        });
 
-	</script>
-	<?php
+    </script>
+    <?php
 }
 
 // Update kategori dan satuan barang menjadi 1 (id kategori), 3 (id satuan)
@@ -1591,6 +1650,107 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	// hapus data temporary
 	mysql_query("DELETE FROM tmp_edit_detail_retur_beli") or die(mysql_error());
 	header('location:media.php?module=pembelian_barang');
+}
+elseif ($module === 'membership' && $act === 'simpan') {
+    if (isset($_POST['config'])) {
+        $config = $_POST['config'];
+        foreach ($config as $option => $value) {
+            mysql_query("update config set value = '{$value}' where `option` = '{$option}'") or die(mysql_error());
+        }
+        header("Refresh:1; url=media.php?module={$module}&act=setting", true, 303);
+        echo 'Setting membership sudah disimpan..';
+    }
+}
+elseif ($module === 'membership' && $act === 'tambahperiode') {
+    if (isset($_POST['periode'])) {
+        $periode = $_POST['periode'];
+        //insert ke tabel
+        mysql_query("INSERT INTO periode_poin (nama, awal, akhir) VALUES('{$periode['nama']}',{$periode['awal']},{$periode['akhir']})") or die('Gagal Insert Periode Poin');
+
+        header('location:media.php?module=membership');
+    }
+}
+elseif ($module === 'membership' && $act === 'hapusperiode') {
+    if (isset($_GET['periodeId'])) {
+        $periodeId = $_GET['periodeId'];
+        //hapus periode
+        mysql_query("DELETE FROM periode_poin WHERE id = {$periodeId}") or die('Gagal Hapus Periode Poin: ' . mysql_error());
+    }
+    header('location:media.php?module=membership');
+}
+elseif ($module === 'laporan' && $act === 'jumlahpoin') {
+    if (isset($_POST['laporan'])) {
+        $param = $_POST['laporan'];
+        $sql = "SELECT awal, akhir FROM periode_poin WHERE id= {$param['periode']}";
+        $query = mysql_query($sql);
+        $periode = mysql_fetch_array($query, MYSQL_ASSOC);
+        $sort = $param['sort'] == 1 ? 'DESC' : 'ASC';
+
+        $sql = "SELECT poin.*, customer.nomor_kartu, customer.namaCustomer, customer.alamatCustomer,
+                customer.telpCustomer, customer.email, customer.handphone, customer.nomor_ktp, customer.tanggal_lahir
+                FROM
+                (
+                SELECT SUM(jumlah_poin) jumlah_poin, idCustomer
+                            FROM transaksijual
+                            WHERE YEAR(tglTransaksiJual)= {$param['tahun']} AND
+                            MONTH(tglTransaksiJual) BETWEEN {$periode['awal']} AND {$periode['akhir']}
+                GROUP BY idCustomer
+                HAVING SUM(jumlah_poin) between {$param['jumlahDari']} AND {$param['jumlahSampai']}
+                ) AS poin
+                JOIN customer ON poin.idCustomer = customer.idCustomer AND customer.member=1
+                ORDER BY poin.jumlah_poin {$sort}, customer.namaCustomer";
+        $query = mysql_query($sql);
+        ?>
+        <html>
+            <head>
+                <link rel="stylesheet" type="text/css" href="../css/style.css" />
+            </head>
+            <body>
+                <h2>Laporan Jumlah Poin</h2>
+                <h4>Periode <?php echo bulanIndonesia($periode['awal']); ?> - <?php echo bulanIndonesia($periode['akhir']); ?> <?php echo $param['tahun']; ?></h4>
+                <table class="tabel">
+                    <thead>
+                        <tr style="border-bottom: 1px solid gray">
+                            <th>No Kartu</th>
+                            <th>Nama</th>
+                            <th>Jumlah Poin</th>
+                            <th>Alamat</th>
+                            <th>Telp</th>
+                            <th>Handphone</th>
+                            <th>Email</th>
+                            <th>No KTP</th>
+                            <th>Tgl Lahir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        while ($data = mysql_fetch_array($query, MYSQL_ASSOC)) {
+                            //print_r($data);
+                            ?>
+                            <tr>
+                                <td><?php echo $data['nomor_kartu']; ?></td>
+                                <td><?php echo $data['namaCustomer']; ?></td>
+                                <td class="right"><?php echo $data['jumlah_poin']; ?></td>
+                                <td><?php echo $data['alamatCustomer']; ?></td>
+                                <td><?php echo $data['telpCustomer']; ?></td>
+                                <td><?php echo $data['handphone']; ?></td>
+                                <td><?php echo $data['email']; ?></td>
+                                <td><?php echo $data['nomor_ktp']; ?></td>
+                                <td><?php echo date_format(date_create_from_format('Y-m-d', $data['tanggal_lahir']), 'd-m-Y'); ?></td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </body>
+        </html>
+
+        <?php
+    }
+    else {
+        echo 'Error';
+    }
 }
 // else
 else { // =======================================================================================================================================

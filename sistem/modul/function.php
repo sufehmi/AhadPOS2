@@ -64,15 +64,16 @@ function releaseSupplier() {
 }
 
 function findCustomer($idCustomer) {
-	$query = mysql_query("SELECT * from customer WHERE idCustomer = '$idCustomer'");
-	$dataCustomer = mysql_fetch_array($query);
+    $query = mysql_query("SELECT * from customer WHERE idCustomer = '$idCustomer'");
+    $dataCustomer = mysql_fetch_array($query);
 
-	#session_register("idCustomer");
-	#session_register("namaCustomer");
-	$_SESSION[idCustomer] = $dataCustomer[idCustomer];
-	$_SESSION[namaCustomer] = $dataCustomer[namaCustomer];
-	$_SESSION['customerDiskonP'] = $dataCustomer['diskon_persen'];
-	$_SESSION['customerDiskonR'] = $dataCustomer['diskon_rupiah'];
+    #session_register("idCustomer");
+    #session_register("namaCustomer");
+    $_SESSION[idCustomer] = $dataCustomer[idCustomer];
+    $_SESSION[namaCustomer] = $dataCustomer[namaCustomer];
+    $_SESSION['customerDiskonP'] = $dataCustomer['diskon_persen'];
+    $_SESSION['customerDiskonR'] = $dataCustomer['diskon_rupiah'];
+    $_SESSION['isMember'] = $dataCustomer['member']; // 0=bukan member; 1=member
 }
 
 function releaseCustomer() {
@@ -279,23 +280,26 @@ function tambahBarangJual($barcode, $jumBarang, $hargaBarang) {
 }
 
 function cekDiskon($uid, $barcode, $jumBarang) {
-	// Cek dan tambahkan diskon waktu/promo jika ada
-	cekDiskonWaktu($uid);
-	// eo diskon waktu
-	// Cek dan tambahkan diskon grosir jika ada
-	// ctt: Diskon grosir akan menambah diskon waktu/promo jika ada
-	$diskonGrosir = cekDiskonGrosir($barcode, $jumBarang);
-	if ($diskonGrosir) {
-		//echo 'ketemu diskon grosir';
-		tambahkanDiskonGrosir($barcode, $diskonGrosir);
-	}
-	// eo diskon grosir
+    // Cek dan tambahkan diskon waktu/promo jika ada
+    // Jika ada diskon waktu/promo, maka diskon member tidak ada (untuk barang yang sama)
+    if (!cekDiskonWaktu($uid) && $_SESSION['isMember']) {
+        cekDiskonWaktuMember($uid);
+    }
+    // eo diskon waktu
+    // Cek dan tambahkan diskon grosir jika ada
+    // ctt: Diskon grosir akan menambah diskon waktu/promo jika ada
+    $diskonGrosir = cekDiskonGrosir($barcode, $jumBarang);
+    if ($diskonGrosir) {
+        //echo 'ketemu diskon grosir';
+        tambahkanDiskonGrosir($barcode, $diskonGrosir);
+    }
+    // eo diskon grosir
 
-	$diskonCustomer = cekDiskonCustomer($_SESSION['idCustomer']);
-	if ($diskonCustomer) {
-		//echo 'ketemu diskon customer';
-		tambahkanDiskonCustomer($barcode, $diskonCustomer);
-	}
+    $diskonCustomer = cekDiskonCustomer($_SESSION['idCustomer']);
+    if ($diskonCustomer) {
+        //echo 'ketemu diskon customer';
+        tambahkanDiskonCustomer($barcode, $diskonCustomer);
+    }
 }
 
 function tambahkanDiskonCustomer($barcode, $diskonCustomer) {
@@ -430,8 +434,9 @@ function tambahkanDiskonGrosir($barcode, $diskonGrosir) {
 }
 
 function cekDiskonWaktu($uid) {
-	// diskon_tipe_id = 1001
-	$sql = "select dd.uid, dd.diskon_persen, dd.diskon_rupiah, b.hargaJual, tdj.jumBarang, dd.max_item,
+    $adaDiskonWaktu = false;
+    // diskon_tipe_id = 1001
+    $sql = "select dd.uid, dd.diskon_persen, dd.diskon_rupiah, b.hargaJual, tdj.jumBarang, dd.max_item,
 				tdj.tglTransaksi, tdj.barcode, tdj.hargaBeli, tdj.idCustomer,tdj.username, tdj.idBarang
 				from tmp_detail_jual tdj
 				join diskon_detail dd on dd.barcode = tdj.barcode
@@ -474,19 +479,81 @@ function cekDiskonWaktu($uid) {
                             barcode,jumBarang,hargaBeli,hargaJual,username, idBarang)
                         VALUES('{$dataDiskon['idCustomer']}','{$dataDiskon['tglTransaksi']}','{$dataDiskon['barcode']}',
 								{$sisaBarang},{$dataDiskon['hargaBeli']},{$dataDiskon['hargaJual']},'{$dataDiskon['username']}', '{$dataDiskon['idBarang']}')";
-			mysql_query($sql) or die('Gagal menambahkan diskon promo2, error: '.mysql_error());
-			$uid2 = mysql_insert_id();
-			$return = array($uid => true, $uid2 => false);
-		} else {
-			$sql = "update tmp_detail_jual set hargaJual = '{$hargaJualNet}', diskon_persen = $diskonPersen, diskon_rupiah = '$diskonNet', diskon_detail_uids='{$diskonUids}' "
-					  ."where uid=$uid";
-			mysql_query($sql) or die('Gagal menambahkan diskon promo0, error: '.mysql_error());
-			$return = array($uid => true);
-		}
-		return $return;
-	} else {
-		return false;
-	}
+            mysql_query($sql) or die('Gagal menambahkan diskon promo2, error: ' . mysql_error());
+            $uid2 = mysql_insert_id();
+            //$return = array($uid => true, $uid2 => false);
+        }
+        else {
+            $sql = "update tmp_detail_jual set hargaJual = '{$hargaJualNet}', diskon_persen = $diskonPersen, diskon_rupiah = '$diskonNet', diskon_detail_uids='{$diskonUids}' "
+                    . "where uid=$uid";
+            mysql_query($sql) or die('Gagal menambahkan diskon promo0, error: ' . mysql_error());
+            //$return = array($uid => true);
+        }
+        $adaDiskonWaktu = true;
+    }
+    return $adaDiskonWaktu;
+}
+
+function cekDiskonWaktuMember($uid) {
+    $adaDiskonWaktu = false;
+    // diskon_tipe_id = 1002
+    $sql = "select dd.uid, dd.diskon_persen, dd.diskon_rupiah, b.hargaJual, tdj.jumBarang, dd.max_item,
+				tdj.tglTransaksi, tdj.barcode, tdj.hargaBeli, tdj.idCustomer,tdj.username, tdj.idBarang
+				from tmp_detail_jual tdj
+				join diskon_detail dd on dd.barcode = tdj.barcode
+				join barang b on b.barcode = dd.barcode
+				where tdj.uid=$uid and dd.status=1 and
+				dd.tanggal_dari<= now() and
+				(dd.tanggal_sampai='0000-00-00 00:00:00' or tanggal_sampai >= now() ) and
+				diskon_tipe_id=1002
+				order by dd.uid desc
+				limit 1";
+    $result = mysql_query($sql) or die('Gagal cek diskon promo untuk member, error: ' . mysql_error());
+    $dataDiskon = mysql_fetch_array($result);
+    if ($dataDiskon) {
+        $diskonDetailId = $dataDiskon['uid'];
+        $diskonPersen = $dataDiskon['diskon_persen'];
+        $diskonRupiah = $dataDiskon['diskon_rupiah'];
+        $hargaJual = $dataDiskon['hargaJual'];
+        // Jika ada diskon persen, diskon rupiah diabaikan (dianggap kesalahan input)
+        if ($diskonPersen > 0) {
+            $diskon = $diskonPersen / 100 * $hargaJual;
+            // harga jual dibulatkan ke atas jika berkoma.
+            $hargaJualNet = ceil($hargaJual - $diskon);
+            $diskonNet = $hargaJual - $hargaJualNet;
+        }
+        elseif ($diskonRupiah > 0) {
+            $diskon = $diskonRupiah;
+            $hargaJualNet = $hargaJual - $diskon;
+            $diskonNet = $diskon;
+        }
+
+        // diskon uid dan value disimpan dalam bentuk json, jika item dikenakan lebih dari 1 diskon
+        $diskonUids = json_encode(array($diskonDetailId => $diskonNet));
+        $jumbarang = $dataDiskon['jumBarang'];
+        $maxItem = $dataDiskon['max_item'];
+        if ($jumbarang > $maxItem) {
+            $sql = "update tmp_detail_jual set jumBarang = {$maxItem}, hargaJual = '{$hargaJualNet}', diskon_persen = $diskonPersen, diskon_rupiah = '$diskonNet', diskon_detail_uids='{$diskonUids}' "
+                    . "where uid=$uid";
+            mysql_query($sql) or die('Gagal menambahkan diskon member promo1, error: ' . mysql_error());
+            $sisaBarang = $jumbarang - $maxItem;
+            $sql = "INSERT into tmp_detail_jual(idCustomer, tglTransaksi,
+                            barcode,jumBarang,hargaBeli,hargaJual,username, idBarang)
+                        VALUES('{$dataDiskon['idCustomer']}','{$dataDiskon['tglTransaksi']}','{$dataDiskon['barcode']}',
+								{$sisaBarang},{$dataDiskon['hargaBeli']},{$dataDiskon['hargaJual']},'{$dataDiskon['username']}', '{$dataDiskon['idBarang']}')";
+            mysql_query($sql) or die('Gagal menambahkan diskon member promo2, error: ' . mysql_error());
+            $uid2 = mysql_insert_id();
+            //$return = array($uid => true, $uid2 => false);
+        }
+        else {
+            $sql = "update tmp_detail_jual set hargaJual = '{$hargaJualNet}', diskon_persen = $diskonPersen, diskon_rupiah = '$diskonNet', diskon_detail_uids='{$diskonUids}' "
+                    . "where uid=$uid";
+            mysql_query($sql) or die('Gagal menambahkan diskon member promo0, error: ' . mysql_error());
+            //$return = array($uid => true);
+        }
+        $adaDiskonWaktu = true;
+    }
+    return $adaDiskonWaktu;
 }
 
 function cekDiskonAdmin($uid, $barcode, $jumlah) {
@@ -520,28 +587,31 @@ function cekCustomerDiskon($customerId) {
 
 // ======= HARGA BANDED =======
 function cekHargaBanded($uid, $barcode, $jumlah, $paramJual) {
-	$sql = "SELECT qty, harga "
-			  ."FROM harga_banded "
-			  ."WHERE barcode = '{$barcode}'";
-	$query = mysql_query($sql) or die(mysql_error());
-	$hargaBanded = mysql_fetch_array($query, MYSQL_ASSOC);
-	// print_r($hargaBanded);
-	if ($hargaBanded && ($hargaBanded['qty'] <= $jumlah)) {
-		$sisa = $jumlah % $hargaBanded['qty'];
-		// echo 'sisa = ' . $sisa;
-		$qtyBanded = $jumlah - $sisa;
-		// echo 'qtyBanded=' . $qtyBanded;
-		mysql_query("UPDATE tmp_detail_jual set jumBarang = {$qtyBanded}, hargaJual = {$hargaBanded['harga']} "
-							 ."WHERE uid={$uid}") or die(mysql_error());
+    $adaHargaBanded = false;
+    $sql = "SELECT qty, harga "
+            . "FROM harga_banded "
+            . "WHERE barcode = '{$barcode}'";
+    $query = mysql_query($sql) or die(mysql_error());
+    $hargaBanded = mysql_fetch_array($query, MYSQL_ASSOC);
+    // print_r($hargaBanded);
+    if ($hargaBanded && ($hargaBanded['qty'] <= $jumlah)) {
+        $sisa = $jumlah % $hargaBanded['qty'];
+        // echo 'sisa = ' . $sisa;
+        $qtyBanded = $jumlah - $sisa;
+        // echo 'qtyBanded=' . $qtyBanded;
+        mysql_query("UPDATE tmp_detail_jual set jumBarang = {$qtyBanded}, hargaJual = {$hargaBanded['harga']} "
+                        . "WHERE uid={$uid}") or die(mysql_error());
 
-		if ($sisa > 0) {
-			$sql = "INSERT INTO tmp_detail_jual(idCustomer, tglTransaksi,
+        if ($sisa > 0) {
+            $sql = "INSERT INTO tmp_detail_jual(idCustomer, tglTransaksi,
                             barcode,jumBarang,hargaBeli,hargaJual,username, idBarang)
                         VALUES('$_SESSION[idCustomer]','{$paramJual['tgl']}','$barcode',
                             '$sisa',{$paramJual['hargaBeli']},{$paramJual['hargaBarang']},'$_SESSION[uname]', {$paramJual['idBarang']})";
-			mysql_query($sql) or die(mysql_error());
-		}
-	}
+            mysql_query($sql) or die(mysql_error());
+        }
+        $adaHargaBanded = true;
+    }
+    return $adaHargaBanded;
 }
 
 // =========================================== RPO ===========================================
@@ -1230,6 +1300,47 @@ function insertTempLabel($cekBarcode) {
 		$query = "INSERT INTO tmp_cetak_label_perbarcode (tmpBarcode, tmpNama, tmpKategori, tmpSatuan, tmpJumlah, tmpHargaJual, tmpIdBarang) VALUE ('$tmpBarcode','$tmpNama','$tmpKategori','$tmpSatuan','$tmpJumlah','$tmpHargaJual','$tmpId')";
 		$sql = mysql_query($query);
 	}
+}
+
+function getJumlahPoinPeriodeBerjalan($customerId) {
+    $bulanSekarang = date('n');
+    $sql = "SELECT awal, akhir FROM periode_poin WHERE {$bulanSekarang}>=awal AND {$bulanSekarang}<=akhir";
+    $query = mysql_query($sql);
+    $periode = mysql_fetch_array($query, MYSQL_ASSOC);
+    //echo $sql.'<br />';
+    if ($periode) {
+        $tahunSekarang = date('Y');
+        $sql = "SELECT SUM(jumlah_poin) jumlah_poin
+            FROM transaksijual
+            WHERE YEAR(tglTransaksiJual)={$tahunSekarang} AND
+            MONTH(tglTransaksiJual) BETWEEN {$periode['awal']} AND {$periode['akhir']} AND
+            idCustomer = {$customerId}";
+        $query = mysql_query($sql);
+        $jumlahPoin = mysql_fetch_array($query);
+        //echo $sql;
+        return isset($jumlahPoin['jumlah_poin']) ? $jumlahPoin['jumlah_poin'] : 0;
+    }
+    else {
+        return '0';
+    }
+}
+
+function bulanIndonesia($nomor) {
+    $bulanIndonesia = array(
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember'
+    );
+    return $bulanIndonesia[$nomor];
 }
 
 function kartuStok($barcode, $tanggal) {
