@@ -305,8 +305,9 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 									<th>Barcode</th>
 									<th>Nama Barang</th>
 									<th>Jumlah</th>
-									<th>Harga</th>
+									<th>Harga Normal</th>
 									<th>Diskon</th>
+									<th>Net</th>
 									<th>Total</th>
 									<th>Hapus</th>
 								</tr>
@@ -314,7 +315,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 								$no = 1;
 								$tot_pembelian = 0;
 
-								$query2 = mysql_query("SELECT tdj.uid, tdj.barcode, b.namaBarang, tdj.jumBarang, tdj.hargaJual, tdj.tglTransaksi, tdj.diskon_persen, tdj.diskon_rupiah
+								$query2 = mysql_query("SELECT tdj.uid, tdj.barcode, b.namaBarang, tdj.jumBarang, b.hargaJual hargaNormal, tdj.hargaJual, tdj.tglTransaksi, tdj.diskon_persen, tdj.diskon_rupiah
                                         FROM tmp_detail_jual tdj, barang b
 										WHERE tdj.barcode = b.barcode AND tdj.idCustomer = '{$_SESSION['idCustomer']}'
 										AND tdj.username = '{$_SESSION['uname']}' ORDER BY tdj.uid DESC");
@@ -350,6 +351,16 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 										<td><?php echo $data[barcode]; ?></td>
 										<td><?php echo $data[namaBarang]; ?></td>
 										<td class="right"><?php echo $data['jumBarang']; ?></td>
+										<td class="right"><?php echo $data['hargaNormal']; ?></td>
+										<td class="right"><?php
+											if ($data['diskon_persen'] > 0) {
+												echo $data['diskon_persen'].'%';
+											} elseif ($data['diskon_rupiah'] > 0) {
+												echo number_format($data['diskon_rupiah'], 0, ',', '.');
+												$totalDiskon += $data['diskon_rupiah'] * $data['jumBarang'];
+											}
+											?>
+										</td>
 										<td class="right">
 											<?php
 											// Jika punya hak admin, maka muncul link untuk manually update harga jual
@@ -360,15 +371,6 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 												<?php
 											} else {
 												echo $data['hargaJual'];
-											}
-											?>
-										</td>
-										<td class="right"><?php
-											if ($data['diskon_persen'] > 0) {
-												echo $data['diskon_persen'].'%';
-											} elseif ($data['diskon_rupiah'] > 0) {
-												echo number_format($data['diskon_rupiah'], 0, ',', '.');
-												$totalDiskon += $data['diskon_rupiah'] * $data['jumBarang'];
 											}
 											?>
 										</td>
