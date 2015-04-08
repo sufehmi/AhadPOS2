@@ -124,14 +124,6 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 		<body class="kasir" id="dokumen">
 			<div id="content" >
 				<?php
-				if ($_GET[doit] == 'hapus') {
-					$hasil = mysql_query("select barcode from tmp_detail_jual where uid = {$_GET['uid']}") or die('Gagal hapus (ambil data), error: '.mysql_error());
-					$r = mysql_fetch_array($hasil);
-
-					$sql = "DELETE FROM tmp_detail_jual WHERE barcode = '{$r['barcode']}' and username='{$_SESSION['uname']}' and idCustomer={$_SESSION['idCustomer']}";
-					// echo $sql;
-					$hasil = mysql_query($sql) or die('Gagal hapus data, error: '.mysql_error());
-				}
 				//fixme: hargaBeli TIDAK tersimpan di detail_jual !!!
 				switch ($_GET[act]) { // ============================================================================================================
 					case "caricustomer": // ========================================================================================================
