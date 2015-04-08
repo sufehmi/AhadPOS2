@@ -305,7 +305,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 									<th>Barcode</th>
 									<th>Nama Barang</th>
 									<th>Jumlah</th>
-									<th>Harga Normal</th>
+									<th>Harga</th>
 									<th>Diskon</th>
 									<th>Net</th>
 									<th>Total</th>
