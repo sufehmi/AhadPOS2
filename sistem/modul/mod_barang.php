@@ -878,7 +878,7 @@ switch ($_GET['act']) {
                 <input type="submit" name="cekBarcode" value="Get Barang" />
             </form>
 			  <form action="?module=barang&act=cetakperbarcode&cek=perubahanhj" method="POST">
-					Harga jual berubah dari: <input type="text" id="tanggal_dari" name="tanggal_dari" value="">
+					Harga jual berubah sejak: <input type="text" id="tanggal_dari" name="tanggal_dari" value="">
                <input type="submit" name="cekBarcode" value="Get Barang" />
 			  </form>
             <script>
