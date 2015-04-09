@@ -1003,7 +1003,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							</tr>
 							<tr>
 								<td colspan="4"><button style="float:right" onclick="RecalcHargaBarangLama();
-													return false;" accesskey='6' tabindex="7">(6) Hitung Harga</button></td>
+										return false;" accesskey='6' tabindex="7">(6) Hitung Harga</button></td>
 							</tr>
 							<tr>
 								<td>Harga Beli Sekarang</td>
@@ -1355,6 +1355,11 @@ switch ($_GET[act]) { // -------------------------------------------------------
 				?>
 				Nomor Invoice (opt): <input type="text" name="nomorInvoice" size="10" value ="<?php echo is_numeric($nomorInvoice[0]) ? $nomorInvoice[0] : '' ?>" />
 				<br /><br />
+				<div style="margin: 5px auto">
+					Keterangan warna:
+					<div style="width: 150px; background-color:#4da74d; text-align: center; padding: 2px ">Barang Baru</div>
+					<div style="width: 150px; background-color:#edc240; text-align: center; padding: 2px ">Harga Jual Berubah</div>
+				</div>
 				<?php
 				// =======================================
 				echo "
@@ -1544,6 +1549,11 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					$x = mysql_fetch_array($hasil);
 					// jika ada - tambah quantity nya
 					if (mysql_num_rows($hasil) > 0) {
+						
+						if (cekHargaJualBerubah($_POST["barcode$ctr"], $_POST["rrp$ctr"])) {
+							hargaJualBerubah($_POST["barcode$ctr"]);
+						}
+						
 						$sql = "UPDATE barang SET jumBarang=".($x[jumBarang] + $_POST["jumlah$ctr"]).",
 								idKategoriBarang = $idKategoriBarang,
 								idSatuanBarang = $idSatuanBarang, ";
@@ -1564,6 +1574,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							".$_POST["jumlah$ctr"].", ".$_POST["rrp$ctr"].", '$tgl',
 							$idSupplier, '".$_POST["barcode$ctr"]."', '$_SESSION[uname]', '999')";
 						$hasil = mysql_query($sql);
+						hargaJualBerubah($_POST["barcode$ctr"]);
 						echo "<br />### Menambahkan data barang: $sql <br />";
 					};
 

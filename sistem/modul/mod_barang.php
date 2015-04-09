@@ -84,7 +84,7 @@ switch ($_GET['act']) {
         ?>
 
         <form class="inline" method=POST action='?module=barang&act=cetakperbarcode'>
-            <input type=submit value='Cetak Label / barcode' >
+            <input type=submit value='Cetak Label / barcode / perubahan harga jual' >
         </form>
 
         <?php
@@ -852,6 +852,23 @@ switch ($_GET['act']) {
 
     case "cetakperbarcode": // =============================================================================================
 
+        if ($_GET[cek] == "barcode") {
+            if ($_POST[lBarcode] != "") {
+                $cekBarcode = $_POST[lBarcode];
+                insertTempLabel($cekBarcode);
+                //header('location:?module=barang&act=cetakperbarcode');
+            }
+        }
+		  
+		  if ($_GET['cek']=='perubahanhj'){
+			  $tanggalDari = date_format(date_create_from_format('d-m-Y H:i', $_POST['tanggal_dari']), 'Y-m-d H:i:s');
+			  $sql = "SELECT barcode FROM barang WHERE hargaJualLastUpdate >= '{$tanggalDari}'";
+			  $query = mysql_query($sql);
+			  while ($barang = mysql_fetch_array($query, MYSQL_ASSOC)){
+				  insertTempLabel($barang['barcode']);
+			  }
+		  }
+        
         $tampil = mysql_query("SELECT * FROM tmp_cetak_label_perbarcode");
         $jumlah_pilihan = mysql_num_rows($tampil);
         ?>
@@ -860,22 +877,25 @@ switch ($_GET['act']) {
                 <input type="text" name="lBarcode" size="25" placeholder="Input barcode" id="barcode" />
                 <input type="submit" name="cekBarcode" value="Get Barang" />
             </form>
-
+			  <form action="?module=barang&act=cetakperbarcode&cek=perubahanhj" method="POST">
+					Harga jual berubah sejak: <input type="text" id="tanggal_dari" name="tanggal_dari" value="">
+               <input type="submit" name="cekBarcode" value="Get Barang" />
+			  </form>
             <script>
                 var txtBox = document.getElementById("barcode");
                 if (txtBox != null)
-                    txtBox.focus();</script>
+                    txtBox.focus();
+				
+					 $(function () {
+						  $('#tanggal_dari').appendDtpicker({
+								"closeOnSelected": true,
+								'locale': 'id',
+								'dateFormat': 'DD-MM-YYYY hh:mm'
+						  });
+					 });				  
+				</script>
 
         </div>
-        <?php
-        if ($_GET[cek] == "barcode") {
-            if ($_POST[lBarcode] != "") {
-                $cekBarcode = $_POST[lBarcode];
-                insertTempLabel($cekBarcode);
-                header('location:?module=barang&act=cetakperbarcode');
-            }
-        }
-        ?>
         <form action='modul/mod_cetakperbarcode.php?act=printperbarcode' method='POST' onSubmit="popupform(this, 'printperbarcode')">
             <table class="tabel">
                 <tr>
@@ -885,7 +905,7 @@ switch ($_GET['act']) {
                     <th>Kategori Barang</th>
                     <th>Satuan Barang</th>
                     <th>Harga Jual</th>
-                    <th>Aksi</th>
+                    <th><a href="./aksi.php?module=labelperbarcode&act=hapussemua">Batal</a></th>
                 </tr>
                 <?php
                 $no = 1;

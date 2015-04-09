@@ -208,7 +208,7 @@ switch ($_GET[act]) {
             $label_per_baris = 3;
             $baris_per_halaman = 7;
 
-            $jumlahKarakterNamaBarang = 15;
+            $jumlahKarakterNamaBarang = 19;
 
             // Layout
             // 0 = 3 mm (default) / 112px;
@@ -265,9 +265,9 @@ switch ($_GET[act]) {
                 echo "\n
 
 				<div style=\"border: thin solid #000000; $clear float:left; margin-right:10px; margin-bottom:10px; width:" . ($lebar_label - 10) . "px; height:" . $tinggi_label . "px; padding: 0 5px;\">
-				<p style=\"line-height:0px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
+				<p style=\"line-height:0px; text-align:center; font-family:Arial; font-size:11pt; font-weight:normal; text-transform:uppercase;  \">
                 {$namaBarang1}</p>
-                <p style=\"line-height:0px; text-align:center; font-family:Arial; font-size:12pt; font-weight:normal; text-transform:uppercase;  \">
+                <p style=\"line-height:0px; text-align:center; font-family:Arial; font-size:11pt; font-weight:normal; text-transform:uppercase;  \">
                 {$namaBarang2}
 				</p>
 				<p style=\"line-height:0px; letter-spacing:+2px; text-align:center; font-family:Arial; font-size:26pt; \">
