@@ -1246,6 +1246,11 @@ elseif ($module == 'labelperbarcode' AND $act == 'hapus') {
 	mysql_query("DELETE FROM tmp_cetak_label_perbarcode WHERE id = '$_GET[id]'");
 	header('location:media.php?module=barang&act=cetakperbarcode');
 } // end
+// Hapus semua tmp cetak perbarcode
+elseif ($module == 'labelperbarcode' AND $act == 'hapussemua') {
+	mysql_query("DELETE FROM tmp_cetak_label_perbarcode");
+	header('location:media.php?module=barang&act=cetakperbarcode');
+} // end
 // simpan RPO
 elseif ($module == 'buat_rpo' AND $act == 'input') {
 
