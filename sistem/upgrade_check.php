@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 9;
+$revision = 10;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -376,6 +376,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
 	if ($dbrevision < 9) {
 		echo "Upgrading database to version 2.0.9 <br />";
 		upgrade_208_to_209();
+	}
+	if ($dbrevision < 10) {
+		echo "Upgrading database to version 2.0.10 <br />";
+		upgrade_209_to_210();
 	}
 }
 
@@ -982,6 +986,26 @@ function upgrade_208_to_209() {
 	} else {
 
 		$sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 9))."', '')";
+	}
+	$hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+}
+
+function upgrade_209_to_210() {
+	// Penambahan field untuk menyimpan waktu terakhir perubahan harga jual
+	$sql = "ALTER TABLE `barang` 
+				ADD COLUMN `hargaJualLastUpdate` DATETIME NULL AFTER `hargaJual`";
+	$hasil = exec_query($sql);
+	echo mysql_error();
+
+// update version number ------------------------------------------------------
+	$sql = "SELECT * FROM config WHERE `option` = 'version'";
+	$hasil = mysql_query($sql);
+
+	if (mysql_num_rows($hasil) > 0) {
+		$sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 10))."' WHERE `option` = 'version'";
+	} else {
+
+		$sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 10))."', '')";
 	}
 	$hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
