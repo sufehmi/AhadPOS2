@@ -859,6 +859,15 @@ switch ($_GET['act']) {
                 //header('location:?module=barang&act=cetakperbarcode');
             }
         }
+		  
+		  if ($_GET['cek']=='perubahanhj'){
+			  $tanggalDari = date_format(date_create_from_format('d-m-Y H:i', $_POST['tanggal_dari']), 'Y-m-d H:i:s');
+			  $sql = "SELECT barcode FROM barang WHERE hargaJualLastUpdate >= '{$tanggalDari}'";
+			  $query = mysql_query($sql);
+			  while ($barang = mysql_fetch_array($query, MYSQL_ASSOC)){
+				  insertTempLabel($barang['barcode']);
+			  }
+		  }
         
         $tampil = mysql_query("SELECT * FROM tmp_cetak_label_perbarcode");
         $jumlah_pilihan = mysql_num_rows($tampil);
@@ -868,11 +877,23 @@ switch ($_GET['act']) {
                 <input type="text" name="lBarcode" size="25" placeholder="Input barcode" id="barcode" />
                 <input type="submit" name="cekBarcode" value="Get Barang" />
             </form>
-
+			  <form action="?module=barang&act=cetakperbarcode&cek=perubahanhj" method="POST">
+					Harga jual berubah dari: <input type="text" id="tanggal_dari" name="tanggal_dari" value="">
+               <input type="submit" name="cekBarcode" value="Get Barang" />
+			  </form>
             <script>
                 var txtBox = document.getElementById("barcode");
                 if (txtBox != null)
-                    txtBox.focus();</script>
+                    txtBox.focus();
+				
+					 $(function () {
+						  $('#tanggal_dari').appendDtpicker({
+								"closeOnSelected": true,
+								'locale': 'id',
+								'dateFormat': 'DD-MM-YYYY hh:mm'
+						  });
+					 });				  
+				</script>
 
         </div>
         <form action='modul/mod_cetakperbarcode.php?act=printperbarcode' method='POST' onSubmit="popupform(this, 'printperbarcode')">
