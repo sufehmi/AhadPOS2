@@ -84,7 +84,7 @@ switch ($_GET['act']) {
         ?>
 
         <form class="inline" method=POST action='?module=barang&act=cetakperbarcode'>
-            <input type=submit value='Cetak Label / barcode' >
+            <input type=submit value='Cetak Label / barcode / perubahan harga jual' >
         </form>
 
         <?php
