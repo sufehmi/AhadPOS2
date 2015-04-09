@@ -336,6 +336,7 @@ elseif ($module == 'barang' AND $act == 'update') {
 	}
 	if ($currentBarang['hargaJual'] != $_POST['hargaJual']) {
 		$updated .= '&hargajual=1';
+		hargaJualBerubah($_POST['barcode']);
 	}
 	if ($currentBarang['idRak'] != $_POST['rak']) {
 		$updated .= '&rak=1';
