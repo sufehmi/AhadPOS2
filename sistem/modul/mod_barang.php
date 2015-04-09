@@ -852,6 +852,14 @@ switch ($_GET['act']) {
 
     case "cetakperbarcode": // =============================================================================================
 
+        if ($_GET[cek] == "barcode") {
+            if ($_POST[lBarcode] != "") {
+                $cekBarcode = $_POST[lBarcode];
+                insertTempLabel($cekBarcode);
+                //header('location:?module=barang&act=cetakperbarcode');
+            }
+        }
+        
         $tampil = mysql_query("SELECT * FROM tmp_cetak_label_perbarcode");
         $jumlah_pilihan = mysql_num_rows($tampil);
         ?>
@@ -867,15 +875,6 @@ switch ($_GET['act']) {
                     txtBox.focus();</script>
 
         </div>
-        <?php
-        if ($_GET[cek] == "barcode") {
-            if ($_POST[lBarcode] != "") {
-                $cekBarcode = $_POST[lBarcode];
-                insertTempLabel($cekBarcode);
-                header('location:?module=barang&act=cetakperbarcode');
-            }
-        }
-        ?>
         <form action='modul/mod_cetakperbarcode.php?act=printperbarcode' method='POST' onSubmit="popupform(this, 'printperbarcode')">
             <table class="tabel">
                 <tr>
