@@ -905,7 +905,7 @@ switch ($_GET['act']) {
                     <th>Kategori Barang</th>
                     <th>Satuan Barang</th>
                     <th>Harga Jual</th>
-                    <th>Aksi</th>
+                    <th><a href="./aksi.php?module=labelperbarcode&act=hapussemua">Batal</a></th>
                 </tr>
                 <?php
                 $no = 1;
