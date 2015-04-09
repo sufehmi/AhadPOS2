@@ -1476,6 +1476,12 @@ function tambahBarangReturBeli($barcode, $qty) {
 			  ."{$tambahBarang})");
 }
 
+function cekHargaJualBerubah($barcode, $hargaJualBaru) {
+	$query = mysql_query("SELECT hargaJual FROM barang WHERE barcode = '{$barcode}'");
+	$barang = mysql_fetch_array($query, MYSQL_ASSOC);
+	return !($barang['hargaJual'] == $hargaJualBaru);
+}
+
 function hargaJualBerubah($barcode) {
 	mysql_query("UPDATE barang SET hargaJualLastUpdate=now() WHERE barcode='{$barcode}'") or die('Gagal update perubahan harga jual, error:'.mysql_error());
 }
