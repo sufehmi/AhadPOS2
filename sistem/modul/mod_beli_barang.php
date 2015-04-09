@@ -1549,6 +1549,11 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					$x = mysql_fetch_array($hasil);
 					// jika ada - tambah quantity nya
 					if (mysql_num_rows($hasil) > 0) {
+						
+						if (cekHargaJualBerubah($_POST["barcode$ctr"], $_POST["rrp$ctr"])) {
+							hargaJualBerubah($_POST["barcode$ctr"]);
+						}
+						
 						$sql = "UPDATE barang SET jumBarang=".($x[jumBarang] + $_POST["jumlah$ctr"]).",
 								idKategoriBarang = $idKategoriBarang,
 								idSatuanBarang = $idSatuanBarang, ";
@@ -1569,6 +1574,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							".$_POST["jumlah$ctr"].", ".$_POST["rrp$ctr"].", '$tgl',
 							$idSupplier, '".$_POST["barcode$ctr"]."', '$_SESSION[uname]', '999')";
 						$hasil = mysql_query($sql);
+						hargaJualBerubah($_POST["barcode$ctr"]);
 						echo "<br />### Menambahkan data barang: $sql <br />";
 					};
 
