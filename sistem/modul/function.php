@@ -570,7 +570,7 @@ function cekDiskonAdmin($uid, $barcode, $jumlah) {
 	} else {
 		// Jika tidak ada selisih / tidak ada update dari hak Admin
 		// Maka cekDiskon lagi
-		mysql_query("update tmp_detail_jual set diskon_detail_uids=0, diskon_rupiah=0 where uid=$uid") or die(mysql_error());
+		mysql_query("update tmp_detail_jual set diskon_detail_uids=null, diskon_rupiah=0 where uid=$uid") or die(mysql_error());
 		cekDiskon($uid, $barcode, $jumlah);
 		return false;
 	}
