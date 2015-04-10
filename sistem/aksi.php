@@ -653,6 +653,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 		$tempHarga = "@ ".number_format($x['hargaJual'] + $x['diskon_rupiah'], 0, ',', '.')." x ".$x['jumBarang']." : ".str_pad($textSubTotal, 11, ' ', STR_PAD_LEFT);
 
 		$diskon = '';
+		$textDiskon = '';
 		// Bilamana ada diskon per barang
 		if (!is_null($x['diskon_detail_uids'])) {
 			$detailDiskon = json_decode($x['diskon_detail_uids'], true);
