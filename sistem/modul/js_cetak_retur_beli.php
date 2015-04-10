@@ -43,7 +43,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 
 		$sql = "SELECT d.idBarang, d.barcode, d.jumRetur, d.hargaBeli, d.nominal, d.username, b.namaBarang  
 			FROM detail_retur_beli AS d, barang AS b 
-			WHERE idTransaksiBeli = $_POST[idTransaksiBeli] AND tglRetur = '$_POST[tglRetur]' AND d.barcode = b.barcode";
+			WHERE idTransaksiBeli = $_POST[idTransaksiBeli] AND tglRetur = '$_POST[tglRetur]' AND d.barcode = b.barcode AND d.idSupplier={$_POST['idSupplier']}";
 		$hasil = mysql_query($sql);
 
 		$currentTotal = 0;
