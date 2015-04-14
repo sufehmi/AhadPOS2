@@ -1470,7 +1470,7 @@ function tambahBarangReturBeli($barcode, $qty) {
 			  ."{$detailBeli['idTransaksiBeli']}, "
 			  ."{$detailBeli['idBarang']}, "
 			  ."'{$detailBeli['tglExpire']}', "
-			  ."{$detailBeli['jumBarang']}, "
+			  ."{$detailBeli['jumBarangAsli']}, "
 			  ."{$detailBeli['hargaBeli']}, "
 			  ."'{$detailBeli['barcode']}', "
 			  ."{$tambahBarang})");
