@@ -1581,11 +1581,11 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	}
 } elseif ($module == 'inputreturbeli2' AND $act == 'simpan') {
 	$sql = "SELECT * FROM tmp_edit_detail_retur_beli";
-	$query = mysql_query($sql);
+	$queryAwal = mysql_query($sql);
 	$username = $_SESSION['uname'];
 	$idSupplier = $_SESSION['idSupplier'];
 	$last_update = date("Y-m-d");
-	while ($barangRetur = mysql_fetch_array($query)) {
+	while ($barangRetur = mysql_fetch_array($queryAwal)) {
 
 		$jumBarangDetail = getJumBarangDetailPembelian($barangRetur['idDetailBeli']);
 		$jumBarangDetailBaru = $jumBarangDetail - $barangRetur['jumRetur'];
@@ -1634,7 +1634,7 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 			mysql_query("UPDATE barang SET jumBarang = $jumBarangBaru
 				WHERE barcode = '{$barangRetur['barcode']}'") or die(mysql_error());
 		}
-
+		
 		$z = $barangRetur;
 		$totalRetur = $z['jumRetur'] * $z['hargaBeli'];
 
