@@ -731,7 +731,8 @@ if ($_SESSION['hakAdmin']) {
 				});
 <?php
 // ukmMode: Barcode -> enter. Muncul Harga Jual
-if ($ukmMode) {
+// dan bukan retur beli
+if ($ukmMode && !$returBeli) {
 	?>
 					$("#barcode").keydown(function (e) {
 						var datakirim = {
