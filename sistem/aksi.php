@@ -505,7 +505,7 @@ elseif ($module == 'pembelian_barang' AND $act == 'input' AND isset($_SESSION['u
 		// harga banded
 		$hb = mysql_query("SELECT barcode, qty, harga_satuan FROM tmp_harga_banded WHERE barcode = '{$simpan['barcode']}'");
 		$tmpHargaBanded = mysql_fetch_array($hb, MYSQL_ASSOC);
-		print_r($tmpHargaBanded);
+		// print_r($tmpHargaBanded);
 		$sql = "INSERT INTO harga_banded (barcode, qty, harga) "
 				  ."VALUES('{$simpan['barcode']}',{$tmpHargaBanded['qty']},{$tmpHargaBanded['harga_satuan']}) "
 				  ."ON DUPLICATE KEY UPDATE qty={$tmpHargaBanded['qty']}, harga={$tmpHargaBanded['harga_satuan']} ";
