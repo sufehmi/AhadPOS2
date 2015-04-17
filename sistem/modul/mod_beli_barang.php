@@ -1754,9 +1754,9 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 					<?php
 					$ambilSupplier = mysql_query("select * from supplier");
-					$ambilKategoriBarang = mysql_query("select * from kategori_barang");
-					$ambilSatuanBarang = mysql_query("select * from satuan_barang");
-					$ambilRak = mysql_query("select * from rak");
+					$ambilKategoriBarang = mysql_query("select * from kategori_barang order by namaKategoriBarang");
+					$ambilSatuanBarang = mysql_query("select * from satuan_barang order by namaSatuanBarang");
+					$ambilRak = mysql_query("select * from rak ORDER BY LPAD(lower(namaRak), 10,0)");
 
 
 
@@ -1829,7 +1829,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
                                 <td> : <select name='rak' tabindex=29>
                                     <option value='0'>- Rak -</option>";
 					while ($rak = mysql_fetch_array($ambilRak)) {
-						echo "<option value='$rak[idRak]'>$rak[idRak] :: $rak[namaRak]</option>";
+						echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
 					}
 					echo "</select></td></tr>
 
