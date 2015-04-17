@@ -62,7 +62,7 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
                             <tr>
                                 <td>
                                     <?php
-                                    $sql = "select idRak, namaRak from rak order by namaRak";
+                                    $sql = "select idRak, namaRak from rak ORDER BY LPAD(lower(namaRak), 10,0)";
                                     $raks = mysql_query($sql) or die('Gagal ambil data rak');
                                     ?>
                                     <select name="rak">
