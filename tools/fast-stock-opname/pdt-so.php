@@ -115,10 +115,15 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
                     foreach ($barcodes as $barcode):
                         if (!empty($barcode) || $barcode != ''):
                             $data = explode(',', $barcode);
-                            $dataSO[] = array(
+								if (isset($dataSO[$data[0]])){
+									/* Jika sudah ada, tambahkan quantiti nya */
+									$dataSO[$data[0]]['qty'] += $data[1];
+								} else {
+                            $dataSO[$data[0]] = array(
                                 'barcode' => $data[0],
                                 'qty' => $data[1]
                             );
+								}
                         endif;
                     endforeach;
 
