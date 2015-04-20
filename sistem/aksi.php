@@ -1630,10 +1630,8 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 		}
 
 		// update stok barang
-		if ($jumBarang > 0) {  // jika stok sudah nol, jangan dikurangi (jadi minus)
-			mysql_query("UPDATE barang SET jumBarang = $jumBarangBaru
-				WHERE barcode = '{$barangRetur['barcode']}'") or die(mysql_error());
-		}
+		mysql_query("UPDATE barang SET jumBarang = $jumBarangBaru 
+			WHERE barcode = '{$barangRetur['barcode']}'") or die(mysql_error());
 		
 		$z = $barangRetur;
 		$totalRetur = $z['jumRetur'] * $z['hargaBeli'];
