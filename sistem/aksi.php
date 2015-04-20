@@ -1654,7 +1654,12 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	// hapus data temporary
 	mysql_query("DELETE FROM tmp_edit_detail_retur_beli") or die(mysql_error());
 	header('location:media.php?module=pembelian_barang');
-} elseif ($module === 'membership' && $act === 'simpan') {
+} elseif ($module == 'inputreturbeli2' && $act == 'batal'){
+	// hapus data temporary
+	mysql_query("DELETE FROM tmp_edit_detail_retur_beli") or die(mysql_error());
+	header('location:media.php?module=pembelian_barang');	
+}
+elseif ($module === 'membership' && $act === 'simpan') {
 	if (isset($_POST['config'])) {
 		$config = $_POST['config'];
 		foreach ($config as $option => $value) {
