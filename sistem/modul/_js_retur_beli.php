@@ -195,7 +195,7 @@ if ($r) {
 						</td>
 					</tr>
 					<tr>
-						<td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
+						<td><a href='../aksi.php?module=inputreturbeli2&act=batal' class="tombol">Batal</a></td>
 						<td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
 									this.disabled = true;'></td>
 					</tr>
