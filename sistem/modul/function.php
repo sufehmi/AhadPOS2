@@ -1092,12 +1092,12 @@ function getJumBarangDiBarang($idDetailBeli, $barcode = '') {
 	if ($barcode == '') {
 		$sql = "SELECT barang.jumBarang FROM barang, tmp_edit_detail_retur_beli AS t WHERE t.idBarang = barang.idBarang AND t.idDetailBeli = '$idDetailBeli'";
 	} else {
-		$sql = "SELECT barang.jumBarang FROM barang, tmp_edit_detail_retur_beli AS t WHERE t.barcode = barang.barcode AND t.barcode = '$barcode'";
+		$sql = "SELECT jumBarang FROM barang WHERE barcode = '$barcode'";
 	};
 	$query = mysql_query($sql) or die(mysql_error());
 	$jum = mysql_fetch_array($query);
 
-	return $jum[jumBarang];
+	return $jum['jumBarang'];
 }
 
 function getJumBarangDetailPembelian($idDetailBeli) {
