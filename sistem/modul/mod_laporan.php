@@ -212,7 +212,8 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					<td class="center"><?php echo date("H:i:s", strtotime($r['tglTransaksiJual'])); ?></td>
 					<td class="right"><?php echo number_format($r['nominal'], 0, ',', '.'); ?></td>
 					<td>	<a href='?module=laporan&act=aksi&action=cetakjual1&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Cetak</a> |
-						<a href='?module=laporan&act=aksi&action=lihatjual&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Lihat</a></td>
+						<a href='?module=laporan&act=aksi&action=lihatjual&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Lihat</a> |
+						<a href='aksi.php?module=laporan&act=struka4&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Struk A4</a></td>
 					<td class="right"> Ha<a href='?module=laporan&act=aksi&action=hapusjual&id=<?php echo $r['idTransaksiJual']; ?>&idKasir=<?php echo $_GET['idKasir']; ?>&DariTanggal=<?php echo $_GET['DariTanggal']; ?>&SampaiTanggal=<?php echo $_GET['SampaiTanggal']; ?>'>p</a>us</td>
 				</tr>
 				<?php
@@ -632,7 +633,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 				echo "<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>";
 			}
 
-
+	
 			if ($_GET[action] == 'lihatjual') { // ---------------------------------------------------------------------------------
 				if ($_GET[kasir] == 'SEMUA') {
 					$namaKasir = 'SEMUA';
@@ -1215,74 +1216,74 @@ switch ($_GET[act]) { //--------------------------------------------------------
             <tr>
 		<td colspan=3 class=td> 		<input type=checkbox name=cetakcsv> Cetak Excel / CSV</td>
 		<td colspan=2 align=right class=td>	<input type=submit value=Cetak></form></td></tr>";
-                echo "</table>";
-            }
-            exit;
+				echo "</table>";
+			}
+			exit;
 
-        case 'jumlahpoin':
-            $bulanIndonesia = array(
-                1 => 'Januari',
-                2 => 'Februari',
-                3 => 'Maret',
-                4 => 'April',
-                5 => 'Mei',
-                6 => 'Juni',
-                7 => 'Juli',
-                8 => 'Agustus',
-                9 => 'September',
-                10 => 'Oktober',
-                11 => 'November',
-                12 => 'Desember'
-            );
-            $sql = "SELECT id, nama, awal, akhir FROM periode_poin ORDER BY nama";
-            $query = mysql_query($sql);
-            $periode = array();
-            while ($row = mysql_fetch_array($query, MYSQL_ASSOC)) {
-                $periode[] = $row;
-            }
-            ?>
-            <h2>Laporan Jumlah Poin Member</h2>
-            <form method="POST" target="_blank" action="./aksi.php?module=laporan&act=jumlahpoin">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Tahun:</td>
-                            <td><input type="text"  name="laporan[tahun]" placeholder="yyyy" size="4" value="<?php echo date('Y'); ?>" autofocus="autofocus"/></td>
-                            <td>Periode:</td>
-                            <td>
-                                <select name="laporan[periode]">
-                                    <?php
-                                    foreach ($periode as $period) {
-                                        ?>
-                                        <option value="<?php echo $period['id']; ?>"><?php echo $period['nama']; ?> (<?php echo $bulanIndonesia[$period['awal']]; ?> - <?php echo $bulanIndonesia[$period['akhir']]; ?>)</option>
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-                            </td>
-                            <td>Sort by:</td>
-                            <td>
-                                <select name="laporan[sort]">
-                                    <option value="1">Jumlah Poin (dari tertinggi)</option>
-                                    <option value="2">Jumlah Poin (dari terendah)</option>
-                                </select>
-                            </td>
-                            <td>Jumlah Poin dari</td>
-                            <td>
-                                <input type="text" name="laporan[jumlahDari]" value="0" size="1"/>
-                            </td>
-                            <td>sampai</td>
-                            <td>
-                                <input type="text" name="laporan[jumlahSampai]" value="99" size="1"/>
-                            </td>
-                            <td colspan="7"></td>
-                            <td><input type="submit" value="Submit" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <?php
-            break;
+		case 'jumlahpoin':
+			$bulanIndonesia = array(
+				 1 => 'Januari',
+				 2 => 'Februari',
+				 3 => 'Maret',
+				 4 => 'April',
+				 5 => 'Mei',
+				 6 => 'Juni',
+				 7 => 'Juli',
+				 8 => 'Agustus',
+				 9 => 'September',
+				 10 => 'Oktober',
+				 11 => 'November',
+				 12 => 'Desember'
+			);
+			$sql = "SELECT id, nama, awal, akhir FROM periode_poin ORDER BY nama";
+			$query = mysql_query($sql);
+			$periode = array();
+			while ($row = mysql_fetch_array($query, MYSQL_ASSOC)) {
+				$periode[] = $row;
+			}
+			?>
+			<h2>Laporan Jumlah Poin Member</h2>
+			<form method="POST" target="_blank" action="./aksi.php?module=laporan&act=jumlahpoin">
+				<table>
+					<tbody>
+						<tr>
+							<td>Tahun:</td>
+							<td><input type="text"  name="laporan[tahun]" placeholder="yyyy" size="4" value="<?php echo date('Y'); ?>" autofocus="autofocus"/></td>
+							<td>Periode:</td>
+							<td>
+								<select name="laporan[periode]">
+									<?php
+									foreach ($periode as $period) {
+										?>
+										<option value="<?php echo $period['id']; ?>"><?php echo $period['nama']; ?> (<?php echo $bulanIndonesia[$period['awal']]; ?> - <?php echo $bulanIndonesia[$period['akhir']]; ?>)</option>
+										<?php
+									}
+									?>
+								</select>
+							</td>
+							<td>Sort by:</td>
+							<td>
+								<select name="laporan[sort]">
+									<option value="1">Jumlah Poin (dari tertinggi)</option>
+									<option value="2">Jumlah Poin (dari terendah)</option>
+								</select>
+							</td>
+							<td>Jumlah Poin dari</td>
+							<td>
+								<input type="text" name="laporan[jumlahDari]" value="0" size="1"/>
+							</td>
+							<td>sampai</td>
+							<td>
+								<input type="text" name="laporan[jumlahSampai]" value="99" size="1"/>
+							</td>
+							<td colspan="7"></td>
+							<td><input type="submit" value="Submit" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+			<?php
+			break;
 
 		case 'transferbarang':
 			$sql = "SELECT idCustomer, namaCustomer FROM customer ORDER BY namaCustomer";
@@ -1339,7 +1340,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			</script>
 			<?php
 			break;
-			
+
 		case 'transferbarang2':
 			if (isset($_POST['transfer'])) {
 				$customerId = $_POST['customer'];
@@ -1395,7 +1396,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 				<?php
 			}
 			break;
-			
+
 		case 'transferbarang3':
 			$idTransaksi = $_GET['id'];
 			$sql = "SELECT trx.idTransaksi, trx.tglTransaksi, customer.namaCustomer, trx.nominal
