@@ -1434,15 +1434,15 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 	?>
 	<table class='tabel'>
 		<thead>
-	<?php
-	if (mysql_num_rows($result) > 0):
-		?>
+			<?php
+			if (mysql_num_rows($result) > 0):
+				?>
 				<tr>
 					<td colspan="4" style="text-align: right"><a id="tombol-auto-update" href="#"><button>Auto Update</button></a></td>
 				</tr>
-		<?php
-	endif;
-	?>
+				<?php
+			endif;
+			?>
 			<tr>
 				<th>Barcode</th>
 				<th>Nama Barang</th>
@@ -1451,22 +1451,22 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 			</tr>
 		</thead>
 		<tbody>
-	<?php
-	$i = 1;
-	if (mysql_num_rows($result) > 0) {
-		while ($barang = mysql_fetch_array($result)) {
-			?>
+			<?php
+			$i = 1;
+			if (mysql_num_rows($result) > 0) {
+				while ($barang = mysql_fetch_array($result)) {
+					?>
 					<tr <?php echo $i % 2 == 0 ? 'class="alt"' : ''; ?>>
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';               ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                  ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
-			<?php
-			$i++;
-		}
-	} else {
-		?>
+					<?php
+					$i++;
+				}
+			} else {
+				?>
 				<tr>
 					<td colspan="4">Data tidak ditemukan</td>
 				</tr>
@@ -1632,7 +1632,7 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 		// update stok barang
 		mysql_query("UPDATE barang SET jumBarang = $jumBarangBaru 
 			WHERE barcode = '{$barangRetur['barcode']}'") or die(mysql_error());
-		
+
 		$z = $barangRetur;
 		$totalRetur = $z['jumRetur'] * $z['hargaBeli'];
 
@@ -1654,12 +1654,11 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	// hapus data temporary
 	mysql_query("DELETE FROM tmp_edit_detail_retur_beli") or die(mysql_error());
 	header('location:media.php?module=pembelian_barang');
-} elseif ($module == 'inputreturbeli2' && $act == 'batal'){
+} elseif ($module == 'inputreturbeli2' && $act == 'batal') {
 	// hapus data temporary
 	mysql_query("DELETE FROM tmp_edit_detail_retur_beli") or die(mysql_error());
-	header('location:media.php?module=pembelian_barang');	
-}
-elseif ($module === 'membership' && $act === 'simpan') {
+	header('location:media.php?module=pembelian_barang');
+} elseif ($module === 'membership' && $act === 'simpan') {
 	if (isset($_POST['config'])) {
 		$config = $_POST['config'];
 		foreach ($config as $option => $value) {
@@ -1728,10 +1727,10 @@ elseif ($module === 'membership' && $act === 'simpan') {
 						</tr>
 					</thead>
 					<tbody>
-		<?php
-		while ($data = mysql_fetch_array($query, MYSQL_ASSOC)) {
-			//print_r($data);
-			?>
+						<?php
+						while ($data = mysql_fetch_array($query, MYSQL_ASSOC)) {
+							//print_r($data);
+							?>
 							<tr>
 								<td><?php echo $data['nomor_kartu']; ?></td>
 								<td><?php echo $data['namaCustomer']; ?></td>
@@ -1743,40 +1742,40 @@ elseif ($module === 'membership' && $act === 'simpan') {
 								<td><?php echo $data['nomor_ktp']; ?></td>
 								<td><?php echo date_format(date_create_from_format('Y-m-d', $data['tanggal_lahir']), 'd-m-Y'); ?></td>
 							</tr>
-			<?php
-		}
-		?>
+							<?php
+						}
+						?>
 					</tbody>
 				</table>
 			</body>
 		</html>
 
-						<?php
-					} else {
-						echo 'Error';
-					}
-				}
+		<?php
+	} else {
+		echo 'Error';
+	}
+}
 // else
-				else { // =======================================================================================================================================
-					echo "Tidak Ada Aksi untuk modul ini";
-				}
+else { // =======================================================================================================================================
+	echo "Tidak Ada Aksi untuk modul ini";
+}
 
 
-				/* CHANGELOG -----------------------------------------------------------
+/* CHANGELOG -----------------------------------------------------------
 
-				  1.6.0 / 2013-05-01 : Herwono		: fitur : cetak label harga perbarcode
-				  1.6.0 / 2013-02-24 : Harry Sufehmi	: fitur : transfer barang antar sesama pengguna AhadPOS
-				  1.6.0 / 2013-02-21 : Harry Sufehmi	: revisi: cetak struk : kini nama barang & harga dipisah menjadi 2 baris
-				  1.6.0 / 2013-02-07 : Harry Sufehmi	: bugfix: hapus barang kini sudah bisa
-				  1.2.5 / 2012-04-17 : Harry Sufehmi 	: bugfix: hapus satuan barang tidak berfungsi
-				  1.2.5 / 2012-03-16 : Harry Sufehmi 	: bugfix: kini perubahan barang (dari Barang - Cari Barang - Ubah) disimpan dengan benar
-				  (branch "($module=='barang' AND $act=='update')")
-				  1.2.5 / 2012-02-14 : Harry Sufehmi	: bugfix: kini Retur Pembelian ($act=='simpanretur') akan mengurangi jumlah stok (jumBarang) di table barang dengan benar
-				  1.0.3 / 2011-07-14 : Harry Sufehmi	: jika ganti / edit barcode, maka otomatis barcode ybs di table-table lainnya juga di update
-				  1.0.2 / 2011-03-04 : Harry Sufehmi	: jika user biasa ganti password, kembali ke Home
-				  1.0.1 / 2010-06-03 : Harry Sufehmi	: penambahan fasilitas workstation management, print ke PDF
+  1.6.0 / 2013-05-01 : Herwono		: fitur : cetak label harga perbarcode
+  1.6.0 / 2013-02-24 : Harry Sufehmi	: fitur : transfer barang antar sesama pengguna AhadPOS
+  1.6.0 / 2013-02-21 : Harry Sufehmi	: revisi: cetak struk : kini nama barang & harga dipisah menjadi 2 baris
+  1.6.0 / 2013-02-07 : Harry Sufehmi	: bugfix: hapus barang kini sudah bisa
+  1.2.5 / 2012-04-17 : Harry Sufehmi 	: bugfix: hapus satuan barang tidak berfungsi
+  1.2.5 / 2012-03-16 : Harry Sufehmi 	: bugfix: kini perubahan barang (dari Barang - Cari Barang - Ubah) disimpan dengan benar
+  (branch "($module=='barang' AND $act=='update')")
+  1.2.5 / 2012-02-14 : Harry Sufehmi	: bugfix: kini Retur Pembelian ($act=='simpanretur') akan mengurangi jumlah stok (jumBarang) di table barang dengan benar
+  1.0.3 / 2011-07-14 : Harry Sufehmi	: jika ganti / edit barcode, maka otomatis barcode ybs di table-table lainnya juga di update
+  1.0.2 / 2011-03-04 : Harry Sufehmi	: jika user biasa ganti password, kembali ke Home
+  1.0.1 / 2010-06-03 : Harry Sufehmi	: penambahan fasilitas workstation management, print ke PDF
 
-				  0.9.1		    : Gregorius Arief		: initial release
+  0.9.1		    : Gregorius Arief		: initial release
 
-				  ------------------------------------------------------------------------ */
-				?>
+  ------------------------------------------------------------------------ */
+?>
