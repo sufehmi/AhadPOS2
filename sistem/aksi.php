@@ -417,14 +417,15 @@ elseif ($module == 'customer' AND $act == 'input') {
 // Update Customer
 elseif ($module == 'customer' AND $act == 'update') {
 	$tgl = date("Y-m-d");
-	$tanggalLahir = date_format(date_create_from_format('d-m-Y', $_POST['tanggal_lahir']), 'Y-m-d');
-	mysql_query("UPDATE customer SET namaCustomer = '$_POST[namaCustomer]',
-                        nomor_kartu = '{$_POST['nomor_kartu']}',
+	$tanggalLahir = $_POST['tanggal_lahir'] == '' ? '0000-00-00' : date_format(date_create_from_format('d-m-Y', $_POST['tanggal_lahir']), 'Y-m-d');
+	$nomorKartu = $_POST['nomor_kartu'] == '' ? 'NULL' : "'{$_POST['nomor_kartu']}'";
+	$sql = "UPDATE customer SET namaCustomer = '$_POST[namaCustomer]',
+                        nomor_kartu = {$nomorKartu},
                         alamatCustomer = '$_POST[alamatCustomer]',
                         telpCustomer = '$_POST[telpCustomer]',
                         keterangan = '$_POST[keterangan]',
-                        diskon_persen = $_POST[diskon_persen],
-                        diskon_rupiah = $_POST[diskon_rupiah],
+                        diskon_persen = {$_POST['diskon_persen']},
+                        diskon_rupiah = '{$_POST['diskon_rupiah']}',
                         last_update = '$tgl',
                         nomor_ktp = '{$_POST['nomor_ktp']}',
                         jenis_kelamin = {$_POST['jenis_kelamin']},
@@ -432,7 +433,9 @@ elseif ($module == 'customer' AND $act == 'update') {
                         handphone = '{$_POST['handphone']}',
                         email = '{$_POST['email']}',
                         member = {$_POST['member']}
-                    WHERE idCustomer = '$_POST[idCustomer]'");
+                    WHERE idCustomer = $_POST[idCustomer]";
+//								echo $sql;
+	mysql_query($sql);
 	header('location:media.php?module='.$module);
 }// end Update Customer
 // Hapus Customer
@@ -1460,7 +1463,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';   ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
@@ -1761,7 +1764,7 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	header("Content-Disposition: attachment; filename=\"struk.txt\"");
 	header("Pragma: no-cache");
 	header("Expires: 0");
-	echo $text;	
+	echo $text;
 }
 // else
 else { // =======================================================================================================================================
