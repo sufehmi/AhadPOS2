@@ -1486,6 +1486,118 @@ function hargaJualBerubah($barcode) {
 	mysql_query("UPDATE barang SET hargaJualLastUpdate=now() WHERE barcode='{$barcode}'") or die('Gagal update perubahan harga jual, error:'.mysql_error());
 }
 
+function textStrukA4($nomorStruk) {
+	$cpi = 12; // character per inch
+	$lebarKertas = 8; //inchi
+	$jumlahKolom = $cpi * $lebarKertas;
+
+	$totalRetur = 0;
+
+	// ambil footer & header struk
+	$sql = "SELECT `option`,`value` FROM config";
+	$hasil = mysql_query($sql) or die(mysql_error());
+	while ($x = mysql_fetch_array($hasil)) {
+		if ($x[option] == 'store_name') {
+			$store_name = $x[value];
+		}
+		if ($x[option] == 'receipt_header1') {
+			$header1 = $x[value];
+		}
+		if ($x[option] == 'receipt_footer1') {
+			$footer1 = $x[value];
+		}
+		if ($x[option] == 'receipt_footer2') {
+			$footer2 = $x[value];
+		}
+	}
+
+	$sql = "select tglTransaksiJual, nominal, uangDibayar, user.namaUser
+		from transaksijual tj
+		join user on tj.idUser = user.idUser
+		where tj.idTransaksiJual = {$nomorStruk}";
+	$query = mysql_query($sql) or die('Gagal ambil header transaksi jual, error:'.mysql_error());
+	$transaksiJual = mysql_fetch_array($query, MYSQL_ASSOC);
+	$tglTransaksi = $transaksiJual['tglTransaksiJual'];
+	$totalTransaksi = $transaksiJual['nominal'];
+	$uangDibayar = $transaksiJual['uangDibayar'];
+	$namaKasir = $transaksiJual['namaUser'];
+
+	$sql = "select dj.jumBarang, b.namaBarang, dj.hargaJual, dt.diskon_detail_uids, dt.diskon_persen, dt.diskon_rupiah
+					  from detail_jual dj
+					  join barang b on b.barcode = dj.barcode
+					  left join diskon_transaksi dt on dt.idDetailJual = dj.uid
+					  where dj.nomorStruk = {$nomorStruk}";
+	//echo $sql;
+	$detailJual = mysql_query($sql) or die(mysql_error());
+
+	// siapkan string yang akan dicetak
+	$strNomor = 'Nomor   : '.$nomorStruk;
+	$strTgl = 'Tanggal : '.$tglTransaksi;
+	$strKasir = 'Kasir   : '.ucwords($namaKasir);
+	$garisBawahHeader1 = str_pad('', strlen($header1), '-');
+	$struk = str_pad('INVOICE', $jumlahKolom, ' ', STR_PAD_BOTH).PHP_EOL;
+	$struk .= $strNomor.str_pad($store_name, $jumlahKolom - strlen($strNomor), " ", STR_PAD_LEFT).PHP_EOL;
+	$struk .= $strTgl.str_pad($header1, $jumlahKolom - strlen($strTgl), " ", STR_PAD_LEFT).PHP_EOL;
+	$struk .= $strKasir.str_pad($garisBawahHeader1, $jumlahKolom - strlen($strKasir), " ", STR_PAD_LEFT).PHP_EOL;
+	$struk .= PHP_EOL;
+
+	$struk .= ' No  Barang                                  Jumlah      Harga     Diskon  Harga Net  Sub Total'.PHP_EOL;
+	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
+	$diskonHargaPerBarangTotal = 0;
+	$diskonCustomer = 0;
+	$no = 1;
+	while ($x = mysql_fetch_array($detailJual)) {
+
+		$strNomor = str_pad($no, 3, ' ', STR_PAD_LEFT).'.';
+		$strBarang = str_pad(trim($x['namaBarang']), 39, ' ');
+		$strQty = str_pad($x['jumBarang'], 6, ' ', STR_PAD_LEFT);
+		$strHarga = str_pad(number_format($x['hargaJual'] + $x['diskon_rupiah'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
+		$strDiskon = str_pad(number_format($x['diskon_rupiah'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
+		$strHargaNet = str_pad(number_format($x['hargaJual'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
+		$strSubTotal = str_pad(number_format($x['hargaJual'] * $x['jumBarang'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
+
+		$row = $strNomor.' '.$strBarang.' '.$strQty.'  '.$strHarga.'  '.$strDiskon.'  '.$strHargaNet.'  '.$strSubTotal.PHP_EOL;
+
+		$struk .= $row;
+		$no++;
+
+		// Bilamana ada diskon per barang
+		if (!is_null($x['diskon_detail_uids'])) {
+			$detailDiskon = json_decode($x['diskon_detail_uids'], true);
+			// Jika ada diskon customer dipisah tampilannya di struk
+			if (isset($detailDiskon['2'])) {
+				$diskonCustomer+=$detailDiskon['2'];
+			}
+			if ($x['diskon_persen'] > 0 || $x['diskon_rupiah'] > 0) {
+				$diskonRupiah = $x['diskon_rupiah'] * $x['jumBarang'];
+				$diskonHargaPerBarangTotal += $diskonRupiah;
+			}
+		}
+	}
+	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
+
+	$diskonHargaTotal = $diskonHargaPerBarangTotal;
+
+	// Total Diskon per barang di kurangi $diskonCustomer
+	$diskonHargaPerBarangTotal -= $diskonCustomer;
+
+	$textTotalPotongan = "Total Potongan    ".str_pad(number_format($diskonHargaPerBarangTotal, 0, ',', '.'), 11, ' ', STR_PAD_LEFT);
+	$textDiskonCustomer = 'Potongan Spesial  '.str_pad(number_format($diskonCustomer, 0, ',', '.'), 11, ' ', STR_PAD_LEFT);
+	$textTotal = "TOTAL             ".str_pad(number_format($totalTransaksi, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+	$textDibayar = "Dibayar           ".str_pad(number_format($uangDibayar, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+	$textKembali = "Kembali           ".str_pad(number_format($uangDibayar - $totalTransaksi, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+	$textAndaHemat = "ANDA HEMAT        ".str_pad(number_format($diskonHargaTotal, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
+
+	$struk .= $diskonHargaPerBarangTotal > 0 && $diskonCustomer > 0 ? str_pad($textTotalPotongan, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
+	$struk .= $diskonCustomer > 0 ? str_pad($textDiskonCustomer, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
+	$struk .= str_pad($textTotal, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL;
+	$struk .= $footer1.str_pad($textDibayar, $jumlahKolom - strlen($footer1) - 1, ' ', STR_PAD_LEFT).PHP_EOL;
+	$struk .= $footer2.str_pad($textKembali, $jumlahKolom - strlen($footer2) - 1, ' ', STR_PAD_LEFT).PHP_EOL;
+	$struk .= $diskonHargaPerBarangTotal > 0 ? str_pad($textAndaHemat, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
+
+	return $struk;
+}
+
 /* CHANGELOG -----------------------------------------------------------
 
   1.6.0 / 2013-05-01 : Herwono			: fitur : cetak label harga perbarcode
