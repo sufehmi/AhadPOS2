@@ -575,7 +575,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<table>
 			<tr>
 			<td>Pilih Printer </td>
-			<td>: <select name = 'namaPrinter'>";
+			<td>: <select name = 'idWorkStation'>";
 
 				while ($printer = mysql_fetch_array($hasil)) {
 					echo "<option value = '{$printer['idWorkStation']}'>{$printer['namaWorkstation']}</option>\n";
