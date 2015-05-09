@@ -1756,53 +1756,12 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	}
 } else if ($module === 'laporan' && $act === 'struka4') {
 	$idWorkStation = $_POST['idWorkStation'];
-	
-	// cetak struk
 	$text = textStrukA4($_GET['id']);
-	// Test
-//	$text = "                TOKOINSAN               ".PHP_EOL;
-//	$text .= "Jl.Ir Juanda 81 Ciputat. 021 744 0064  
-//    kasir1 : 07-05-2015 13:45 #10994    
-//----------------------------------------
-// Antena PF-80 Indoor
-//             @ 30.000 x 1 :      30.000
-//----------------------------------------
-//         TOTAL            :      30.000
-//         Dibayar          :      50.000 
-//         Kembali          :      20.000 
-//----------------------------------------
-// Terimakasih telah berbelanja di INSAN  
-//       Murah, Lengkap, dan Islami       ";
 	header("Content-type: text/plain");
 	header("Content-Disposition: attachment; filename=\"struk.txt\"");
 	header("Pragma: no-cache");
 	header("Expires: 0");
-	echo $text;
-	/*
-	 * // ambil info struk ybs
-	  $sql = "SELECT nominal, uangDibayar FROM transaksijual WHERE idTransaksiJual = $_POST[idTransaksi]";
-	  //echo $sql;
-	  $hasil = mysql_query($sql);
-	  $x = mysql_fetch_array($hasil);
-	  $totalTransaksi = $x[nominal];
-	  $uangDibayar = $x[uangDibayar];
-
-	  // ambil transaksi yang akan dicetak
-	  $sql = "SELECT t.jumBarang, t.hargaJual, b.namaBarang FROM barang AS b, detail_jual AS t
-	  WHERE t.nomorStruk = '$_POST[idTransaksi]' AND t.barcode = b.barcode";
-
-	  $sql = "select dj.jumBarang, b.namaBarang, dj.hargaJual, dt.diskon_detail_uids, dt.diskon_persen, dt.diskon_rupiah
-	  from detail_jual dj
-	  join barang b on b.barcode = dj.barcode
-	  left join diskon_transaksi dt on dt.idDetailJual = dj.uid
-	  where dj.nomorStruk = {$_POST['idTransaksi']}";
-	  //echo $sql;
-	  $hasil = mysql_query($sql) or die(mysql_error());
-
-	  // cetak struk
-	  cetakStruk("$_POST[namaPrinter]", $_POST[idTransaksi], "$_POST[namaKasir]", $totalTransaksi, $uangDibayar, $hasil);
-
-	 */
+	echo $text;	
 }
 // else
 else { // =======================================================================================================================================
