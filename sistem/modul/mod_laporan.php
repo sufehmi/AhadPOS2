@@ -566,7 +566,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 			if ($_GET[action] == 'cetakjual1') { // ---------------------------------------------------------------------------------
 				// pilih printer
-				$sql = "SELECT namaWorkstation, printer_commands, workstation_address FROM workstation ";
+				$sql = "SELECT idWorkStation, namaWorkstation, printer_commands, workstation_address FROM workstation ";
 				$hasil = mysql_query($sql) or die(mysql_error());
 
 				echo "
@@ -578,7 +578,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<td>: <select name = 'namaPrinter'>";
 
 				while ($printer = mysql_fetch_array($hasil)) {
-					echo "<option value = '$printer[printer_commands]'>$printer[namaWorkstation]</option>\n";
+					echo "<option value = '{$printer['idWorkStation']}'>{$printer['namaWorkstation']}</option>\n";
 				}
 
 				echo "
