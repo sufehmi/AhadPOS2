@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 11;
+$revision = 12;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -384,6 +384,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
 	if ($dbrevision < 11) {
 		echo "Upgrading database to version 2.0.11 <br />";
 		upgrade_210_to_211();
+	}
+	if ($dbrevision < 12) {
+		echo "Upgrading database to version 2.0.12 <br />";
+		upgrade_211_to_212();
 	}
 }
 
@@ -1030,6 +1034,26 @@ function upgrade_210_to_211() {
 	} else {
 
 		$sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 11))."', '')";
+	}
+	$hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+}
+
+function upgrade_211_to_212() {
+	// Penambahan tipe printer untuk tipe text/plain download (print dari text editor)
+	$sql = "ALTER TABLE `workstation` 
+			CHANGE COLUMN `printer_type` `printer_type` ENUM('pdf','rlpr','text') NOT NULL DEFAULT 'pdf' COMMENT 'types: pdf - Adobe PDF, rlpr: remote lpr (for unix/linux), text: Text/plain'";
+	$hasil = exec_query($sql);
+	echo mysql_error();
+
+// update version number ------------------------------------------------------
+	$sql = "SELECT * FROM config WHERE `option` = 'version'";
+	$hasil = mysql_query($sql);
+
+	if (mysql_num_rows($hasil) > 0) {
+		$sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 12))."' WHERE `option` = 'version'";
+	} else {
+
+		$sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 12))."', '')";
 	}
 	$hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
