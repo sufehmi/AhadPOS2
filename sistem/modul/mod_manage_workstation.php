@@ -32,23 +32,23 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 
 	//HS javascript untuk menampilkan popup
 	?>	
-	
-
-		<SCRIPT TYPE="text/javascript">
 
 
-			function CalculatePrinterCommands() {
-				var ip_address = document.getElementById("workstation_address").value;
-				var printer_type = document.getElementById("printer_type").value;
+	<SCRIPT TYPE="text/javascript">
 
-				if (printer_type == 'rlpr') {
 
-					printer_commands = '-H ' + ip_address + ' -P printer' + ip_address;
-					document.getElementById("printer_commands").value = printer_commands;
-				}
+		function CalculatePrinterCommands() {
+			var ip_address = document.getElementById("workstation_address").value;
+			var printer_type = document.getElementById("printer_type").value;
+
+			if (printer_type == 'rlpr') {
+
+				printer_commands = '-H ' + ip_address + ' -P printer' + ip_address;
+				document.getElementById("printer_commands").value = printer_commands;
 			}
+		}
 
-		</SCRIPT>
+	</SCRIPT>
 
 
 	<?php
@@ -125,30 +125,29 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 		case "editworkstation": // ======================================================================================================================
 			$edit = mysql_query("SELECT * FROM workstation WHERE idWorkstation='$_GET[id]'");
 			$data = mysql_fetch_array($edit);
+			?>
+			<h2>Edit Workstation</h2>
+			<form method=POST action=./aksi.php?module=workstation&act=update name='editworkstation'>
+				<input type=hidden name='idWorkstation' value='<?php echo $data['idWorkstation']; ?>'>
 
-			echo "<h2>Edit Workstation</h2>
-          <form method=POST action=./aksi.php?module=workstation&act=update name='editworkstation'>
-          <input type=hidden name='idWorkstation' value='$data[idWorkstation]'>
+				<table>
+					<tr><td>Nama Workstation</td><td> : <input type=text name='namaWorkstation' value='<?php echo $data['namaWorkstation']; ?>' size=30></td></tr>
+					<tr><td>Keterangan</td><td> : <input type=text name='keterangan' value='<?php echo $data['keterangan']; ?>' size=30></td></tr>
+					<tr><td>IP address</td><td> : <input type=text name='workstation_address' id='workstation_address' value='<?php echo $data['workstation_address']; ?>' size=30></td></tr>
+					<tr><td>Jenis Printer</td><td> : <select name='printer_type' id='printer_type' onBlur='CalculatePrinterCommands()'>
+								<option value='pdf' <?php echo $data['printer_type'] === 'pdf' ? 'selected' : ''; ?>>PDF : paling kompatibel</option>
+								<option value='rlpr' <?php echo $data['printer_type'] === 'rlpr' ? 'selected' : ''; ?>>Remote LPR : khusus untuk komputer Unix / Linux</option>
+								<option value='text' <?php echo $data['printer_type'] === 'text' ? 'selected' : ''; ?>>Text/Plain</option>
+							</select>
+						</td></tr>
 
-          <table>
-          <tr><td>Nama Workstation</td><td> : <input type=text name='namaWorkstation' value='$data[namaWorkstation]' size=30></td></tr>
-          <tr><td>Keterangan</td><td> : <input type=text name='keterangan' value='$data[keterangan]' size=30></td></tr>
-          <tr><td>IP address</td><td> : <input type=text name='workstation_address' id='workstation_address' value='$data[workstation_address]'size=30 value='10.1.1.1'></td></tr>
+					<tr><td>Printer Commands<br />(auto-generated)</td><td> : <input type=text name='printer_commands' id='printer_commands' value='<?php echo $data['printer_commands']; ?>' size=30 readonly></td></tr>
 
-	<tr><td>Jenis Printer</td><td> : <select name='printer_type' id='printer_type' onBlur='CalculatePrinterCommands()'>
-		<option value='pdf' selected>PDF : paling kompatibel</option>
-		<option value='rlpr'>Remote LPR : khusus untuk komputer Unix / Linux</option>
-		</select>
-	</td></tr>
-
-          <tr><td>Printer Commands<br />(auto-generated)</td><td> : <input type=text name='printer_commands' id='printer_commands' value='$data[printer_commands]' size=30 readonly></td></tr>
-	";
-
-			echo "
-          <tr><td colspan=2>&nbsp;</td></tr>
-          <tr><td colspan=2 align='right'><input type=submit value=Simpan>&nbsp;&nbsp;&nbsp;
-                            <input type=button value=Batal onclick=self.history.back()></td></tr>
-          </table></form>";
+					<tr><td colspan=2>&nbsp;</td></tr>
+					<tr><td colspan=2 align='right'><input type=submit value=Simpan>&nbsp;&nbsp;&nbsp;
+							<input type=button value=Batal onclick=self.history.back()></td></tr>
+				</table></form>
+			<?php
 			break;
 	}
 } // if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser]))
