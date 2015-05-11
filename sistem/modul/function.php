@@ -1491,8 +1491,6 @@ function textStrukA4($nomorStruk) {
 	$lebarKertas = 8; //inchi
 	$jumlahKolom = $cpi * $lebarKertas;
 
-	$totalRetur = 0;
-
 	// ambil footer & header struk
 	$sql = "SELECT `option`,`value` FROM config";
 	$hasil = mysql_query($sql) or die(mysql_error());
@@ -1511,7 +1509,7 @@ function textStrukA4($nomorStruk) {
 		}
 	}
 
-	$sql = "select tglTransaksiJual, nominal, uangDibayar, user.namaUser
+	$sql = "select date_format(tglTransaksiJual, '%d-%m-%Y %H:%i') tglTransaksiJual, nominal, uangDibayar, user.namaUser
 		from transaksijual tj
 		join user on tj.idUser = user.idUser
 		where tj.idTransaksiJual = {$nomorStruk}";
@@ -1534,13 +1532,25 @@ function textStrukA4($nomorStruk) {
 	$strNomor = 'Nomor   : '.$nomorStruk;
 	$strTgl = 'Tanggal : '.$tglTransaksi;
 	$strKasir = 'Kasir   : '.ucwords($namaKasir);
-	$garisBawahHeader1 = str_pad('', strlen($header1), '-');
-	$struk = str_pad('INVOICE', $jumlahKolom, ' ', STR_PAD_BOTH).PHP_EOL;
-	$struk .= $strNomor.str_pad($store_name, $jumlahKolom - strlen($strNomor), " ", STR_PAD_LEFT).PHP_EOL;
-	$struk .= $strTgl.str_pad($header1, $jumlahKolom - strlen($strTgl), " ", STR_PAD_LEFT).PHP_EOL;
-	$struk .= $strKasir.str_pad($garisBawahHeader1, $jumlahKolom - strlen($strKasir), " ", STR_PAD_LEFT).PHP_EOL;
-	$struk .= PHP_EOL;
+	$kananMaxLength = strlen($strNomor) > strlen($strTgl) ? strlen($strNomor) : strlen($strTgl);
+	/* Jika Nama kasir terlalu panjang, akan di truncate */
+	$strKasir = strlen($strKasir) > $kananMaxLength ? substr($strKasir, 0, $kananMaxLength - 2).'..' : $strKasir;
 
+	$strInvoice = 'INVOICE '; //Jumlah karakter harus genap!
+	// $garisBawahHeader1 = str_pad('', strlen($header1), '-');
+	$struk = str_pad($store_name, $jumlahKolom / 2 - strlen($strInvoice) / 2, ' ')
+			  .$strInvoice
+			  .str_pad(str_pad($strNomor, $kananMaxLength, ' '), $jumlahKolom / 2 - strlen($strInvoice) / 2, ' ', STR_PAD_LEFT)
+			  .PHP_EOL;
+	$struk .= str_pad($header1, $jumlahKolom - $kananMaxLength, ' ')
+			  .str_pad($strTgl, $kananMaxLength, ' ')
+			  .PHP_EOL;
+	$struk .= str_pad(str_pad($strKasir, $kananMaxLength, ' '), $jumlahKolom, ' ', STR_PAD_LEFT).PHP_EOL;
+//	$struk .= $strNomor.str_pad($store_name, $jumlahKolom - strlen($strNomor), " ", STR_PAD_LEFT).PHP_EOL;
+//	$struk .= $strTgl.str_pad($header1, $jumlahKolom - strlen($strTgl), " ", STR_PAD_LEFT).PHP_EOL;
+//	$struk .= $strKasir.str_pad($garisBawahHeader1, $jumlahKolom - strlen($strKasir), " ", STR_PAD_LEFT).PHP_EOL;
+	$struk .= PHP_EOL;
+	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
 	$struk .= ' No  Barang                                  Jumlah      Harga     Diskon  Harga Net  Sub Total'.PHP_EOL;
 	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
 	$diskonHargaPerBarangTotal = 0;
@@ -1552,7 +1562,7 @@ function textStrukA4($nomorStruk) {
 		$strBarang = str_pad(trim($x['namaBarang']), 39, ' ');
 		$strQty = str_pad($x['jumBarang'], 6, ' ', STR_PAD_LEFT);
 		$strHarga = str_pad(number_format($x['hargaJual'] + $x['diskon_rupiah'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
-		$strDiskon = str_pad(number_format($x['diskon_rupiah'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
+		$strDiskon = str_pad(number_format($x['diskon_rupiah'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT); // : '         ';
 		$strHargaNet = str_pad(number_format($x['hargaJual'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
 		$strSubTotal = str_pad(number_format($x['hargaJual'] * $x['jumBarang'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
 
@@ -1594,7 +1604,11 @@ function textStrukA4($nomorStruk) {
 	$struk .= $footer1.str_pad($textDibayar, $jumlahKolom - strlen($footer1) - 1, ' ', STR_PAD_LEFT).PHP_EOL;
 	$struk .= $footer2.str_pad($textKembali, $jumlahKolom - strlen($footer2) - 1, ' ', STR_PAD_LEFT).PHP_EOL;
 	$struk .= $diskonHargaPerBarangTotal > 0 ? str_pad($textAndaHemat, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
+	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
 
+	$struk .= '        Hormat Kami   	                Pelanggan'.PHP_EOL;
+	$struk .= PHP_EOL.PHP_EOL.PHP_EOL;
+	$struk .= '     (                )             (                )'.PHP_EOL;
 	return $struk;
 }
 
