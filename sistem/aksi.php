@@ -726,7 +726,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 			$pdf->Ln(3);
 		}
 		$pdf->Output();
-	} elseif ($jenis_printer == 'rlpr') {
+	} else if ($jenis_printer == 'rlpr') {
 		include "classes/PrintSend.php";
 		include "classes/PrintSendLPR.php";
 		$perintah = "echo \"$struk\" |lpr $perintah_printer -l";
@@ -735,8 +735,13 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 		// export ip=192.168.0.17; echo "Ini AhadPOS \n apakah sukses cetak struk ?" |lpr -H $ip -P printer$ip -l
 		//echo $perintah; exit;
 		exec($perintah, $output);
-	};
-
+	} else if ($jenis_printer === 'text') {
+		header("Content-type: text/plain");
+		header("Content-Disposition: attachment; filename=\"struk.txt\"");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		echo $struk;
+	}
 
 	if ($_POST[tipePembayaran] == '2') {
 		mysql_query("INSERT INTO piutang(idTransaksiJual,nominal,tglDiBayar,
@@ -934,8 +939,10 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 		$_SESSION[tot_pembelian] = 0;
 		releaseCustomer();
 		//header('location:media.php?module='.$module);
-		echo "<script>window.close();</script>";
-	};
+		if ($jenis_printer != 'text') {
+			echo "<script>window.close();</script>";
+		}
+	}
 }
 
 //Batal Transaksi Jual
@@ -1463,7 +1470,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';   ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';    ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
