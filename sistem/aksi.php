@@ -166,7 +166,9 @@ elseif ($module == 'workstation' AND $act == 'input') {
 					keterangan		= '$_POST[keterangan]',
 					workstation_address 	= '$_POST[workstation_address]',
 					printer_type		= '$_POST[printer_type]',
-					printer_commands	= '$_POST[printer_commands]'
+					printer_commands	= '$_POST[printer_commands]',
+					send_cdopen_commands = {$_POST['cashdrawer_command']},
+					send_autocut_commands = {$_POST['autocut_command']}
 		WHERE idWorkstation = '$_POST[idWorkstation]'
 	");
 	header('location:media.php?module='.$module);

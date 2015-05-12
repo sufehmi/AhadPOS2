@@ -144,16 +144,16 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 					<tr>
 						<td>Otomatis Buka<br />CashDrawer (*rlpr)</td>
 						<td> : <select name="cashdrawer_command">
-								<option value="1">Ya</option>
-								<option value="0">Tidak</option>
+								<option value="1" <?php echo $data['send_cdopen_commands'] === '1' ? 'selected' : ''; ?>>Ya</option>
+								<option value="0" <?php echo $data['send_cdopen_commands'] === '0' ? 'selected' : ''; ?>>Tidak</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<td>Otomatis potong<br />kertas (*rlpr)</td>
 						<td> : <select name="autocut_command">
-								<option value="1">Ya</option>
-								<option value="0">Tidak</option>
+								<option value="1" <?php echo $data['send_autocut_commands'] === '1' ? 'selected' : ''; ?>>Ya</option>
+								<option value="0" <?php echo $data['send_autocut_commands'] === '0' ? 'selected' : ''; ?>>Tidak</option>
 							</select>
 						</td>
 					</tr>
