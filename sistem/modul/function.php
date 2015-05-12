@@ -923,7 +923,7 @@ function cetakStruk($nomorStruk, $strukRetur = false) {
 	$totalTransaksi = $transaksiJual['nominal'];
 	$uangDibayar = $transaksiJual['uangDibayar'];
 	$namaKasir = $transaksiJual['namaUser'];
-	
+
 	$sql = "select dj.jumBarang, b.namaBarang, dj.hargaJual, dt.diskon_detail_uids, dt.diskon_persen, dt.diskon_rupiah
 					  from detail_jual dj
 					  join barang b on b.barcode = dj.barcode
@@ -931,7 +931,7 @@ function cetakStruk($nomorStruk, $strukRetur = false) {
 					  where dj.nomorStruk = {$nomorStruk}";
 	//echo $sql;
 	$detailJual = mysql_query($sql) or die(mysql_error());
-	
+
 	// siapkan string yang akan dicetak
 	$struk = str_pad($store_name, 40, " ", STR_PAD_BOTH)."\n".str_pad($header1, 40, " ", STR_PAD_BOTH)."\n"
 			  .str_pad($namaKasir." : ".date("d-m-Y H:i")." #$nomorStruk", 40, " ", STR_PAD_BOTH)." \n";
@@ -1505,7 +1505,7 @@ function hargaJualBerubah($barcode) {
 	mysql_query("UPDATE barang SET hargaJualLastUpdate=now() WHERE barcode='{$barcode}'") or die('Gagal update perubahan harga jual, error:'.mysql_error());
 }
 
-function textStrukA4($nomorStruk, $cpi=15) {
+function textStrukA4($nomorStruk, $cpi = 15) {
 	$lebarKertas = 8; //inchi
 	$jumlahKolom = $cpi * $lebarKertas;
 
@@ -1524,6 +1524,9 @@ function textStrukA4($nomorStruk, $cpi=15) {
 		}
 		if ($x[option] == 'receipt_footer2') {
 			$footer2 = $x[value];
+		}
+		if ($x[option] == 'footer_nota_a4') {
+			$footer3 = $x[value];
 		}
 	}
 
@@ -1623,7 +1626,6 @@ function textStrukA4($nomorStruk, $cpi=15) {
 	$textKembali = "Kembali           ".str_pad(number_format($uangDibayar - $totalTransaksi, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
 	$textAndaHemat = "ANDA HEMAT        ".str_pad(number_format($diskonHargaTotal, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
 
-	$footer3 = 'Barang yang sudah dibeli tidak bisa ditukar atau dikembalikan';
 	$struk .= $diskonHargaPerBarangTotal > 0 && $diskonCustomer > 0 ? str_pad($textTotalPotongan, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
 	$struk .= $diskonCustomer > 0 ? str_pad($textDiskonCustomer, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
 	$struk .= ' '.$footer1.str_pad($textTotal, $jumlahKolom - strlen($footer1) - 2, ' ', STR_PAD_LEFT).PHP_EOL;
