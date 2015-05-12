@@ -1044,6 +1044,16 @@ function upgrade_211_to_212() {
 			CHANGE COLUMN `printer_type` `printer_type` ENUM('pdf','rlpr','text') NOT NULL DEFAULT 'pdf' COMMENT 'types: pdf - Adobe PDF, rlpr: remote lpr (for unix/linux), text: Text/plain'";
 	$hasil = exec_query($sql);
 	echo mysql_error();
+	
+	$sql = "ALTER TABLE `config` 
+			CHANGE COLUMN `value` `value` VARCHAR(70) NOT NULL";
+	$hasil = exec_query($sql);
+	echo mysql_error();
+
+	$sql = "INSERT INTO `config` (`option`, `value`, `description`)
+			VALUES ('footer_nota_a4','Barang yang sudah dibeli tidak bisa ditukar atau dikembalikan','Footer Nota A4')";
+	$hasil = exec_query($sql);
+	echo mysql_error();
 
 // update version number ------------------------------------------------------
 	$sql = "SELECT * FROM config WHERE `option` = 'version'";
