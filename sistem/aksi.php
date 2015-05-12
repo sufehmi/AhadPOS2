@@ -1470,7 +1470,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';    ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';        ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
@@ -1763,6 +1763,56 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 		<?php
 	} else {
 		echo 'Error';
+	}
+} else if ($module === 'laporan' && $act === 'cetakjual') {
+
+	$idWorkStation = $_POST['idWorkStation'];
+	$sql = "SELECT printer_type, printer_commands FROM workstation WHERE idWorkstation = {$idWorkStation}";
+	$queryWs = mysql_query($sql);
+	$workStation = mysql_fetch_array($queryWs, MYSQL_ASSOC);
+
+	// ambil data(text) struk
+	$struk = cetakStruk($_POST['idTransaksi']);
+	
+	// Untuk format invoice
+	if ($_POST['layoutStruk'] === 'invoice') {
+		$struk = textStrukA4($_POST['idTransaksi']); // 15 cpi
+		if ($workStation['printer_type'] === 'pdf') {
+			$struk = textStrukA4($_POST['idTransaksi'], 12); // 12 cpi
+		}
+	}
+	
+	switch ($workStation['printer_type']) {
+		case 'rlpr':
+			// tambahan perintah untuk cutter epson
+			// Disable saja jika printer lain, mis: lx300
+			$struk .= chr(27)."@".chr(29)."V".chr(1);
+			$perintahPrinter = $workStation['printer_commands'];
+			$perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
+			exec($perintah, $output);
+			break;
+		case 'pdf':
+			require('classes/fpdf.php');
+			$pdf = new FPDF();
+			$pdf->AddPage();
+			$pdf->SetFont('Courier', '', 9);
+			$struk_pdf = explode("\n", $struk);
+			foreach ($struk_pdf as $baris) {
+				$width = 40;
+				$length = 1;
+				$pdf->Cell($width, $length, $baris);
+				$pdf->Ln(3);
+			}
+			$pdf->Output();
+			break;
+		case 'text':
+			header("Content-type: text/plain");
+			header("Content-Disposition: attachment; filename=\"struk.txt\"");
+			header("Pragma: no-cache");
+			header("Expire");
+			echo $struk;
+			exit;
+			break;
 	}
 } else if ($module === 'laporan' && $act === 'struka4') {
 	$idWorkStation = $_POST['idWorkStation'];

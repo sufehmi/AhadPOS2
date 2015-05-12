@@ -890,7 +890,7 @@ function editBarangBeli($idTransaksiBeli, $idBarang, $jumBarangLama, $jumBarang,
             WHERE idTransaksiBeli = '$idTransaksiBeli' and idBarang = '$idBarang'") or die(mysql_error());
 }
 
-function cetakStruk($perintahPrinter, $nomorStruk, $namaKasir, $totalTransaksi, $uangDibayar, $arrayTransaksi, $strukRetur = false) {
+function cetakStruk($nomorStruk, $strukRetur = false) {
 
 
 	$totalRetur = 0;
@@ -913,6 +913,25 @@ function cetakStruk($perintahPrinter, $nomorStruk, $namaKasir, $totalTransaksi, 
 		};
 	};
 
+	$sql = "select date_format(tglTransaksiJual, '%d-%m-%Y %H:%i') tglTransaksiJual, nominal, uangDibayar, user.namaUser
+		from transaksijual tj
+		join user on tj.idUser = user.idUser
+		where tj.idTransaksiJual = {$nomorStruk}";
+	$query = mysql_query($sql) or die('Gagal ambil header transaksi jual, error:'.mysql_error());
+	$transaksiJual = mysql_fetch_array($query, MYSQL_ASSOC);
+	$tglTransaksi = $transaksiJual['tglTransaksiJual'];
+	$totalTransaksi = $transaksiJual['nominal'];
+	$uangDibayar = $transaksiJual['uangDibayar'];
+	$namaKasir = $transaksiJual['namaUser'];
+	
+	$sql = "select dj.jumBarang, b.namaBarang, dj.hargaJual, dt.diskon_detail_uids, dt.diskon_persen, dt.diskon_rupiah
+					  from detail_jual dj
+					  join barang b on b.barcode = dj.barcode
+					  left join diskon_transaksi dt on dt.idDetailJual = dj.uid
+					  where dj.nomorStruk = {$nomorStruk}";
+	//echo $sql;
+	$detailJual = mysql_query($sql) or die(mysql_error());
+	
 	// siapkan string yang akan dicetak
 	$struk = str_pad($store_name, 40, " ", STR_PAD_BOTH)."\n".str_pad($header1, 40, " ", STR_PAD_BOTH)."\n"
 			  .str_pad($namaKasir." : ".date("d-m-Y H:i")." #$nomorStruk", 40, " ", STR_PAD_BOTH)." \n";
@@ -920,7 +939,7 @@ function cetakStruk($perintahPrinter, $nomorStruk, $namaKasir, $totalTransaksi, 
 	$struk .= "-------------------------------------\n";
 	$diskonHargaPerBarangTotal = 0;
 	$diskonCustomer = 0;
-	while ($x = mysql_fetch_array($arrayTransaksi)) {
+	while ($x = mysql_fetch_array($detailJual)) {
 
 		if ($strukRetur) {
 			$struk .= $x[namaBarang]." \n".$x[barcode].":"
@@ -986,14 +1005,14 @@ function cetakStruk($perintahPrinter, $nomorStruk, $namaKasir, $totalTransaksi, 
 
 	$struk .= "-------------------------------------\n";
 	$struk .= str_pad($footer1, 40, " ", STR_PAD_BOTH)."\n".str_pad($footer2, 40, " ", STR_PAD_BOTH)."\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	return $struk;
 	// tambahan perintah untuk cutter epson
-	$struk .= chr(27)."@".chr(29)."V".chr(1);
+	// $struk .= chr(27)."@".chr(29)."V".chr(1);
 	//fixme: cetak ke printer lainnya (bukan cuma LPR)
-	$perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
+	// $perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
 //echo $perintah;
 	//echo str_replace("\n", '<br />', $perintah);
-	exec($perintah, $output);
-	exit;
+	// exec($perintah, $output);
 }
 
 //======================================//
@@ -1486,8 +1505,7 @@ function hargaJualBerubah($barcode) {
 	mysql_query("UPDATE barang SET hargaJualLastUpdate=now() WHERE barcode='{$barcode}'") or die('Gagal update perubahan harga jual, error:'.mysql_error());
 }
 
-function textStrukA4($nomorStruk) {
-	$cpi = 12; // character per inch
+function textStrukA4($nomorStruk, $cpi=15) {
 	$lebarKertas = 8; //inchi
 	$jumlahKolom = $cpi * $lebarKertas;
 
@@ -1551,7 +1569,11 @@ function textStrukA4($nomorStruk) {
 //	$struk .= $strKasir.str_pad($garisBawahHeader1, $jumlahKolom - strlen($strKasir), " ", STR_PAD_LEFT).PHP_EOL;
 	$struk .= PHP_EOL;
 	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
-	$struk .= ' No  Barang                                  Jumlah      Harga     Diskon  Harga Net  Sub Total'.PHP_EOL;
+	$textHeader1 = ' No  Barang';
+	$textHeader2 = 'Jumlah      Harga     Diskon  Harga Net  Sub Total ';
+	$textHeader = $textHeader1.str_pad($textHeader2, $jumlahKolom - strlen($textHeader1), ' ', STR_PAD_LEFT).PHP_EOL;
+	$struk .= $textHeader;
+	//$struk .= ' No  Barang                                  Jumlah      Harga     Diskon  Harga Net  Sub Total'.PHP_EOL;
 	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
 	$diskonHargaPerBarangTotal = 0;
 	$diskonCustomer = 0;
@@ -1565,8 +1587,11 @@ function textStrukA4($nomorStruk) {
 		$strDiskon = str_pad(number_format($x['diskon_rupiah'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT); // : '         ';
 		$strHargaNet = str_pad(number_format($x['hargaJual'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
 		$strSubTotal = str_pad(number_format($x['hargaJual'] * $x['jumBarang'], 0, ',', '.'), 9, ' ', STR_PAD_LEFT);
+		$row1 = $strNomor.' '.$strBarang.' ';
+		$row2 = $strQty.'  '.$strHarga.'  '.$strDiskon.'  '.$strHargaNet.'  '.$strSubTotal;
+		$row = $row1.str_pad($row2.' ', $jumlahKolom - strlen($row1), ' ', STR_PAD_LEFT).PHP_EOL;
 
-		$row = $strNomor.' '.$strBarang.' '.$strQty.'  '.$strHarga.'  '.$strDiskon.'  '.$strHargaNet.'  '.$strSubTotal.PHP_EOL;
+		//$row = $strNomor.' '.$strBarang.' '.$strQty.'  '.$strHarga.'  '.$strDiskon.'  '.$strHargaNet.'  '.$strSubTotal.PHP_EOL;
 
 		$struk .= $row;
 		$no++;
@@ -1598,11 +1623,12 @@ function textStrukA4($nomorStruk) {
 	$textKembali = "Kembali           ".str_pad(number_format($uangDibayar - $totalTransaksi, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
 	$textAndaHemat = "ANDA HEMAT        ".str_pad(number_format($diskonHargaTotal, 0, ',', '.'), 11, " ", STR_PAD_LEFT);
 
+	$footer3 = 'Barang yang sudah dibeli tidak bisa ditukar atau dikembalikan';
 	$struk .= $diskonHargaPerBarangTotal > 0 && $diskonCustomer > 0 ? str_pad($textTotalPotongan, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
 	$struk .= $diskonCustomer > 0 ? str_pad($textDiskonCustomer, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
-	$struk .= str_pad($textTotal, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL;
-	$struk .= $footer1.str_pad($textDibayar, $jumlahKolom - strlen($footer1) - 1, ' ', STR_PAD_LEFT).PHP_EOL;
-	$struk .= $footer2.str_pad($textKembali, $jumlahKolom - strlen($footer2) - 1, ' ', STR_PAD_LEFT).PHP_EOL;
+	$struk .= ' '.$footer1.str_pad($textTotal, $jumlahKolom - strlen($footer1) - 2, ' ', STR_PAD_LEFT).PHP_EOL;
+	$struk .= ' '.$footer2.str_pad($textDibayar, $jumlahKolom - strlen($footer2) - 2, ' ', STR_PAD_LEFT).PHP_EOL;
+	$struk .= ' '.$footer3.str_pad($textKembali, $jumlahKolom - strlen($footer3) - 2, ' ', STR_PAD_LEFT).PHP_EOL;
 	$struk .= $diskonHargaPerBarangTotal > 0 ? str_pad($textAndaHemat, $jumlahKolom - 1, ' ', STR_PAD_LEFT).PHP_EOL : '';
 	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
 
