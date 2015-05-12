@@ -1054,6 +1054,15 @@ function upgrade_211_to_212() {
 			VALUES ('footer_nota_a4','Barang yang sudah dibeli tidak bisa ditukar atau dikembalikan','Footer Nota A4')";
 	$hasil = exec_query($sql);
 	echo mysql_error();
+	
+	/*
+	 * Setting untuk: mengirimkan perintah buka cash drawer dan "auto" potong kertas ke printer
+	 */
+	$sql = "ALTER TABLE `workstation` 
+			ADD COLUMN `send_cdopen_commands` TINYINT NOT NULL DEFAULT 1 COMMENT '0=tidak, 1=Ya' AFTER `printer_commands`,
+			ADD COLUMN `send_autocut_commands` TINYINT NOT NULL DEFAULT 1 COMMENT '0=Tidak, 1=Ya' AFTER `send_cdopen_commands`";
+	$hasil = exec_query($sql);
+	echo mysql_error();
 
 // update version number ------------------------------------------------------
 	$sql = "SELECT * FROM config WHERE `option` = 'version'";

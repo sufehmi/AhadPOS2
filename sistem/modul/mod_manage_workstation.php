@@ -139,8 +139,24 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 								<option value='rlpr' <?php echo $data['printer_type'] === 'rlpr' ? 'selected' : ''; ?>>Remote LPR : khusus untuk komputer Unix / Linux</option>
 								<option value='text' <?php echo $data['printer_type'] === 'text' ? 'selected' : ''; ?>>Text/Plain</option>
 							</select>
-						</td></tr>
-
+						</td>
+					</tr>
+					<tr>
+						<td>Otomatis Buka<br />CashDrawer (*rlpr)</td>
+						<td> : <select name="cashdrawer_command">
+								<option value="1">Ya</option>
+								<option value="0">Tidak</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Otomatis potong<br />kertas (*rlpr)</td>
+						<td> : <select name="autocut_command">
+								<option value="1">Ya</option>
+								<option value="0">Tidak</option>
+							</select>
+						</td>
+					</tr>
 					<tr><td>Printer Commands<br />(auto-generated)</td><td> : <input type=text name='printer_commands' id='printer_commands' value='<?php echo $data['printer_commands']; ?>' size=30 readonly></td></tr>
 
 					<tr><td colspan=2>&nbsp;</td></tr>
