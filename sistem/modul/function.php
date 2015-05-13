@@ -1637,6 +1637,7 @@ function textStrukA4($nomorStruk, $cpi = 15) {
 	$struk .= '        Hormat Kami   	                Pelanggan'.PHP_EOL;
 	$struk .= PHP_EOL.PHP_EOL.PHP_EOL;
 	$struk .= '     (                )             (                )'.PHP_EOL;
+	$struk .= "\n\n\n\n\n\n\n\n\n\n\n\n\n"; // Tambahan spasi ke bawah, agar pas di posisi robek kertas di lx 300
 	return $struk;
 }
 
