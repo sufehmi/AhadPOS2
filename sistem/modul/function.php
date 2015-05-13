@@ -1567,9 +1567,6 @@ function textStrukA4($nomorStruk, $cpi = 15) {
 			  .str_pad($strTgl, $kananMaxLength, ' ')
 			  .PHP_EOL;
 	$struk .= str_pad(str_pad($strKasir, $kananMaxLength, ' '), $jumlahKolom, ' ', STR_PAD_LEFT).PHP_EOL;
-//	$struk .= $strNomor.str_pad($store_name, $jumlahKolom - strlen($strNomor), " ", STR_PAD_LEFT).PHP_EOL;
-//	$struk .= $strTgl.str_pad($header1, $jumlahKolom - strlen($strTgl), " ", STR_PAD_LEFT).PHP_EOL;
-//	$struk .= $strKasir.str_pad($garisBawahHeader1, $jumlahKolom - strlen($strKasir), " ", STR_PAD_LEFT).PHP_EOL;
 	$struk .= PHP_EOL;
 	$struk .= str_pad('', $jumlahKolom, "-").PHP_EOL;
 	$textHeader1 = ' No  Barang';
@@ -1593,8 +1590,6 @@ function textStrukA4($nomorStruk, $cpi = 15) {
 		$row1 = $strNomor.' '.$strBarang.' ';
 		$row2 = $strQty.'  '.$strHarga.'  '.$strDiskon.'  '.$strHargaNet.'  '.$strSubTotal;
 		$row = $row1.str_pad($row2.' ', $jumlahKolom - strlen($row1), ' ', STR_PAD_LEFT).PHP_EOL;
-
-		//$row = $strNomor.' '.$strBarang.' '.$strQty.'  '.$strHarga.'  '.$strDiskon.'  '.$strHargaNet.'  '.$strSubTotal.PHP_EOL;
 
 		$struk .= $row;
 		$no++;
