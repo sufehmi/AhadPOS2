@@ -1812,20 +1812,12 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 			header("Content-type: text/plain");
 			header("Content-Disposition: attachment; filename=\"struk-{$nomorNotaPenjualan}.txt\"");
 			header("Pragma: no-cache");
-			header("Expire");
+			header("Expire: 0");
 			echo $struk;
 			exit;
 			break;
 	}
-} else if ($module === 'laporan' && $act === 'struka4') {
-	$idWorkStation = $_POST['idWorkStation'];
-	$text = textStrukA4($_GET['id']);
-	header("Content-type: text/plain");
-	header("Content-Disposition: attachment; filename=\"struk.txt\"");
-	header("Pragma: no-cache");
-	header("Expires: 0");
-	echo $text;
-}
+} 
 // else
 else { // =======================================================================================================================================
 	echo "Tidak Ada Aksi untuk modul ini";

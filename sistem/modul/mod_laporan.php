@@ -614,7 +614,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 
 			if ($_GET[action] == 'cetakjual2') { // ---------------------------------------------------------------------------------
-				// Pindah ke aksi.php
+				// Pindah ke aksi.php !! Kemungkinan tidak dipakai
 				// tampilkan link untuk kembali
 				echo "<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>";
 			}
