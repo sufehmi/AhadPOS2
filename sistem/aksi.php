@@ -609,12 +609,14 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	};
 
 	// ambil alamat printer
-	$sql = "SELECT w.printer_commands, w.printer_type FROM kasir AS k, workstation AS w
+	$sql = "SELECT w.printer_commands, w.printer_type, w.send_cdopen_commands, w.send_autocut_commands FROM kasir AS k, workstation AS w
 		WHERE k.tglTutupKasir IS NULL AND k.idUser = $_SESSION[iduser] AND k.currentWorkstation = w.idWorkstation";
 	$hasil = mysql_query($sql) or die(mysql_error());
 	$x = mysql_fetch_array($hasil);
 	$perintah_printer = $x[printer_commands];
 	$jenis_printer = $x[printer_type];
+	$bukaCashDrawer = $x['send_cdopen_commands'];
+	$potongKertas = $x['send_autocut_commands'];
 
 	// ambil transaksi yang akan dicetak
 	$sql = "SELECT t.jumBarang,t.hargaJual,b.namaBarang, t.diskon_detail_uids, t.diskon_persen, t.diskon_rupiah FROM barang AS b, tmp_detail_jual AS t
@@ -622,7 +624,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	//echo $sql;
 	$hasil = mysql_query($sql);
 
-	if ($jenis_printer == 'rlpr') {
+	if ($jenis_printer === 'rlpr' && $bukaCashDrawer) {
 		/**
 		 * Init printer, dan buka cash drawer
 		 */
@@ -709,9 +711,10 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	if ($_SESSION['isMember']) {
 		$struk .= 'Jumlah poin terkumpul: '.getJumlahPoinPeriodeBerjalan($_SESSION['idCustomer']);
 	}
-	$struk .= "\n\n\n\n\n\n\n\n\n\n";
-// tambahan perintah untuk cutter epson
-	if ($jenis_printer == 'rlpr') {
+	$struk .= "\n\n\n\n\n\n\n\n\n\n\n\n\n";
+
+	// tambahan perintah untuk cutter epson
+	if ($jenis_printer === 'rlpr' && $potongKertas) {
 		$struk .= chr(27)."@".chr(29)."V".chr(1);
 	}
 
@@ -1472,7 +1475,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';         ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';          ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
@@ -1817,7 +1820,7 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 			exit;
 			break;
 	}
-} 
+}
 // else
 else { // =======================================================================================================================================
 	echo "Tidak Ada Aksi untuk modul ini";
