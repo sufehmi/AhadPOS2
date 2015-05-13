@@ -1472,7 +1472,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';        ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';         ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
@@ -1769,13 +1769,13 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 } else if ($module === 'laporan' && $act === 'cetakjual') {
 
 	$idWorkStation = $_POST['idWorkStation'];
-	$sql = "SELECT printer_type, printer_commands FROM workstation WHERE idWorkstation = {$idWorkStation}";
+	$sql = "SELECT printer_type, printer_commands,send_autocut_commands FROM workstation WHERE idWorkstation = {$idWorkStation}";
 	$queryWs = mysql_query($sql);
 	$workStation = mysql_fetch_array($queryWs, MYSQL_ASSOC);
 
 	// ambil data(text) struk
 	$struk = cetakStruk($_POST['idTransaksi']);
-	
+
 	// Untuk format invoice
 	if ($_POST['layoutStruk'] === 'invoice') {
 		$struk = textStrukA4($_POST['idTransaksi']); // 15 cpi
@@ -1783,12 +1783,12 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 			$struk = textStrukA4($_POST['idTransaksi'], 12); // 12 cpi
 		}
 	}
-	
+
 	switch ($workStation['printer_type']) {
 		case 'rlpr':
-			// tambahan perintah untuk cutter epson
-			// Disable saja jika printer lain, mis: lx300
-			$struk .= chr(27)."@".chr(29)."V".chr(1);
+			if ($workStation['send_autocut_commands']) {
+				$struk .= chr(27)."@".chr(29)."V".chr(1);
+			}
 			$perintahPrinter = $workStation['printer_commands'];
 			$perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
 			exec($perintah, $output);
