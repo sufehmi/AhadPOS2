@@ -1773,14 +1773,15 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	$queryWs = mysql_query($sql);
 	$workStation = mysql_fetch_array($queryWs, MYSQL_ASSOC);
 
+	$nomorNotaPenjualan = $_POST['idTransaksi'];
 	// ambil data(text) struk
-	$struk = cetakStruk($_POST['idTransaksi']);
+	$struk = cetakStruk($nomorNotaPenjualan);
 
 	// Untuk format invoice
 	if ($_POST['layoutStruk'] === 'invoice') {
-		$struk = textStrukA4($_POST['idTransaksi']); // 15 cpi
+		$struk = textStrukA4($nomorNotaPenjualan); // 15 cpi
 		if ($workStation['printer_type'] === 'pdf') {
-			$struk = textStrukA4($_POST['idTransaksi'], 12); // 12 cpi
+			$struk = textStrukA4($nomorNotaPenjualan, 12); // 12 cpi
 		}
 	}
 
@@ -1809,7 +1810,7 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 			break;
 		case 'text':
 			header("Content-type: text/plain");
-			header("Content-Disposition: attachment; filename=\"struk.txt\"");
+			header("Content-Disposition: attachment; filename=\"struk-{$nomorNotaPenjualan}.txt\"");
 			header("Pragma: no-cache");
 			header("Expire");
 			echo $struk;
