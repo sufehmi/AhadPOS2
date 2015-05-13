@@ -1813,7 +1813,7 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 			break;
 		case 'text':
 			header("Content-type: text/plain");
-			header("Content-Disposition: attachment; filename=\"struk-{$nomorNotaPenjualan}.txt\"");
+			header("Content-Disposition: attachment; filename=\"struk-{$nomorNotaPenjualan}.text\"");
 			header("Pragma: no-cache");
 			header("Expire: 0");
 			echo $struk;
