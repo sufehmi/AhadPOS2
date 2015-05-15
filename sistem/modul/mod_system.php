@@ -43,6 +43,10 @@ switch ($act) {
                         <td> : <input type="text" name="config[receipt_footer2]" size="40" value="<?php echo $config['receipt_footer2']['value']; ?>"></td>
                     </tr>
                     <tr>
+                        <td><?php echo $config['footer_nota_a4']['description']; ?></td>
+                        <td> : <input type="text" name="config[footer_nota_a4]" size="65" value="<?php echo $config['footer_nota_a4']['value']; ?>"></td>
+                    </tr>
+                    <tr>
                         <td><?php echo $config['temporary_space']['description']; ?></td>
                         <td> : <input type="text" name="temporary_space" size="40" value="<?php echo $config['temporary_space']['value']; ?>" disabled="disabled"></td>
                     </tr>
@@ -72,7 +76,7 @@ switch ($act) {
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="right">
+                        <td colspan="2" align="left">
                             <input type="submit" value="Simpan">
                         </td>
                     </tr>

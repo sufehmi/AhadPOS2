@@ -166,7 +166,9 @@ elseif ($module == 'workstation' AND $act == 'input') {
 					keterangan		= '$_POST[keterangan]',
 					workstation_address 	= '$_POST[workstation_address]',
 					printer_type		= '$_POST[printer_type]',
-					printer_commands	= '$_POST[printer_commands]'
+					printer_commands	= '$_POST[printer_commands]',
+					send_cdopen_commands = {$_POST['cashdrawer_command']},
+					send_autocut_commands = {$_POST['autocut_command']}
 		WHERE idWorkstation = '$_POST[idWorkstation]'
 	");
 	header('location:media.php?module='.$module);
@@ -607,12 +609,14 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	};
 
 	// ambil alamat printer
-	$sql = "SELECT w.printer_commands, w.printer_type FROM kasir AS k, workstation AS w
+	$sql = "SELECT w.printer_commands, w.printer_type, w.send_cdopen_commands, w.send_autocut_commands FROM kasir AS k, workstation AS w
 		WHERE k.tglTutupKasir IS NULL AND k.idUser = $_SESSION[iduser] AND k.currentWorkstation = w.idWorkstation";
 	$hasil = mysql_query($sql) or die(mysql_error());
 	$x = mysql_fetch_array($hasil);
 	$perintah_printer = $x[printer_commands];
 	$jenis_printer = $x[printer_type];
+	$bukaCashDrawer = $x['send_cdopen_commands'];
+	$potongKertas = $x['send_autocut_commands'];
 
 	// ambil transaksi yang akan dicetak
 	$sql = "SELECT t.jumBarang,t.hargaJual,b.namaBarang, t.diskon_detail_uids, t.diskon_persen, t.diskon_rupiah FROM barang AS b, tmp_detail_jual AS t
@@ -620,7 +624,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	//echo $sql;
 	$hasil = mysql_query($sql);
 
-	if ($jenis_printer == 'rlpr') {
+	if ($jenis_printer === 'rlpr' && $bukaCashDrawer) {
 		/**
 		 * Init printer, dan buka cash drawer
 		 */
@@ -707,9 +711,10 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 	if ($_SESSION['isMember']) {
 		$struk .= 'Jumlah poin terkumpul: '.getJumlahPoinPeriodeBerjalan($_SESSION['idCustomer']);
 	}
-	$struk .= "\n\n\n\n\n\n\n\n\n\n";
-// tambahan perintah untuk cutter epson
-	if ($jenis_printer == 'rlpr') {
+	$struk .= "\n\n\n\n\n\n\n\n\n\n\n\n\n";
+
+	// tambahan perintah untuk cutter epson
+	if ($jenis_printer === 'rlpr' && $potongKertas) {
 		$struk .= chr(27)."@".chr(29)."V".chr(1);
 	}
 
@@ -726,7 +731,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 			$pdf->Ln(3);
 		}
 		$pdf->Output();
-	} elseif ($jenis_printer == 'rlpr') {
+	} else if ($jenis_printer == 'rlpr') {
 		include "classes/PrintSend.php";
 		include "classes/PrintSendLPR.php";
 		$perintah = "echo \"$struk\" |lpr $perintah_printer -l";
@@ -735,8 +740,13 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 		// export ip=192.168.0.17; echo "Ini AhadPOS \n apakah sukses cetak struk ?" |lpr -H $ip -P printer$ip -l
 		//echo $perintah; exit;
 		exec($perintah, $output);
-	};
-
+	} else if ($jenis_printer === 'text') {
+		header("Content-type: text/plain");
+		header("Content-Disposition: attachment; filename=\"struk.txt\"");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		echo $struk;
+	}
 
 	if ($_POST[tipePembayaran] == '2') {
 		mysql_query("INSERT INTO piutang(idTransaksiJual,nominal,tglDiBayar,
@@ -934,8 +944,10 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 		$_SESSION[tot_pembelian] = 0;
 		releaseCustomer();
 		//header('location:media.php?module='.$module);
-		echo "<script>window.close();</script>";
-	};
+		if ($jenis_printer != 'text') {
+			echo "<script>window.close();</script>";
+		}
+	}
 }
 
 //Batal Transaksi Jual
@@ -1463,7 +1475,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
 						<td><?php echo $barang['barcode']; ?></td>
 						<td><?php echo $barang['namaBarang']; ?></td>
 						<td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';   ?>><?php echo $barang['idSatuanBarang']; ?></td>
+						<td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';          ?>><?php echo $barang['idSatuanBarang']; ?></td>
 					</tr>
 					<?php
 					$i++;
@@ -1757,14 +1769,57 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 	} else {
 		echo 'Error';
 	}
-} else if ($module === 'laporan' && $act === 'struka4') {
+} else if ($module === 'laporan' && $act === 'cetakjual') {
+
 	$idWorkStation = $_POST['idWorkStation'];
-	$text = textStrukA4($_GET['id']);
-	header("Content-type: text/plain");
-	header("Content-Disposition: attachment; filename=\"struk.txt\"");
-	header("Pragma: no-cache");
-	header("Expires: 0");
-	echo $text;
+	$sql = "SELECT printer_type, printer_commands,send_autocut_commands FROM workstation WHERE idWorkstation = {$idWorkStation}";
+	$queryWs = mysql_query($sql);
+	$workStation = mysql_fetch_array($queryWs, MYSQL_ASSOC);
+
+	$nomorNotaPenjualan = $_POST['idTransaksi'];
+	// ambil data(text) struk
+	$struk = cetakStruk($nomorNotaPenjualan);
+
+	// Untuk format invoice
+	if ($_POST['layoutStruk'] === 'invoice') {
+		$struk = textStrukA4($nomorNotaPenjualan); // 15 cpi
+		if ($workStation['printer_type'] === 'pdf') {
+			$struk = textStrukA4($nomorNotaPenjualan, 12); // 12 cpi
+		}
+	}
+
+	switch ($workStation['printer_type']) {
+		case 'rlpr':
+			if ($workStation['send_autocut_commands']) {
+				$struk .= chr(27)."@".chr(29)."V".chr(1);
+			}
+			$perintahPrinter = $workStation['printer_commands'];
+			$perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
+			exec($perintah, $output);
+			break;
+		case 'pdf':
+			require('classes/fpdf.php');
+			$pdf = new FPDF();
+			$pdf->AddPage();
+			$pdf->SetFont('Courier', '', 9);
+			$struk_pdf = explode("\n", $struk);
+			foreach ($struk_pdf as $baris) {
+				$width = 40;
+				$length = 1;
+				$pdf->Cell($width, $length, $baris);
+				$pdf->Ln(3);
+			}
+			$pdf->Output();
+			break;
+		case 'text':
+			header("Content-type: text/plain");
+			header("Content-Disposition: attachment; filename=\"struk-{$nomorNotaPenjualan}.text\"");
+			header("Pragma: no-cache");
+			header("Expire: 0");
+			echo $struk;
+			exit;
+			break;
+	}
 }
 // else
 else { // =======================================================================================================================================

@@ -211,9 +211,9 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					<td class="center"><?php echo $r['idTransaksiJual']; ?></td>
 					<td class="center"><?php echo date("H:i:s", strtotime($r['tglTransaksiJual'])); ?></td>
 					<td class="right"><?php echo number_format($r['nominal'], 0, ',', '.'); ?></td>
-					<td>	<a href='?module=laporan&act=aksi&action=cetakjual1&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Cetak</a> |
-						<a href='?module=laporan&act=aksi&action=lihatjual&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Lihat</a> |
-						<a href='aksi.php?module=laporan&act=struka4&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Struk A4</a></td>
+					<td>	
+						<a href='?module=laporan&act=aksi&action=cetakjual1&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Cetak</a> |
+						<a href='?module=laporan&act=aksi&action=lihatjual&id=<?php echo $r['idTransaksiJual']; ?>&kasir=<?php echo $x['namaUser']; ?>'>Lihat</a>
 					<td class="right"> Ha<a href='?module=laporan&act=aksi&action=hapusjual&id=<?php echo $r['idTransaksiJual']; ?>&idKasir=<?php echo $_GET['idKasir']; ?>&DariTanggal=<?php echo $_GET['DariTanggal']; ?>&SampaiTanggal=<?php echo $_GET['SampaiTanggal']; ?>'>p</a>us</td>
 				</tr>
 				<?php
@@ -568,72 +568,58 @@ switch ($_GET[act]) { //--------------------------------------------------------
 				// pilih printer
 				$sql = "SELECT idWorkStation, namaWorkstation, printer_commands, workstation_address FROM workstation ";
 				$hasil = mysql_query($sql) or die(mysql_error());
+//			<form method = POST action = '?module=laporan&act=aksi&action=cetakjual2'>
+				?>
+				<form method = POST action = 'aksi.php?module=laporan&act=cetakjual'>
 
-				echo "
-			<form method = POST action = '?module=laporan&act=aksi&action=cetakjual2'>
+					<table>
+						<tr>
+							<td>Pilih Printer </td>
+							<td>: <select name = 'idWorkStation'>";
+									<?php
+									while ($printer = mysql_fetch_array($hasil)) {
+										?>
+										<option value = '<?php echo "{$printer['idWorkStation']}"; ?>'><?php echo "{$printer['namaWorkstation']}"; ?></option>
+										<?php
+									}
+									?>
+							</td>
+							<td>Pilih layout struk</td>
+							<td>
+								<select name="layoutStruk">
+									<option value="struk">Struk Kasir</option>
+									<option value="invoice">Invoice (A4)</option>
+								</select>
+							</td>
+						</tr>
 
-			<table>
-			<tr>
-			<td>Pilih Printer </td>
-			<td>: <select name = 'idWorkStation'>";
+						<tr>
+							<td colspan = 2>&nbsp;	</td>
+						</tr>
+						<tr>
+							<td colspan = 2><input type = submit value = 'Submit'>&nbsp;&nbsp;&nbsp;<input type = reset value = 'Batal'>
+							</td>
+						</tr>
+					</table>
 
-				while ($printer = mysql_fetch_array($hasil)) {
-					echo "<option value = '{$printer['idWorkStation']}'>{$printer['namaWorkstation']}</option>\n";
-				}
+					<input type = hidden name = idTransaksi value = '<?php echo $_GET['id']; ?>'>
+					<input type = hidden name = namaKasir value = '<?php echo $_GET['kasir']; ?>'>
 
-				echo "
-			</td>
-			</tr>
+				</form>
 
-			<tr><td colspan = 2>&nbsp;
-			</td></tr>
-			<tr><td colspan = 2><input type = submit value = 'Pilih Printer'>&nbsp;
-			&nbsp;
-			&nbsp;
-			<input type = reset value = 'Batal'></td></tr>
-			</table>
-
-			<input type = hidden name = idTransaksi value = '$_GET[id]'>
-			<input type = hidden name = namaKasir value = '$_GET[kasir]'>
-
-			</form>
-			";
-
-				// tampilkan link untuk kembali
-				echo "<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>";
+				<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>
+				<?php
 			} // if ($_GET[action] == 'cetakjual1')
 
 
 
 			if ($_GET[action] == 'cetakjual2') { // ---------------------------------------------------------------------------------
-				// ambil info struk ybs
-				$sql = "SELECT nominal, uangDibayar FROM transaksijual WHERE idTransaksiJual = $_POST[idTransaksi]";
-				//echo $sql;
-				$hasil = mysql_query($sql);
-				$x = mysql_fetch_array($hasil);
-				$totalTransaksi = $x[nominal];
-				$uangDibayar = $x[uangDibayar];
-
-				// ambil transaksi yang akan dicetak
-				$sql = "SELECT t.jumBarang, t.hargaJual, b.namaBarang FROM barang AS b, detail_jual AS t
-					  WHERE t.nomorStruk = '$_POST[idTransaksi]' AND t.barcode = b.barcode";
-
-				$sql = "select dj.jumBarang, b.namaBarang, dj.hargaJual, dt.diskon_detail_uids, dt.diskon_persen, dt.diskon_rupiah
-					  from detail_jual dj
-					  join barang b on b.barcode = dj.barcode
-					  left join diskon_transaksi dt on dt.idDetailJual = dj.uid
-					  where dj.nomorStruk = {$_POST['idTransaksi']}";
-				//echo $sql;
-				$hasil = mysql_query($sql) or die(mysql_error());
-
-				// cetak struk
-				cetakStruk("$_POST[namaPrinter]", $_POST[idTransaksi], "$_POST[namaKasir]", $totalTransaksi, $uangDibayar, $hasil);
-
+				// Pindah ke aksi.php !! Kemungkinan tidak dipakai
 				// tampilkan link untuk kembali
 				echo "<br /><br /> <a href = javascript:history.go(-1)><< Kembali</a>";
 			}
 
-	
+
 			if ($_GET[action] == 'lihatjual') { // ---------------------------------------------------------------------------------
 				if ($_GET[kasir] == 'SEMUA') {
 					$namaKasir = 'SEMUA';
@@ -642,10 +628,10 @@ switch ($_GET[act]) { //--------------------------------------------------------
 				}
 
 				echo "
-			<br/>
-			<h2>Detail Penjualan</h2>
+						<br/>
+						<h2>Detail Penjualan</h2>
 
-			<h3>Kasir: $namaKasir, No.Struk: $_GET[id]</h3>";
+						<h3>Kasir: $namaKasir, No.Struk: $_GET[id]</h3>";
 				?>
 				<table class="tabel">
 					<tr>
@@ -1460,3 +1446,4 @@ switch ($_GET[act]) { //--------------------------------------------------------
 	  0.9.2 / 2010-03-08 : Harry Sufehmi	: initial release
 
 	  ------------------------------------------------------------------------ */
+	
