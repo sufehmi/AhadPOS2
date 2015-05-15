@@ -934,7 +934,7 @@ function cetakStruk($nomorStruk, $strukRetur = false) {
 
 	// siapkan string yang akan dicetak
 	$struk = str_pad($store_name, 40, " ", STR_PAD_BOTH)."\n".str_pad($header1, 40, " ", STR_PAD_BOTH)."\n"
-			  .str_pad($namaKasir." : ".date("d-m-Y H:i")." #$nomorStruk", 40, " ", STR_PAD_BOTH)." \n";
+			  .str_pad($namaKasir." : ".$tglTransaksi." #$nomorStruk", 40, " ", STR_PAD_BOTH)." \n";
 
 	$struk .= "-------------------------------------\n";
 	$diskonHargaPerBarangTotal = 0;
@@ -1006,13 +1006,6 @@ function cetakStruk($nomorStruk, $strukRetur = false) {
 	$struk .= "-------------------------------------\n";
 	$struk .= str_pad($footer1, 40, " ", STR_PAD_BOTH)."\n".str_pad($footer2, 40, " ", STR_PAD_BOTH)."\n\n\n\n\n\n\n\n\n\n\n\n\n";
 	return $struk;
-	// tambahan perintah untuk cutter epson
-	// $struk .= chr(27)."@".chr(29)."V".chr(1);
-	//fixme: cetak ke printer lainnya (bukan cuma LPR)
-	// $perintah = "echo \"$struk\" |lpr $perintahPrinter -l";
-//echo $perintah;
-	//echo str_replace("\n", '<br />', $perintah);
-	// exec($perintah, $output);
 }
 
 //======================================//
