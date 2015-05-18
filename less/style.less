@@ -43,9 +43,9 @@ Style for ahad pos 2
     src: url('fonts/OpenSans-BoldItalic.ttf');
 }*/
 @font-face {
-    font-family: 'Ubuntu';
-    font-style: normal;
-    src: url('fonts/ubuntu-r.ttf');
+	font-family: 'Ubuntu';
+	font-style: normal;
+	src: url('fonts/ubuntu-r.ttf');
 }
 @font-face {
 	font-family: 'Ubuntu';
@@ -465,6 +465,9 @@ table{
 		&.alt{
 			background-color: @hijau-muda;
 		}
+		&.merah{
+			background-color: #f00;
+		}
 		td{
 			border-right: thin solid @table-border-color;
 			padding: 3px 5px;
@@ -492,7 +495,7 @@ table{
 		tr{
 			&.alt{
 				background-color: @hijau-muda;
-			}
+			}			
 			td{
 				border-right: thin solid #ccc;
 				padding: 3px 5px;
@@ -582,19 +585,19 @@ div{
 }
 
 .ui-autocomplete{
-    background-color: #fff;
-    border: 1px solid @hijau-sushi;
+	background-color: #fff;
+	border: 1px solid @hijau-sushi;
 }
 
 .ui-menu-item{
-    &.ui-state-focus{
-        background-color: @hijau-muda;
-        margin: 0;
-    }
+	&.ui-state-focus{
+		background-color: @hijau-muda;
+		margin: 0;
+	}
 }
 
 textarea{
-    margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 @import '../lesslib/fa/font-awesome';
