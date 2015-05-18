@@ -900,6 +900,9 @@ table.top td {
 .tabel tr.alt {
   background-color: #eef4d2;
 }
+.tabel tr.merah {
+  background-color: #f00;
+}
 .tabel tr td {
   border-right: thin solid #dddddd;
   padding: 3px 5px;

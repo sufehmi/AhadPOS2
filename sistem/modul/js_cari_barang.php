@@ -61,7 +61,7 @@ $caller = $_GET[caller];
 	 */
 	?>
 	<?php
-	$sql = "SELECT * FROM barang WHERE namaBarang LIKE '%" . $_POST[namabarang] . "%' ORDER BY namaBarang ASC";
+	$sql = "SELECT * FROM barang WHERE namaBarang LIKE '%".$_POST[namabarang]."%' ORDER BY nonAktif, namaBarang ASC";
 //$sql = "SELECT * FROM barang WHERE match(namaBarang) against ('+\"".$_POST[namabarang]."\"' in boolean mode) ORDER BY namaBarang ASC ";
 //$sql = "SELECT * FROM barang WHERE match(namaBarang) against ('".$_POST[namabarang]."' in boolean mode) ORDER BY namaBarang ASC ";
 //echo $sql;
@@ -83,14 +83,19 @@ $caller = $_GET[caller];
 		</tr>
 		<?php
 		$no = 1;
+		$adaNonAktif = false;
 		while ($data = mysql_fetch_array($query)) :
+			$nonAktif = $data['nonAktif'] == 1 ? true : false;
+			if ($nonAktif) {
+				$adaNonAktif = true;
+			}
 			?>
-			<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
+			<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?> <?php echo $nonAktif ? 'merah' : '' ?>">
 				<td><?php echo $data['barcode']; ?></td>
 				<td><?php echo $data['namaBarang']; ?></td>
 				<td class="right"><?php echo $data['jumBarang']; ?></td>
 				<td class="right"><?php echo number_format($data['hargaJual'], 0, ',', '.'); ?></td>
-				<td class="center"><a class="pilih" href="<?php echo $caller; ?>.php?act=caricustomer&action=tambah&barcode=<?php echo $data['barcode'] . $transferahad; ?>" onClick="return targetopener(this, true)">[Pilih]</a> 
+				<td class="center"><a class="pilih" href="<?php echo $caller; ?>.php?act=caricustomer&action=tambah&barcode=<?php echo $data['barcode'].$transferahad; ?>" onClick="return targetopener(this, true)">[Pilih]</a> 
 				</td>
 			</tr>
 			<?php
@@ -101,7 +106,19 @@ $caller = $_GET[caller];
 	</table>
 
 </form>
-
+<?php
+if ($adaNonAktif) {
+	?>
+	<table>
+		<tr>
+			<td>&nbsp;</td>
+			<td style="background-color: #f00">&nbsp;&nbsp;</td>
+			<td>: Barang non aktif</td>
+		</tr>
+	</table>
+	<?php
+}
+?>
 
 <?php
 /* CHANGELOG -----------------------------------------------------------
