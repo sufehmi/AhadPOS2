@@ -89,7 +89,7 @@ function releaseCustomer() {
 
 function cekBarang($barcode) {
 	// jika ada banyak barang dengan barcode yang sama, kembalikan record yang terbaru
-	$sql = "SELECT b.idBarang, b.namaBarang, b.hargaJual, b.barcode, d.hargaBeli FROM barang AS b, detail_beli AS d
+	$sql = "SELECT b.idBarang, b.namaBarang, b.hargaJual, b.barcode, d.hargaBeli, b.jumBarang FROM barang AS b, detail_beli AS d
         	    WHERE b.barcode = '$barcode' AND d.barcode = '$barcode' ORDER BY d.idBarang DESC LIMIT 1";
 	//echo $sql;
 	$query = mysql_query($sql);
