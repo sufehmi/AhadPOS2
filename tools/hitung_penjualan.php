@@ -12,10 +12,14 @@ if (isset($argv[1]) && $argv[1] > 0) {
    $jumlahBulan = $argv[1];
 }
 
-$host = 'localhost';
-$dbName = 'ahad_ceger';
-define('MYSQL_USER', 'root');
-define('MYSQL_PASS', '');
+// Connecting, selecting database
+include "../config/config.php";
+mysql_close();
+
+$host = $server;
+$dbName = $database;
+define('MYSQL_USER', $username);
+define('MYSQL_PASS', $password);
 
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 
