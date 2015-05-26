@@ -1067,17 +1067,22 @@ switch ($_GET[act]) { // -------------------------------------------------------
                   $_POST['persenprofit'] = 0;
                };
                ?>
-               <p style="background-color: #EEF4D2; padding: 2px 5px; width: 705px; text-align: right">
-                  <?php
-                  if (!is_null($dataPenjualan)) {
-                     ?>
-                     Rata-rata penjualan perminggu, selama <?php echo $dataPenjualan['jumlah_bulan_terakhir']; ?> bulan terakhir: <?php echo number_format($dataPenjualan['rata_rata_mingguan'], 2, ',', '.'); ?><br />
-                     <?php
-                  }
+               <?php
+               if ($barang) {
                   ?>
-                  Stok tercatat: <?php echo $barang['jumBarang']; ?><br/>
-               </p>
-
+                  <p style="background-color: #EEF4D2; padding: 2px 5px; width: 705px; text-align: right">
+                     <?php
+                     if (!is_null($dataPenjualan)) {
+                        ?>
+                        Rata-rata penjualan perminggu, selama <?php echo $dataPenjualan['jumlah_bulan_terakhir']; ?> bulan terakhir: <?php echo number_format($dataPenjualan['rata_rata_mingguan'], 2, ',', '.'); ?><br />
+                        <?php
+                     }
+                     ?>
+                     Stok tercatat: <?php echo $barang['jumBarang']; ?><br/>
+                  </p>
+                  <?php
+               }
+               ?>
                <div id="frmTambahBarang">
                   <form method="POST" action="?module=pembelian_barang&act=carisupplier&action=tambah">
                      <?php // this button will be default (when press enter) and invisible button     ?>
