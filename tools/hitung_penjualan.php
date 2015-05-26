@@ -13,7 +13,7 @@ if (isset($argv[1]) && $argv[1] > 0) {
 }
 
 // Connecting, selecting database
-include "../config/config.php";
+include __DIR__ ."/../config/config.php";
 mysql_close();
 
 $host = $server;
