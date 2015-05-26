@@ -41,6 +41,7 @@ try {
                  `penjualan` int(11) NOT NULL DEFAULT '0',
                  `rata_rata_mingguan` float NOT NULL,
                  `jumlah_bulan_terakhir` int(11) NOT NULL DEFAULT '3',
+                 `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                  PRIMARY KEY (`int`),
                  KEY `barcode` (`barcode`)
                ) ENGINE=MyISAM DEFAULT CHARSET=latin1");
