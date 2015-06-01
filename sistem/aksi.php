@@ -1390,7 +1390,7 @@ elseif ($module == 'buat_rpo' AND $act == 'input') {
 		$y = mysql_fetch_array($hasil2);
 		$namaKategoriBarang = $y[namaKategoriBarang];
 
-		$csv .= "\"".$x['barcode']."\",\"".$x['idBarang']."\",\"".$namaBarang."\",\"".$x['jumBarang']."\",\"".$x['hargaBeli']."\",\"".$x['hargaJual']."\",\"".$x['hargaJual']."\",\"".$namaSatuanBarang."\",\"".$namaKategoriBarang."\",\"".$namaGudang."\",\"".$_SESSION['uname']."\"\n";
+		$csv .= "\"".$x['barcode']."\",\"".$x['idBarang']."\",\"".$namaBarang."\",\"".$x['jumBarang']."\",\"".$x['hargaJual']."\",\"".$x['hargaJual']."\",\"".$x['hargaJual']."\",\"".$namaSatuanBarang."\",\"".$namaKategoriBarang."\",\"".$namaGudang."\",\"".$_SESSION['uname']."\"\n";
 	}; // while ($x = mysql_fetch_array($hasil)) {
 	// kirim output CSV ke browser untuk di download
 	// cari nama Customer

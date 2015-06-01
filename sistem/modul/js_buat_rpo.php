@@ -189,7 +189,6 @@ if (empty($_SESSION['namauser'])) {
 
 					<?php
 					if ($_GET['action'] == 'tambah') {
-
 						if ($_GET['barcode']) {
 							$_POST['barcode'] = $_GET['barcode'];
 						};
@@ -198,7 +197,8 @@ if (empty($_SESSION['namauser'])) {
 						if ($sudahAda != 0) {
 							tambahBarangRPOAda($_SESSION['idCustomer'], $_POST['barcode'], $_POST['jumBarang']);
 						} else {
-							tambahBarangRPO($_POST['barcode'], $_POST['jumBarang'], $_SESSION['range'], $_SESSION['periode'], $_SESSION['persediaan']);
+							// tambahBarangRPO($_POST['barcode'], $_POST['jumBarang'], $_SESSION['range'], $_SESSION['periode'], $_SESSION['persediaan']);
+                     tambahBarangRPOperItem($_POST['barcode'], $_POST['jumBarang']);
 						}
 					}
 
@@ -215,6 +215,7 @@ if (empty($_SESSION['namauser'])) {
 							<tr>
 								<th>Barcode</th>
 								<th>Nama Barang</th>
+                        <th>Rata2 Penjualan<br />Mingguan</th>
 								<th>Saran Order</th>
 								<th>Stok Saat Ini</th>
 								<th>Jumlah Pesanan</th>
@@ -227,13 +228,15 @@ if (empty($_SESSION['namauser'])) {
 							$tot_pembelian = 0;
 
 							$query2 = mysql_query("SELECT tdj.uid, tdj.barcode, tdj.idBarang, tdj.hargaBeli, b.namaBarang, 
-						tdj.jumBarang, tdj.hargaJual, tdj.tglTransaksi
+						tdj.jumBarang, tdj.hargaJual, tdj.tglTransaksi, dp.rata_rata_mingguan
                                         FROM tmp_detail_jual tdj, barang b
+                                        LEFT JOIN data_penjualan dp ON b.barcode = dp.barcode
                                         WHERE tdj.barcode = b.barcode AND tdj.idCustomer = '$_SESSION[idCustomer]' 
 						AND tdj.username = '$_SESSION[uname]' ORDER BY tglTransaksi DESC");
 
 							while ($data = mysql_fetch_array($query2)) {
-								$total = $data[hargaJual] * $data[jumBarang];
+								$total = $data['hargaJual'] * $data['jumBarang'];
+                        $saranOrder = round($data['rata_rata_mingguan'] / 7 * $_SESSION['persediaan']) - $data['hargaBeli']; // $data['harga_beli'] == stok saat ini
 								?>
 								<?php /*
 								  <tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
@@ -249,7 +252,8 @@ if (empty($_SESSION['namauser'])) {
 								<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
 									<td><?php echo $data['barcode']; ?></td>
 									<td><?php echo $data['namaBarang']; ?></td>
-									<td class="right"><?php echo $data['idBarang']; //saran order    ?></td>
+									<td class="right"><?php echo number_format($data['rata_rata_mingguan'],2,',','.'); ?></td>
+									<td class="right"><?php echo $saranOrder; //saran order    ?></td>
 									<td class="right"><?php echo $data['hargaBeli']; //cur stock    ?></td>
 									<td class="right"><?php echo $data['jumBarang']; // jumlah pesanan    ?></td>
 									<td class="right"><?php echo $data['hargaJual']; // harga    ?></td>
