@@ -696,6 +696,40 @@ function tambahBarangRPO($barcode, $jumBarang, $range, $periode, $persediaan) {
    }
 }
 
+function tambahBarangRPOperItem($barcode, $jumBarang){
+   
+   $dataAda = cekBarang($barcode);
+   if ($dataAda != 0) {
+     
+      $jualBarang = mysql_query("SELECT * FROM barang WHERE barcode = '$barcode'") or die(mysql_error());
+      $x = mysql_fetch_array($jualBarang);
+
+      $StokSaatIni = $x['jumBarang'];
+
+      // cari harga modal nya
+      $sql = "SELECT * FROM detail_beli
+			WHERE idDetailBeli= (select max(idDetailBeli) FROM detail_beli WHERE barcode = '{$barcode}')";
+			//ORDER BY idTransaksiBeli DESC LIMIT 1";
+      $hasil = mysql_query($sql);
+
+      $detilBarang = mysql_fetch_array($hasil);
+      if (mysql_num_rows($hasil) > 0) {
+         $hargaBeli = $detilBarang['hargaBeli'];
+      } else {
+         $hargaBeli = 0;
+      }
+      // simpan transaksi di tmp_detail_jual
+      $sql = "INSERT into tmp_detail_jual(idCustomer, tglTransaksi,
+                            barcode,jumBarang,hargaBeli,hargaJual,username, idBarang)
+                        VALUES('$_SESSION[idCustomer]', now(),'$barcode',
+                            '$jumBarang','$StokSaatIni',$hargaBeli,'$_SESSION[uname]', {$x['idBarang']})";
+      //echo $sql;
+      mysql_query($sql) or die(mysql_error());
+   } else {
+      echo "Barang tidak ada";
+   }
+}
+
 // Proses di atas diganti dengan proses di bawah ini, jauh lebih cepat
 // by abu fathir;
 function SimpanRPOawalOld1($supplierid, $range, $persediaan, $buffer) {
