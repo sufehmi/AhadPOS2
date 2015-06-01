@@ -1115,7 +1115,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
                         </tr>
                         <tr>
                            <td colspan="4"><button style="float:right" onclick="RecalcHargaBarangLama();
-                                 return false;" accesskey='6' tabindex="7">(6) Hitung Harga</button></td>
+                                       return false;" accesskey='6' tabindex="7">(6) Hitung Harga</button></td>
                         </tr>
                         <tr>
                            <td>Harga Beli Sekarang</td>
@@ -1736,28 +1736,31 @@ switch ($_GET[act]) { // -------------------------------------------------------
                $sql = "SELECT `interval` FROM supplier WHERE idSupplier=".$_POST['supplierid'];
                $hasil = mysql_query($sql);
                $x = mysql_fetch_array($hasil);
+               ?>
+               <table>
 
-               echo "
-	<table>
+                  <tr>
+                     <td>Periode delivery Supplier </td>
+                     <td> : <input type=text size=4 name=periode value='<?php echo $x['interval']; ?>'> hari</td>
+                  </tr>
+                  <?php
+                  /*
+                    <tr>
+                    <td>Range analisa penjualan </td>
+                    <td> : <input type=text size=4 			name=range value='30'> hari</td>
+                    </tr>
+                   */
+                  ?>
+                  <tr>
+                     <td>Jumlah pemesanan </td>
+                     <td> : untuk persediaan <input type=text size=4 name=persediaan value='<?php echo $x['interval']; ?>'> hari</td>
+                  </tr>
 
-	<tr><td>Periode delivery Supplier </td>
-		<td> : <input type=text size=4 			name=periode value='".$x['interval']."'> hari</td>
-	</tr>
+               </table>
 
-	<tr><td>Range analisa penjualan </td>
-		<td> : <input type=text size=4 			name=range value='30'> hari</td>
-	</tr>
-
-	<tr><td>Jumlah pemesanan </td>
-		<td> : untuk persediaan <input type=text size=4 name=persediaan value='".$x['interval']."'> hari</td>
-	</tr>
-
-	</table>
-
-            <input type=submit value='Mulai RPO'>
-            </form>
-            ";
-
+               <input type=submit value='Mulai RPO'>
+               </form>
+               <?php
                break;
 
 
