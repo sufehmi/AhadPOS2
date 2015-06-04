@@ -61,7 +61,7 @@ $caller = $_GET[caller];
 	 */
 	?>
 	<?php
-	$sql = "SELECT * FROM barang WHERE namaBarang LIKE '%".$_POST[namabarang]."%' ORDER BY nonAktif, namaBarang ASC";
+	$sql = "SELECT * FROM barang WHERE namaBarang LIKE '%".$_POST[namabarang]."%' ORDER BY (nonAktif is null or nonAktif=0) desc, namaBarang ASC";
 //$sql = "SELECT * FROM barang WHERE match(namaBarang) against ('+\"".$_POST[namabarang]."\"' in boolean mode) ORDER BY namaBarang ASC ";
 //$sql = "SELECT * FROM barang WHERE match(namaBarang) against ('".$_POST[namabarang]."' in boolean mode) ORDER BY namaBarang ASC ";
 //echo $sql;
