@@ -660,7 +660,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
                   echo "Nota no : $idNota";
                   $detail = getDetailTmpEditReturPembelian($idNota);
                   if (mysql_num_rows($detail) != 0) {
-                     echo "<table width=650>
+                     echo "<table width=100%>
                 <tr><th>NO</th><th>Id Barang</th><th>Nama Barang</th><th>Tgl Expire</th><th>Jumlah</th><th>Harga Beli</th><th>Total</th><th>Jumlah<br />RETUR</th><th>AKSI</th></tr>";
 
                      $no = 1;
