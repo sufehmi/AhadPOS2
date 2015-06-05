@@ -236,7 +236,8 @@ if (empty($_SESSION['namauser'])) {
 
 							while ($data = mysql_fetch_array($query2)) {
 								$total = $data['hargaJual'] * $data['jumBarang'];
-                        $saranOrder = round($data['rata_rata_mingguan'] / 7 * $_SESSION['persediaan']) - $data['hargaBeli']; // $data['harga_beli'] == stok saat ini
+                        $saran = round($data['rata_rata_mingguan'] / 7 * $_SESSION['persediaan']) - $data['hargaBeli']; // $data['harga_beli'] == stok saat ini
+                        $saranOrder = $saran >= 0 ? $saran : 0;
 								?>
 								<?php /*
 								  <tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
