@@ -1736,10 +1736,26 @@ switch ($_GET['act']) {
 
     case "ApproveMobileSO1":  // ----------------------------------------------------------------------------
         // cari SO yang belum di approve
-        $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 LIMIT 100";
-        $hasil1 = mysql_query($sql);
+//        $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 LIMIT 100";
+        /* Cari rak yang di SO */
+       $sql = "SELECT distinct fast_stock_opname.idRak, rak.namaRak 
+               FROM fast_stock_opname 
+               JOIN rak on fast_stock_opname.idRak = rak.idRak 
+               WHERE fast_stock_opname.approved=0 AND char_length(namaBarang) > 0
+               GROUP BY fast_stock_opname.idRak";
+       $hasil1 = mysql_query($sql);
         ?>
         <h2>Approve Mobile Stock Opname</h2>
+        <select id="pilih-rak">
+           <option value="null">Pilih Rak</option>
+           <?php
+           while ($rak = mysql_fetch_array($hasil1)){
+              ?>
+           <option value="<?php echo $rak['idRak']; ?>"><?php echo $rak['namaRak']; ?></option>
+           <?php
+           }
+           ?>
+        </select>
         <form method=POST action='?module=barang&act=ApproveMobileSO2'>
 
             <br /><br />
@@ -1756,6 +1772,7 @@ switch ($_GET['act']) {
                     <th>Hapus<br />Barang</td>
                 </tr>
                 <?php
+                /*
                 $x = mysql_fetch_array($hasil1);
                 $ctr = 1;
                 $jumlahRecord = mysql_num_rows($hasil1);
@@ -1767,6 +1784,7 @@ switch ($_GET['act']) {
                         $sql = "SELECT jumBarang FROM barang WHERE barcode='" . $x[barcode] . "'";
                         $hasil2 = mysql_query($sql);
                         $z = mysql_fetch_array($hasil2);
+                
                         ?>
                         <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
                             <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $x['idRak']; ?>" />
@@ -1779,11 +1797,14 @@ switch ($_GET['act']) {
                         <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
                         </tr>
                         <?php
+                 
                     }; // if (strlen($x[namaBarang]) > 0) {
 
                     $ctr++;
                 }
                 while ($x = mysql_fetch_array($hasil1));
+                 * 
+                 */
                 ?>
             </table>
 
