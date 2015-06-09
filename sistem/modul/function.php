@@ -85,6 +85,7 @@ function releaseCustomer() {
    unset($_SESSION['range']);
    unset($_SESSION['periode']);
    unset($_SESSION['persediaan']);
+   unset($_SESSION['hakAdmin']);
 }
 
 function cekBarang($barcode) {
