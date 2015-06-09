@@ -38,6 +38,11 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
       $transferahad = true;
    }
 
+   $batalGagal = false;
+   if (isset($_GET['bg']) && $_GET['bg']) {
+      $batalGagal = true;
+   }
+
 //HS javascript untuk menampilkan popup
    ?>
    <!DOCTYPE html>
@@ -128,9 +133,8 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
             //fixme: hargaBeli TIDAK tersimpan di detail_jual !!!
             switch ($_GET[act]) { // ============================================================================================================
                case "caricustomer": // ========================================================================================================
-
+                  $hapusGagal = false;
                   if ($_GET[doit] == 'hapus') {
-                     $hapusGagal = false;
                      if ($_SESSION['hakAdmin']) {
                         $hasil = mysql_query("select barcode from tmp_detail_jual where uid = {$_GET['uid']}") or die('Gagal hapus (ambil data), error: '.mysql_error());
                         $r = mysql_fetch_array($hasil);
@@ -303,6 +307,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                   <span style="color:red">
                      <?php
                      echo $hapusGagal ? "Gagal hapus item, aktifkan Admin Mode terlebih dahulu!" : '';
+                     echo $batalGagal ? "Gagal batal nota, aktifkan Admin Mode terlebih dahulu!" : '';
                      ?>
                   </span>
                   <hr />
@@ -601,7 +606,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
             } else {
                ?>
                <a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
-               <a class="tombol<?php echo $hapusGagal ? " getar" : ''; ?>" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
+               <a class="tombol<?php echo $hapusGagal || $batalGagal ? " getar" : ''; ?>" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
                   <?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
                </a>
                <a class="tombol" href="#" id="tombol-self-checkout" accesskey="f" >Sel<b><u>f</u></b> Checkout</a>
