@@ -79,6 +79,17 @@ Style for ahad pos 2
 	border-radius: @radius;
 }
 
+.animasi(@param){
+	-webkit-animation: @param;
+	-moz-animation: @param;
+	-ms-animation: @param;
+	animation: @param;
+}
+
+.getar{
+	.animasi(tada 1s infinite);
+}
+
 .tombol {
 	display: inline-block;
 	margin-bottom: 0; // For input.btn
