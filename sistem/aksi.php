@@ -1545,6 +1545,7 @@ elseif ($module == 'diskon' && $act == 'loginadmin') {
 		}
 	} elseif (isset($_POST['logout'])) {
 		unset($_SESSION['hakAdmin']);
+      echo 'logout admin';
 	}
 }
 
