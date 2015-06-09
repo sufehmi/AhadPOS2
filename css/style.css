@@ -296,6 +296,12 @@ table {
     border: 1px solid #ddd !important;
   }
 }
+.getar {
+  -webkit-animation: tada 1s infinite;
+  -moz-animation: tada 1s infinite;
+  -ms-animation: tada 1s infinite;
+  animation: tada 1s infinite;
+}
 .tombol {
   display: inline-block;
   margin-bottom: 0;
