@@ -43,14 +43,14 @@ Style for ahad pos 2
     src: url('fonts/OpenSans-BoldItalic.ttf');
 }*/
 @font-face {
-	font-family: 'Ubuntu';
-	font-style: normal;
-	src: url('fonts/ubuntu-r.ttf');
+   font-family: 'Ubuntu';
+   font-style: normal;
+   src: url('fonts/ubuntu-r.ttf');
 }
 @font-face {
-	font-family: 'Ubuntu';
-	font-style: normal;
-	src: url('fonts/ubuntu-r.ttf');
+   font-family: 'Ubuntu';
+   font-style: normal;
+   src: url('fonts/ubuntu-r.ttf');
 }
 
 @hijau-background : #d2e28b;
@@ -76,539 +76,542 @@ Style for ahad pos 2
 @import "../lesslib/tb3/print.less";
 
 .border-radius(@radius) {
-	border-radius: @radius;
+   border-radius: @radius;
 }
 
 .animasi(@param){
-	-webkit-animation: @param;
-	-moz-animation: @param;
-	-ms-animation: @param;
-	animation: @param;
+   -webkit-animation: @param;
+   -moz-animation: @param;
+   -ms-animation: @param;
+   animation: @param;
 }
 
 .getar{
-	.animasi(tada 1s infinite);
+   .animasi(tada 1s infinite);
 }
 
 .tombol {
-	display: inline-block;
-	margin-bottom: 0; // For input.btn
-	font-weight: @btn-font-weight;
-	text-align: center;
-	vertical-align: middle;
-	cursor: pointer;
-	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-	border: 1px solid transparent;
-	white-space: nowrap;
-	.button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @border-radius-base);
-	.user-select(none);
+   display: inline-block;
+   margin-bottom: 0; // For input.btn
+   font-weight: @btn-font-weight;
+   text-align: center;
+   vertical-align: middle;
+   cursor: pointer;
+   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+   border: 1px solid transparent;
+   white-space: nowrap;
+   .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @border-radius-base);
+   .user-select(none);
 
-	&:focus {
-		.tab-focus();
-	}
+   &:focus {
+      .tab-focus();
+   }
 
-	&:hover,
-		&:focus {
-		color: @btn-default-color;
-		text-decoration: none;
-	}
+   &:hover,
+      &:focus {
+      color: @btn-default-color;
+      text-decoration: none;
+   }
 
-	&:active,
-		&.active {
-		outline: 0;
-		background-image: none;
-		.box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
-	}
+   &:active,
+      &.active {
+      outline: 0;
+      background-image: none;
+      .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+   }
 
-	&.disabled,
-	&[disabled],
-	fieldset[disabled] & {
-		cursor: not-allowed;
-		pointer-events: none; // Future-proof disabling of clicks
-		.opacity(.65);
-		.box-shadow(none);
-	}
-
+   &.disabled,
+   &[disabled],
+   fieldset[disabled] & {
+      cursor: not-allowed;
+      pointer-events: none; // Future-proof disabling of clicks
+      .opacity(.65);
+      .box-shadow(none);
+   }
+   &.getar{
+      background-color: red;
+      color: #fff !important;
+   }
 }
 
 
 input, select, a.tombol{
-	.placeholder();
-	padding: @padding-small-vertical @padding-small-horizontal;//@padding-base-vertical @padding-base-horizontal;
-	font-size: @font-size-small; //@font-size-base;
-	line-height: @line-height-small;//@line-height-base;
-	color: @input-color;
-	vertical-align: middle;
-	background-color: @input-bg;
-	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-	border: 1px solid @input-border;
-	border-radius: @border-radius-small;//@input-border-radius;
-	margin-bottom: 5px;
-	height: 18px; //@input-height-small;//@input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
-	.box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
-	.transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
+   .placeholder();
+   padding: @padding-small-vertical @padding-small-horizontal;//@padding-base-vertical @padding-base-horizontal;
+   font-size: @font-size-small; //@font-size-base;
+   line-height: @line-height-small;//@line-height-base;
+   color: @input-color;
+   vertical-align: middle;
+   background-color: @input-bg;
+   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+   border: 1px solid @input-border;
+   border-radius: @border-radius-small;//@input-border-radius;
+   margin-bottom: 5px;
+   height: 18px; //@input-height-small;//@input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+   .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+   .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
 
-	// Customize the `:focus` state to imitate native WebKit styles.
-	.form-control-focus();
+   // Customize the `:focus` state to imitate native WebKit styles.
+   .form-control-focus();
 
 
-	// Disabled and read-only inputs
-	// Note: HTML5 says that controls under a fieldset > legend:first-child won't
-	// be disabled if the fieldset is disabled. Due to implementation difficulty,
-	// we don't honor that edge case; we style them as disabled anyway.
-	&[disabled],
-	&[readonly],
-	fieldset[disabled] & {
-		cursor: not-allowed;
-		background-color: @input-bg-disabled;
-	}
+   // Disabled and read-only inputs
+   // Note: HTML5 says that controls under a fieldset > legend:first-child won't
+   // be disabled if the fieldset is disabled. Due to implementation difficulty,
+   // we don't honor that edge case; we style them as disabled anyway.
+   &[disabled],
+   &[readonly],
+   fieldset[disabled] & {
+      cursor: not-allowed;
+      background-color: @input-bg-disabled;
+   }
 
-	// Reset height for `textarea`s
-	textarea& {
-		height: auto;
-	}
+   // Reset height for `textarea`s
+   textarea& {
+      height: auto;
+   }
 
-	//.input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
+   //.input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
 }
 
 select{
-	height: @input-height-small; 
+   height: @input-height-small; 
 }
 
 input[type="submit"],
 input[type="reset"],
 input[type="button"],button {
-	.tombol;
-	//.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border); 
-	.button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border); 
-	//.button-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);  
-	//.button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);  
-	//.button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
-	.button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
-	padding: 1px 5px;
-	margin-bottom: 5px;
-	height: @input-height-small;
+   .tombol;
+   //.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border); 
+   .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border); 
+   //.button-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);  
+   //.button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);  
+   //.button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
+   .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
+   padding: 1px 5px;
+   margin-bottom: 5px;
+   height: @input-height-small;
 }
 input[type="file"]{
-	height: @input-height-small;
+   height: @input-height-small;
 }
 
 .input-group{
-	position: relative; // For dropdowns
-	/*display: table;*/
-	border-collapse: separate; // prevent input groups from inheriting border styles from table cells when placed within a table
-	display: inline-table;
-	width: 50px;
-	label{
-		display: table-cell;
-		width: 1%;
-		white-space: nowrap;
-		vertical-align: middle; // Match the inputs
-		padding: @padding-small-vertical @padding-small-horizontal;
-		font-size: @font-size-small;
-		font-weight: normal;
-		line-height: 1;
-		color: @input-color;
-		text-align: center;
-		background-color: @hijau-muda; // @input-group-addon-bg;
-		border: 1px solid @input-group-addon-border-color;
-		border-radius: @border-radius-small;
-		.border-right-radius(0);
-		border-right: 0;
-	}
-	input{
-		margin-bottom: 0;
-		display: table-cell;
-		.border-left-radius(0);
-	}
+   position: relative; // For dropdowns
+   /*display: table;*/
+   border-collapse: separate; // prevent input groups from inheriting border styles from table cells when placed within a table
+   display: inline-table;
+   width: 50px;
+   label{
+      display: table-cell;
+      width: 1%;
+      white-space: nowrap;
+      vertical-align: middle; // Match the inputs
+      padding: @padding-small-vertical @padding-small-horizontal;
+      font-size: @font-size-small;
+      font-weight: normal;
+      line-height: 1;
+      color: @input-color;
+      text-align: center;
+      background-color: @hijau-muda; // @input-group-addon-bg;
+      border: 1px solid @input-group-addon-border-color;
+      border-radius: @border-radius-small;
+      .border-right-radius(0);
+      border-right: 0;
+   }
+   input{
+      margin-bottom: 0;
+      display: table-cell;
+      .border-left-radius(0);
+   }
 }
 
 .inline{
-	display: inline;
+   display: inline;
 }
 
 body
 {
-	margin: 0;
-	padding: 0;
-	font: normal 10pt  Ubuntu, @font-family-base;
-	//font-family: @font-family-base;
-	font-weight: 300;
-	background: white;
-	&.kasir{
-		form{
-			display: inline;	
-		}
-		display: inline;
-		#footer{
-			margin-left:-20px;
-			padding: 5px 20px;
-			background-color: #ccc;
-			a{
-				color: @biru;
-				float: left;
-			}
-		}
-	}
-	/*		&.kasir{
-				//background-color: #272727;
-				//background-image: url('carbon_fibre.png');
-				//background-image: url('linen-gray.png');
-				background-color: black;
-				color: greenyellow;
-				th{
-					color:white;
-					background-color: darkgreen;
-					border: thin solid gray;
-				}
-				tr.alt{
-					background-color: #444;
-				}
-			}*/
+   margin: 0;
+   padding: 0;
+   font: normal 10pt  Ubuntu, @font-family-base;
+   //font-family: @font-family-base;
+   font-weight: 300;
+   background: white;
+   &.kasir{
+      form{
+         display: inline;	
+      }
+      display: inline;
+      #footer{
+         margin-left:-20px;
+         padding: 5px 20px;
+         background-color: #ccc;
+         a{
+            color: @biru;
+            float: left;
+         }
+      }
+   }
+   /*		&.kasir{
+            //background-color: #272727;
+            //background-image: url('carbon_fibre.png');
+            //background-image: url('linen-gray.png');
+            background-color: black;
+            color: greenyellow;
+            th{
+               color:white;
+               background-color: darkgreen;
+               border: thin solid gray;
+            }
+            tr.alt{
+               background-color: #444;
+            }
+         }*/
 }
 
 a{
-	text-decoration: none;
-	color: green;
+   text-decoration: none;
+   color: green;
 }
 
 .active {
-	color: white;
-	background-color: @hijau-front;
-	text-decoration:none;
+   color: white;
+   background-color: @hijau-front;
+   text-decoration:none;
 }
 
 .right{
-	text-align: right;
+   text-align: right;
 }
 
 .center{
-	text-align: center;
+   text-align: center;
 }
 
 #login{
-	width: 300px;
-	margin: 40px auto;
-	border: thin solid @biru-light;
-	.header{
-		background-color: @hijau-background;
-		height: 93px;
-		padding: 10px 0px;
-		text-align: center;
-		border-bottom: thin solid @biru-light;
-	}
-	form{
-		padding: 30px 0px 10px;
-		input{
-			display: block;
-			width: 225px;
-			margin: 10px auto;
-		}
-		#tombol-login{
-			//.button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
-			.button-variant(@btn-primary-color; @hijau-sushi; darken(@hijau-sushi, 15%));
-			display: block;
-			width: 247px;
-			padding: 0;
-		}
-	}
+   width: 300px;
+   margin: 40px auto;
+   border: thin solid @biru-light;
+   .header{
+      background-color: @hijau-background;
+      height: 93px;
+      padding: 10px 0px;
+      text-align: center;
+      border-bottom: thin solid @biru-light;
+   }
+   form{
+      padding: 30px 0px 10px;
+      input{
+         display: block;
+         width: 225px;
+         margin: 10px auto;
+      }
+      #tombol-login{
+         //.button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
+         .button-variant(@btn-primary-color; @hijau-sushi; darken(@hijau-sushi, 15%));
+         display: block;
+         width: 247px;
+         padding: 0;
+      }
+   }
 }
 
 #mainmenu
 {
-	background:@hijau-background;
-	font-family: ubuntu, @font-family-base;
-	ul{
-		padding:9px 20px @tebal-header 20px;
-		margin:0px;
-		li {
-			display: inline;
-			a {
-				text-transform: uppercase;
-				color: black;
-				background-color:@hijau-muda;
-				text-shadow: 1px 1px 3px #888;
-				//.box-shadow(0px 0px 5px 0px #888);
-				font-size: 9px;
-				text-decoration:none;
-				padding: 5px;
-				display: inline-block;
-				float:left;
-				margin-right: 10px;
-				text-align: center;
-				.border-radius(5px);
-				width: 53px;
-				i{
-					margin-bottom: 10px;
-					width: 1.28571429em;
-					display: block;
-					width: 100%;
-				}
-				&:hover{
-					.active;
-				}
-			}
-			&.active a{
-				.active;
-				.border-bottom-radius(0px);
-				padding-bottom: 14px;
-			}
-			&.active ul{
-				display: block;
-				li{
-					display: inline;
-					a{
-						text-transform: uppercase;
-						color: black;
-						font-size:11px;
-						font-weight:bold;
-						text-decoration:none;
-						margin-right: 15px;
-						padding: 0px;
-						width: auto;
-					}
-					&.active a{
-						.active;
-					}
-				}
-			}
-			ul{ // sub menu
-				 display: none;
-				 margin: 0px;
-				 padding: 0px;
-				 margin-left: -20px;
-				 width: 100%;
-				 padding-left: 20px;
-				 background-color: @hijau-front;
-				 line-height: 25px;
-				 position: fixed;
-				 margin-top: @tebal-header;
-				 a{
-					 box-shadow: none;
-				 }
-				 li a i{
-					 display:inline;
-					 margin-right: 5px;
-				 }
-			}
-		}
-	}
-	img {
-		float:right;
-		margin-top: -75px;
-		margin-right: 25px;
-	}
+   background:@hijau-background;
+   font-family: ubuntu, @font-family-base;
+   ul{
+      padding:9px 20px @tebal-header 20px;
+      margin:0px;
+      li {
+         display: inline;
+         a {
+            text-transform: uppercase;
+            color: black;
+            background-color:@hijau-muda;
+            text-shadow: 1px 1px 3px #888;
+            //.box-shadow(0px 0px 5px 0px #888);
+            font-size: 9px;
+            text-decoration:none;
+            padding: 5px;
+            display: inline-block;
+            float:left;
+            margin-right: 10px;
+            text-align: center;
+            .border-radius(5px);
+            width: 53px;
+            i{
+               margin-bottom: 10px;
+               width: 1.28571429em;
+               display: block;
+               width: 100%;
+            }
+            &:hover{
+               .active;
+            }
+         }
+         &.active a{
+            .active;
+            .border-bottom-radius(0px);
+            padding-bottom: 14px;
+         }
+         &.active ul{
+            display: block;
+            li{
+               display: inline;
+               a{
+                  text-transform: uppercase;
+                  color: black;
+                  font-size:11px;
+                  font-weight:bold;
+                  text-decoration:none;
+                  margin-right: 15px;
+                  padding: 0px;
+                  width: auto;
+               }
+               &.active a{
+                  .active;
+               }
+            }
+         }
+         ul{ // sub menu
+             display: none;
+             margin: 0px;
+             padding: 0px;
+             margin-left: -20px;
+             width: 100%;
+             padding-left: 20px;
+             background-color: @hijau-front;
+             line-height: 25px;
+             position: fixed;
+             margin-top: @tebal-header;
+             a{
+                box-shadow: none;
+             }
+             li a i{
+                display:inline;
+                margin-right: 5px;
+             }
+         }
+      }
+   }
+   img {
+      float:right;
+      margin-top: -75px;
+      margin-right: 25px;
+   }
 }
 
 .logo-kasir{
-	position: absolute;
-	top: 0px;
-	width: 49%;
-	left:0px;
-	text-align: left;
+   position: absolute;
+   top: 0px;
+   width: 49%;
+   left:0px;
+   text-align: left;
 }
 
 #entry-barang{
-	button{
-		margin-bottom:0px;
-	}
+   button{
+      margin-bottom:0px;
+   }
 }
 
 .kasir-kanan{
-	display:inline;
+   display:inline;
 }
 
 #tot_pembelian{
-	position: absolute;
-	right: 20px;
-	top: 0px;
-	font-size: 7em;
-	small{
-		color: red;
-		text-decoration: line-through;
-		font-size: 0.5em;
-	}
+   position: absolute;
+   right: 20px;
+   top: 0px;
+   font-size: 7em;
+   small{
+      color: red;
+      text-decoration: line-through;
+      font-size: 0.5em;
+   }
 }
 #kembalian{
-	text-align: right;
-	font-size: 6em;
+   text-align: right;
+   font-size: 6em;
 }
 
 
 
 table{
-	font-size: @font-size-small;
-	&.daftar-pembelian{
-		float:left;
-		width: 49%;
-	}
-	td{
-		padding: 0 5px;
-	}
-	&.pembayaran{
-		margin: 0 auto;
-		td{
-			padding: 3px 5px;
-			input{
-				text-align: right;
-			}
-		}
-	}
-	&.top{
-		td{
-			vertical-align: middle;
-		}
-	}
+   font-size: @font-size-small;
+   &.daftar-pembelian{
+      float:left;
+      width: 49%;
+   }
+   td{
+      padding: 0 5px;
+   }
+   &.pembayaran{
+      margin: 0 auto;
+      td{
+         padding: 3px 5px;
+         input{
+            text-align: right;
+         }
+      }
+   }
+   &.top{
+      td{
+         vertical-align: middle;
+      }
+   }
 }
 
 .tabel{
-	border-collapse: collapse;
-	margin-bottom: 5px;
-	border: 1px solid @table-border-color;
-	.border-radius(@border-radius-small);
-	th{
-		background-color: @kuning;
-		color: #000;
-		border-right: thin solid @hijau-front;
-		padding: 5px;
-	}
-	tr{
-		&.alt{
-			background-color: @hijau-muda;
-		}
-		&.merah{
-			background-color: #f00;
-		}
-		td{
-			border-right: thin solid @table-border-color;
-			padding: 3px 5px;
-			&.error{
-				color: orange;
-				font-weight: bold;
-			}
-		}
-	}
-	.icon-small{
-		font-size: 0.7em;
-	}
-	.pilih:focus{
-		/*		color: white;
-				background-color: red;*/
-		outline: 1px solid @hijau-sushi;
-		background-color: yellow;
-	}
-	&.print{
-		th{
-			background-color: #fff;
-			border-right: 1px solid #ccc;
-			border-bottom: 1px solid #ccc;
-		}
-		tr{
-			&.alt{
-				background-color: @hijau-muda;
-			}			
-			td{
-				border-right: thin solid #ccc;
-				padding: 3px 5px;
-				&.error{
-					color: orange;
-					font-weight: bold;
-				}
-			}
-		}
-	}
+   border-collapse: collapse;
+   margin-bottom: 5px;
+   border: 1px solid @table-border-color;
+   .border-radius(@border-radius-small);
+   th{
+      background-color: @kuning;
+      color: #000;
+      border-right: thin solid @hijau-front;
+      padding: 5px;
+   }
+   tr{
+      &.alt{
+         background-color: @hijau-muda;
+      }
+      &.merah{
+         background-color: #f00;
+      }
+      td{
+         border-right: thin solid @table-border-color;
+         padding: 3px 5px;
+         &.error{
+            color: orange;
+            font-weight: bold;
+         }
+      }
+   }
+   .icon-small{
+      font-size: 0.7em;
+   }
+   .pilih:focus{
+      /*		color: white;
+            background-color: red;*/
+      outline: 1px solid @hijau-sushi;
+      background-color: yellow;
+   }
+   &.print{
+      th{
+         background-color: #fff;
+         border-right: 1px solid #ccc;
+         border-bottom: 1px solid #ccc;
+      }
+      tr{
+         &.alt{
+            background-color: @hijau-muda;
+         }			
+         td{
+            border-right: thin solid #ccc;
+            padding: 3px 5px;
+            &.error{
+               color: orange;
+               font-weight: bold;
+            }
+         }
+      }
+   }
 }
 
 div{
-	&.top{
-		margin-top: 90px;
-		margin-bottom: 10px;
-	}
-	&.pembayaran{
-		border: 1px solid @table-border-color;
-		.border-radius(@border-radius-small);
-		display: inline;
-		float: right;
-		padding: 10px;
-		margin-bottom: 55px;
-	}
+   &.top{
+      margin-top: 90px;
+      margin-bottom: 10px;
+   }
+   &.pembayaran{
+      border: 1px solid @table-border-color;
+      .border-radius(@border-radius-small);
+      display: inline;
+      float: right;
+      padding: 10px;
+      margin-bottom: 55px;
+   }
 }
 
 /*#submenu{
-	ul{
-		margin: 0px;
-		padding-left: 20px;
-		background-color: @hijau-front;
-		line-height: 25px;
-		li{
-			display: inline;
-			a{
-				text-transform: uppercase;
-				color: black;
-				font-size:12px;
-				font-weight:bold;
-				text-decoration:none;
-				margin-right: 15px;
-			}
-			&.active a{
-				.active;
-			}
-		}
-	}
+   ul{
+      margin: 0px;
+      padding-left: 20px;
+      background-color: @hijau-front;
+      line-height: 25px;
+      li{
+         display: inline;
+         a{
+            text-transform: uppercase;
+            color: black;
+            font-size:12px;
+            font-weight:bold;
+            text-decoration:none;
+            margin-right: 15px;
+         }
+         &.active a{
+            .active;
+         }
+      }
+   }
 }*/
 
 #header{
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 9;
-	width: 100%;
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 9;
+   width: 100%;
 }
 
 .container{
-	margin-top: 120px;
-	margin-bottom: 30px;
+   margin-top: 120px;
+   margin-bottom: 30px;
 }
 
 #content{
-	padding: 0 20px;
+   padding: 0 20px;
 }
 .u{
-	text-decoration: underline;
+   text-decoration: underline;
 }
 
 #footer{
-	text-align: right;	
-	font-family: ubuntu, @font-family-base;
-	background-color: @hijau-front;
-	color: white;
-	line-height: 20px;
-	font-size: 10px;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	span{
-		margin-right: 20px;
-	}
-	a{
-		color:white;
-	}
+   text-align: right;	
+   font-family: ubuntu, @font-family-base;
+   background-color: @hijau-front;
+   color: white;
+   line-height: 20px;
+   font-size: 10px;
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   span{
+      margin-right: 20px;
+   }
+   a{
+      color:white;
+   }
 }
 
 .ui-autocomplete{
-	background-color: #fff;
-	border: 1px solid @hijau-sushi;
+   background-color: #fff;
+   border: 1px solid @hijau-sushi;
 }
 
 .ui-menu-item{
-	&.ui-state-focus{
-		background-color: @hijau-muda;
-		margin: 0;
-	}
+   &.ui-state-focus{
+      background-color: @hijau-muda;
+      margin: 0;
+   }
 }
 
 textarea{
-	margin-bottom: 5px;
+   margin-bottom: 5px;
 }
 
 @import '../lesslib/fa/font-awesome';

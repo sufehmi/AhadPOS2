@@ -349,6 +349,10 @@ fieldset[disabled] .tombol {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.tombol.getar {
+  background-color: red;
+  color: #fff !important;
+}
 input,
 select,
 a.tombol {
@@ -499,6 +503,13 @@ fieldset[disabled] button {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+input[type="submit"].getar,
+input[type="reset"].getar,
+input[type="button"].getar,
+button.getar {
+  background-color: red;
+  color: #fff !important;
+}
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover,
@@ -645,20 +656,20 @@ body {
   font-weight: 300;
   background: white;
   /*		&.kasir{
-				//background-color: #272727;
-				//background-image: url('carbon_fibre.png');
-				//background-image: url('linen-gray.png');
-				background-color: black;
-				color: greenyellow;
-				th{
-					color:white;
-					background-color: darkgreen;
-					border: thin solid gray;
-				}
-				tr.alt{
-					background-color: #444;
-				}
-			}*/
+            //background-color: #272727;
+            //background-image: url('carbon_fibre.png');
+            //background-image: url('linen-gray.png');
+            background-color: black;
+            color: greenyellow;
+            th{
+               color:white;
+               background-color: darkgreen;
+               border: thin solid gray;
+            }
+            tr.alt{
+               background-color: #444;
+            }
+         }*/
 
 }
 body.kasir {
@@ -922,7 +933,7 @@ table.top td {
 }
 .tabel .pilih:focus {
   /*		color: white;
-				background-color: red;*/
+            background-color: red;*/
 
   outline: 1px solid #6fa738;
   background-color: yellow;
@@ -956,26 +967,26 @@ div.pembayaran {
   margin-bottom: 55px;
 }
 /*#submenu{
-	ul{
-		margin: 0px;
-		padding-left: 20px;
-		background-color: @hijau-front;
-		line-height: 25px;
-		li{
-			display: inline;
-			a{
-				text-transform: uppercase;
-				color: black;
-				font-size:12px;
-				font-weight:bold;
-				text-decoration:none;
-				margin-right: 15px;
-			}
-			&.active a{
-				.active;
-			}
-		}
-	}
+   ul{
+      margin: 0px;
+      padding-left: 20px;
+      background-color: @hijau-front;
+      line-height: 25px;
+      li{
+         display: inline;
+         a{
+            text-transform: uppercase;
+            color: black;
+            font-size:12px;
+            font-weight:bold;
+            text-decoration:none;
+            margin-right: 15px;
+         }
+         &.active a{
+            .active;
+         }
+      }
+   }
 }*/
 #header {
   position: fixed;
