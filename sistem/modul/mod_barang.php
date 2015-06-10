@@ -234,7 +234,7 @@ switch ($_GET['act']) {
                   <td class="right"><?php echo $r['hargaBanded']; ?></td>
                   <td class="right"><?php echo $r['qtyBanded']; ?></td>
                   <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                          ?>
+                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                           ?>
                   </td>
                </tr>
                <?php
@@ -1768,7 +1768,6 @@ switch ($_GET['act']) {
          </table>
 
          <input type=submit accesskey='s' value='(s) Submit'>
-         <input type=hidden name=ctr value=<?php echo $ctr; ?>>
 
       </form>
       <?php
@@ -1782,7 +1781,8 @@ switch ($_GET['act']) {
 		<h2>Proses Mobile Stock Opname</h2>
 	<br /><br />
 	";
-
+      // Array untuk menyimpan sementara barang yang diapprove
+      $barcodes = array();
       for ($i = 1; $i <= $_POST[ctr]; $i++) {
 
          // cek barang dihapus
@@ -1793,6 +1793,8 @@ switch ($_GET['act']) {
             mysql_query("DELETE FROM fast_stock_opname WHERE barcode = {$_POST["barcode$i"]} AND approved=0") or die('Gagal hapus data so, error:'.mysql_error());
             echo "Hapus : ".$_POST["barcode$i"]." dari daftar SO<br />";
          } elseif ($_POST["appr$i"] == 'on') {
+            // Simpan barcode ke array
+            $barcodes[] = $_POST["barcode$i"];
             // cari barang.jumBarang ybs
             $sql = "SELECT jumBarang FROM barang WHERE barcode='".$_POST["barcode$i"]."'";
             $hasil1 = mysql_query($sql);
@@ -1843,7 +1845,7 @@ switch ($_GET['act']) {
 
                   //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
                }
-            //echo '<br />';
+               //echo '<br />';
             endwhile;
 
             // ganti fast_stock_opname.approved menjadi 1 / true
@@ -1853,7 +1855,22 @@ switch ($_GET['act']) {
             //var_dump($_POST);
          };
       }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
-
+      $rakId = $_POST['rak-id'];
+      $firstBarcode = true;
+      $listBarcodes = '';
+      foreach ($barcodes as $code) {
+         if ($firstBarcode) {
+            $listBarcodes.="'{$code}'";
+            $firstBarcode = false;
+         } else {
+            $listBarcodes.=",'{$code}'";
+         }
+      }
+      // Update rak ke 999999 untuk barang yang tidak di SO (diasumsikan barangnya sudah tidak ada di rak ini)
+      $sql = "UPDATE barang SET idRak=999999 WHERE idRak={$rakId} AND barcode NOT IN ({$listBarcodes})";
+      //echo $sql;
+      mysql_query($sql) or die('Gagal update idRak, error:'.mysql_error());
+      echo "Barang lainnya yang sebelumnya tercatat di rak ini, sudah dipindah ke rak ID:999999";
       break;
 
    case "transfer1":  // ----------------------------------------------------------------------------
@@ -2155,7 +2172,7 @@ switch ($_GET['act']) {
                      endwhile;
                      ?>
                   </select>
-                  <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
+      <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
                </td>
             </tr>
             <tr>

@@ -1475,7 +1475,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                   <td><?php echo $barang['barcode']; ?></td>
                   <td><?php echo $barang['namaBarang']; ?></td>
                   <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';   ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';    ?>><?php echo $barang['idSatuanBarang']; ?></td>
                </tr>
                <?php
                $i++;
@@ -1845,6 +1845,10 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
          <?php
          $ctr++;
       }
+      ?>
+      <input type="hidden" name="ctr" value="<?php echo $ctr - 1; ?>" />
+      <input type="hidden" name="rak-id" value="<?php echo $rakId; ?>" />
+      <?php
    }
 }
 // else
