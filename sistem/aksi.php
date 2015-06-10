@@ -1478,7 +1478,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                   <td><?php echo $barang['barcode']; ?></td>
                   <td><?php echo $barang['namaBarang']; ?></td>
                   <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';            ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';    ?>><?php echo $barang['idSatuanBarang']; ?></td>
                </tr>
                <?php
                $i++;
@@ -1823,6 +1823,36 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
          echo $struk;
          exit;
          break;
+   }
+} elseif ($module == 'barang' AND $act == 'approvemso-getbarang') {
+   if (isset($_POST['rak-id'])) {
+      $rakId = $_POST['rak-id'];
+      $sql = "SELECT fast_stock_opname.*, rak.namaRak, barang.jumBarang
+               FROM fast_stock_opname 
+               JOIN rak on fast_stock_opname.idRak = rak.idRak
+               JOIN barang on barang.barcode = fast_stock_opname.barcode
+               WHERE approved=0 AND char_length(fast_stock_opname.namaBarang) > 0 AND fast_stock_opname.idRak = {$rakId}";
+      $hasil = mysql_query($sql);
+      $ctr = 1;
+      while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+         ?>
+         <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
+            <td class="center"><?php echo $barang['namaRak']; ?></td><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $barang['idRak']; ?>" />
+         <td><?php echo $barang['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $barang['barcode']; ?>></td>
+         <td><?php echo $barang['namaBarang']; ?></td>
+         <td class="center"><?php echo $barang['jumBarang']; ?></td>
+         <td class="center"><?php echo $barang['selisih']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $barang['selisih']; ?>></td>
+         <td class="center"><input type=checkbox name=appr<?php echo $ctr; ?> checked=yes></td>
+         <td class="center">#</td>
+         <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
+         </tr>
+         <?php
+         $ctr++;
+      }
+      ?>
+      <input type="hidden" name="ctr" value="<?php echo $ctr - 1; ?>" />
+      <input type="hidden" name="rak-id" value="<?php echo $rakId; ?>" />
+      <?php
    }
 }
 // else
