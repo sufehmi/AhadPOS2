@@ -15,7 +15,7 @@ $clientIP = $_SERVER['REMOTE_ADDR'];
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Ahadmart - Cek Harga</title>
+      <title>AhadPOS - Cek Harga</title>
 
       <link rel="stylesheet" href="css/normalize.css">
       <link rel="stylesheet" href="css/foundation.css">
@@ -59,7 +59,7 @@ $clientIP = $_SERVER['REMOTE_ADDR'];
          <div class="medium-5 large-4 columns"> 
             <div class="row collapse">
                <div class="small-12 columns" style="text-align: center; background-color: rgba(255, 255, 255, 0.875);">
-                  <img style=" padding: 10px" src="img/ahadmart-logo.png" />
+                  <img style=" padding: 10px" src="img/logo.png" />
                </div>
             </div>
             <div class="row" style="margin-top: 20px;margin-bottom: 20px">
