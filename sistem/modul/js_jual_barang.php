@@ -526,7 +526,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                                  <tr>
                                     <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
                                     <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
-                                                      this.disabled = true;'></td>
+                                          this.disabled = true;'></td>
                                  </tr>
                               </table>
                            </div>
@@ -597,6 +597,40 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                <input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
             </form>
          </div>
+         <div id="cek-harga" style="
+              display: none;
+              position: fixed;
+              border: 1px solid #a8cf45;
+              bottom: 50px;
+              margin-left: 300px;
+              background-color: #eef4d2;
+              box-shadow: 0px 0px 4px 0px #d2e28b;
+              padding: 15px;">
+            <table style="border-collapse: collapse">      
+               <form id="form-cek-harga">
+                  <tr>
+                     <td rowspan="2">               
+                        <input type="text" id="cek-harga-barcode" name="cek-harga[barcode]" placeholder="Scan Barcode" autocomplete="off"/><br />
+                        <input type="text" id="cek-harga-nama" name="cek-harga[nama]" placeholder="Nama Barang (min 3 huruf)" autocomplete="off"/><br />
+                     </td>
+                     <td rowspan="2" style="font-size: 16pt" id="cek-harga-view-harga" class="cek-harga-view">123.456</td>
+                     <td style="vertical-align: bottom" id="cek-harga-view-nama" class="cek-harga-view">Nama</td>                  
+                  </tr>
+                  <tr>
+                     <td style="vertical-align: top" id="cek-harga-view-barcode" class="cek-harga-view">
+                        Barcode
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
+                     </td>
+                     <td class="cek-harga-view"></td>
+                     <td class="cek-harga-view"></td>
+                  </tr>  
+               </form>
+            </table>
+         </div>
          <div id="footer" >
             <?php
             if ($returBeli) {
@@ -611,6 +645,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                </a>
                <a class="tombol" href="#" id="tombol-self-checkout" accesskey="f" >Sel<b><u>f</u></b> Checkout</a>
                <a class="tombol" href="#" id="tombol-nomor-kartu" accesskey="k" ><b><u>K</u></b>artu Member</a>
+               <a class="tombol" href="#" id="tombol-cek-harga" accesskey="h" >Cek <b><u>H</u></b>arga</a>
                      <?php }
                      ?>
          </div>
@@ -652,6 +687,21 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                      console.log("show");
                      $("#self-checkout-id").val("");
                      $("#self-checkout-id").focus();
+                  }
+               });
+
+               return false;
+            });
+
+            $("#tombol-cek-harga").click(function () {
+               $(".cek-harga-view").hide();
+               $("#cek-harga").toggle(500, function () {
+                  if ($("#cek-harga").css('display') === 'none') {
+                     console.log('hidden');
+                  } else {
+                     console.log("show");
+                     $("#cek-harga-barcode").val("");
+                     $("#cek-harga-barcode").focus();
                   }
                });
 
