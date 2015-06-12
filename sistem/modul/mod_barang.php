@@ -234,7 +234,7 @@ switch ($_GET['act']) {
                   <td class="right"><?php echo $r['hargaBanded']; ?></td>
                   <td class="right"><?php echo $r['qtyBanded']; ?></td>
                   <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                              ?>
+                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                               ?>
                   </td>
                </tr>
                <?php
@@ -1751,23 +1751,6 @@ switch ($_GET['act']) {
       <form method=POST action='?module=barang&act=ApproveMobileSO2'>
          <div id="warning"></div>
          <br /><br />
- <div id="tableToPrint">
-            <style>
-               .tabel{
-                  font-size: 11px;
-                  border-collapse: collapse;
-               }
-               th, td{
-                  padding: 2px 2px;
-               }
-
-               td, th{
-                  border: 1px solid #ccc;
-               }
-               .right{
-                  text-align: right;
-               }
-            </style>
          <table class="tabel">
             <tr>
                <th>Rak</th>
@@ -1782,22 +1765,17 @@ switch ($_GET['act']) {
             <tbody id="app-table-body">
             </tbody>         
          </table>
-         </div>
-
-         <input type=submit accesskey='s' value='(s) Submit'>
-
+      </div>
+      <input type=submit accesskey='s' value='(s) Submit'>
       </form>
       <?php
       break;
 
-
    case "ApproveMobileSO2":  // ----------------------------------------------------------------------------
-
-
-      echo "
-		<h2>Proses Mobile Stock Opname</h2>
-	<br /><br />
-	";
+      ?>
+      <h2>Proses Mobile Stock Opname</h2>
+      <br /><br />
+      <?php
       // Array untuk menyimpan sementara barang yang diapprove
       $barcodes = array();
       for ($i = 1; $i <= $_POST[ctr]; $i++) {
@@ -1870,8 +1848,8 @@ switch ($_GET['act']) {
             $hasil1 = mysql_query($sql);
             echo "Approved : ".$_POST["barcode$i"].", stok tercatat: $x[jumBarang], ditemukan = <b>".$_POST["selisih$i"]."</b><br />";
             //var_dump($_POST);
-         };
-      }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
+         }
+      } // for ($i = 0; $i <= $_POST[ctr]; $i++) {
       $rakId = $_POST['rak-id'];
       $firstBarcode = true;
       $listBarcodes = '';
@@ -3128,8 +3106,8 @@ switch ($_GET['act']) {
                $saldo += $baris['beli'] - $baris['rbeli'] - $baris['jual'] + $baris['rjual'] + $baris['so'] + $baris['fso'];
                ?>
                <tr<?php
-            $alt = !$alt;
-            echo $alt ? ' class="alt"' : '';
+               $alt = !$alt;
+               echo $alt ? ' class="alt"' : '';
                ?>>
                   <td><?php echo date_format(date_create_from_format('Y-m-d', $baris['tgl']), 'd-m-Y'); ?></td>
                   <td><?php echo $baris['nota']; ?></td>
