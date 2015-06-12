@@ -1478,7 +1478,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                   <td><?php echo $barang['barcode']; ?></td>
                   <td><?php echo $barang['namaBarang']; ?></td>
                   <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';      ?>><?php echo $barang['idSatuanBarang']; ?></td>
                </tr>
                <?php
                $i++;
@@ -1837,20 +1837,50 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
       while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
          ?>
          <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
-            <td class="center"><?php echo $barang['namaRak']; ?></td><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $barang['idRak']; ?>" />
-         <td><?php echo $barang['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $barang['barcode']; ?>></td>
-         <td><?php echo $barang['namaBarang']; ?></td>
-         <td class="center"><?php echo $barang['jumBarang']; ?></td>
-         <td class="center"><?php echo $barang['selisih']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $barang['selisih']; ?>></td>
-         <td class="center"><input type=checkbox name=appr<?php echo $ctr; ?> checked=yes></td>
-         <td class="center">#</td>
-         <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
+            <td class="center"><?php echo $barang['namaRak']; ?><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $barang['idRak']; ?>" /></td>
+            <td><?php echo $barang['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $barang['barcode']; ?>></td>
+            <td><?php echo $barang['namaBarang']; ?></td>
+            <td class="center"><?php echo $barang['jumBarang']; ?></td>
+            <td class="center"><?php echo $barang['selisih']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $barang['selisih']; ?>></td>
+            <td class="center"><input type=checkbox name=appr<?php echo $ctr; ?> checked=yes></td>
+            <td class="center">#</td>
+            <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
          </tr>
          <?php
          $ctr++;
       }
       ?>
       <input type="hidden" name="ctr" value="<?php echo $ctr - 1; ?>" />
+      <input type="hidden" name="rak-id" value="<?php echo $rakId; ?>" />
+      <?php
+   }
+} elseif ($module == 'barang' AND $act == 'approvepdtso-getbarang') {
+   if (isset($_POST['rak-id'])) {
+      $rakId = $_POST['rak-id'];
+      $sql = "SELECT fso.idRak, fso.barcode, barang.namaBarang, fso.selisih, rak.namaRak, barang.jumBarang
+               FROM fast_stock_opname fso
+               JOIN rak on fso.idRak = rak.idRak
+               JOIN barang on barang.barcode = fso.barcode
+               WHERE approved=0 AND fso.username='pdt-so' AND fso.idRak = {$rakId}";
+      $hasil = mysql_query($sql);
+      $ctr = 1;
+      while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+         ?>
+         <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
+            <td class="center"><?php echo $barang['namaRak']; ?><input type="hidden" name="dataApproval[<?php echo $ctr; ?>][idRak]" value="<?php echo $barang['idRak']; ?>" /></td>
+            <td><?php echo $barang['barcode']; ?><input type=hidden name="dataApproval[<?php echo $ctr; ?>][barcode]" value=<?php echo $barang['barcode']; ?>></td>
+            <td><?php echo $barang['namaBarang']; ?></td>
+            <td class="center"><?php echo $barang['jumBarang']; ?></td>
+            <td class="center"><?php echo $barang['jumBarang'] + $barang['selisih']; ?></td>
+            <td class="center"><?php echo $barang['selisih']; ?>	<input type=hidden name=dataApproval[<?php echo $ctr; ?>][selisih]" value=<?php echo $barang['selisih']; ?>></td>
+            <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][appr]" checked=yes></td>
+            <td class="center">#</td>
+            <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][batal]"></td>
+         </tr>
+         <?php
+         $ctr++;
+      }
+      ?>
       <input type="hidden" name="rak-id" value="<?php echo $rakId; ?>" />
       <?php
    }

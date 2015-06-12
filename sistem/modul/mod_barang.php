@@ -234,7 +234,7 @@ switch ($_GET['act']) {
                   <td class="right"><?php echo $r['hargaBanded']; ?></td>
                   <td class="right"><?php echo $r['qtyBanded']; ?></td>
                   <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                           ?>
+                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                               ?>
                   </td>
                </tr>
                <?php
@@ -1742,7 +1742,7 @@ switch ($_GET['act']) {
             var url = "aksi.php?module=barang&act=approvemso-getbarang";
             $("#app-table-body").load(url, data);
             if (rakId != 'null') {
-               $("#warning").html('Perhatian!!: Pastikan semua barang di rak ini sudah ada (sudah di-so). Barang yang tidak ada akan dipindahkan rak nya');
+               $("#warning").html('PERHATIAN!!: Pastikan semua barang di rak ini sudah ada (sudah di-so). Barang yang tidak ada akan dipindahkan rak nya');
             } else {
                $("#warning").html("");
             }
@@ -1751,7 +1751,6 @@ switch ($_GET['act']) {
       <form method=POST action='?module=barang&act=ApproveMobileSO2'>
          <div id="warning"></div>
          <br /><br />
-
          <table class="tabel">
             <tr>
                <th>Rak</th>
@@ -1766,21 +1765,17 @@ switch ($_GET['act']) {
             <tbody id="app-table-body">
             </tbody>         
          </table>
-
-         <input type=submit accesskey='s' value='(s) Submit'>
-
+      </div>
+      <input type=submit accesskey='s' value='(s) Submit'>
       </form>
       <?php
       break;
 
-
    case "ApproveMobileSO2":  // ----------------------------------------------------------------------------
-
-
-      echo "
-		<h2>Proses Mobile Stock Opname</h2>
-	<br /><br />
-	";
+      ?>
+      <h2>Proses Mobile Stock Opname</h2>
+      <br /><br />
+      <?php
       // Array untuk menyimpan sementara barang yang diapprove
       $barcodes = array();
       for ($i = 1; $i <= $_POST[ctr]; $i++) {
@@ -1845,7 +1840,7 @@ switch ($_GET['act']) {
 
                   //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
                }
-               //echo '<br />';
+            //echo '<br />';
             endwhile;
 
             // ganti fast_stock_opname.approved menjadi 1 / true
@@ -1853,8 +1848,8 @@ switch ($_GET['act']) {
             $hasil1 = mysql_query($sql);
             echo "Approved : ".$_POST["barcode$i"].", stok tercatat: $x[jumBarang], ditemukan = <b>".$_POST["selisih$i"]."</b><br />";
             //var_dump($_POST);
-         };
-      }; // for ($i = 0; $i <= $_POST[ctr]; $i++) {
+         }
+      } // for ($i = 0; $i <= $_POST[ctr]; $i++) {
       $rakId = $_POST['rak-id'];
       $firstBarcode = true;
       $listBarcodes = '';
@@ -2172,7 +2167,7 @@ switch ($_GET['act']) {
                      endwhile;
                      ?>
                   </select>
-      <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
+                  <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
                </td>
             </tr>
             <tr>
@@ -2618,14 +2613,44 @@ switch ($_GET['act']) {
 
    case "ApprovePdtSO1":  // ----------------------------------------------------------------------------
       // cari SO yang belum di approve
-      $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 and username='pdt-so' order by fast_stock_opname.uid";
+//      $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 and username='pdt-so' order by fast_stock_opname.uid";
+//      $hasil1 = mysql_query($sql);
+
+      /* Cari rak yang di SO */
+      $sql = "SELECT distinct fast_stock_opname.idRak, rak.namaRak 
+               FROM fast_stock_opname 
+               JOIN rak on fast_stock_opname.idRak = rak.idRak 
+               WHERE fast_stock_opname.approved=0 AND username='pdt-so'
+               GROUP BY fast_stock_opname.idRak";
       $hasil1 = mysql_query($sql);
       ?>
       <h2>Approve Stock Opname dengan PDT (Portable Data Terminal)</h2>
+      <select id="pilih-rak">
+         <option value="null">Pilih Rak</option>
+         <?php
+         while ($rak = mysql_fetch_array($hasil1)) {
+            ?>
+            <option value="<?php echo $rak['idRak']; ?>"><?php echo $rak['namaRak']; ?></option>
+            <?php
+         }
+         ?>
+      </select>
+      <script>
+         $("#pilih-rak").change(function () {
+            var rakId = $(this).val();
+            var data = {"rak-id": rakId};
+            var url = "aksi.php?module=barang&act=approvepdtso-getbarang";
+            $("#app-table-body").load(url, data);
+            if (rakId != 'null') {
+               $("#warning").html('PERHATIAN!!: Pastikan semua barang di rak ini sudah ada (sudah di-so). Barang yang tidak ada akan dipindahkan rak nya');
+            } else {
+               $("#warning").html("");
+            }
+         });
+      </script>
       <form method=POST action='?module=barang&act=ApprovePdtSO2'>
-
+         <div id="warning"></div>
          <br /><br />
-
          <table class="tabel">
             <tr>
                <th>Rak</th>
@@ -2638,29 +2663,8 @@ switch ($_GET['act']) {
                <th>#</th>
                <th>Batal</td>
             </tr>
-            <?php
-            $ctr = 1;
-            while ($x = mysql_fetch_array($hasil1)) {
-
-               $sql = "SELECT namaBarang FROM barang WHERE barcode='".$x[barcode]."'";
-               $hasil2 = mysql_query($sql);
-               $z = mysql_fetch_array($hasil2);
-               ?>
-               <tr class="<?php echo $ctr % 2 === 0 ? 'alt' : ''; ?>">
-                  <td class="center"><?php echo $x['namaRak']; ?></td><input type="hidden" name="dataApproval[<?php echo $ctr; ?>][idRak]" value="<?php echo $x['idRak']; ?>" />
-               <td><?php echo $x['barcode']; ?><input type=hidden name="dataApproval[<?php echo $ctr; ?>][barcode]" value=<?php echo $x['barcode']; ?>></td>
-               <td><?php echo $z['namaBarang']; ?></td>
-               <td class="center"><?php echo $x['jmlTercatat']; ?></td>
-               <td class="center"><?php echo $x['jmlTercatat'] + $x['selisih']; ?></td>
-               <td class="center"><?php echo $x['selisih']; ?>	<input type=hidden name="dataApproval[<?php echo $ctr; ?>][selisih]" value=<?php echo $x['selisih']; ?>></td>
-               <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][appr]" checked=yes></td>
-               <td class="center">#</td>
-               <td class="center"><input type=checkbox name="dataApproval[<?php echo $ctr; ?>][batal]"></td>
-               </tr>
-               <?php
-               $ctr++;
-            }
-            ?>
+            <tbody id="app-table-body">
+            </tbody> 
          </table>
 
          <input type=submit accesskey='s' value='(s) Submit'>
@@ -2712,6 +2716,8 @@ switch ($_GET['act']) {
                </thead>
                <tbody>
                   <?php
+                  // Array untuk menyimpan sementara barang yang diapprove
+                  $barcodes = array();
                   $i = 1;
                   foreach ($dataApproval as $data):
                      // Cek barang dihapus
@@ -2724,6 +2730,8 @@ switch ($_GET['act']) {
                      // Jika diapprove, ubah jumlah barang di tabel barang dan detail_beli, ubah status approve di tabel so
                      // Dan tampilkan layar
                      elseif ($data['appr'] == 'on') :
+                        // Simpan barcode ke array
+                        $barcodes[] = $data['barcode'];
                         // data barang
                         $sql = "update barang set jumBarang = jumBarang+{$data['selisih']}, idRak = {$data['idRak']} where barcode='{$data['barcode']}'";
                         mysql_query($sql) or die('Gagal update jumBarang: '.mysql_error());
@@ -2796,6 +2804,24 @@ switch ($_GET['act']) {
                </tbody>
             </table>
          </div>
+         <?php
+         $rakId = $_POST['rak-id'];
+         $firstBarcode = true;
+         $listBarcodes = '';
+         foreach ($barcodes as $code) {
+            if ($firstBarcode) {
+               $listBarcodes.="'{$code}'";
+               $firstBarcode = false;
+            } else {
+               $listBarcodes.=",'{$code}'";
+            }
+         }
+         // Update rak ke 999999 untuk barang yang tidak di SO (diasumsikan barangnya sudah tidak ada di rak ini)
+         $sql = "UPDATE barang SET idRak=999999 WHERE idRak={$rakId} AND barcode NOT IN ({$listBarcodes})";
+         //echo $sql;
+         mysql_query($sql) or die('Gagal update idRak, error:'.mysql_error());
+         echo "Barang lainnya yang sebelumnya tercatat di rak ini, sudah dipindah ke rak ID:999999";
+         ?>
          <script>
             function printTable()
             {
