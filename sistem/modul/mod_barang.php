@@ -234,7 +234,7 @@ switch ($_GET['act']) {
                   <td class="right"><?php echo $r['hargaBanded']; ?></td>
                   <td class="right"><?php echo $r['qtyBanded']; ?></td>
                   <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                           ?>
+                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                              ?>
                   </td>
                </tr>
                <?php
@@ -1751,7 +1751,23 @@ switch ($_GET['act']) {
       <form method=POST action='?module=barang&act=ApproveMobileSO2'>
          <div id="warning"></div>
          <br /><br />
+ <div id="tableToPrint">
+            <style>
+               .tabel{
+                  font-size: 11px;
+                  border-collapse: collapse;
+               }
+               th, td{
+                  padding: 2px 2px;
+               }
 
+               td, th{
+                  border: 1px solid #ccc;
+               }
+               .right{
+                  text-align: right;
+               }
+            </style>
          <table class="tabel">
             <tr>
                <th>Rak</th>
@@ -1766,6 +1782,7 @@ switch ($_GET['act']) {
             <tbody id="app-table-body">
             </tbody>         
          </table>
+         </div>
 
          <input type=submit accesskey='s' value='(s) Submit'>
 
@@ -1845,7 +1862,7 @@ switch ($_GET['act']) {
 
                   //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
                }
-               //echo '<br />';
+            //echo '<br />';
             endwhile;
 
             // ganti fast_stock_opname.approved menjadi 1 / true
@@ -2172,7 +2189,7 @@ switch ($_GET['act']) {
                      endwhile;
                      ?>
                   </select>
-      <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
+                  <?php echo isset($errorDiskonTipeId) ? $errorDiskonTipeId : ''; ?>
                </td>
             </tr>
             <tr>
@@ -2620,8 +2637,8 @@ switch ($_GET['act']) {
       // cari SO yang belum di approve
 //      $sql = "SELECT fast_stock_opname.*, rak.namaRak FROM fast_stock_opname JOIN rak on fast_stock_opname.idRak = rak.idRak WHERE approved=0 and username='pdt-so' order by fast_stock_opname.uid";
 //      $hasil1 = mysql_query($sql);
-      
-            /* Cari rak yang di SO */
+
+      /* Cari rak yang di SO */
       $sql = "SELECT distinct fast_stock_opname.idRak, rak.namaRak 
                FROM fast_stock_opname 
                JOIN rak on fast_stock_opname.idRak = rak.idRak 
@@ -2721,6 +2738,8 @@ switch ($_GET['act']) {
                </thead>
                <tbody>
                   <?php
+                  // Array untuk menyimpan sementara barang yang diapprove
+                  $barcodes = array();
                   $i = 1;
                   foreach ($dataApproval as $data):
                      // Cek barang dihapus
@@ -2733,6 +2752,8 @@ switch ($_GET['act']) {
                      // Jika diapprove, ubah jumlah barang di tabel barang dan detail_beli, ubah status approve di tabel so
                      // Dan tampilkan layar
                      elseif ($data['appr'] == 'on') :
+                        // Simpan barcode ke array
+                        $barcodes[] = $data['barcode'];
                         // data barang
                         $sql = "update barang set jumBarang = jumBarang+{$data['selisih']}, idRak = {$data['idRak']} where barcode='{$data['barcode']}'";
                         mysql_query($sql) or die('Gagal update jumBarang: '.mysql_error());
@@ -2805,6 +2826,24 @@ switch ($_GET['act']) {
                </tbody>
             </table>
          </div>
+         <?php
+         $rakId = $_POST['rak-id'];
+         $firstBarcode = true;
+         $listBarcodes = '';
+         foreach ($barcodes as $code) {
+            if ($firstBarcode) {
+               $listBarcodes.="'{$code}'";
+               $firstBarcode = false;
+            } else {
+               $listBarcodes.=",'{$code}'";
+            }
+         }
+         // Update rak ke 999999 untuk barang yang tidak di SO (diasumsikan barangnya sudah tidak ada di rak ini)
+         $sql = "UPDATE barang SET idRak=999999 WHERE idRak={$rakId} AND barcode NOT IN ({$listBarcodes})";
+         //echo $sql;
+         mysql_query($sql) or die('Gagal update idRak, error:'.mysql_error());
+         echo "Barang lainnya yang sebelumnya tercatat di rak ini, sudah dipindah ke rak ID:999999";
+         ?>
          <script>
             function printTable()
             {
@@ -3089,8 +3128,8 @@ switch ($_GET['act']) {
                $saldo += $baris['beli'] - $baris['rbeli'] - $baris['jual'] + $baris['rjual'] + $baris['so'] + $baris['fso'];
                ?>
                <tr<?php
-               $alt = !$alt;
-               echo $alt ? ' class="alt"' : '';
+            $alt = !$alt;
+            echo $alt ? ' class="alt"' : '';
                ?>>
                   <td><?php echo date_format(date_create_from_format('Y-m-d', $baris['tgl']), 'd-m-Y'); ?></td>
                   <td><?php echo $baris['nota']; ?></td>
