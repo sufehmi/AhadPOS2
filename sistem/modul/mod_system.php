@@ -73,6 +73,16 @@ switch ($act) {
                         </td>
                     </tr>
                     <tr>
+                        <td><?php echo $config['abangadek_mode']['description']; ?></td>
+                        <td> :
+                            <select name="config[abangadek_mode]" >
+                                <?php $abangAdekMode = $config['abangadek_mode']['value']; ?>
+                                <option value="0" <?php echo $abangAdekMode ? '' : 'selected'; ?>>OFF</option>
+                                <option value="1" <?php echo $abangAdekMode ? 'selected' : ''; ?>>ON</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
