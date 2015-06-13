@@ -234,7 +234,7 @@ switch ($_GET['act']) {
                   <td class="right"><?php echo $r['hargaBanded']; ?></td>
                   <td class="right"><?php echo $r['qtyBanded']; ?></td>
                   <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                               ?>
+                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                 ?>
                   </td>
                </tr>
                <?php
@@ -1376,7 +1376,9 @@ switch ($_GET['act']) {
 
 
    case "cetakbarang2":
-
+      $result = mysql_query("select `value` from config where `option`='abangadek_mode'") or die(mysql_error());
+      $hasil = mysql_fetch_array($result);
+      $abangAdekMode = $hasil['value'];
 
       echo "
 	<form method='post'>
@@ -1388,6 +1390,18 @@ switch ($_GET['act']) {
       $sql = "SELECT idRak, namaBarang, hargaJual, jumBarang
 		FROM barang WHERE jumBarang <> 0 AND idRak BETWEEN ".$_GET['darirak']." AND ".$_GET['sampairak']."
 		ORDER BY idRak,namaBarang ASC";
+      if ($abangAdekMode) {
+         $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
+		FROM barang 
+        JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
+           from detail_beli 
+           join barang on detail_beli.barcode=barang.barcode
+           WHERE idRak BETWEEN ".$_GET['darirak']." AND ".$_GET['sampairak']."
+           group by barcode) dbeli ON barang.barcode=dbeli.barcode
+        JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
+        WHERE barang.jumBarang <> 0 AND idRak BETWEEN ".$_GET['darirak']." AND ".$_GET['sampairak']."
+		ORDER BY idRak,namaBarang ASC";
+      }
       $daftarBarang = mysql_query($sql);
       $jumlahBarang = mysql_num_rows($daftarBarang);
       //echo $sql;
@@ -1442,15 +1456,11 @@ switch ($_GET['act']) {
                $gantiBaris = 0;
             }; // if ($gantiBaris > 1)
             // cetak data barang
-            echo "
-			<td>		$x[namaBarang]
-			</td>
-			<td><center>	$x[hargaJual]	</center>
-			</td>
-			<td><center>	$x[jumBarang]	</center>
-			</td>
-			";
-
+            ?>
+            <td><?php echo $x['namaBarang']; ?></td>
+            <td><center><?php echo $abangAdekMode ? $x['hargaBeli'] : $x['hargaJual']; ?></center></td>
+            <td><center><?php echo $x['jumBarang']; ?></center></td>
+            <?php
             $gantiBaris++;
          }; // for ($i = 1; $i <= $jumlahBarang; $i++)
       } else {
