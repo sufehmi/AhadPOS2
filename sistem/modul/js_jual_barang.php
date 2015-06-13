@@ -744,6 +744,29 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                });
                $("#self-checkout").hide(500);
                return false;
+            });
+
+            $("#form-cek-harga").submit(function () {
+               console.log($("#cek-harga-barcode").val());
+               var datakirim = {
+                  'cek-harga-barcode': $("#cek-harga-barcode").val()
+               };
+               dataurl = "../aksi.php?module=penjualan_barang&act=cek_harga";
+               $.ajax({
+                  type: "POST",
+                  url: dataurl,
+                  data: datakirim,
+                  success: function (data) {
+                     console.log(data);
+                     $(".cek-harga-view").show();
+                     if (data.sukses) {
+                        //window.location = "js_jual_barang.php?act=caricustomer"
+                     }
+                  }
+
+               });
+               $("#ganti-customer").hide(500);
+               return false;
             })
 
             $("#admin-mode").click(function () {
