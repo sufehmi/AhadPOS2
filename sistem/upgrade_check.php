@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 12;
+$revision = 13;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -388,6 +388,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
 	if ($dbrevision < 12) {
 		echo "Upgrading database to version 2.0.12 <br />";
 		upgrade_211_to_212();
+	}
+	if ($dbrevision < 13) {
+		echo "Upgrading database to version 2.0.13 <br />";
+		upgrade_212_to_213();
 	}
 }
 
@@ -1073,6 +1077,25 @@ function upgrade_211_to_212() {
 	} else {
 
 		$sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 12))."', '')";
+	}
+	$hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+}
+
+function upgrade_212_to_213() {
+// Menambahkan AbangAdek Mode: default Off
+	$sql = "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('abangadek_mode', '0', 'Abang Adek Mode')";
+	$hasil = exec_query($sql);
+	echo mysql_error();	
+
+// update version number ------------------------------------------------------
+	$sql = "SELECT * FROM config WHERE `option` = 'version'";
+	$hasil = mysql_query($sql);
+
+	if (mysql_num_rows($hasil) > 0) {
+		$sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 13))."' WHERE `option` = 'version'";
+	} else {
+
+		$sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 13))."', '')";
 	}
 	$hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
