@@ -90,7 +90,7 @@ $total = mysqli_fetch_array($result);
             <div class="medium-6 large-4 columns"> 
                 <div class="row collapse">
                     <div class="small-12 columns" style="text-align: center; background-color: rgba(255, 255, 255, 0.875);">
-                        <img style=" padding: 10px" src="img/ahadmart-logo.png" />
+                        <img style=" padding: 10px" src="img/logo.png" />
                     </div>
                 </div>
                 <div class="row" style="margin-top: 20px;margin-bottom: 20px">
