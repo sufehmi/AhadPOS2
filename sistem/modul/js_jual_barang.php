@@ -119,12 +119,15 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
          </script>
 
          <link rel="stylesheet" type="text/css" href="../../css/animate.min.css" />
+         <link rel="stylesheet" type="text/css" href="../../css/jquery-ui-ac.min.css" />
          <link rel="stylesheet" type="text/css" href="../../css/style.css" />
          <link rel="stylesheet" type="text/css" href="../../css/jquery-editable.css" />
 
          <script src="../../js/jquery-1.9.1.min.js"></script>
          <script src="../../js/jquery.poshytip.js"></script>
          <script src="../../js/jquery-editable-poshytip.min.js"></script>
+         <?php // JqueryUI untuk autocomplete cari barang pada cek harga ?>
+         <script type="text/javascript" src="../../js/jquery-ui.min-ac.js"></script>
 
       </head>
       <body class="kasir" id="dokumen">
@@ -526,7 +529,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                                  <tr>
                                     <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
                                     <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
-                                          this.disabled = true;'></td>
+                                                      this.disabled = true;'></td>
                                  </tr>
                               </table>
                            </div>
@@ -606,12 +609,12 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
               background-color: #eef4d2;
               box-shadow: 0px 0px 4px 0px #d2e28b;
               padding: 15px;">
-            <table style="border-collapse: collapse">      
+            <table style="">      
                <form id="form-cek-harga">
                   <tr>
                      <td rowspan="2">               
                         <input type="text" id="cek-harga-barcode" name="cek-harga[barcode]" placeholder="Scan Barcode" autocomplete="off"/><br />
-                        <input type="text" id="cek-harga-nama" name="cek-harga[nama]" placeholder="Nama Barang (min 3 huruf)" autocomplete="off"/><br />
+                        <input type="text" id="cek-harga-nama" name="cek-harga[nama]" placeholder="Nama Barang (min 3 huruf)"/><br />
                      </td>
                      <td rowspan="2" style="font-size: 16pt" id="cek-harga-view-harga" class="cek-harga-view">123.456</td>
                      <td style="vertical-align: bottom" id="cek-harga-view-nama" class="cek-harga-view">Nama</td>                  
@@ -621,8 +624,8 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                         Barcode
                      </td>
                   </tr>
-                  <tr>
-                     <td>
+                  <tr style="border-top: 1px solid gray;">
+                     <td style="padding-top: 5px">
                         <input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
                      </td>
                      <td class="cek-harga-view"></td>
@@ -645,7 +648,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                </a>
                <a class="tombol" href="#" id="tombol-self-checkout" accesskey="f" >Sel<b><u>f</u></b> Checkout</a>
                <a class="tombol" href="#" id="tombol-nomor-kartu" accesskey="k" ><b><u>K</u></b>artu Member</a>
-               <a class="tombol" href="#" id="tombol-cek-harga" accesskey="h" >Cek <b><u>H</u></b>arga</a>
+               <a class="tombol" href="#" id="tombol-cek-harga" accesskey="g" >Cek Har<b><u>g</u></b>a</a>
                      <?php }
                      ?>
          </div>
@@ -661,6 +664,20 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                      }
                   }
                });
+            });
+
+            $("#cek-harga-nama").autocomplete({
+               source: "../aksi.php?module=hargabanded&act=getnamabarang",
+               minLength: 3,
+               select: function (event, ui) {
+                  console.log(ui.item ?
+                          "Nama: " + ui.item.value + "; Barcode " + ui.item.id :
+                          "Nothing selected, input was " + this.value);
+                  if (ui.item) {
+                     $("#cek-harga-barcode").val(ui.item.id);
+                     $("#form-cek-harga").submit();
+                  }
+               }
             });
 
             $("#tombol-nomor-kartu").click(function () {
@@ -758,14 +775,18 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                   data: datakirim,
                   success: function (data) {
                      console.log(data);
-                     $(".cek-harga-view").show();
                      if (data.sukses) {
-                        //window.location = "js_jual_barang.php?act=caricustomer"
+                        $("#cek-harga-view-harga").html(data.harga);
+                        $("#cek-harga-view-nama").html(data.nama);
+                        $("#cek-harga-view-barcode").html(data.barcode);
+                        $(".cek-harga-view").show();
+                        $("#cek-harga-barcode").val("");
+                        $("#cek-harga-nama").val("");
+                        $("#cek-harga-barcode").focus();
                      }
                   }
 
                });
-               $("#ganti-customer").hide(500);
                return false;
             })
 
