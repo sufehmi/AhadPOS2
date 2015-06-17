@@ -1478,7 +1478,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                   <td><?php echo $barang['barcode']; ?></td>
                   <td><?php echo $barang['namaBarang']; ?></td>
                   <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';           ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';              ?>><?php echo $barang['idSatuanBarang']; ?></td>
                </tr>
                <?php
                $i++;
@@ -1904,6 +1904,23 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
    }
    header('Content-type: application/json');
    echo json_encode($return);
+} elseif ($module === 'penjualan' && $act === 'getnamabarangstok') {
+   if (isset($_GET['term'])) {
+      $namaBarang = $_GET['term'];
+      echo $term;
+      $sql = "SELECT barcode, namaBarang, jumBarang FROM barang where namaBarang like '%{$namaBarang}%' ORDER BY IFNULL(NULLIF(nonAktif,'0'),0), namaBarang ASC";
+      $hasil = mysql_query($sql);
+      $barangs = array();
+      while ($barang = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+         $barangs[] = array(
+             'id' => $barang['barcode'],
+             'label' => "{$barang['namaBarang']} ({$barang['jumBarang']})",
+             'value' => $barang['namaBarang'],
+         );
+      }
+
+      echo json_encode($barangs);
+   }
 }
 // else
 else { // =======================================================================================================================================

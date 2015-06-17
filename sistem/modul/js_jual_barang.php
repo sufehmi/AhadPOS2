@@ -672,7 +672,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
             });
 
             $("#cek-harga-nama").autocomplete({
-               source: "../aksi.php?module=hargabanded&act=getnamabarang",
+               source: "../aksi.php?module=penjualan&act=getnamabarangstok",
                minLength: 3,
                select: function (event, ui) {
                   console.log(ui.item ?
