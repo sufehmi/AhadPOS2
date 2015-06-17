@@ -1890,14 +1890,15 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
    );
    if (isset($_POST['cek-harga-barcode'])) {
       $barcode = $_POST['cek-harga-barcode'];
-      $sql = "SELECT namaBarang, hargaJual FROM barang WHERE barcode = '{$barcode}'";
+      $sql = "SELECT namaBarang, hargaJual,jumBarang FROM barang WHERE barcode = '{$barcode}'";
       $result = mysql_query($sql);
       if ($barang = mysql_fetch_array($result, MYSQL_ASSOC)) {
          $return = array(
              'sukses' => true,
              'barcode' => $barcode,
              'nama' => $barang['namaBarang'],
-             'harga' => number_format($barang['hargaJual'], 0, ',', '.')
+             'harga' => number_format($barang['hargaJual'], 0, ',', '.'),
+             'stok' => $barang['jumBarang']
          );
       }
    }
