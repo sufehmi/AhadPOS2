@@ -612,16 +612,21 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
             <table style="">      
                <form id="form-cek-harga">
                   <tr>
-                     <td rowspan="2">               
+                     <td rowspan="3">               
                         <input type="text" id="cek-harga-barcode" name="cek-harga[barcode]" placeholder="Scan Barcode" autocomplete="off"/><br />
                         <input type="text" id="cek-harga-nama" name="cek-harga[nama]" placeholder="Nama Barang (min 3 huruf)"/><br />
                      </td>
-                     <td rowspan="2" style="font-size: 16pt" id="cek-harga-view-harga" class="cek-harga-view">123.456</td>
-                     <td style="vertical-align: bottom" id="cek-harga-view-nama" class="cek-harga-view">Nama</td>                  
+                     <td rowspan="3" style="font-size: 16pt" id="cek-harga-view-harga" class="cek-harga-view">123.456</td>
+                     <td style="vertical-align: middle" id="cek-harga-view-nama" class="cek-harga-view">Nama</td>                  
                   </tr>
                   <tr>
-                     <td style="vertical-align: top" id="cek-harga-view-barcode" class="cek-harga-view">
+                     <td style="vertical-align: middle" id="cek-harga-view-barcode" class="cek-harga-view">
                         Barcode
+                     </td>
+                  </tr>
+                  <tr>
+                     <td style="vertical-align: middle" id="cek-harga-view-stok" class="cek-harga-view">
+                        Stok
                      </td>
                   </tr>
                   <tr style="border-top: 1px solid gray;">
@@ -667,7 +672,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
             });
 
             $("#cek-harga-nama").autocomplete({
-               source: "../aksi.php?module=hargabanded&act=getnamabarang",
+               source: "../aksi.php?module=penjualan&act=getnamabarangstok",
                minLength: 3,
                select: function (event, ui) {
                   console.log(ui.item ?
@@ -779,6 +784,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                         $("#cek-harga-view-harga").html(data.harga);
                         $("#cek-harga-view-nama").html(data.nama);
                         $("#cek-harga-view-barcode").html(data.barcode);
+                        $("#cek-harga-view-stok").html('Stok: ' + data.stok);
                         $(".cek-harga-view").show();
                         $("#cek-harga-barcode").val("");
                         $("#cek-harga-nama").val("");
