@@ -46,15 +46,19 @@ if ($_GET["jmlbarang"]) { // ===================================================
 	$sql = "SELECT sum(selisih) AS total FROM fast_stock_opname WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
 	$hasil = mysql_query($sql);
 	$x = mysql_fetch_array($hasil);
-
+   
+   /* fix: selisih adalah jmlSebenarnya */
+   $hasil = mysql_query("select jumBarang from barang where barcode = '{$_GET["barcode1"]}'");
+   $barang = mysql_fetch_array($hasil,MYSQL_ASSOC);
+   
 	if ($x['total'] > 0) {
 		$selisih = $selisih + $x['total'];
-		$sql = "UPDATE fast_stock_opname SET selisih=$selisih, jmlTercatat=$selisih WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
+		$sql = "UPDATE fast_stock_opname SET selisih=$selisih, jmlTercatat={$barang['jumBarang']} WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
 		$hasil = mysql_query($sql);
 	} else {
 		// simpan di database
 		$sql = "INSERT INTO fast_stock_opname (barcode, idRak, jmlTercatat, selisih, tanggalSO, username, namaBarang)
-			VALUES ('".$_GET["barcode1"]."',".$_GET["nomorrak"].",".$_GET["jmlbarang"].",
+			VALUES ('".$_GET["barcode1"]."',".$_GET["nomorrak"].",".$barang['jumBarang'].",
 				".$selisih.",'".date("Y-m-d")."', '".$_GET["username"]."',
 				'".$_GET["namaBarang"]."')";
 		$hasil = mysql_query($sql);

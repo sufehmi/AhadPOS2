@@ -1478,7 +1478,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                   <td><?php echo $barang['barcode']; ?></td>
                   <td><?php echo $barang['namaBarang']; ?></td>
                   <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';              ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';               ?>><?php echo $barang['idSatuanBarang']; ?></td>
                </tr>
                <?php
                $i++;
@@ -1827,6 +1827,10 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 } elseif ($module == 'barang' AND $act == 'approvemso-getbarang') {
    if (isset($_POST['rak-id'])) {
       $rakId = $_POST['rak-id'];
+      /* mobile so
+       * fast_stock_opname.selisih = jumlah fisik, 
+       * fast_stock_opname.jmlTercatat = jumlah tercatat pada saat scan 
+       */
       $sql = "SELECT fast_stock_opname.*, rak.namaRak, barang.jumBarang
                FROM fast_stock_opname 
                JOIN rak on fast_stock_opname.idRak = rak.idRak
@@ -1840,8 +1844,9 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
             <td class="center"><?php echo $barang['namaRak']; ?><input type="hidden" name="idRak<?php echo $ctr; ?>" value="<?php echo $barang['idRak']; ?>" /></td>
             <td><?php echo $barang['barcode']; ?><input type=hidden name=barcode<?php echo $ctr; ?> value=<?php echo $barang['barcode']; ?>></td>
             <td><?php echo $barang['namaBarang']; ?></td>
-            <td class="center"><?php echo $barang['jumBarang']; ?></td>
-            <td class="center"><?php echo $barang['selisih']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $barang['selisih']; ?>></td>
+            <td class="center"><?php echo $barang['jmlTercatat']; ?></td>
+            <td class="center"><?php echo $barang['selisih']; ?></td>
+            <td class="center"><?php echo $barang['selisih'] - $barang['jmlTercatat']; ?>	<input type=hidden name=selisih<?php echo $ctr; ?> value=<?php echo $barang['selisih'] - $barang['jmlTercatat']; ?>></td>
             <td class="center"><input type=checkbox name=appr<?php echo $ctr; ?> checked=yes></td>
             <td class="center">#</td>
             <td class="center"><input type=checkbox name=hapus<?php echo $ctr; ?>></td>
