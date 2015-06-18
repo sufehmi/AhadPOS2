@@ -234,7 +234,7 @@ switch ($_GET['act']) {
                   <td class="right"><?php echo $r['hargaBanded']; ?></td>
                   <td class="right"><?php echo $r['qtyBanded']; ?></td>
                   <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                 ?>
+                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                  ?>
                   </td>
                </tr>
                <?php
@@ -1763,14 +1763,18 @@ switch ($_GET['act']) {
          <br /><br />
          <table class="tabel">
             <tr>
-               <th>Rak</th>
-               <th>Barcode</th>
-               <th>Nama Barang</th>
-               <th>Jumlah<br />Tercatat</th>
+               <th rowspan="2">Rak</th>
+               <th rowspan="2">Barcode</th>
+               <th rowspan="2">Nama Barang</th>
+               <th colspan="2">Jumlah saat scan</th>
+               <th rowspan="2">Selisih</th>
+               <th rowspan="2">Approve</th>
+               <th rowspan="2">#</th>
+               <th rowspan="2">Hapus<br />Barang</td>               
+            </tr>
+            <tr>
+               <th>Tercatat</th>
                <th>Ditemukan</th>
-               <th>Approve</th>
-               <th>#</th>
-               <th>Hapus<br />Barang</td>
             </tr>
             <tbody id="app-table-body">
             </tbody>         
@@ -1805,7 +1809,7 @@ switch ($_GET['act']) {
             $hasil1 = mysql_query($sql);
             $x = mysql_fetch_array($hasil1);
 
-            $jumBarang = $_POST["selisih$i"];
+            $jumBarang = $x['jumBarang'] + $_POST["selisih$i"];
 
             // update barang.jumBarang untuk barcode ybs
             $sql = "UPDATE barang SET jumBarang=$jumBarang, idRak = ".$_POST["idRak$i"]." WHERE barcode='".$_POST["barcode$i"]."'";
@@ -1852,11 +1856,11 @@ switch ($_GET['act']) {
                }
             //echo '<br />';
             endwhile;
-
+            $jumlahFinal = $x['jumBarang'] + $_POST["selisih$i"];
             // ganti fast_stock_opname.approved menjadi 1 / true
             $sql = "UPDATE fast_stock_opname SET approved=1 WHERE barcode='".$_POST["barcode$i"]."'";
             $hasil1 = mysql_query($sql);
-            echo "Approved : ".$_POST["barcode$i"].", stok tercatat: $x[jumBarang], ditemukan = <b>".$_POST["selisih$i"]."</b><br />";
+            echo "Approved : ".$_POST["barcode$i"].", stok tercatat: $x[jumBarang], selisih = ".$_POST["selisih$i"].", menjadi = <b>{$jumlahFinal}</b><br />";
             //var_dump($_POST);
          }
       } // for ($i = 0; $i <= $_POST[ctr]; $i++) {
