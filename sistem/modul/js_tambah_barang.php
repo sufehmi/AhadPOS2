@@ -101,7 +101,7 @@ include "../../config/config.php";
             }
  ?>
 
-	<script>window.location.reload()</script>
+	<script>window.location = 'media.php?module=pembelian_barang&act=carisupplier'</script>
 <?php
 
 /* CHANGELOG -----------------------------------------------------------
