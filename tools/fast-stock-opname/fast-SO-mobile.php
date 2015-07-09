@@ -53,7 +53,7 @@ if (isset($_GET["jmlbarang"])) { // ============================================
 
    if (!is_null($x['total'])) {
       $selisih = $selisih + $x['total'];
-      $sql = "UPDATE fast_stock_opname SET selisih=$selisih, jmlTercatat={$barang['jumBarang']} WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
+      $sql = "UPDATE fast_stock_opname SET selisih=$selisih, jmlTercatat={$barang['jumBarang']}, idRak={$_GET["nomorrak"]} WHERE barcode='".$_GET["barcode1"]."' AND approved=0";
       $hasil = mysql_query($sql);
    } else {
       // simpan di database
