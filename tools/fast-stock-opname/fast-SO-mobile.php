@@ -92,7 +92,7 @@ if (isset($_GET["jmlbarang"])) { // ============================================
       <div class="navbar navbar-fixed-top">
          <div class="navbar-inner">
             <div class="container">
-               <a class="brand">Mobile SO</a>
+               <a class="brand" href="fast-SO-mobile.php">Mobile SO</a>
             </div>
          </div>
       </div>
