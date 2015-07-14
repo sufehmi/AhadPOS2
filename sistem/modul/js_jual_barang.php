@@ -242,6 +242,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                      <div class="input-group">
                         <label for="namaBarang"><span class="u">C</span>ari Barang</label>
                         <input type="text" id="namaBarang" name='namabarang' accesskey='c'>
+                        <input type="hidden" id="jumBarang-cariBarang" name="jumBarang" />
                      </div>
                      <?php
                      if ($transferahad) {
@@ -284,8 +285,8 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                       *
                       */
                      $tambahBarang = 1;
-                     if (isset($_POST['jumBarang'])) {
-                        $tambahBarang = $_POST['jumBarang'];
+                     if (isset($_POST['jumBarang']) || isset($_GET['jumBarang'])) {
+                        $tambahBarang = isset($_POST['jumBarang']) ? $_POST['jumBarang'] : $_GET['jumBarang'];
                      }
                      $trueJual = cekBarangTempJual($_SESSION[idCustomer], $_POST[barcode]);
                      // Jika barang sudah ada (hanya tambah kuantiti) maka tambahkan kuantitinya;
@@ -529,7 +530,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                                  <tr>
                                     <td><a href='../aksi.php?module=penjualan_barang&act=batal<?php echo $transferahad ? '&transferahad=1' : ''; ?>' class="tombol">Batal</a></td>
                                     <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
-                                                      this.disabled = true;'></td>
+                                          this.disabled = true;'></td>
                                  </tr>
                               </table>
                            </div>
@@ -881,6 +882,9 @@ if ($ukmMode && !$returBeli) {
    <?php
 }
 ?>
+            $("#jumBarang").change(function () {
+               $("#jumBarang-cariBarang").val($(this).val());
+            });
          </script>
       </div>
    </body>
