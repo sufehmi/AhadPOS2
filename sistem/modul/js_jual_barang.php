@@ -25,8 +25,8 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
    echo "<a href=index.php><b>LOGIN</b></a></center>";
 } else {
 
-   if (!isset($_SESSION[idCustomer])) {
-      findCustomer($_POST[idCustomer]);
+   if (isset($_POST['idCustomer'])) {
+      findCustomer($_POST['idCustomer']);
    }
 
    $result = mysql_query("select `value` from config where `option`='ukm_mode'") or die(mysql_error());
@@ -39,7 +39,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
    }
 
    $batalGagal = false;
-   if (isset($_GET['bg']) && $_GET['bg']) {
+   if (isset($_GET['bg']) && $_GET['bg'] && !$transferahad) {
       $batalGagal = true;
    }
 
@@ -138,7 +138,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                case "caricustomer": // ========================================================================================================
                   $hapusGagal = false;
                   if ($_GET[doit] == 'hapus') {
-                     if ($_SESSION['hakAdmin']) {
+                     if ($_SESSION['hakAdmin'] || $transferahad) {
                         $hasil = mysql_query("select barcode from tmp_detail_jual where uid = {$_GET['uid']}") or die('Gagal hapus (ambil data), error: '.mysql_error());
                         $r = mysql_fetch_array($hasil);
 
@@ -244,7 +244,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                         <input type="text" id="namaBarang" name='namabarang' accesskey='c'>
                      </div>
                      <?php
-                     if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
+                     if ($transferahad) {
                         ?>
                         <input type=hidden name='transferahad' value='1'>
                         <?php
@@ -527,7 +527,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                                  }
                                  ?>
                                  <tr>
-                                    <td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
+                                    <td><a href='../aksi.php?module=penjualan_barang&act=batal<?php echo $transferahad ? '&transferahad=1' : ''; ?>' class="tombol">Batal</a></td>
                                     <td class="right">&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan' onclick='this.form.submit();
                                                       this.disabled = true;'></td>
                                  </tr>
@@ -539,7 +539,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                   } else {
                      ?>
                      Belum ada barang yang dibeli<br />
-                     <a href='../aksi.php?module=penjualan_barang&act=batal'><button>BATAL</button></a>
+                     <a href='../aksi.php?module=penjualan_barang&act=batal<?php echo $transferahad ? '&transferahad=1' : ''; ?>'><button>BATAL</button></a>
                      <?php
                   }
                   ?>
