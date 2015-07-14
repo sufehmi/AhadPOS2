@@ -242,7 +242,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                      <div class="input-group">
                         <label for="namaBarang"><span class="u">C</span>ari Barang</label>
                         <input type="text" id="namaBarang" name='namabarang' accesskey='c'>
-                        <input type="hidden" id="jumBarang-cariBarang" name="jumBarang" />
+                        <input type="hidden" id="jumBarang-cariBarang" name="jumBarang" value="1"/>
                      </div>
                      <?php
                      if ($transferahad) {
