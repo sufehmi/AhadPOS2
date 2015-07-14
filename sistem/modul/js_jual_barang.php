@@ -567,7 +567,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
             <form>
                <input type="text" id="nama-user" name="nama-user" placeholder="Nama User Admin" /><br />
                <input type="password" id="password" name="password" placeholder="Password" /><br />
-               <a href="js_jual_barang.php?act=caricustomer" class="tombol" id="tombol-batal-login" accesskey="l">Bata<u>l</u></a>
+               <a href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>" class="tombol" id="tombol-batal-login" accesskey="l">Bata<u>l</u></a>
                <input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
             </form>
          </div>
@@ -663,7 +663,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                   success: function (response, newValue) {
                      var respon = JSON && JSON.parse(response) || $.parseJSON(response);
                      if (respon.sukses) {
-                        window.location = "js_jual_barang.php?act=caricustomer";
+                        window.location = "js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>";
                      } else {
                         alert('hmm, error!')
                      }
@@ -743,7 +743,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                   success: function (data) {
                      console.log(data);
                      if (data.sukses) {
-                        window.location = "js_jual_barang.php?act=caricustomer"
+                        window.location = "js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>";
                      }
                   }
 
@@ -762,7 +762,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                   type: "POST",
                   url: dataurl,
                   data: datakirim,
-                  success: window.location = "js_jual_barang.php?act=caricustomer"
+                  success: window.location = "js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>"
                });
                $("#self-checkout").hide(500);
                return false;
@@ -810,7 +810,7 @@ if ($_SESSION['hakAdmin']) {
                      data: datakirim,
                      success: function (data) {
                         if (data == 'logout admin') {
-                           window.location = "js_jual_barang.php?act=caricustomer";
+                           window.location = "js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>";
                         }
                      }
                   });
@@ -841,7 +841,7 @@ if ($_SESSION['hakAdmin']) {
                   data: datakirim,
                   success: function (data) {
                      if (data === 'ketemu') {
-                        window.location = "js_jual_barang.php?act=caricustomer";
+                        window.location = "js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>";
                      } else {
                         alert('Login ditolak!');
                      }
