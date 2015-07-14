@@ -951,8 +951,12 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 }
 
 //Batal Transaksi Jual
-elseif ($module == 'penjualan_barang' AND $act == 'batal') {
-   if ($_SESSION['hakAdmin']) {
+elseif ($module == 'penjualan_barang' AND $act == 'batal') {   
+   $transferahad = false;
+   if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
+      $transferahad = true;
+   }
+   if ($_SESSION['hakAdmin'] || $transferahad) {
       mysql_query("DELETE FROM tmp_detail_jual where idCustomer = '$_SESSION[idCustomer]'  AND username = '$_SESSION[uname]'");
       releaseCustomer();
 
