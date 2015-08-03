@@ -71,7 +71,7 @@ $caller = $_GET[caller];
    if ($_POST['transferahad'] == 1) {
       $transferahad = '&transferahad=1';
    }
-   $jumBarang = 1;
+   $jumBarang = '&jumBarang=1';
    if (isset($_POST['jumBarang'])) {
       $jumBarang = '&jumBarang='.$_POST['jumBarang'];
    }
