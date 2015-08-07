@@ -1089,7 +1089,7 @@ switch ($_GET['act']) {
 
       include "../config/config.php";
 
-      $sql = "SELECT * FROM barang WHERE idRak=$_POST[rak] ORDER BY namaBarang ASC";
+      $sql = "SELECT * FROM barang WHERE idRak=$_POST[rak] AND (nonAktif!=1 or nonAktif is null) ORDER BY namaBarang ASC";
       $cari = mysql_query($sql);
       //echo $sql;
       ?>
