@@ -166,8 +166,8 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 
                   // mulai cetak daftar transaksi retur sejauh ini
                   $sql = "SELECT *
-      FROM tmp_detail_retur_barang tdj, barang b
-      WHERE tdj.barcode = b.barcode AND tdj.username = '$_SESSION[uname]'";
+                     FROM tmp_detail_retur_barang tdj, barang b
+                     WHERE tdj.barcode = b.barcode AND tdj.username = '$_SESSION[uname]'";
 
                   //echo $sql;
                   $query = mysql_query($sql);
@@ -190,19 +190,19 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                         $no = 1;
                         $tot_retur = 0;
 
-                        $query2 = mysql_query("SELECT tdj.uid, tdj.barcode, b.namaBarang, tdj.jumBarang, tdj.hargaBeli, tdj.tglTransaksi
-         FROM tmp_detail_retur_barang tdj, barang b
-         WHERE tdj.barcode = b.barcode AND tdj.username = '$_SESSION[uname]' 
-         ORDER BY tglTransaksi DESC");
+                        $query2 = mysql_query("SELECT tdj.uid, tdj.barcode, b.namaBarang, tdj.jumBarang, tdj.hargaJual, tdj.tglTransaksi
+                           FROM tmp_detail_retur_barang tdj, barang b
+                           WHERE tdj.barcode = b.barcode AND tdj.username = '$_SESSION[uname]' 
+                           ORDER BY tglTransaksi DESC");
 
                         while ($data = mysql_fetch_array($query2)) {
-                           $total = $data[hargaBeli] * $data[jumBarang];
+                           $total = $data[hargaJual] * $data[jumBarang];
                            ?>
                            <tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
                               <td><?php echo $data['barcode']; ?></td>
                               <td><?php echo $data['namaBarang']; ?></td>
                               <td align=right><?php echo $data['jumBarang']; ?></td>
-                              <td align=right><?php echo $data['hargaBeli']; ?></td>
+                              <td align=right><?php echo $data['hargaJual']; ?></td>
                               <td align=right><?php echo number_format($total, 0, ',', '.'); ?></td>
                               <td align=right><a href='js_input_retur_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?>'>Hapus</a></td>
                            </tr>
