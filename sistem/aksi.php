@@ -951,7 +951,7 @@ elseif ($module == 'penjualan_barang' AND $act == 'input') {
 }
 
 //Batal Transaksi Jual
-elseif ($module == 'penjualan_barang' AND $act == 'batal') {   
+elseif ($module == 'penjualan_barang' AND $act == 'batal') {
    $transferahad = false;
    if (($_POST['transferahad'] == 1) || ($_GET['transferahad'] == 1)) {
       $transferahad = true;
@@ -1093,11 +1093,16 @@ elseif ($module == 'tutup_kasir' AND $act == 'input') {
 // ambil transaksi yang akan dicetak
    $sql = "SELECT t.jumBarang,t.hargaJual,t.hargaBeli,b.namaBarang,t.barcode FROM barang AS b, tmp_detail_retur_barang AS t
 		WHERE t.username='$_SESSION[uname]' AND t.barcode=b.barcode";
-//echo $sql;
+
    $hasil = mysql_query($sql);
 
-   echo "namaPrinter : ".$_POST[namaPrinter];
+   // echo "namaPrinter : ".$_POST[namaPrinter];
+   $customerId = isset($_SESSION['idCustomer']) ? $_SESSION['idCustomer'] : 'null';
+   $queryInsert = "INSERT INTO transaksireturjual(tglTransaksi, idCustomer, nominal, idUser, idKasir)
+               VALUES('$tgl',{$customerId},{$_POST['tot_retur']},{$_SESSION['iduser']},{$_POST['idKasir']})";
 
+   mysql_query($queryInsert) or die(mysql_error());
+   $idTransaksiReturJual = mysql_insert_id();
 
 // cetak struk
 //cetakStruk ("$_POST[namaPrinter]", 1, "$_SESSION[uname]", $_POST[tot_retur], 0, $hasil, true);
@@ -1138,10 +1143,9 @@ elseif ($module == 'tutup_kasir' AND $act == 'input') {
       $sql = "UPDATE barang SET jumBarang = '$jumlahAkhir' WHERE barcode = '$simpan[barcode]'";
       $hasil = mysql_query($sql);
 
-
-      $sql = "INSERT INTO detail_retur_barang (tglTransaksi, idBarang, barcode,
+      $sql = "INSERT INTO detail_retur_barang (idTransaksiRetur, tglTransaksi, idBarang, barcode,
                         jumBarang,hargaJual,username, hargaBeli)
-                    VALUES('$tgl', '$simpan[idBarang]', '$simpan[barcode]',
+                    VALUES($idTransaksiReturJual, '$tgl', '$simpan[idBarang]', '$simpan[barcode]',
                     '$simpan[jumBarang]',$simpan[hargaJual],'$_SESSION[uname]', $simpan[hargaBeli])";
       echo $sql;
       mysql_query($sql) or die(mysql_error());
@@ -1482,7 +1486,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                   <td><?php echo $barang['barcode']; ?></td>
                   <td><?php echo $barang['namaBarang']; ?></td>
                   <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';               ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                  ?>><?php echo $barang['idSatuanBarang']; ?></td>
                </tr>
                <?php
                $i++;
@@ -1930,6 +1934,23 @@ elseif ($module === 'diskon' && $act === "getbarcodeinfo") {
 
       echo json_encode($barangs);
    }
+}
+// Nomor Kartu Customer
+elseif ($module == 'retur_jual_barang' AND $act == 'nomorkartuinput') {
+   if (isset($_POST['nomor-kartu'])) {
+      $return = array('sukses' => false);
+      $nomorKartu = $_POST['nomor-kartu'];
+      $result = mysql_query("select idCustomer from customer where nomor_kartu='{$nomorKartu}'");
+      $customer = mysql_fetch_array($result);
+      if ($customer) {
+         findCustomer($customer['idCustomer']);
+         mysql_query("UPDATE tmp_detail_retur_barang SET idCustomer = {$customer['idCustomer']} WHERE username = '{$_SESSION['uname']}'");
+
+         $return = array('sukses' => true);
+      }
+   }
+   header('Content-type: application/json');
+   echo json_encode($return);
 }
 // else
 else { // =======================================================================================================================================
