@@ -697,11 +697,11 @@ function tambahBarangRPO($barcode, $jumBarang, $range, $periode, $persediaan) {
    }
 }
 
-function tambahBarangRPOperItem($barcode, $jumBarang){
-   
+function tambahBarangRPOperItem($barcode, $jumBarang) {
+
    $dataAda = cekBarang($barcode);
    if ($dataAda != 0) {
-     
+
       $jualBarang = mysql_query("SELECT * FROM barang WHERE barcode = '$barcode'") or die(mysql_error());
       $x = mysql_fetch_array($jualBarang);
 
@@ -710,7 +710,7 @@ function tambahBarangRPOperItem($barcode, $jumBarang){
       // cari harga modal nya
       $sql = "SELECT * FROM detail_beli
 			WHERE idDetailBeli= (select max(idDetailBeli) FROM detail_beli WHERE barcode = '{$barcode}')";
-			//ORDER BY idTransaksiBeli DESC LIMIT 1";
+      //ORDER BY idTransaksiBeli DESC LIMIT 1";
       $hasil = mysql_query($sql);
 
       $detilBarang = mysql_fetch_array($hasil);
@@ -1242,10 +1242,14 @@ function tambahBarangRetur($barcode, $jumBarang) {
          $idBarang = $detilBarang[idBarang];
       } else {
          // not supposed to ever happen, but just to be safe....
-         //fixme: kalau seluruh stok barang sudah habis (sehingga jadi masuk ke blok ini)
          // -- coba lagi dengan record terakhir utk barang ybs di detail_beli, walaupun isSold=Y
-         $hargaBeli = 0;
-         $idBarang = 0;
+         // cari hargaBeli & idBarang nya
+         $sql = "SELECT * FROM detail_beli WHERE barcode = '$barcode' ORDER BY idTransaksiBeli DESC LIMIT 1";
+         //echo $sql;
+         $hasil = mysql_query($sql);
+         $detilBarang = mysql_fetch_array($hasil);
+         $hargaBeli = $detilBarang['hargaBeli'];
+         $idBarang = $detilBarang['idBarang'];
       }
 
       // simpan transaksi di tmp_detail_jual
@@ -1659,7 +1663,7 @@ function textStrukA4($nomorStruk, $cpi = 15) {
 
    $signatureHead = '        Hormat Kami   	                Pelanggan';
 
-   $struk .= $signatureHead.str_pad($footer3, $jumlahKolom - strlen($signatureHead) - 1, ' ',STR_PAD_LEFT).PHP_EOL;
+   $struk .= $signatureHead.str_pad($footer3, $jumlahKolom - strlen($signatureHead) - 1, ' ', STR_PAD_LEFT).PHP_EOL;
    $struk .= PHP_EOL.PHP_EOL.PHP_EOL;
    $struk .= '     (                )             (                )'.PHP_EOL;
    $struk .= "\n\n\n\n\n\n\n\n\n\n\n\n\n"; // Tambahan spasi ke bawah, agar pas di posisi robek kertas di lx 300

@@ -1112,7 +1112,7 @@ elseif ($module == 'tutup_kasir' AND $act == 'input') {
 
    while ($simpan = mysql_fetch_array($dataBarang)) {
 
-      echo "1 <br>";
+      // echo "1 <br>";
 
       $jumlahAkhir = 0;
       $jumBarang = mysql_query("SELECT jumBarang FROM barang WHERE barcode = '$simpan[barcode]'");
@@ -1122,8 +1122,13 @@ elseif ($module == 'tutup_kasir' AND $act == 'input') {
 //fixme: kurangi quantity pembelian dengan benar :
 //	(1) cari barang di tabel detail_beli, yang stoknya masih ada, lalu
 //	(2) catat quantity nya, lalu
+      /*
+        $sql = "SELECT * FROM detail_beli
+        WHERE isSold='N' AND barcode='$simpan[barcode]' ORDER BY idDetailBeli ASC";
+       */
+      // ambil yang detail_beli yang terakhir. (Abu Muhammad)
       $sql = "SELECT * FROM detail_beli
-		WHERE isSold='N' AND barcode='$simpan[barcode]' ORDER BY idDetailBeli ASC";
+		WHERE barcode='$simpan[barcode]' ORDER BY idDetailBeli ASC LIMIT 1";
       $hasil = mysql_query($sql);
       $x = mysql_fetch_array($hasil);
 
@@ -1147,7 +1152,7 @@ elseif ($module == 'tutup_kasir' AND $act == 'input') {
                         jumBarang,hargaJual,username, hargaBeli)
                     VALUES($idTransaksiReturJual, '$tgl', '$simpan[idBarang]', '$simpan[barcode]',
                     '$simpan[jumBarang]',$simpan[hargaJual],'$_SESSION[uname]', $simpan[hargaBeli])";
-      echo $sql;
+      // echo $sql;
       mysql_query($sql) or die(mysql_error());
    }
 
@@ -1486,7 +1491,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                   <td><?php echo $barang['barcode']; ?></td>
                   <td><?php echo $barang['namaBarang']; ?></td>
                   <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                  ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                   ?>><?php echo $barang['idSatuanBarang']; ?></td>
                </tr>
                <?php
                $i++;
