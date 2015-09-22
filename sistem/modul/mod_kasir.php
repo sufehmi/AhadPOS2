@@ -221,8 +221,14 @@ switch ($_GET[act]) { //--------------------------------------------------------
             $totalProfit = $x[tot_profit];
         };
 
-        //fixme: hitung total Retur
+        // hitung total Retur
         $totalRetur = 0;
+        $sql = "SELECT sum(nominal) AS tot_retur FROM transaksireturjual 
+			WHERE idKasir=$_POST[idKasir] AND tglTransaksi BETWEEN '$tglBukaKasir' AND '$tglTutupKasir'";
+        $hasil = mysql_query($sql);
+        if ($x = mysql_fetch_array($hasil)) {
+            $totalRetur = $x[tot_retur];
+        }
 
         //fixme: hitung total transaksi petty cash
         $totalTransaksiKas = 0;

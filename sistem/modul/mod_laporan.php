@@ -241,16 +241,70 @@ switch ($_GET[act]) { //--------------------------------------------------------
          $total_profit = 0;
          $total_profit = $total_profit + $r[profit];
 
-         echo "</table>
+         echo "</table>";
 
-			<h2>Total Transaksi: ".number_format($total_transaksi, 0, ',', '.')."</h2>
-			<h2>Total Profit: ".number_format($total_profit, 0, ',', '.')."</h2>
+         if ($_GET[idKasir] == 'SEMUA') {
+            $sql = "SELECT t.id, t.tglTransaksi, t.nominal
+				FROM transaksireturjual AS t
+				WHERE t.tglTransaksi BETWEEN '$dariTanggal' AND '$sampaiTanggal'
+ 					ORDER BY t.tglTransaksi ASC";
+         } else {
+            $sql = "SELECT t.id, t.tglTransaksi, t.nominal
+				FROM transaksireturjual AS t
+				WHERE t.idKasir = {$_GET['idKasir']}
+					AND t.tglTransaksi BETWEEN '$dariTanggal' AND '$sampaiTanggal' ORDER BY t.tglTransaksi ASC";
+         }
+         $tampil = mysql_query($sql);
+         ?>
+         <h2>Retur Penjualan</h2>
+         <table class="tabel">
+            <tr>
+               <th>No.Struk</th>
+               <th>Waktu</th>
+               <th>Total</th>
+               <th>Aksi</th>
+            </tr>
+            <?php
+            $totalReturJual = 0;
+            while ($r = mysql_fetch_array($tampil, MYSQL_ASSOC)) {
+               ?>
+               <tr>
+                  <td class="right"><?php echo $r['id']; ?></td>
+                  <td class="center"><?php echo date("H:i:s", strtotime($r['tglTransaksi'])); ?></td>
+                  <td class="right"><?php echo number_format($r['nominal'], 0, ',', '.'); ?></td>
+                  <td class="center"><a href='?module=laporan&act=aksi&action=lihatreturjual&id=<?php echo $r['id']; ?>'>Lihat</a></td>
+               </tr>
+               <?php
+               $totalReturJual+=$r['nominal'];
+            }
 
-                	<p>&nbsp;</p>
-	                <a href=javascript:history.go(-1)><< Kembali</a>
+            // hitung profit retur jual (minus)
+            if ($_GET[idKasir] == 'SEMUA') {
+               $sql = "SELECT SUM((d.hargaJual - d.hargaBeli) * jumBarang) AS profit
+				FROM transaksireturjual AS t, detail_retur_barang AS d
+				WHERE t.tglTransaksi BETWEEN '$dariTanggal' AND '$sampaiTanggal' AND t.id=d.idTransaksiRetur
+ 					ORDER BY t.id ASC";
+            } else {
+               $sql = "SELECT SUM((d.hargaJual - d.hargaBeli) * jumBarang) AS profit
+				FROM transaksireturjual AS t, detail_retur_barang AS d
+				WHERE t.idKasir = $_GET[idKasir] AND t.id=d.idTransaksiRetur
+				AND t.tglTransaksi BETWEEN '$dariTanggal' AND '$sampaiTanggal' ORDER BY t.id ASC";
+            }
+            $tampil = mysql_query($sql);
+            $r = mysql_fetch_array($tampil);
+            $total_profit_retur = $r['profit'];
+            ?>
+         </table>
 
-		";
+         <h2>Total Transaksi: <?php echo number_format($total_transaksi, 0, ',', '.'); ?></h2>
+         <h2>Total Profit: <?php echo number_format($total_profit, 0, ',', '.'); ?></h2>
+         <h2>Total Retur Jual: <span  style="color:red">(<?php echo number_format($totalReturJual, 0, ',', '.'); ?>)</span></h2>
+         <h2>Total Retur Profit: <span  style="color:red">(<?php echo number_format($total_profit_retur, 0, ',', '.'); ?>)</span></h2>
 
+         <p>&nbsp;</p>
+         <a href=javascript:history.go(-1)><< Kembali</a>
+
+         <?php
          break;
 
       case 'diskon1':
@@ -704,9 +758,66 @@ switch ($_GET[act]) { //--------------------------------------------------------
             <a href=javascript:history.go(-1)><< Kembali</a>
             <?php
          }
+         if ($_GET[action] == 'lihatreturjual') { // ---------------------------------------------------------------------------------
+            if ($_GET[kasir] == 'SEMUA') {
+               $namaKasir = 'SEMUA';
+            } else {
+               $namaKasir = $_GET[kasir];
+            }
 
+            echo "
+						<br/>
+						<h2>Detail Retur Penjualan</h2>
+
+						<h3>No.Struk: $_GET[id]</h3>";
+            ?>
+            <table class="tabel">
+               <tr>
+                  <th>Barcode</th>
+                  <th>Nama Barang</th>
+                  <th>Harga Jual</th>
+                  <th>Harga Beli</th>
+                  <th>Jumlah</th>
+                  <th>Total</th>
+               </tr>
+               <?php
+               $sql = " SELECT detail.barcode, barang.namaBarang, detail.hargaBeli, detail.hargaJual, detail.jumBarang 
+                        FROM detail_retur_barang detail
+                        JOIN barang on detail.barcode = barang.barcode
+                        where idTransaksiRetur =  {$_GET['id']}
+                        order by detail.uid";
+               $tampil = mysql_query($sql) or die('Gagal ambil detail retur penjualan, error:'.mysql_error());
+
+               $no = 1;
+               $total_transaksi = 0;
+               $total_profit = 0;
+               while ($r = mysql_fetch_array($tampil)) {
+                  ?>
+                  <tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
+                     <td><?php echo $r['barcode']; ?></td>
+                     <td><?php echo $r['namaBarang']; ?>	</td>
+                     <td class="right"><?php echo number_format($r['hargaJual'], 0, ',', '.'); ?></td>
+                     <td class="right"><?php echo number_format($r['hargaBeli'], 0, ',', '.'); ?></td>
+                     <td class="right"><?php echo number_format($r['jumBarang'], 0, ',', '.'); ?></td>
+                     <td class="right"><?php echo number_format(($r['hargaJual'] * $r['jumBarang']), 0, ',', '.'); ?></td>
+
+                  </tr>
+                  <?php
+                  $total_transaksi = $total_transaksi + ($r['hargaJual'] * $r['jumBarang']);
+                  $total_profit = $total_profit + (($r['hargaJual'] - $r['hargaBeli']) * $r['jumBarang']);
+                  $no++;
+               }
+               ?>
+            </table>
+
+            <h3>Total Retur Jual : <?php echo number_format($total_transaksi, 0, ',', '.'); ?></h3>
+            <h3>Total Retur Profit : <?php echo number_format($total_profit, 0, ',', '.'); ?></h3>
+
+            <p>&nbsp;</p>
+            <a href=javascript:history.go(-1)><< Kembali</a>
+            <?php
+         }
          break;
-
 
       case 'total1': { // ---------------------------------------------------------------------------------
             echo "
