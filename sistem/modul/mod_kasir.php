@@ -223,7 +223,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
         // hitung total Retur
         $totalRetur = 0;
-        $sql = "SELECT sum(nominal) AS tot_retur FROM transaksireturjual 
+        $sql = "SELECT ifnull(sum(nominal),0) AS tot_retur FROM transaksireturjual 
 			WHERE idKasir=$_POST[idKasir] AND tglTransaksi BETWEEN '$tglBukaKasir' AND '$tglTutupKasir'";
         $hasil = mysql_query($sql);
         if ($x = mysql_fetch_array($hasil)) {
