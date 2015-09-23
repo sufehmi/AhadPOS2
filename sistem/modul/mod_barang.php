@@ -29,7 +29,7 @@ check_user_access(basename($_SERVER['SCRIPT_NAME']));
 ?>
 
 <SCRIPT TYPE="text/javascript">
-   <!--
+  
 function popupform(myform, windowname)
    {
       if (!window.focus)
@@ -38,7 +38,7 @@ function popupform(myform, windowname)
       myform.target = windowname;
       return true;
    }
-//-->
+
 </SCRIPT>
 
 <?php // JqueryUI untuk autocomplete cari barang pada harga banded ?>
@@ -131,7 +131,7 @@ switch ($_GET['act']) {
       ?>
 
       <form class="inline" method=POST action='modul/js_input_retur_barang.php?act=caricustomer' onSubmit="popupform(this, 'INPUT_RETUR_BARANG')">
-         <input type=submit accesskey='r' value='(r) Input Retur'>
+         <input type=submit accesskey='r' value='(r) Input Retur Jual'>
       </form>
 
 
