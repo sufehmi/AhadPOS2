@@ -55,23 +55,36 @@ elseif ($module == 'user' AND $act == 'input') {
 }//end input user
 // Update user
 elseif ($module == 'user' AND $act == 'update') {
-// Apabila password tidak diubah
-   if (empty($_POST[pass])) {
-      mysql_query("UPDATE user SET namaUser       = '$_POST[namaUser]',
-                                 idLevelUser    = '$_POST[levelUser]',
-                                 uname          = '$_POST[uname]'
-                           WHERE idUser         = '$_POST[idUser]'");
-   }
-// Apabila password diubah
-   else {
-      $pass = md5($_POST[pass]);
-      mysql_query("UPDATE user SET namaUser       = '$_POST[namaUser]',
-                                 idLevelUser    = '$_POST[levelUser]',
-                                 uname          = '$_POST[uname]',
-                                 pass           = '$pass'
-                           WHERE idUser         = '$_POST[idUser]'");
+   $attributes = array(
+       'namaUser' => $_POST['namaUser'],
+       'uname' => $_POST['uname']
+   );
+
+   /* update level bisa jika level user <= 2 (admin dan lebih tinggi)
+    * by Abu Muhammad */
+
+   $query = mysql_query("SELECT * FROM user WHERE idUser='$_SESSION[iduser]'");
+   $data = mysql_fetch_array($query);
+   if ($data['idLevelUser'] <= 2) {
+      $attributes['idLevelUser'] = $_POST['levelUser'];
    }
 
+   /* Apabila password diubah */
+   if (!empty($_POST['pass'])) {
+      $pass = md5($_POST['pass']);
+      $attributes['pass'] = $pass;
+   }
+
+   $sql = "UPDATE USER SET ";
+   $last = array_pop(array_keys($attributes));
+   foreach ($attributes as $key => $value) {
+      $sql .= "{$key} = '{$value}'";
+      if ($key != $last) {
+         $sql .= ',';
+      }
+   }
+   $sql .= " WHERE idUser = '{$_POST['idUser']}'";
+   mysql_query($sql);
    if ($_GET[home]) {
       header('location:media.php?module=home');
    } else {
@@ -1491,7 +1504,7 @@ elseif ($module == 'system' && $act == 'maintenance-barang') {
                   <td><?php echo $barang['barcode']; ?></td>
                   <td><?php echo $barang['namaBarang']; ?></td>
                   <td <?php echo $barang['idKategoriBarang'] == 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
-                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                   ?>><?php echo $barang['idSatuanBarang']; ?></td>
+                  <td <?php //echo $barang['idSatuanBarang'] == 0 ? 'class="error"' : '';                            ?>><?php echo $barang['idSatuanBarang']; ?></td>
                </tr>
                <?php
                $i++;
