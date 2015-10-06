@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 14;
+$revision = 15;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -51,7 +51,7 @@ if (mysql_num_rows($hasil) < 1) {
    $dbmajor = $dbversion[0];
    $dbminor = $dbversion[1];
    $dbrevision = $dbversion[2];
-};
+}
 
 
 // if up to date, don't do anything at all
@@ -396,6 +396,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
    if ($dbrevision < 14) {
       echo "Upgrading database to version 2.0.14 <br />";
       upgrade_213_to_214();
+   }
+   if ($dbrevision < 15) {
+      echo "Upgrading database to version 2.0.15 <br />";
+      upgrade_214_to_215();
    }
 }
 
@@ -1130,6 +1134,36 @@ function upgrade_213_to_214() {
    } else {
 
       $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 14))."', '')";
+   }
+   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+}
+
+function upgrade_214_to_215() {
+// Setting (ganti password) dibolehkan untuk kasir
+   $sql = "UPDATE menu SET level_user_id=4 WHERE nama = 'Settings';";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+
+// Menambahkan Menu Kasir: Kasir Aktif
+   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('List kasir yang aktif', 'media.php?module=kasir', '', 4, 'Kasir Aktif', '', 'Y', 3, 5, 0, '')";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+
+// Default menu Kasir diubah menjadi penjualan
+   $sql = "UPDATE menu SET link = 'media.php?module=penjualan_barang' WHERE nama='Kasir';";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+
+// update version number ------------------------------------------------------
+   $sql = "SELECT * FROM config WHERE `option` = 'version'";
+   $hasil = mysql_query($sql);
+
+   if (mysql_num_rows($hasil) > 0) {
+      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 15))."' WHERE `option` = 'version'";
+   } else {
+
+      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 15))."', '')";
    }
    $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
