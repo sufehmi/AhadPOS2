@@ -1274,11 +1274,67 @@ function cekBarangTempRetur($barcode) {
    return $adaJual;
 }
 
-function check_user_access($module_name) {
+//function check_user_access($module_name) {
+//
+//   $userid = (int) $_SESSION['iduser'];
+//   //var_dump($_SESSION);
+//   ahp_user_can_access_module($module_name, $userid);
+//}
 
-   $userid = (int) $_SESSION['iduser'];
-   //var_dump($_SESSION);
-   ahp_user_can_access_module($module_name, $userid);
+/* Fungsi di atas diganti dengan ini, karena perubahan-perubahan yang terjadi
+ * Abu Muhammad */
+function check_user_access($module_name = null) {
+   // print_r($_SESSION);
+   // echo '<br />';
+   $queryUser = mysql_query("SELECT * FROM user WHERE idUser = {$_SESSION['iduser']}");
+   $user = mysql_fetch_array($queryUser, MYSQL_ASSOC);
+   $currUserLevel = $user['idLevelUser'];
+   // echo 'curUsrLev:'.$currUserLevel.'<br />';
+
+   parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY));
+   $currentScriptName = basename($_SERVER['SCRIPT_NAME']).' ';
+   $currentModule = $module;
+   $currentAct = $act;
+
+   $sql = "SELECT link, level_user_id FROM menu";
+   $menus = mysql_query($sql);
+   $dataMatch = false;
+   $userOK = false;
+   $actMatch = false;
+   $actUserOK = false;
+   //echo 'curr: S:'.$currentScriptName.' - M:'.$currentModule.' - A:'.$currentAct.'<br />';
+   while ($menu = mysql_fetch_array($menus, MYSQL_ASSOC)) {
+      $module = '';
+      $act = '';
+      parse_str(parse_url($menu['link'], PHP_URL_QUERY));
+      $dataScriptName = basename(parse_url($menu['link'], PHP_URL_PATH));
+      $dataModule = $module;
+      $dataAct = $act;
+      //echo 'data: S:'.$dataScriptName.' - M:'.$dataModule.' - A:'.$dataAct.'<br />';
+      if (trim($currentScriptName) == trim($dataScriptName) && trim($currentModule) == trim($dataModule)) {
+         $dataMatch = true;
+         //echo 'MATCH!!<br />';
+         if ($currUserLevel <= $menu['level_user_id']) {
+            $userOK = true;
+            // echo 'User OK <br /><br />';
+         }
+         /* Cek jika act nya sama, cek lagi untuk user level akses nya */
+         if (trim($currentAct) === trim($dataAct)) {
+            $actMatch = true;
+            //echo 'act Match <br />';
+            if ($currUserLevel <= $menu['level_user_id']) {
+               $actUserOK = true;
+               //echo 'Act User OK <br /><br />';
+            }
+         }
+      }
+   }
+   if ($actMatch && !$actUserOK) {
+      die('Act Access forbidden, please <a href="../index.php"><b>LOGIN</b></a>');
+   }
+   if (!$userOK) {
+      die('Module Access forbidden, please <a href="../index.php"><b>LOGIN</b></a>');
+   }
 }
 
 // credit : Insan Fajar
