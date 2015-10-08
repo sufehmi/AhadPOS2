@@ -1289,7 +1289,7 @@ function check_user_access($module_name = null) {
    $queryUser = mysql_query("SELECT * FROM user WHERE idUser = {$_SESSION['iduser']}");
    $user = mysql_fetch_array($queryUser, MYSQL_ASSOC);
    $currUserLevel = $user['idLevelUser'];
-   // echo 'curUsrLev:'.$currUserLevel.'<br />';
+    echo 'curUsrLev:'.$currUserLevel.'<br />';
 
    parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY));
    $currentScriptName = basename($_SERVER['SCRIPT_NAME']).' ';
@@ -1302,7 +1302,7 @@ function check_user_access($module_name = null) {
    $userOK = false;
    $actMatch = false;
    $actUserOK = false;
-   //echo 'curr: S:'.$currentScriptName.' - M:'.$currentModule.' - A:'.$currentAct.'<br />';
+   echo 'curr: S:'.$currentScriptName.' - M:'.$currentModule.' - A:'.$currentAct.'<br />';
    while ($menu = mysql_fetch_array($menus, MYSQL_ASSOC)) {
       $module = '';
       $act = '';
@@ -1310,13 +1310,13 @@ function check_user_access($module_name = null) {
       $dataScriptName = basename(parse_url($menu['link'], PHP_URL_PATH));
       $dataModule = $module;
       $dataAct = $act;
-      //echo 'data: S:'.$dataScriptName.' - M:'.$dataModule.' - A:'.$dataAct.'<br />';
+      echo 'data: S:'.$dataScriptName.' - M:'.$dataModule.' - A:'.$dataAct.'<br />';
       if (trim($currentScriptName) == trim($dataScriptName) && trim($currentModule) == trim($dataModule)) {
          $dataMatch = true;
-         //echo 'MATCH!!<br />';
+         echo 'MATCH!!<br />';
          if ($currUserLevel <= $menu['level_user_id']) {
             $userOK = true;
-            // echo 'User OK <br /><br />';
+             echo 'User OK <br /><br />';
          }
          /* Cek jika act nya sama, cek lagi untuk user level akses nya */
          if (trim($currentAct) === trim($dataAct)) {
@@ -1324,7 +1324,7 @@ function check_user_access($module_name = null) {
             //echo 'act Match <br />';
             if ($currUserLevel <= $menu['level_user_id']) {
                $actUserOK = true;
-               //echo 'Act User OK <br /><br />';
+               echo 'Act User OK <br /><br />';
             }
          }
       }
