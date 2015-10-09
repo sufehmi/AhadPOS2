@@ -1181,6 +1181,29 @@ function upgrade_215_to_216() {
             ('Kartu Stok', 'media.php?module=barang&act=kartustok', '', 2, 'Kartu Stok', '', 'Y', 3, 15, 0, '')";
    $hasil = exec_query($sql);
    echo mysql_error();
+   
+   /* Ganti link dan label Retur Pembelian, menjadi Retur Pembelian per Nota */
+   $sql = "UPDATE menu 
+            SET link = 'media.php?module=pembelian_barang&act=returpembelianpernota',
+            label='Retur Pembelian per Nota'  
+            WHERE nama='Retur Pembelian'";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+   
+   /* Geser urutan untuk menu pembelian */
+   $sql = "update menu set urutan=urutan+1 where parent_id=3 and urutan >=3";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+   
+   /* Tambah sub menu Retur beli per barcode di menu Pembelian */
+   /* Tambah sub menu PO by stok di menu Laporan */
+   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			   ('Retur Beli per Barcode', 'media.php?module=pembelian_barang&act=returpembelianperbarang', '', 3, 'Retur Pembelian per barang', '', 'Y', 3, 3, 0, ''),
+			   ('PO by jumlah barang (stok)', 'media.php?module=laporan&act=po', '', 5, 'Purchase Order', '', 'Y', 3, 9, 0, '')";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+   
+     
 
 // update version number ------------------------------------------------------
    $sql = "SELECT * FROM config WHERE `option` = 'version'";
