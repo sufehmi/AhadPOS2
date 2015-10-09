@@ -52,8 +52,14 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		</td>
 
 		<td>
-			<form method=POST action='?module=laporan&act=pembelian1'>
-			<input type=submit value='(b) Laporan Pembelian' accesskey='b'>
+			<form method=POST action='?module=pembelian_barang&act=laporanpembeliantanggal'>
+			<input type=submit value='(b) Laporan Pembelian per tanggal' accesskey='b'>
+			</form>
+		</td>
+
+		<td>
+			<form method=POST action='?module=pembelian_barang&act=laporanpembelian'>
+			<input type=submit value='(c) Laporan Pembelian per supplier' accesskey='c'>
 			</form>
 		</td>
 
