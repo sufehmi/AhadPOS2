@@ -1,6 +1,6 @@
 <?php
 include "../../config/config.php";
-check_user_access();
+// check_user_access();
 
 switch ($_GET[act]) {
     default:
