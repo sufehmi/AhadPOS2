@@ -29,8 +29,8 @@ check_user_access(basename($_SERVER['SCRIPT_NAME']));
 ?>
 
 <SCRIPT TYPE="text/javascript">
-  
-function popupform(myform, windowname)
+
+   function popupform(myform, windowname)
    {
       if (!window.focus)
          return true;
@@ -83,10 +83,13 @@ switch ($_GET['act']) {
 //	</div>
       ?>
 
-      <form class="inline" method=POST action='?module=barang&act=cetakperbarcode'>
-         <input type=submit value='Cetak Label / barcode / perubahan harga jual' >
-      </form>
-
+      <?php
+      /*
+        <form class="inline" method=POST action='?module=barang&act=cetakperbarcode'>
+        <input type=submit value='Cetak Label / barcode / perubahan harga jual' >
+        </form>
+       */
+      ?>
       <?php
 //	<div style=\"float:left\">
 //          <form method=POST action='?module=barang&act=cetakbarang1'>
@@ -134,14 +137,17 @@ switch ($_GET['act']) {
          <input type=submit accesskey='r' value='(r) Input Retur Jual'>
       </form>
 
+      <?php
+      /*
+        <form class="inline"  method=POST action='?module=barang&act=hargajualsync'>
+        <input type=submit value='Sinkronisasi Harga Jual' >
+        </form>
 
-      <form class="inline"  method=POST action='?module=barang&act=hargajualsync'>
-         <input type=submit value='Sinkronisasi Harga Jual' >
-      </form>
-
-      <form class="inline"  method=POST action='?module=barang&act=kartustok'>
-         <input type=submit value='Kartu Stok' >
-      </form>
+        <form class="inline"  method=POST action='?module=barang&act=kartustok'>
+        <input type=submit value='Kartu Stok' >
+        </form>
+       */
+      ?>
       <?php
 //	<div style=\"float:left\">
 //          <form method=POST action='?module=barang&act=transfer1'>
@@ -234,7 +240,7 @@ switch ($_GET['act']) {
                   <td class="right"><?php echo $r['hargaBanded']; ?></td>
                   <td class="right"><?php echo $r['qtyBanded']; ?></td>
                   <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                  ?>
+                  <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                    ?>
                   </td>
                </tr>
                <?php

@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 15;
+$revision = 16;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -400,6 +400,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
    if ($dbrevision < 15) {
       echo "Upgrading database to version 2.0.15 <br />";
       upgrade_214_to_215();
+   }
+   if ($dbrevision < 16) {
+      echo "Upgrading database to version 2.0.15 <br />";
+      upgrade_215_to_216();
    }
 }
 
@@ -1167,6 +1171,53 @@ function upgrade_214_to_215() {
    }
    $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
+
+function upgrade_215_to_216() {
+
+   // Menambahkan Sub Menu Barang
+   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			   ('Cetak label per barcode / update HJ', 'media.php?module=barang&act=cetakperbarcode', '', 2, 'Cetak Label per Barcode/Update HJ', '', 'Y', 3, 13, 0, ''),
+            ('Sinkronisasi harga jual dari toko lain', 'module=barang&act=hargajualsync', '', 2, 'Sync HJ', '', 'N', 2, 14, 0, ''),
+            ('Kartu Stok', 'media.php?module=barang&act=kartustok', '', 2, 'Kartu Stok', '', 'Y', 3, 15, 0, '')";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+   
+   /* Ganti link dan label Retur Pembelian, menjadi Retur Pembelian per Nota */
+   $sql = "UPDATE menu 
+            SET link = 'media.php?module=pembelian_barang&act=returpembelianpernota',
+            label='Retur Pembelian per Nota'  
+            WHERE nama='Retur Pembelian'";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+   
+   /* Geser urutan untuk menu pembelian */
+   $sql = "update menu set urutan=urutan+1 where parent_id=3 and urutan >=3";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+   
+   /* Tambah sub menu Retur beli per barcode di menu Pembelian */
+   /* Tambah sub menu PO by stok di menu Laporan */
+   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			   ('Retur Beli per Barcode', 'media.php?module=pembelian_barang&act=returpembelianperbarang', '', 3, 'Retur Pembelian per barang', '', 'Y', 3, 3, 0, ''),
+			   ('PO by jumlah barang (stok)', 'media.php?module=laporan&act=po', '', 5, 'Purchase Order', '', 'Y', 3, 9, 0, '')";
+   $hasil = exec_query($sql);
+   echo mysql_error();
+   
+     
+
+// update version number ------------------------------------------------------
+   $sql = "SELECT * FROM config WHERE `option` = 'version'";
+   $hasil = mysql_query($sql);
+
+   if (mysql_num_rows($hasil) > 0) {
+      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 16))."' WHERE `option` = 'version'";
+   } else {
+
+      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 16))."', '')";
+   }
+   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+}
+
 
 // =================================== PATCH VERSI 3.x.x ==========================================
 function check_minor_major3($dbminor, $minor, $dbrevision, $revision) {
