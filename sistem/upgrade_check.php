@@ -402,7 +402,7 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
       upgrade_214_to_215();
    }
    if ($dbrevision < 16) {
-      echo "Upgrading database to version 2.0.15 <br />";
+      echo "Upgrading database to version 2.0.16 <br />";
       upgrade_215_to_216();
    }
 }
