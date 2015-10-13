@@ -1304,7 +1304,7 @@ function check_user_access($module_name = null) {
    $moduleUserOK = false;
    $actMatch = false;
    $actUserOK = false;
-   echo 'curr: S:'.$currentScriptName.' - M:'.$currentModule.' - A:'.$currentAct.'<br />';
+   //echo 'curr: S:'.$currentScriptName.' - M:'.$currentModule.' - A:'.$currentAct.'<br />';
    while ($menu = mysql_fetch_array($menus, MYSQL_ASSOC)) {
       $module = '';
       $act = '';
@@ -1312,20 +1312,20 @@ function check_user_access($module_name = null) {
       $dataScriptName = basename(parse_url($menu['link'], PHP_URL_PATH));
       $dataModule = $module;
       $dataAct = $act;
-      echo 'data: S:'.$dataScriptName.' - M:'.$dataModule.' - A:'.$dataAct.'<br />';
+      //echo 'data: S:'.$dataScriptName.' - M:'.$dataModule.' - A:'.$dataAct.'<br />';
       if (trim($currentScriptName) == trim($dataScriptName)) {
          $scriptMatch = true;
-         echo 'Script MATCH!!<br />';
+         //echo 'Script MATCH!!<br />';
          if ($currUserLevel <= $menu['level_user_id']) {
             $scriptUserOK = true;
-            echo 'Script User OK <br /><br />';
+            //echo 'Script User OK <br /><br />';
          }
          if (trim($currentModule) == trim($dataModule)) {
             $moduleMatch = true;
-            echo 'Module MATCH!!<br />';
+            //echo 'Module MATCH!!<br />';
             if ($currUserLevel <= $menu['level_user_id']) {
                $moduleUserOK = true;
-               echo 'Module User OK <br /><br />';
+               //echo 'Module User OK <br /><br />';
             }
             /* Cek jika act nya sama, cek lagi untuk user level akses nya */
             if (trim($currentAct) === trim($dataAct)) {
@@ -1333,7 +1333,8 @@ function check_user_access($module_name = null) {
                //echo 'act Match <br />';
                if ($currUserLevel <= $menu['level_user_id']) {
                   $actUserOK = true;
-                  echo 'Act User OK <br /><br />';
+                  //echo 'Act User OK <br /><br />';
+                  break;
                }
             }
          }
