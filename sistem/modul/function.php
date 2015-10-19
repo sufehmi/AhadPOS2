@@ -1298,8 +1298,10 @@ function check_user_access($module_name = null) {
 
    $sql = "SELECT link, level_user_id FROM menu";
    $menus = mysql_query($sql);
-   $dataMatch = false;
-   $userOK = false;
+   $scriptMatch = false;
+   $scriptUserOK = false;
+   $moduleMatch = false;
+   $moduleUserOK = false;
    $actMatch = false;
    $actUserOK = false;
    //echo 'curr: S:'.$currentScriptName.' - M:'.$currentModule.' - A:'.$currentAct.'<br />';
@@ -1311,20 +1313,29 @@ function check_user_access($module_name = null) {
       $dataModule = $module;
       $dataAct = $act;
       //echo 'data: S:'.$dataScriptName.' - M:'.$dataModule.' - A:'.$dataAct.'<br />';
-      if (trim($currentScriptName) == trim($dataScriptName) && trim($currentModule) == trim($dataModule)) {
-         $dataMatch = true;
-         //echo 'MATCH!!<br />';
+      if (trim($currentScriptName) == trim($dataScriptName)) {
+         $scriptMatch = true;
+         //echo 'Script MATCH!!<br />';
          if ($currUserLevel <= $menu['level_user_id']) {
-            $userOK = true;
-            // echo 'User OK <br /><br />';
+            $scriptUserOK = true;
+            //echo 'Script User OK <br /><br />';
          }
-         /* Cek jika act nya sama, cek lagi untuk user level akses nya */
-         if (trim($currentAct) === trim($dataAct)) {
-            $actMatch = true;
-            //echo 'act Match <br />';
+         if (trim($currentModule) == trim($dataModule)) {
+            $moduleMatch = true;
+            //echo 'Module MATCH!!<br />';
             if ($currUserLevel <= $menu['level_user_id']) {
-               $actUserOK = true;
-               //echo 'Act User OK <br /><br />';
+               $moduleUserOK = true;
+               //echo 'Module User OK <br /><br />';
+            }
+            /* Cek jika act nya sama, cek lagi untuk user level akses nya */
+            if (trim($currentAct) === trim($dataAct)) {
+               $actMatch = true;
+               //echo 'act Match <br />';
+               if ($currUserLevel <= $menu['level_user_id']) {
+                  $actUserOK = true;
+                  //echo 'Act User OK <br /><br />';
+                  break;
+               }
             }
          }
       }
@@ -1332,9 +1343,13 @@ function check_user_access($module_name = null) {
    if ($actMatch && !$actUserOK) {
       die('Act Access forbidden, please <a href="../index.php"><b>LOGIN</b></a>');
    }
-   if (!$userOK) {
+   if ($moduleMatch && !$moduleUserOK) {
       die('Module Access forbidden, please <a href="../index.php"><b>LOGIN</b></a>');
    }
+   if ($scriptMatch && !$scriptUserOK) {
+      die('Script Access forbidden, please <a href="../index.php"><b>LOGIN</b></a>');
+   }
+   /* Jika tidak terdaftar dalam menu, berarti dianggap public (semua bisa akses) */
 }
 
 // credit : Insan Fajar

@@ -15,7 +15,8 @@
 
 
 include "../../config/config.php";
-//check_user_access(basename($_SERVER['SCRIPT_NAME']));
+include_once 'function.php';
+check_user_access();
 
 echo "
 	<link href='../../css/style.css' rel='stylesheet' type='text/css' />
