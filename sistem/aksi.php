@@ -75,7 +75,7 @@ elseif ($module == 'user' AND $act == 'update') {
       $attributes['pass'] = $pass;
    }
 
-   $sql = "UPDATE USER SET ";
+   $sql = "UPDATE user SET ";
    $last = array_pop(array_keys($attributes));
    foreach ($attributes as $key => $value) {
       $sql .= "{$key} = '{$value}'";
