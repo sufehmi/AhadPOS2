@@ -1316,14 +1316,14 @@ function check_user_access($module_name = null) {
       if (trim($currentScriptName) == trim($dataScriptName)) {
          $scriptMatch = true;
          //echo 'Script MATCH!!<br />';
-         if ($currUserLevel <= $menu['level_user_id']) {
+         if ($currUserLevel <= $menu['level_user_id'] || $menu['level_user_id'] == 1) {
             $scriptUserOK = true;
             //echo 'Script User OK <br /><br />';
          }
          if (trim($currentModule) == trim($dataModule)) {
             $moduleMatch = true;
             //echo 'Module MATCH!!<br />';
-            if ($currUserLevel <= $menu['level_user_id']) {
+            if ($currUserLevel <= $menu['level_user_id'] || $menu['level_user_id'] == 1) {
                $moduleUserOK = true;
                //echo 'Module User OK <br /><br />';
             }
@@ -1331,7 +1331,7 @@ function check_user_access($module_name = null) {
             if (trim($currentAct) === trim($dataAct)) {
                $actMatch = true;
                //echo 'act Match <br />';
-               if ($currUserLevel <= $menu['level_user_id']) {
+               if ($currUserLevel <= $menu['level_user_id'] || $menu['level_user_id'] == 1) {
                   $actUserOK = true;
                   //echo 'Act User OK <br /><br />';
                   break;
