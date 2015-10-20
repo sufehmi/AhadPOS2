@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 16;
+$revision = 17;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -404,6 +404,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
    if ($dbrevision < 16) {
       echo "Upgrading database to version 2.0.16 <br />";
       upgrade_215_to_216();
+   }
+   if ($dbrevision < 17) {
+      echo "Upgrading database to version 2.0.17 <br />";
+      upgrade_216_to_217();
    }
 }
 
@@ -1214,6 +1218,26 @@ function upgrade_215_to_216() {
    } else {
 
       $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 16))."', '')";
+   }
+   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+}
+
+function upgrade_216_to_217() {
+   
+   /* Ganti hak akses Laporan Penjualan ke gudang */
+   $sql = "update menu set level_user_id = 3 where nama = 'Laporan Penjualan'";
+   $hasil = exec_query($sql);
+   echo mysql_error();        
+
+// update version number ------------------------------------------------------
+   $sql = "SELECT * FROM config WHERE `option` = 'version'";
+   $hasil = mysql_query($sql);
+
+   if (mysql_num_rows($hasil) > 0) {
+      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 17))."' WHERE `option` = 'version'";
+   } else {
+
+      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 17))."', '')";
    }
    $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
