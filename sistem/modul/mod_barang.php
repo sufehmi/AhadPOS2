@@ -868,6 +868,7 @@ switch ($_GET['act']) {
       }
 
       $tampil = mysql_query("SELECT * FROM tmp_cetak_label_perbarcode");
+      $listKategori = mysql_query("select distinct tmpKategori from tmp_cetak_label_perbarcode order by tmpKategori");
       $jumlah_pilihan = mysql_num_rows($tampil);
       ?>
       <div>
@@ -900,7 +901,18 @@ switch ($_GET['act']) {
                <th>No</th>
                <th>Barcode</th>
                <th>Nama Barang</th>
-               <th>Kategori Barang</th>
+               <th>Kategori
+                   <select name="kategoriId" id="kategoriId">
+                       <option value="0">Semua</option>
+                       <?php 
+                       while ($kategori = mysql_fetch_array($listKategori)){
+                           ?>
+                       <option value="<?php echo $kategori['tmpKategori']; ?>"><?php echo $kategori['tmpKategori']; ?></option>
+                       <?php
+                       }
+                       ?>
+                   </select>
+               </th>
                <th>Satuan Barang</th>
                <th>Harga Jual</th>
                <th><a href="./aksi.php?module=labelperbarcode&act=hapussemua">Batal</a></th>
@@ -936,6 +948,11 @@ switch ($_GET['act']) {
             <input type='submit' name='printBarcode' value='Print' />
          </div>
       </form>
+         <script>
+         $("#kategoriId").change(function(){
+            console.log($(this).val()); 
+         });
+         </script>
       <?php
       break;
 
