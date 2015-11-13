@@ -866,8 +866,13 @@ switch ($_GET['act']) {
             insertTempLabel($barang['barcode']);
          }
       }
-
-      $tampil = mysql_query("SELECT * FROM tmp_cetak_label_perbarcode");
+      
+      $sqlTampil = "SELECT * FROM tmp_cetak_label_perbarcode";
+      if (isset($_GET['kategori']) && $_GET['kategori'] !='0'){
+          $sqlTampil .= " WHERE tmpKategori = '{$_GET['kategori']}'";
+      }
+      //echo $sqlTampil;
+      $tampil = mysql_query($sqlTampil);
       $listKategori = mysql_query("select distinct tmpKategori from tmp_cetak_label_perbarcode order by tmpKategori");
       $jumlah_pilihan = mysql_num_rows($tampil);
       ?>
@@ -907,7 +912,7 @@ switch ($_GET['act']) {
                        <?php 
                        while ($kategori = mysql_fetch_array($listKategori)){
                            ?>
-                       <option value="<?php echo $kategori['tmpKategori']; ?>"><?php echo $kategori['tmpKategori']; ?></option>
+                       <option value="<?php echo $kategori['tmpKategori']; ?>" <?php echo $_GET['kategori']==$kategori['tmpKategori'] ? 'selected':'';?>><?php echo $kategori['tmpKategori']; ?></option>
                        <?php
                        }
                        ?>
@@ -951,6 +956,7 @@ switch ($_GET['act']) {
          <script>
          $("#kategoriId").change(function(){
             console.log($(this).val()); 
+            window.location='media.php?module=barang&act=cetakperbarcode&kategori='+$(this).val();
          });
          </script>
       <?php
