@@ -10,8 +10,11 @@ switch ($_GET[act]) {
         break;
 
     case "printperbarcode":
-
-        $cari = mysql_query("SELECT * FROM tmp_cetak_label_perbarcode");
+        $sqlCari = "SELECT * FROM tmp_cetak_label_perbarcode";
+        if ($_POST['kategoriId']!='0'){
+            $sqlCari .= " WHERE tmpKategori = '{$_POST['kategoriId']}'";
+        }
+        $cari = mysql_query($sqlCari);
 
         if ($_POST[idTmpBarang] == '') {
             echo '<center>Data tidak ditemukan</center>';

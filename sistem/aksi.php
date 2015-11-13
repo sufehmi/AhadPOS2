@@ -1289,11 +1289,16 @@ elseif ($module == 'retur_barang' AND $act == 'batal') {
 // Hapus tmp cetak perbarcode
 elseif ($module == 'labelperbarcode' AND $act == 'hapus') {
    mysql_query("DELETE FROM tmp_cetak_label_perbarcode WHERE id = '$_GET[id]'");
-   header('location:media.php?module=barang&act=cetakperbarcode');
+   $kategori = isset($_GET['kategori']) ? '&kategori='.$_GET['kategori']:'';
+   header('location:media.php?module=barang&act=cetakperbarcode'.$kategori);
 } // end
 // Hapus semua tmp cetak perbarcode
 elseif ($module == 'labelperbarcode' AND $act == 'hapussemua') {
-   mysql_query("DELETE FROM tmp_cetak_label_perbarcode");
+   $sqlHapus = "DELETE FROM tmp_cetak_label_perbarcode";
+   if (isset($_GET['kategori'])){
+       $sqlHapus .= " WHERE tmpKategori = '{$_GET['kategori']}'";
+   }
+   mysql_query($sqlHapus);
    header('location:media.php?module=barang&act=cetakperbarcode');
 } // end
 // simpan RPO

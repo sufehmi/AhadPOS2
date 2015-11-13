@@ -868,6 +868,7 @@ switch ($_GET['act']) {
       }
       
       $sqlTampil = "SELECT * FROM tmp_cetak_label_perbarcode";
+      /* Jika ada parameter kategori, maka tampilkan kategori itu saja */
       if (isset($_GET['kategori']) && $_GET['kategori'] !='0'){
           $sqlTampil .= " WHERE tmpKategori = '{$_GET['kategori']}'";
       }
@@ -920,7 +921,7 @@ switch ($_GET['act']) {
                </th>
                <th>Satuan Barang</th>
                <th>Harga Jual</th>
-               <th><a href="./aksi.php?module=labelperbarcode&act=hapussemua">Batal</a></th>
+               <th><a href="./aksi.php?module=labelperbarcode&act=hapussemua<?php echo isset($_GET['kategori']) ? '&kategori='.$_GET['kategori']:''; ?>">Batal</a></th>
             </tr>
             <?php
             $no = 1;
@@ -933,7 +934,7 @@ switch ($_GET['act']) {
                   <td class='center'><?php echo $r['tmpKategori']; ?></td>
                   <td class='center'><?php echo $r['tmpSatuan']; ?></td>
                   <td class='right'><?php echo $r['tmpHargaJual']; ?></td>
-                  <td><a href='./aksi.php?module=labelperbarcode&act=hapus&id=<?php echo $r['id']; ?>'>Batal</a>
+                  <td><a href='./aksi.php?module=labelperbarcode&act=hapus&id=<?php echo $r['id']; ?><?php echo isset($_GET['kategori']) ? '&kategori='.$_GET['kategori']:''; ?>'>Batal</a>
                   </td></tr>
                <input type='hidden' name='idTmpBarang' value='<?php echo $r['id']; ?>' />
                <input type='hidden' name='total' value='<?php echo $jumlah_pilihan; ?>' />
