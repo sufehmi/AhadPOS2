@@ -866,8 +866,15 @@ switch ($_GET['act']) {
             insertTempLabel($barang['barcode']);
          }
       }
-
-      $tampil = mysql_query("SELECT * FROM tmp_cetak_label_perbarcode");
+      
+      $sqlTampil = "SELECT * FROM tmp_cetak_label_perbarcode";
+      /* Jika ada parameter kategori, maka tampilkan kategori itu saja */
+      if (isset($_GET['kategori']) && $_GET['kategori'] !='0'){
+          $sqlTampil .= " WHERE tmpKategori = '{$_GET['kategori']}'";
+      }
+      //echo $sqlTampil;
+      $tampil = mysql_query($sqlTampil);
+      $listKategori = mysql_query("select distinct tmpKategori from tmp_cetak_label_perbarcode order by tmpKategori");
       $jumlah_pilihan = mysql_num_rows($tampil);
       ?>
       <div>
@@ -900,10 +907,21 @@ switch ($_GET['act']) {
                <th>No</th>
                <th>Barcode</th>
                <th>Nama Barang</th>
-               <th>Kategori Barang</th>
+               <th>Kategori
+                   <select name="kategoriId" id="kategoriId">
+                       <option value="0">Semua</option>
+                       <?php 
+                       while ($kategori = mysql_fetch_array($listKategori)){
+                           ?>
+                       <option value="<?php echo $kategori['tmpKategori']; ?>" <?php echo $_GET['kategori']==$kategori['tmpKategori'] ? 'selected':'';?>><?php echo $kategori['tmpKategori']; ?></option>
+                       <?php
+                       }
+                       ?>
+                   </select>
+               </th>
                <th>Satuan Barang</th>
                <th>Harga Jual</th>
-               <th><a href="./aksi.php?module=labelperbarcode&act=hapussemua">Batal</a></th>
+               <th><a href="./aksi.php?module=labelperbarcode&act=hapussemua<?php echo isset($_GET['kategori']) ? '&kategori='.$_GET['kategori']:''; ?>">Batal</a></th>
             </tr>
             <?php
             $no = 1;
@@ -916,7 +934,7 @@ switch ($_GET['act']) {
                   <td class='center'><?php echo $r['tmpKategori']; ?></td>
                   <td class='center'><?php echo $r['tmpSatuan']; ?></td>
                   <td class='right'><?php echo $r['tmpHargaJual']; ?></td>
-                  <td><a href='./aksi.php?module=labelperbarcode&act=hapus&id=<?php echo $r['id']; ?>'>Batal</a>
+                  <td><a href='./aksi.php?module=labelperbarcode&act=hapus&id=<?php echo $r['id']; ?><?php echo isset($_GET['kategori']) ? '&kategori='.$_GET['kategori']:''; ?>'>Batal</a>
                   </td></tr>
                <input type='hidden' name='idTmpBarang' value='<?php echo $r['id']; ?>' />
                <input type='hidden' name='total' value='<?php echo $jumlah_pilihan; ?>' />
@@ -936,6 +954,12 @@ switch ($_GET['act']) {
             <input type='submit' name='printBarcode' value='Print' />
          </div>
       </form>
+         <script>
+         $("#kategoriId").change(function(){
+            console.log($(this).val()); 
+            window.location='media.php?module=barang&act=cetakperbarcode&kategori='+$(this).val();
+         });
+         </script>
       <?php
       break;
 
