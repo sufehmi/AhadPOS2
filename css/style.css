@@ -52,8 +52,6 @@ Style for ahad pos 2
   src: url('fonts/ubuntu-r.ttf');
 }
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
-/* line 11, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\0000311}}
 article,
 aside,
 details,
@@ -68,90 +66,60 @@ section,
 summary {
   display: block;
 }
-/* line 30, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\0000330}}
 audio,
 canvas,
 video {
   display: inline-block;
 }
-/* line 41, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\0000341}}
 audio:not([controls]) {
   display: none;
   height: 0;
 }
-/* line 51, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\0000351}}
 [hidden],
 template {
   display: none;
 }
-/* line 66, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\0000366}}
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
-/* line 76, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\0000376}}
 body {
   margin: 0;
 }
-/* line 88, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\0000388}}
 a {
   background: transparent;
 }
-/* line 96, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\0000396}}
 a:focus {
   outline: thin dotted;
 }
-/* line 104, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003104}}
 a:active,
 a:hover {
   outline: 0;
 }
-/* line 118, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003118}}
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
-/* line 127, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003127}}
 abbr[title] {
   border-bottom: 1px dotted;
 }
-/* line 135, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003135}}
 b,
 strong {
   font-weight: bold;
 }
-/* line 144, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003144}}
 dfn {
   font-style: italic;
 }
-/* line 152, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003152}}
 hr {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   height: 0;
 }
-/* line 162, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003162}}
 mark {
   background: #ff0;
   color: #000;
 }
-/* line 171, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003171}}
 code,
 kbd,
 pre,
@@ -159,23 +127,15 @@ samp {
   font-family: monospace, serif;
   font-size: 1em;
 }
-/* line 183, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003183}}
 pre {
   white-space: pre-wrap;
 }
-/* line 191, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003191}}
 q {
   quotes: "\201C" "\201D" "\2018" "\2019";
 }
-/* line 199, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003199}}
 small {
   font-size: 80%;
 }
-/* line 207, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003207}}
 sub,
 sup {
   font-size: 75%;
@@ -183,46 +143,30 @@ sup {
   position: relative;
   vertical-align: baseline;
 }
-/* line 215, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003215}}
 sup {
   top: -0.5em;
 }
-/* line 219, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003219}}
 sub {
   bottom: -0.25em;
 }
-/* line 231, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003231}}
 img {
   border: 0;
 }
-/* line 239, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003239}}
 svg:not(:root) {
   overflow: hidden;
 }
-/* line 251, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003251}}
 figure {
   margin: 0;
 }
-/* line 263, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003263}}
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
-/* line 274, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003274}}
 legend {
   border: 0;
   padding: 0;
 }
-/* line 285, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003285}}
 button,
 input,
 select,
@@ -231,20 +175,14 @@ textarea {
   font-size: 100%;
   margin: 0;
 }
-/* line 299, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003299}}
 button,
 input {
   line-height: normal;
 }
-/* line 311, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003311}}
 button,
 select {
   text-transform: none;
 }
-/* line 324, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003324}}
 button,
 html input[type="button"],
 input[type="reset"],
@@ -252,172 +190,118 @@ input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
 }
-/* line 336, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003336}}
 button[disabled],
 html input[disabled] {
   cursor: default;
 }
-/* line 346, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003346}}
 input[type="checkbox"],
 input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
-/* line 358, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003358}}
 input[type="search"] {
   -webkit-appearance: textfield;
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
 }
-/* line 370, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003370}}
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
-/* line 379, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003379}}
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
-/* line 390, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003390}}
 textarea {
   overflow: auto;
   vertical-align: top;
 }
-/* line 403, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/normalize.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/normalize\.less}line{font-family:\00003403}}
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 @media print {
-  /* line 8, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\000038}}
   * {
     text-shadow: none !important;
     color: #000 !important;
     background: transparent !important;
     box-shadow: none !important;
   }
-  /* line 15, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000315}}
   a,
   a:visited {
     text-decoration: underline;
   }
-  /* line 20, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000320}}
   a[href]:after {
     content: " (" attr(href) ")";
   }
-  /* line 24, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000324}}
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
-  /* line 29, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000329}}
   a[href^="javascript:"]:after,
   a[href^="#"]:after {
     content: "";
   }
-  /* line 34, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000334}}
   pre,
   blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
-  /* line 40, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000340}}
   thead {
     display: table-header-group;
   }
-  /* line 44, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000344}}
   tr,
   img {
     page-break-inside: avoid;
   }
-  /* line 49, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000349}}
   img {
     max-width: 100% !important;
   }
   @page  {
     margin: 2cm .5cm;
   }
-  /* line 57, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000357}}
   p,
   h2,
   h3 {
     orphans: 3;
     widows: 3;
   }
-  /* line 64, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000364}}
   h2,
   h3 {
     page-break-after: avoid;
   }
-  /* line 71, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000371}}
   select {
     background: #fff !important;
   }
-  /* line 76, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000376}}
   .navbar {
     display: none;
   }
-  /* line 80, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000380}}
   .table td,
   .table th {
     background-color: #fff !important;
   }
-  /* line 87, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000387}}
   .btn > .caret,
   .dropup > .btn > .caret {
     border-top-color: #000 !important;
   }
-  /* line 91, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000391}}
   .label {
     border: 1px solid #000;
   }
-  /* line 95, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000395}}
   .table {
     border-collapse: collapse !important;
   }
-  /* line 99, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/print.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/print\.less}line{font-family:\0000399}}
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #ddd !important;
   }
 }
-/* line 89, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\0000389}}
 .getar {
   -webkit-animation: tada 1s infinite;
   -moz-animation: tada 1s infinite;
   -ms-animation: tada 1s infinite;
   animation: tada 1s infinite;
 }
-/* line 93, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\0000393}}
 .tombol {
   display: inline-block;
   margin-bottom: 0;
@@ -438,22 +322,16 @@ table {
   -o-user-select: none;
   user-select: none;
 }
-/* line 106, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003106}}
 .tombol:focus {
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
-/* line 110, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003110}}
 .tombol:hover,
 .tombol:focus {
   color: #333333;
   text-decoration: none;
 }
-/* line 116, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003116}}
 .tombol:active,
 .tombol.active {
   outline: 0;
@@ -461,8 +339,6 @@ table {
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
-/* line 123, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003123}}
 .tombol.disabled,
 .tombol[disabled],
 fieldset[disabled] .tombol {
@@ -473,14 +349,10 @@ fieldset[disabled] .tombol {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 131, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003131}}
 .tombol.getar {
   background-color: red;
   color: #fff !important;
 }
-/* line 138, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003138}}
 input,
 select,
 a.tombol {
@@ -500,36 +372,26 @@ a.tombol {
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-/* line 57, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\0000357}}
 input:-moz-placeholder,
 select:-moz-placeholder,
 a.tombol:-moz-placeholder {
   color: #999999;
 }
-/* line 58, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\0000358}}
 input::-moz-placeholder,
 select::-moz-placeholder,
 a.tombol::-moz-placeholder {
   color: #999999;
 }
-/* line 59, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\0000359}}
 input:-ms-input-placeholder,
 select:-ms-input-placeholder,
 a.tombol:-ms-input-placeholder {
   color: #999999;
 }
-/* line 60, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\0000360}}
 input::-webkit-input-placeholder,
 select::-webkit-input-placeholder,
 a.tombol::-webkit-input-placeholder {
   color: #999999;
 }
-/* line 830, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\00003830}}
 input:focus,
 select:focus,
 a.tombol:focus {
@@ -538,8 +400,6 @@ a.tombol:focus {
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(168, 207, 69, 0.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(168, 207, 69, 0.6);
 }
-/* line 162, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003162}}
 input[disabled],
 select[disabled],
 a.tombol[disabled],
@@ -552,20 +412,14 @@ fieldset[disabled] a.tombol {
   cursor: not-allowed;
   background-color: #eeeeee;
 }
-/* line 170, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003170}}
 textareainput,
 textareaselect,
 textareaa.tombol {
   height: auto;
 }
-/* line 177, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003177}}
 select {
   height: 30px;
 }
-/* line 181, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003181}}
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
@@ -598,8 +452,6 @@ button {
   margin-bottom: 5px;
   height: 30px;
 }
-/* line 106, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003106}}
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus,
@@ -608,8 +460,6 @@ button:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
-/* line 110, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003110}}
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover,
@@ -621,8 +471,6 @@ button:focus {
   color: #333333;
   text-decoration: none;
 }
-/* line 116, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003116}}
 input[type="submit"]:active,
 input[type="reset"]:active,
 input[type="button"]:active,
@@ -636,8 +484,6 @@ button.active {
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
-/* line 123, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003123}}
 input[type="submit"].disabled,
 input[type="reset"].disabled,
 input[type="button"].disabled,
@@ -657,8 +503,6 @@ fieldset[disabled] button {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 131, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003131}}
 input[type="submit"].getar,
 input[type="reset"].getar,
 input[type="button"].getar,
@@ -666,8 +510,6 @@ button.getar {
   background-color: red;
   color: #fff !important;
 }
-/* line 468, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\00003468}}
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover,
@@ -692,8 +534,6 @@ button.active,
   background-color: #006d91;
   border-color: #004b63;
 }
-/* line 477, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\00003477}}
 input[type="submit"]:active,
 input[type="reset"]:active,
 input[type="button"]:active,
@@ -708,8 +548,6 @@ button.active,
 .open .dropdown-togglebutton {
   background-image: none;
 }
-/* line 485, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\00003485}}
 input[type="submit"].disabled,
 input[type="reset"].disabled,
 input[type="button"].disabled,
@@ -773,13 +611,9 @@ fieldset[disabled] button.active {
   background-color: #008cba;
   border-color: #0079a1;
 }
-/* line 195, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003195}}
 input[type="file"] {
   height: 30px;
 }
-/* line 199, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003199}}
 .input-group {
   position: relative;
   /*display: table;*/
@@ -788,8 +622,6 @@ input[type="file"] {
   display: inline-table;
   width: 50px;
 }
-/* line 205, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003205}}
 .input-group label {
   display: table-cell;
   width: 1%;
@@ -808,21 +640,15 @@ input[type="file"] {
   border-top-right-radius: 0;
   border-right: 0;
 }
-/* line 222, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003222}}
 .input-group input {
   margin-bottom: 0;
   display: table-cell;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
-/* line 229, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003229}}
 .inline {
   display: inline;
 }
-/* line 233, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003233}}
 body {
   margin: 0;
   padding: 0;
@@ -846,61 +672,41 @@ body {
          }*/
 
 }
-/* line 241, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003241}}
 body.kasir {
   display: inline;
 }
-/* line 242, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003242}}
 body.kasir form {
   display: inline;
 }
-/* line 246, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003246}}
 body.kasir #footer {
   margin-left: -20px;
   padding: 5px 20px;
   background-color: #ccc;
 }
-/* line 250, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003250}}
 body.kasir #footer a {
   color: #2c3e50;
   float: left;
 }
-/* line 273, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003273}}
 a {
   text-decoration: none;
   color: green;
 }
-/* line 278, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003278}}
 .active {
   color: white;
   background-color: #a8cf45;
   text-decoration: none;
 }
-/* line 284, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003284}}
 .right {
   text-align: right;
 }
-/* line 288, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003288}}
 .center {
   text-align: center;
 }
-/* line 292, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003292}}
 #login {
   width: 300px;
   margin: 40px auto;
   border: thin solid #7f8c8d;
 }
-/* line 296, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003296}}
 #login .header {
   background-color: #d2e28b;
   height: 93px;
@@ -908,20 +714,14 @@ a {
   text-align: center;
   border-bottom: thin solid #7f8c8d;
 }
-/* line 303, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003303}}
 #login form {
   padding: 30px 0px 10px;
 }
-/* line 305, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003305}}
 #login form input {
   display: block;
   width: 225px;
   margin: 10px auto;
 }
-/* line 310, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003310}}
 #login form #tombol-login {
   color: #ffffff;
   background-color: #6fa738;
@@ -930,8 +730,6 @@ a {
   width: 247px;
   padding: 0;
 }
-/* line 468, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\00003468}}
 #login form #tombol-login:hover,
 #login form #tombol-login:focus,
 #login form #tombol-login:active,
@@ -941,15 +739,11 @@ a {
   background-color: #5b882e;
   border-color: #2a4015;
 }
-/* line 477, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\00003477}}
 #login form #tombol-login:active,
 #login form #tombol-login.active,
 .open .dropdown-toggle#login form #tombol-login {
   background-image: none;
 }
-/* line 485, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/tb3/mixins.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/tb3\/mixins\.less}line{font-family:\00003485}}
 #login form #tombol-login.disabled,
 #login form #tombol-login[disabled],
 fieldset[disabled] #login form #tombol-login,
@@ -968,25 +762,17 @@ fieldset[disabled] #login form #tombol-login.active {
   background-color: #6fa738;
   border-color: #496e25;
 }
-/* line 320, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003320}}
 #mainmenu {
   background: #d2e28b;
   font-family: ubuntu, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-/* line 324, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003324}}
 #mainmenu ul {
   padding: 9px 20px 75px 20px;
   margin: 0px;
 }
-/* line 327, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003327}}
 #mainmenu ul li {
   display: inline;
 }
-/* line 329, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003329}}
 #mainmenu ul li a {
   text-transform: uppercase;
   color: black;
@@ -1002,23 +788,17 @@ fieldset[disabled] #login form #tombol-login.active {
   border-radius: 5px;
   width: 53px;
 }
-/* line 344, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003344}}
 #mainmenu ul li a i {
   margin-bottom: 10px;
   width: 1.28571429em;
   display: block;
   width: 100%;
 }
-/* line 350, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003350}}
 #mainmenu ul li a:hover {
   color: white;
   background-color: #a8cf45;
   text-decoration: none;
 }
-/* line 354, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003354}}
 #mainmenu ul li.active a {
   color: white;
   background-color: #a8cf45;
@@ -1027,18 +807,12 @@ fieldset[disabled] #login form #tombol-login.active {
   border-bottom-left-radius: 0px;
   padding-bottom: 14px;
 }
-/* line 359, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003359}}
 #mainmenu ul li.active ul {
   display: block;
 }
-/* line 361, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003361}}
 #mainmenu ul li.active ul li {
   display: inline;
 }
-/* line 363, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003363}}
 #mainmenu ul li.active ul li a {
   text-transform: uppercase;
   color: black;
@@ -1049,15 +823,11 @@ fieldset[disabled] #login form #tombol-login.active {
   padding: 0px;
   width: auto;
 }
-/* line 373, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003373}}
 #mainmenu ul li.active ul li.active a {
   color: white;
   background-color: #a8cf45;
   text-decoration: none;
 }
-/* line 378, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003378}}
 #mainmenu ul li ul {
   display: none;
   margin: 0px;
@@ -1070,26 +840,18 @@ fieldset[disabled] #login form #tombol-login.active {
   position: fixed;
   margin-top: 75px;
 }
-/* line 389, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003389}}
 #mainmenu ul li ul a {
   box-shadow: none;
 }
-/* line 392, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003392}}
 #mainmenu ul li ul li a i {
   display: inline;
   margin-right: 5px;
 }
-/* line 399, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003399}}
 #mainmenu img {
   float: right;
   margin-top: -75px;
   margin-right: 25px;
 }
-/* line 406, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003406}}
 .logo-kasir {
   position: absolute;
   top: 0px;
@@ -1097,118 +859,78 @@ fieldset[disabled] #login form #tombol-login.active {
   left: 0px;
   text-align: left;
 }
-/* line 415, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003415}}
 #entry-barang button {
   margin-bottom: 0px;
 }
-/* line 420, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003420}}
 .kasir-kanan {
   display: inline;
 }
-/* line 424, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003424}}
 #tot_pembelian {
   position: absolute;
   right: 20px;
   top: 0px;
   font-size: 7em;
 }
-/* line 429, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003429}}
 #tot_pembelian small {
   color: red;
   text-decoration: line-through;
   font-size: 0.5em;
 }
-/* line 435, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003435}}
 #kembalian {
   text-align: right;
   font-size: 6em;
 }
-/* line 442, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003442}}
 table {
   font-size: 12px;
 }
-/* line 444, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003444}}
 table.daftar-pembelian {
   float: left;
   width: 49%;
 }
-/* line 448, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003448}}
 table td {
   padding: 0 5px;
 }
-/* line 451, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003451}}
 table.pembayaran {
   margin: 0 auto;
 }
-/* line 453, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003453}}
 table.pembayaran td {
   padding: 3px 5px;
 }
-/* line 455, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003455}}
 table.pembayaran td input {
   text-align: right;
 }
-/* line 461, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003461}}
 table.top td {
   vertical-align: middle;
 }
-/* line 467, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003467}}
 .tabel {
   border-collapse: collapse;
   margin-bottom: 5px;
   border: 1px solid #dddddd;
   border-radius: 0;
 }
-/* line 472, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003472}}
 .tabel th {
   background-color: #e6e341;
   color: #000;
   border-right: thin solid #a8cf45;
   padding: 5px;
 }
-/* line 479, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003479}}
 .tabel tr.alt {
   background-color: #eef4d2;
 }
-/* line 482, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003482}}
 .tabel tr.merah {
   background-color: #f00;
 }
-/* line 485, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003485}}
 .tabel tr td {
   border-right: thin solid #dddddd;
   padding: 3px 5px;
 }
-/* line 488, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003488}}
 .tabel tr td.error {
   color: orange;
   font-weight: bold;
 }
-/* line 494, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003494}}
 .tabel .icon-small {
   font-size: 0.7em;
 }
-/* line 497, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003497}}
 .tabel .pilih:focus {
   /*		color: white;
             background-color: red;*/
@@ -1216,38 +938,26 @@ table.top td {
   outline: 1px solid #6fa738;
   background-color: yellow;
 }
-/* line 504, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003504}}
 .tabel.print th {
   background-color: #fff;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
-/* line 510, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003510}}
 .tabel.print tr.alt {
   background-color: #eef4d2;
 }
-/* line 513, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003513}}
 .tabel.print tr td {
   border-right: thin solid #ccc;
   padding: 3px 5px;
 }
-/* line 516, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003516}}
 .tabel.print tr td.error {
   color: orange;
   font-weight: bold;
 }
-/* line 526, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003526}}
 div.top {
   margin-top: 90px;
   margin-bottom: 10px;
 }
-/* line 530, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003530}}
 div.pembayaran {
   border: 1px solid #dddddd;
   border-radius: 0;
@@ -1278,8 +988,6 @@ div.pembayaran {
       }
    }
 }*/
-/* line 563, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003563}}
 #header {
   position: fixed;
   top: 0;
@@ -1287,24 +995,16 @@ div.pembayaran {
   z-index: 9;
   width: 100%;
 }
-/* line 571, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003571}}
 .container {
   margin-top: 120px;
   margin-bottom: 30px;
 }
-/* line 576, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003576}}
 #content {
   padding: 0 20px;
 }
-/* line 579, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003579}}
 .u {
   text-decoration: underline;
 }
-/* line 583, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003583}}
 #footer {
   text-align: right;
   font-family: ubuntu, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1316,30 +1016,20 @@ div.pembayaran {
   bottom: 0;
   width: 100%;
 }
-/* line 593, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003593}}
 #footer span {
   margin-right: 20px;
 }
-/* line 596, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003596}}
 #footer a {
   color: white;
 }
-/* line 601, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003601}}
 .ui-autocomplete {
   background-color: #fff;
   border: 1px solid #6fa738;
 }
-/* line 607, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003607}}
 .ui-menu-item.ui-state-focus {
   background-color: #eef4d2;
   margin: 0;
 }
-/* line 613, /home/abumuhammad/www/ahad/AhadPOS2/less/style.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/less\/style\.less}line{font-family:\00003613}}
 textarea {
   margin-bottom: 5px;
 }
@@ -1356,8 +1046,6 @@ textarea {
   font-weight: normal;
   font-style: normal;
 }
-/* line 4, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/core.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/core\.less}line{font-family:\000034}}
 .fa {
   display: inline-block;
   font-family: FontAwesome;
@@ -1368,53 +1056,35 @@ textarea {
   -moz-osx-font-smoothing: grayscale;
 }
 /* makes the font 33% larger relative to the icon container */
-/* line 5, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/larger.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/larger\.less}line{font-family:\000035}}
 .fa-lg {
   font-size: 1.3333333333333333em;
   line-height: 0.75em;
   vertical-align: -15%;
 }
-/* line 10, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/larger.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/larger\.less}line{font-family:\0000310}}
 .fa-2x {
   font-size: 2em;
 }
-/* line 11, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/larger.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/larger\.less}line{font-family:\0000311}}
 .fa-3x {
   font-size: 3em;
 }
-/* line 12, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/larger.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/larger\.less}line{font-family:\0000312}}
 .fa-4x {
   font-size: 4em;
 }
-/* line 13, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/larger.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/larger\.less}line{font-family:\0000313}}
 .fa-5x {
   font-size: 5em;
 }
-/* line 3, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/fixed-width.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/fixed-width\.less}line{font-family:\000033}}
 .fa-fw {
   width: 1.2857142857142858em;
   text-align: center;
 }
-/* line 4, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/list.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/list\.less}line{font-family:\000034}}
 .fa-ul {
   padding-left: 0;
   margin-left: 2.142857142857143em;
   list-style-type: none;
 }
-/* line 8, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/list.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/list\.less}line{font-family:\000038}}
 .fa-ul > li {
   position: relative;
 }
-/* line 10, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/list.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/list\.less}line{font-family:\0000310}}
 .fa-li {
   position: absolute;
   left: -2.142857142857143em;
@@ -1422,40 +1092,26 @@ textarea {
   top: 0.14285714285714285em;
   text-align: center;
 }
-/* line 16, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/list.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/list\.less}line{font-family:\0000316}}
 .fa-li.fa-lg {
   left: -1.8571428571428572em;
 }
-/* line 4, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/bordered-pulled.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/bordered-pulled\.less}line{font-family:\000034}}
 .fa-border {
   padding: .2em .25em .15em;
   border: solid 0.08em #eeeeee;
   border-radius: .1em;
 }
-/* line 10, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/bordered-pulled.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/bordered-pulled\.less}line{font-family:\0000310}}
 .pull-right {
   float: right;
 }
-/* line 11, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/bordered-pulled.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/bordered-pulled\.less}line{font-family:\0000311}}
 .pull-left {
   float: left;
 }
-/* line 14, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/bordered-pulled.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/bordered-pulled\.less}line{font-family:\0000314}}
 .fa.pull-left {
   margin-right: .3em;
 }
-/* line 15, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/bordered-pulled.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/bordered-pulled\.less}line{font-family:\0000315}}
 .fa.pull-right {
   margin-left: .3em;
 }
-/* line 4, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\000034}}
 .fa-spin {
   -webkit-animation: spin 2s infinite linear;
   -moz-animation: spin 2s infinite linear;
@@ -1463,67 +1119,45 @@ textarea {
   animation: spin 2s infinite linear;
 }
 @-moz-keyframes spin {
-  /* line 12, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000312}}
   0% {
     -moz-transform: rotate(0deg);
   }
-  /* line 13, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000313}}
   100% {
     -moz-transform: rotate(359deg);
   }
 }
 @-webkit-keyframes spin {
-  /* line 16, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000316}}
   0% {
     -webkit-transform: rotate(0deg);
   }
-  /* line 17, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000317}}
   100% {
     -webkit-transform: rotate(359deg);
   }
 }
 @-o-keyframes spin {
-  /* line 20, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000320}}
   0% {
     -o-transform: rotate(0deg);
   }
-  /* line 21, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000321}}
   100% {
     -o-transform: rotate(359deg);
   }
 }
 @-ms-keyframes spin {
-  /* line 24, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000324}}
   0% {
     -ms-transform: rotate(0deg);
   }
-  /* line 25, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000325}}
   100% {
     -ms-transform: rotate(359deg);
   }
 }
 @keyframes spin {
-  /* line 28, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000328}}
   0% {
     transform: rotate(0deg);
   }
-  /* line 29, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/spinning.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/spinning\.less}line{font-family:\0000329}}
   100% {
     transform: rotate(359deg);
   }
 }
-/* line 4, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/rotated-flipped.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/rotated-flipped\.less}line{font-family:\000034}}
 .fa-rotate-90 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   -webkit-transform: rotate(90deg);
@@ -1532,8 +1166,6 @@ textarea {
   -o-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-/* line 5, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/rotated-flipped.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/rotated-flipped\.less}line{font-family:\000035}}
 .fa-rotate-180 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   -webkit-transform: rotate(180deg);
@@ -1542,8 +1174,6 @@ textarea {
   -o-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-/* line 6, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/rotated-flipped.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/rotated-flipped\.less}line{font-family:\000036}}
 .fa-rotate-270 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   -webkit-transform: rotate(270deg);
@@ -1552,8 +1182,6 @@ textarea {
   -o-transform: rotate(270deg);
   transform: rotate(270deg);
 }
-/* line 8, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/rotated-flipped.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/rotated-flipped\.less}line{font-family:\000038}}
 .fa-flip-horizontal {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
   -webkit-transform: scale(-1, 1);
@@ -1562,8 +1190,6 @@ textarea {
   -o-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
-/* line 9, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/rotated-flipped.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/rotated-flipped\.less}line{font-family:\000039}}
 .fa-flip-vertical {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
   -webkit-transform: scale(1, -1);
@@ -1572,8 +1198,6 @@ textarea {
   -o-transform: scale(1, -1);
   transform: scale(1, -1);
 }
-/* line 4, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/stacked.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/stacked\.less}line{font-family:\000034}}
 .fa-stack {
   position: relative;
   display: inline-block;
@@ -1582,8 +1206,6 @@ textarea {
   line-height: 2em;
   vertical-align: middle;
 }
-/* line 12, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/stacked.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/stacked\.less}line{font-family:\0000312}}
 .fa-stack-1x,
 .fa-stack-2x {
   position: absolute;
@@ -1591,1905 +1213,1161 @@ textarea {
   width: 100%;
   text-align: center;
 }
-/* line 18, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/stacked.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/stacked\.less}line{font-family:\0000318}}
 .fa-stack-1x {
   line-height: inherit;
 }
-/* line 19, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/stacked.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/stacked\.less}line{font-family:\0000319}}
 .fa-stack-2x {
   font-size: 2em;
 }
-/* line 20, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/stacked.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/stacked\.less}line{font-family:\0000320}}
 .fa-inverse {
   color: #ffffff;
 }
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
-/* line 4, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\000034}}
 .fa-glass:before {
   content: "\f000";
 }
-/* line 5, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\000035}}
 .fa-music:before {
   content: "\f001";
 }
-/* line 6, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\000036}}
 .fa-search:before {
   content: "\f002";
 }
-/* line 7, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\000037}}
 .fa-envelope-o:before {
   content: "\f003";
 }
-/* line 8, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\000038}}
 .fa-heart:before {
   content: "\f004";
 }
-/* line 9, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\000039}}
 .fa-star:before {
   content: "\f005";
 }
-/* line 10, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000310}}
 .fa-star-o:before {
   content: "\f006";
 }
-/* line 11, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000311}}
 .fa-user:before {
   content: "\f007";
 }
-/* line 12, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000312}}
 .fa-film:before {
   content: "\f008";
 }
-/* line 13, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000313}}
 .fa-th-large:before {
   content: "\f009";
 }
-/* line 14, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000314}}
 .fa-th:before {
   content: "\f00a";
 }
-/* line 15, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000315}}
 .fa-th-list:before {
   content: "\f00b";
 }
-/* line 16, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000316}}
 .fa-check:before {
   content: "\f00c";
 }
-/* line 17, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000317}}
 .fa-times:before {
   content: "\f00d";
 }
-/* line 18, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000318}}
 .fa-search-plus:before {
   content: "\f00e";
 }
-/* line 19, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000319}}
 .fa-search-minus:before {
   content: "\f010";
 }
-/* line 20, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000320}}
 .fa-power-off:before {
   content: "\f011";
 }
-/* line 21, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000321}}
 .fa-signal:before {
   content: "\f012";
 }
-/* line 22, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000322}}
 .fa-gear:before,
 .fa-cog:before {
   content: "\f013";
 }
-/* line 24, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000324}}
 .fa-trash-o:before {
   content: "\f014";
 }
-/* line 25, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000325}}
 .fa-home:before {
   content: "\f015";
 }
-/* line 26, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000326}}
 .fa-file-o:before {
   content: "\f016";
 }
-/* line 27, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000327}}
 .fa-clock-o:before {
   content: "\f017";
 }
-/* line 28, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000328}}
 .fa-road:before {
   content: "\f018";
 }
-/* line 29, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000329}}
 .fa-download:before {
   content: "\f019";
 }
-/* line 30, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000330}}
 .fa-arrow-circle-o-down:before {
   content: "\f01a";
 }
-/* line 31, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000331}}
 .fa-arrow-circle-o-up:before {
   content: "\f01b";
 }
-/* line 32, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000332}}
 .fa-inbox:before {
   content: "\f01c";
 }
-/* line 33, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000333}}
 .fa-play-circle-o:before {
   content: "\f01d";
 }
-/* line 34, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000334}}
 .fa-rotate-right:before,
 .fa-repeat:before {
   content: "\f01e";
 }
-/* line 36, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000336}}
 .fa-refresh:before {
   content: "\f021";
 }
-/* line 37, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000337}}
 .fa-list-alt:before {
   content: "\f022";
 }
-/* line 38, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000338}}
 .fa-lock:before {
   content: "\f023";
 }
-/* line 39, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000339}}
 .fa-flag:before {
   content: "\f024";
 }
-/* line 40, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000340}}
 .fa-headphones:before {
   content: "\f025";
 }
-/* line 41, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000341}}
 .fa-volume-off:before {
   content: "\f026";
 }
-/* line 42, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000342}}
 .fa-volume-down:before {
   content: "\f027";
 }
-/* line 43, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000343}}
 .fa-volume-up:before {
   content: "\f028";
 }
-/* line 44, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000344}}
 .fa-qrcode:before {
   content: "\f029";
 }
-/* line 45, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000345}}
 .fa-barcode:before {
   content: "\f02a";
 }
-/* line 46, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000346}}
 .fa-tag:before {
   content: "\f02b";
 }
-/* line 47, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000347}}
 .fa-tags:before {
   content: "\f02c";
 }
-/* line 48, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000348}}
 .fa-book:before {
   content: "\f02d";
 }
-/* line 49, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000349}}
 .fa-bookmark:before {
   content: "\f02e";
 }
-/* line 50, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000350}}
 .fa-print:before {
   content: "\f02f";
 }
-/* line 51, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000351}}
 .fa-camera:before {
   content: "\f030";
 }
-/* line 52, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000352}}
 .fa-font:before {
   content: "\f031";
 }
-/* line 53, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000353}}
 .fa-bold:before {
   content: "\f032";
 }
-/* line 54, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000354}}
 .fa-italic:before {
   content: "\f033";
 }
-/* line 55, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000355}}
 .fa-text-height:before {
   content: "\f034";
 }
-/* line 56, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000356}}
 .fa-text-width:before {
   content: "\f035";
 }
-/* line 57, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000357}}
 .fa-align-left:before {
   content: "\f036";
 }
-/* line 58, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000358}}
 .fa-align-center:before {
   content: "\f037";
 }
-/* line 59, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000359}}
 .fa-align-right:before {
   content: "\f038";
 }
-/* line 60, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000360}}
 .fa-align-justify:before {
   content: "\f039";
 }
-/* line 61, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000361}}
 .fa-list:before {
   content: "\f03a";
 }
-/* line 62, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000362}}
 .fa-dedent:before,
 .fa-outdent:before {
   content: "\f03b";
 }
-/* line 64, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000364}}
 .fa-indent:before {
   content: "\f03c";
 }
-/* line 65, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000365}}
 .fa-video-camera:before {
   content: "\f03d";
 }
-/* line 66, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000366}}
 .fa-picture-o:before {
   content: "\f03e";
 }
-/* line 67, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000367}}
 .fa-pencil:before {
   content: "\f040";
 }
-/* line 68, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000368}}
 .fa-map-marker:before {
   content: "\f041";
 }
-/* line 69, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000369}}
 .fa-adjust:before {
   content: "\f042";
 }
-/* line 70, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000370}}
 .fa-tint:before {
   content: "\f043";
 }
-/* line 71, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000371}}
 .fa-edit:before,
 .fa-pencil-square-o:before {
   content: "\f044";
 }
-/* line 73, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000373}}
 .fa-share-square-o:before {
   content: "\f045";
 }
-/* line 74, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000374}}
 .fa-check-square-o:before {
   content: "\f046";
 }
-/* line 75, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000375}}
 .fa-arrows:before {
   content: "\f047";
 }
-/* line 76, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000376}}
 .fa-step-backward:before {
   content: "\f048";
 }
-/* line 77, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000377}}
 .fa-fast-backward:before {
   content: "\f049";
 }
-/* line 78, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000378}}
 .fa-backward:before {
   content: "\f04a";
 }
-/* line 79, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000379}}
 .fa-play:before {
   content: "\f04b";
 }
-/* line 80, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000380}}
 .fa-pause:before {
   content: "\f04c";
 }
-/* line 81, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000381}}
 .fa-stop:before {
   content: "\f04d";
 }
-/* line 82, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000382}}
 .fa-forward:before {
   content: "\f04e";
 }
-/* line 83, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000383}}
 .fa-fast-forward:before {
   content: "\f050";
 }
-/* line 84, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000384}}
 .fa-step-forward:before {
   content: "\f051";
 }
-/* line 85, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000385}}
 .fa-eject:before {
   content: "\f052";
 }
-/* line 86, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000386}}
 .fa-chevron-left:before {
   content: "\f053";
 }
-/* line 87, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000387}}
 .fa-chevron-right:before {
   content: "\f054";
 }
-/* line 88, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000388}}
 .fa-plus-circle:before {
   content: "\f055";
 }
-/* line 89, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000389}}
 .fa-minus-circle:before {
   content: "\f056";
 }
-/* line 90, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000390}}
 .fa-times-circle:before {
   content: "\f057";
 }
-/* line 91, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000391}}
 .fa-check-circle:before {
   content: "\f058";
 }
-/* line 92, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000392}}
 .fa-question-circle:before {
   content: "\f059";
 }
-/* line 93, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000393}}
 .fa-info-circle:before {
   content: "\f05a";
 }
-/* line 94, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000394}}
 .fa-crosshairs:before {
   content: "\f05b";
 }
-/* line 95, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000395}}
 .fa-times-circle-o:before {
   content: "\f05c";
 }
-/* line 96, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000396}}
 .fa-check-circle-o:before {
   content: "\f05d";
 }
-/* line 97, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000397}}
 .fa-ban:before {
   content: "\f05e";
 }
-/* line 98, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000398}}
 .fa-arrow-left:before {
   content: "\f060";
 }
-/* line 99, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\0000399}}
 .fa-arrow-right:before {
   content: "\f061";
 }
-/* line 100, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003100}}
 .fa-arrow-up:before {
   content: "\f062";
 }
-/* line 101, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003101}}
 .fa-arrow-down:before {
   content: "\f063";
 }
-/* line 102, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003102}}
 .fa-mail-forward:before,
 .fa-share:before {
   content: "\f064";
 }
-/* line 104, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003104}}
 .fa-expand:before {
   content: "\f065";
 }
-/* line 105, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003105}}
 .fa-compress:before {
   content: "\f066";
 }
-/* line 106, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003106}}
 .fa-plus:before {
   content: "\f067";
 }
-/* line 107, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003107}}
 .fa-minus:before {
   content: "\f068";
 }
-/* line 108, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003108}}
 .fa-asterisk:before {
   content: "\f069";
 }
-/* line 109, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003109}}
 .fa-exclamation-circle:before {
   content: "\f06a";
 }
-/* line 110, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003110}}
 .fa-gift:before {
   content: "\f06b";
 }
-/* line 111, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003111}}
 .fa-leaf:before {
   content: "\f06c";
 }
-/* line 112, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003112}}
 .fa-fire:before {
   content: "\f06d";
 }
-/* line 113, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003113}}
 .fa-eye:before {
   content: "\f06e";
 }
-/* line 114, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003114}}
 .fa-eye-slash:before {
   content: "\f070";
 }
-/* line 115, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003115}}
 .fa-warning:before,
 .fa-exclamation-triangle:before {
   content: "\f071";
 }
-/* line 117, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003117}}
 .fa-plane:before {
   content: "\f072";
 }
-/* line 118, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003118}}
 .fa-calendar:before {
   content: "\f073";
 }
-/* line 119, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003119}}
 .fa-random:before {
   content: "\f074";
 }
-/* line 120, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003120}}
 .fa-comment:before {
   content: "\f075";
 }
-/* line 121, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003121}}
 .fa-magnet:before {
   content: "\f076";
 }
-/* line 122, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003122}}
 .fa-chevron-up:before {
   content: "\f077";
 }
-/* line 123, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003123}}
 .fa-chevron-down:before {
   content: "\f078";
 }
-/* line 124, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003124}}
 .fa-retweet:before {
   content: "\f079";
 }
-/* line 125, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003125}}
 .fa-shopping-cart:before {
   content: "\f07a";
 }
-/* line 126, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003126}}
 .fa-folder:before {
   content: "\f07b";
 }
-/* line 127, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003127}}
 .fa-folder-open:before {
   content: "\f07c";
 }
-/* line 128, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003128}}
 .fa-arrows-v:before {
   content: "\f07d";
 }
-/* line 129, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003129}}
 .fa-arrows-h:before {
   content: "\f07e";
 }
-/* line 130, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003130}}
 .fa-bar-chart-o:before {
   content: "\f080";
 }
-/* line 131, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003131}}
 .fa-twitter-square:before {
   content: "\f081";
 }
-/* line 132, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003132}}
 .fa-facebook-square:before {
   content: "\f082";
 }
-/* line 133, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003133}}
 .fa-camera-retro:before {
   content: "\f083";
 }
-/* line 134, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003134}}
 .fa-key:before {
   content: "\f084";
 }
-/* line 135, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003135}}
 .fa-gears:before,
 .fa-cogs:before {
   content: "\f085";
 }
-/* line 137, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003137}}
 .fa-comments:before {
   content: "\f086";
 }
-/* line 138, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003138}}
 .fa-thumbs-o-up:before {
   content: "\f087";
 }
-/* line 139, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003139}}
 .fa-thumbs-o-down:before {
   content: "\f088";
 }
-/* line 140, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003140}}
 .fa-star-half:before {
   content: "\f089";
 }
-/* line 141, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003141}}
 .fa-heart-o:before {
   content: "\f08a";
 }
-/* line 142, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003142}}
 .fa-sign-out:before {
   content: "\f08b";
 }
-/* line 143, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003143}}
 .fa-linkedin-square:before {
   content: "\f08c";
 }
-/* line 144, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003144}}
 .fa-thumb-tack:before {
   content: "\f08d";
 }
-/* line 145, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003145}}
 .fa-external-link:before {
   content: "\f08e";
 }
-/* line 146, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003146}}
 .fa-sign-in:before {
   content: "\f090";
 }
-/* line 147, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003147}}
 .fa-trophy:before {
   content: "\f091";
 }
-/* line 148, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003148}}
 .fa-github-square:before {
   content: "\f092";
 }
-/* line 149, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003149}}
 .fa-upload:before {
   content: "\f093";
 }
-/* line 150, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003150}}
 .fa-lemon-o:before {
   content: "\f094";
 }
-/* line 151, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003151}}
 .fa-phone:before {
   content: "\f095";
 }
-/* line 152, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003152}}
 .fa-square-o:before {
   content: "\f096";
 }
-/* line 153, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003153}}
 .fa-bookmark-o:before {
   content: "\f097";
 }
-/* line 154, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003154}}
 .fa-phone-square:before {
   content: "\f098";
 }
-/* line 155, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003155}}
 .fa-twitter:before {
   content: "\f099";
 }
-/* line 156, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003156}}
 .fa-facebook:before {
   content: "\f09a";
 }
-/* line 157, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003157}}
 .fa-github:before {
   content: "\f09b";
 }
-/* line 158, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003158}}
 .fa-unlock:before {
   content: "\f09c";
 }
-/* line 159, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003159}}
 .fa-credit-card:before {
   content: "\f09d";
 }
-/* line 160, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003160}}
 .fa-rss:before {
   content: "\f09e";
 }
-/* line 161, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003161}}
 .fa-hdd-o:before {
   content: "\f0a0";
 }
-/* line 162, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003162}}
 .fa-bullhorn:before {
   content: "\f0a1";
 }
-/* line 163, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003163}}
 .fa-bell:before {
   content: "\f0f3";
 }
-/* line 164, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003164}}
 .fa-certificate:before {
   content: "\f0a3";
 }
-/* line 165, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003165}}
 .fa-hand-o-right:before {
   content: "\f0a4";
 }
-/* line 166, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003166}}
 .fa-hand-o-left:before {
   content: "\f0a5";
 }
-/* line 167, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003167}}
 .fa-hand-o-up:before {
   content: "\f0a6";
 }
-/* line 168, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003168}}
 .fa-hand-o-down:before {
   content: "\f0a7";
 }
-/* line 169, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003169}}
 .fa-arrow-circle-left:before {
   content: "\f0a8";
 }
-/* line 170, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003170}}
 .fa-arrow-circle-right:before {
   content: "\f0a9";
 }
-/* line 171, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003171}}
 .fa-arrow-circle-up:before {
   content: "\f0aa";
 }
-/* line 172, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003172}}
 .fa-arrow-circle-down:before {
   content: "\f0ab";
 }
-/* line 173, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003173}}
 .fa-globe:before {
   content: "\f0ac";
 }
-/* line 174, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003174}}
 .fa-wrench:before {
   content: "\f0ad";
 }
-/* line 175, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003175}}
 .fa-tasks:before {
   content: "\f0ae";
 }
-/* line 176, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003176}}
 .fa-filter:before {
   content: "\f0b0";
 }
-/* line 177, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003177}}
 .fa-briefcase:before {
   content: "\f0b1";
 }
-/* line 178, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003178}}
 .fa-arrows-alt:before {
   content: "\f0b2";
 }
-/* line 179, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003179}}
 .fa-group:before,
 .fa-users:before {
   content: "\f0c0";
 }
-/* line 181, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003181}}
 .fa-chain:before,
 .fa-link:before {
   content: "\f0c1";
 }
-/* line 183, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003183}}
 .fa-cloud:before {
   content: "\f0c2";
 }
-/* line 184, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003184}}
 .fa-flask:before {
   content: "\f0c3";
 }
-/* line 185, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003185}}
 .fa-cut:before,
 .fa-scissors:before {
   content: "\f0c4";
 }
-/* line 187, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003187}}
 .fa-copy:before,
 .fa-files-o:before {
   content: "\f0c5";
 }
-/* line 189, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003189}}
 .fa-paperclip:before {
   content: "\f0c6";
 }
-/* line 190, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003190}}
 .fa-save:before,
 .fa-floppy-o:before {
   content: "\f0c7";
 }
-/* line 192, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003192}}
 .fa-square:before {
   content: "\f0c8";
 }
-/* line 193, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003193}}
 .fa-bars:before {
   content: "\f0c9";
 }
-/* line 194, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003194}}
 .fa-list-ul:before {
   content: "\f0ca";
 }
-/* line 195, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003195}}
 .fa-list-ol:before {
   content: "\f0cb";
 }
-/* line 196, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003196}}
 .fa-strikethrough:before {
   content: "\f0cc";
 }
-/* line 197, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003197}}
 .fa-underline:before {
   content: "\f0cd";
 }
-/* line 198, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003198}}
 .fa-table:before {
   content: "\f0ce";
 }
-/* line 199, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003199}}
 .fa-magic:before {
   content: "\f0d0";
 }
-/* line 200, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003200}}
 .fa-truck:before {
   content: "\f0d1";
 }
-/* line 201, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003201}}
 .fa-pinterest:before {
   content: "\f0d2";
 }
-/* line 202, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003202}}
 .fa-pinterest-square:before {
   content: "\f0d3";
 }
-/* line 203, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003203}}
 .fa-google-plus-square:before {
   content: "\f0d4";
 }
-/* line 204, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003204}}
 .fa-google-plus:before {
   content: "\f0d5";
 }
-/* line 205, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003205}}
 .fa-money:before {
   content: "\f0d6";
 }
-/* line 206, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003206}}
 .fa-caret-down:before {
   content: "\f0d7";
 }
-/* line 207, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003207}}
 .fa-caret-up:before {
   content: "\f0d8";
 }
-/* line 208, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003208}}
 .fa-caret-left:before {
   content: "\f0d9";
 }
-/* line 209, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003209}}
 .fa-caret-right:before {
   content: "\f0da";
 }
-/* line 210, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003210}}
 .fa-columns:before {
   content: "\f0db";
 }
-/* line 211, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003211}}
 .fa-unsorted:before,
 .fa-sort:before {
   content: "\f0dc";
 }
-/* line 213, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003213}}
 .fa-sort-down:before,
 .fa-sort-asc:before {
   content: "\f0dd";
 }
-/* line 215, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003215}}
 .fa-sort-up:before,
 .fa-sort-desc:before {
   content: "\f0de";
 }
-/* line 217, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003217}}
 .fa-envelope:before {
   content: "\f0e0";
 }
-/* line 218, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003218}}
 .fa-linkedin:before {
   content: "\f0e1";
 }
-/* line 219, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003219}}
 .fa-rotate-left:before,
 .fa-undo:before {
   content: "\f0e2";
 }
-/* line 221, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003221}}
 .fa-legal:before,
 .fa-gavel:before {
   content: "\f0e3";
 }
-/* line 223, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003223}}
 .fa-dashboard:before,
 .fa-tachometer:before {
   content: "\f0e4";
 }
-/* line 225, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003225}}
 .fa-comment-o:before {
   content: "\f0e5";
 }
-/* line 226, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003226}}
 .fa-comments-o:before {
   content: "\f0e6";
 }
-/* line 227, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003227}}
 .fa-flash:before,
 .fa-bolt:before {
   content: "\f0e7";
 }
-/* line 229, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003229}}
 .fa-sitemap:before {
   content: "\f0e8";
 }
-/* line 230, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003230}}
 .fa-umbrella:before {
   content: "\f0e9";
 }
-/* line 231, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003231}}
 .fa-paste:before,
 .fa-clipboard:before {
   content: "\f0ea";
 }
-/* line 233, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003233}}
 .fa-lightbulb-o:before {
   content: "\f0eb";
 }
-/* line 234, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003234}}
 .fa-exchange:before {
   content: "\f0ec";
 }
-/* line 235, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003235}}
 .fa-cloud-download:before {
   content: "\f0ed";
 }
-/* line 236, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003236}}
 .fa-cloud-upload:before {
   content: "\f0ee";
 }
-/* line 237, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003237}}
 .fa-user-md:before {
   content: "\f0f0";
 }
-/* line 238, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003238}}
 .fa-stethoscope:before {
   content: "\f0f1";
 }
-/* line 239, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003239}}
 .fa-suitcase:before {
   content: "\f0f2";
 }
-/* line 240, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003240}}
 .fa-bell-o:before {
   content: "\f0a2";
 }
-/* line 241, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003241}}
 .fa-coffee:before {
   content: "\f0f4";
 }
-/* line 242, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003242}}
 .fa-cutlery:before {
   content: "\f0f5";
 }
-/* line 243, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003243}}
 .fa-file-text-o:before {
   content: "\f0f6";
 }
-/* line 244, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003244}}
 .fa-building-o:before {
   content: "\f0f7";
 }
-/* line 245, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003245}}
 .fa-hospital-o:before {
   content: "\f0f8";
 }
-/* line 246, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003246}}
 .fa-ambulance:before {
   content: "\f0f9";
 }
-/* line 247, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003247}}
 .fa-medkit:before {
   content: "\f0fa";
 }
-/* line 248, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003248}}
 .fa-fighter-jet:before {
   content: "\f0fb";
 }
-/* line 249, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003249}}
 .fa-beer:before {
   content: "\f0fc";
 }
-/* line 250, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003250}}
 .fa-h-square:before {
   content: "\f0fd";
 }
-/* line 251, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003251}}
 .fa-plus-square:before {
   content: "\f0fe";
 }
-/* line 252, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003252}}
 .fa-angle-double-left:before {
   content: "\f100";
 }
-/* line 253, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003253}}
 .fa-angle-double-right:before {
   content: "\f101";
 }
-/* line 254, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003254}}
 .fa-angle-double-up:before {
   content: "\f102";
 }
-/* line 255, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003255}}
 .fa-angle-double-down:before {
   content: "\f103";
 }
-/* line 256, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003256}}
 .fa-angle-left:before {
   content: "\f104";
 }
-/* line 257, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003257}}
 .fa-angle-right:before {
   content: "\f105";
 }
-/* line 258, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003258}}
 .fa-angle-up:before {
   content: "\f106";
 }
-/* line 259, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003259}}
 .fa-angle-down:before {
   content: "\f107";
 }
-/* line 260, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003260}}
 .fa-desktop:before {
   content: "\f108";
 }
-/* line 261, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003261}}
 .fa-laptop:before {
   content: "\f109";
 }
-/* line 262, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003262}}
 .fa-tablet:before {
   content: "\f10a";
 }
-/* line 263, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003263}}
 .fa-mobile-phone:before,
 .fa-mobile:before {
   content: "\f10b";
 }
-/* line 265, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003265}}
 .fa-circle-o:before {
   content: "\f10c";
 }
-/* line 266, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003266}}
 .fa-quote-left:before {
   content: "\f10d";
 }
-/* line 267, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003267}}
 .fa-quote-right:before {
   content: "\f10e";
 }
-/* line 268, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003268}}
 .fa-spinner:before {
   content: "\f110";
 }
-/* line 269, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003269}}
 .fa-circle:before {
   content: "\f111";
 }
-/* line 270, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003270}}
 .fa-mail-reply:before,
 .fa-reply:before {
   content: "\f112";
 }
-/* line 272, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003272}}
 .fa-github-alt:before {
   content: "\f113";
 }
-/* line 273, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003273}}
 .fa-folder-o:before {
   content: "\f114";
 }
-/* line 274, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003274}}
 .fa-folder-open-o:before {
   content: "\f115";
 }
-/* line 275, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003275}}
 .fa-smile-o:before {
   content: "\f118";
 }
-/* line 276, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003276}}
 .fa-frown-o:before {
   content: "\f119";
 }
-/* line 277, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003277}}
 .fa-meh-o:before {
   content: "\f11a";
 }
-/* line 278, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003278}}
 .fa-gamepad:before {
   content: "\f11b";
 }
-/* line 279, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003279}}
 .fa-keyboard-o:before {
   content: "\f11c";
 }
-/* line 280, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003280}}
 .fa-flag-o:before {
   content: "\f11d";
 }
-/* line 281, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003281}}
 .fa-flag-checkered:before {
   content: "\f11e";
 }
-/* line 282, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003282}}
 .fa-terminal:before {
   content: "\f120";
 }
-/* line 283, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003283}}
 .fa-code:before {
   content: "\f121";
 }
-/* line 284, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003284}}
 .fa-reply-all:before {
   content: "\f122";
 }
-/* line 285, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003285}}
 .fa-mail-reply-all:before {
   content: "\f122";
 }
-/* line 286, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003286}}
 .fa-star-half-empty:before,
 .fa-star-half-full:before,
 .fa-star-half-o:before {
   content: "\f123";
 }
-/* line 289, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003289}}
 .fa-location-arrow:before {
   content: "\f124";
 }
-/* line 290, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003290}}
 .fa-crop:before {
   content: "\f125";
 }
-/* line 291, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003291}}
 .fa-code-fork:before {
   content: "\f126";
 }
-/* line 292, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003292}}
 .fa-unlink:before,
 .fa-chain-broken:before {
   content: "\f127";
 }
-/* line 294, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003294}}
 .fa-question:before {
   content: "\f128";
 }
-/* line 295, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003295}}
 .fa-info:before {
   content: "\f129";
 }
-/* line 296, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003296}}
 .fa-exclamation:before {
   content: "\f12a";
 }
-/* line 297, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003297}}
 .fa-superscript:before {
   content: "\f12b";
 }
-/* line 298, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003298}}
 .fa-subscript:before {
   content: "\f12c";
 }
-/* line 299, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003299}}
 .fa-eraser:before {
   content: "\f12d";
 }
-/* line 300, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003300}}
 .fa-puzzle-piece:before {
   content: "\f12e";
 }
-/* line 301, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003301}}
 .fa-microphone:before {
   content: "\f130";
 }
-/* line 302, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003302}}
 .fa-microphone-slash:before {
   content: "\f131";
 }
-/* line 303, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003303}}
 .fa-shield:before {
   content: "\f132";
 }
-/* line 304, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003304}}
 .fa-calendar-o:before {
   content: "\f133";
 }
-/* line 305, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003305}}
 .fa-fire-extinguisher:before {
   content: "\f134";
 }
-/* line 306, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003306}}
 .fa-rocket:before {
   content: "\f135";
 }
-/* line 307, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003307}}
 .fa-maxcdn:before {
   content: "\f136";
 }
-/* line 308, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003308}}
 .fa-chevron-circle-left:before {
   content: "\f137";
 }
-/* line 309, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003309}}
 .fa-chevron-circle-right:before {
   content: "\f138";
 }
-/* line 310, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003310}}
 .fa-chevron-circle-up:before {
   content: "\f139";
 }
-/* line 311, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003311}}
 .fa-chevron-circle-down:before {
   content: "\f13a";
 }
-/* line 312, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003312}}
 .fa-html5:before {
   content: "\f13b";
 }
-/* line 313, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003313}}
 .fa-css3:before {
   content: "\f13c";
 }
-/* line 314, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003314}}
 .fa-anchor:before {
   content: "\f13d";
 }
-/* line 315, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003315}}
 .fa-unlock-alt:before {
   content: "\f13e";
 }
-/* line 316, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003316}}
 .fa-bullseye:before {
   content: "\f140";
 }
-/* line 317, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003317}}
 .fa-ellipsis-h:before {
   content: "\f141";
 }
-/* line 318, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003318}}
 .fa-ellipsis-v:before {
   content: "\f142";
 }
-/* line 319, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003319}}
 .fa-rss-square:before {
   content: "\f143";
 }
-/* line 320, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003320}}
 .fa-play-circle:before {
   content: "\f144";
 }
-/* line 321, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003321}}
 .fa-ticket:before {
   content: "\f145";
 }
-/* line 322, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003322}}
 .fa-minus-square:before {
   content: "\f146";
 }
-/* line 323, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003323}}
 .fa-minus-square-o:before {
   content: "\f147";
 }
-/* line 324, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003324}}
 .fa-level-up:before {
   content: "\f148";
 }
-/* line 325, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003325}}
 .fa-level-down:before {
   content: "\f149";
 }
-/* line 326, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003326}}
 .fa-check-square:before {
   content: "\f14a";
 }
-/* line 327, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003327}}
 .fa-pencil-square:before {
   content: "\f14b";
 }
-/* line 328, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003328}}
 .fa-external-link-square:before {
   content: "\f14c";
 }
-/* line 329, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003329}}
 .fa-share-square:before {
   content: "\f14d";
 }
-/* line 330, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003330}}
 .fa-compass:before {
   content: "\f14e";
 }
-/* line 331, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003331}}
 .fa-toggle-down:before,
 .fa-caret-square-o-down:before {
   content: "\f150";
 }
-/* line 333, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003333}}
 .fa-toggle-up:before,
 .fa-caret-square-o-up:before {
   content: "\f151";
 }
-/* line 335, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003335}}
 .fa-toggle-right:before,
 .fa-caret-square-o-right:before {
   content: "\f152";
 }
-/* line 337, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003337}}
 .fa-euro:before,
 .fa-eur:before {
   content: "\f153";
 }
-/* line 339, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003339}}
 .fa-gbp:before {
   content: "\f154";
 }
-/* line 340, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003340}}
 .fa-dollar:before,
 .fa-usd:before {
   content: "\f155";
 }
-/* line 342, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003342}}
 .fa-rupee:before,
 .fa-inr:before {
   content: "\f156";
 }
-/* line 344, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003344}}
 .fa-cny:before,
 .fa-rmb:before,
 .fa-yen:before,
 .fa-jpy:before {
   content: "\f157";
 }
-/* line 348, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003348}}
 .fa-ruble:before,
 .fa-rouble:before,
 .fa-rub:before {
   content: "\f158";
 }
-/* line 351, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003351}}
 .fa-won:before,
 .fa-krw:before {
   content: "\f159";
 }
-/* line 353, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003353}}
 .fa-bitcoin:before,
 .fa-btc:before {
   content: "\f15a";
 }
-/* line 355, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003355}}
 .fa-file:before {
   content: "\f15b";
 }
-/* line 356, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003356}}
 .fa-file-text:before {
   content: "\f15c";
 }
-/* line 357, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003357}}
 .fa-sort-alpha-asc:before {
   content: "\f15d";
 }
-/* line 358, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003358}}
 .fa-sort-alpha-desc:before {
   content: "\f15e";
 }
-/* line 359, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003359}}
 .fa-sort-amount-asc:before {
   content: "\f160";
 }
-/* line 360, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003360}}
 .fa-sort-amount-desc:before {
   content: "\f161";
 }
-/* line 361, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003361}}
 .fa-sort-numeric-asc:before {
   content: "\f162";
 }
-/* line 362, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003362}}
 .fa-sort-numeric-desc:before {
   content: "\f163";
 }
-/* line 363, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003363}}
 .fa-thumbs-up:before {
   content: "\f164";
 }
-/* line 364, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003364}}
 .fa-thumbs-down:before {
   content: "\f165";
 }
-/* line 365, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003365}}
 .fa-youtube-square:before {
   content: "\f166";
 }
-/* line 366, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003366}}
 .fa-youtube:before {
   content: "\f167";
 }
-/* line 367, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003367}}
 .fa-xing:before {
   content: "\f168";
 }
-/* line 368, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003368}}
 .fa-xing-square:before {
   content: "\f169";
 }
-/* line 369, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003369}}
 .fa-youtube-play:before {
   content: "\f16a";
 }
-/* line 370, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003370}}
 .fa-dropbox:before {
   content: "\f16b";
 }
-/* line 371, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003371}}
 .fa-stack-overflow:before {
   content: "\f16c";
 }
-/* line 372, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003372}}
 .fa-instagram:before {
   content: "\f16d";
 }
-/* line 373, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003373}}
 .fa-flickr:before {
   content: "\f16e";
 }
-/* line 374, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003374}}
 .fa-adn:before {
   content: "\f170";
 }
-/* line 375, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003375}}
 .fa-bitbucket:before {
   content: "\f171";
 }
-/* line 376, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003376}}
 .fa-bitbucket-square:before {
   content: "\f172";
 }
-/* line 377, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003377}}
 .fa-tumblr:before {
   content: "\f173";
 }
-/* line 378, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003378}}
 .fa-tumblr-square:before {
   content: "\f174";
 }
-/* line 379, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003379}}
 .fa-long-arrow-down:before {
   content: "\f175";
 }
-/* line 380, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003380}}
 .fa-long-arrow-up:before {
   content: "\f176";
 }
-/* line 381, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003381}}
 .fa-long-arrow-left:before {
   content: "\f177";
 }
-/* line 382, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003382}}
 .fa-long-arrow-right:before {
   content: "\f178";
 }
-/* line 383, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003383}}
 .fa-apple:before {
   content: "\f179";
 }
-/* line 384, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003384}}
 .fa-windows:before {
   content: "\f17a";
 }
-/* line 385, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003385}}
 .fa-android:before {
   content: "\f17b";
 }
-/* line 386, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003386}}
 .fa-linux:before {
   content: "\f17c";
 }
-/* line 387, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003387}}
 .fa-dribbble:before {
   content: "\f17d";
 }
-/* line 388, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003388}}
 .fa-skype:before {
   content: "\f17e";
 }
-/* line 389, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003389}}
 .fa-foursquare:before {
   content: "\f180";
 }
-/* line 390, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003390}}
 .fa-trello:before {
   content: "\f181";
 }
-/* line 391, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003391}}
 .fa-female:before {
   content: "\f182";
 }
-/* line 392, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003392}}
 .fa-male:before {
   content: "\f183";
 }
-/* line 393, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003393}}
 .fa-gittip:before {
   content: "\f184";
 }
-/* line 394, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003394}}
 .fa-sun-o:before {
   content: "\f185";
 }
-/* line 395, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003395}}
 .fa-moon-o:before {
   content: "\f186";
 }
-/* line 396, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003396}}
 .fa-archive:before {
   content: "\f187";
 }
-/* line 397, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003397}}
 .fa-bug:before {
   content: "\f188";
 }
-/* line 398, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003398}}
 .fa-vk:before {
   content: "\f189";
 }
-/* line 399, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003399}}
 .fa-weibo:before {
   content: "\f18a";
 }
-/* line 400, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003400}}
 .fa-renren:before {
   content: "\f18b";
 }
-/* line 401, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003401}}
 .fa-pagelines:before {
   content: "\f18c";
 }
-/* line 402, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003402}}
 .fa-stack-exchange:before {
   content: "\f18d";
 }
-/* line 403, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003403}}
 .fa-arrow-circle-o-right:before {
   content: "\f18e";
 }
-/* line 404, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003404}}
 .fa-arrow-circle-o-left:before {
   content: "\f190";
 }
-/* line 405, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003405}}
 .fa-toggle-left:before,
 .fa-caret-square-o-left:before {
   content: "\f191";
 }
-/* line 407, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003407}}
 .fa-dot-circle-o:before {
   content: "\f192";
 }
-/* line 408, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003408}}
 .fa-wheelchair:before {
   content: "\f193";
 }
-/* line 409, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003409}}
 .fa-vimeo-square:before {
   content: "\f194";
 }
-/* line 410, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003410}}
 .fa-turkish-lira:before,
 .fa-try:before {
   content: "\f195";
 }
-/* line 412, /home/abumuhammad/www/ahad/AhadPOS2/lesslib/fa/icons.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/abumuhammad\/www\/ahad\/AhadPOS2\/lesslib\/fa\/icons\.less}line{font-family:\00003412}}
 .fa-plus-square-o:before {
   content: "\f196";
 }
