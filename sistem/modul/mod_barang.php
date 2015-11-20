@@ -1338,16 +1338,21 @@ switch ($_GET['act']) {
       while ($x = mysql_fetch_array($hasil)) {
          echo "Tgl.Beli : $x[tglTransaksiBeli], Harga Beli : Rp ".number_format($x[hargaBeli], 0, ',', '.')." (jumlah: $x[jumBarang])<br />";
       }
-
       // jika stok nya sudah laku semua,
       // cetak 2 stok yang terakhir (sekedar untuk informasi harga)
       if ($jumlah < 1) {
-         $sql = "SELECT d.idTransaksiBeli, d.hargaBeli, d.isSold, d.jumBarang FROM detail_beli AS d
+       /*
+          $sql = "SELECT d.idTransaksiBeli, d.hargaBeli, d.isSold, d.jumBarang FROM detail_beli AS d
 			WHERE d.barcode = '$data[barcode]' ORDER BY d.idTransaksiBeli DESC LIMIT 2";
+        */
+        // Abu Muhammad: Query diganti agar tanggal transaksi terakhir tetap muncul
+         $sql = "SELECT t.tglTransaksiBeli,d.hargaBeli, d.jumBarang, d.isSold
+                FROM detail_beli AS d, transaksibeli AS t
+                WHERE d.barcode = '{$data[barcode]}' AND d.idTransaksiBeli = t.idTransaksiBeli ORDER BY d.idTransaksiBeli DESC LIMIT 2";
          $hasil = mysql_query($sql);
          $jumlah = mysql_num_rows($hasil);
          while ($x = mysql_fetch_array($hasil)) {
-            echo "ID: ".$x[idTransaksiBeli].", Harga Beli : Rp ".number_format($x[hargaBeli], 0, ',', '.').", Status: ";
+            echo "Tgl.Beli: ".$x[tglTransaksiBeli].", Harga Beli : Rp ".number_format($x[hargaBeli], 0, ',', '.').", Status: ";
             if ($x[isSold] == 'Y') {
                echo " Habis";
             } else {
