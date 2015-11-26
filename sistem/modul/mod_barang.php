@@ -240,7 +240,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                     ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                      ?>
                         </td>
                     </tr>
                     <?php
@@ -2522,6 +2522,8 @@ switch ($_GET['act']) {
                     <?php
                 endwhile;
                 ?>
+                <option value="999" <?php echo '999' == $_POST['idRak'] ? 'selected' : ''; ?>>Barang Baru</option>
+                <option value="999999" <?php echo '999999' == $_POST['idRak'] ? 'selected' : ''; ?>>Barang tidak diSO</option>
             </select>
             <input type=submit value='(D)isplay Barang' accesskey='d' name='displayBarang' />
         </form>
