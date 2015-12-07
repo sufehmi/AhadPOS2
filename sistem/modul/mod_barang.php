@@ -240,7 +240,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                      ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                            ?>
                         </td>
                     </tr>
                     <?php
@@ -1011,26 +1011,39 @@ switch ($_GET['act']) {
 
 
     case "cetakSO": // ========================================================================================================================
+        ?>
 
-        echo "
-
-		<h2>Cetak Stock Opname</h2>
-		<form method=POST action='modul/mod_barang.php?act=cetakSO2' onSubmit=\"popupform(this, 'Cetak Stock Opname')\">
-
-          <table>
-
-          <tr><td>(r) Rak</td>
-                <td> : <select name='rak' accesskey='r'>
-			<option value='0'>-- Pilih Rak --</option>";
-        while ($rak = mysql_fetch_array($ambilRak)) {
-            echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
-        }
-        echo "</select></td></tr>
-
-		<tr><td colspan=2><input type=submit accesskey='c' value='(c) Cetak Stock Opname' ></td></tr>
-
-		</table></form>";
-
+        <h2>Cetak Stock Opname</h2>
+        <form method=POST action='modul/mod_barang.php?act=cetakSO2' onSubmit="popupform(this, 'Cetak Stock Opname')">
+            <table>
+                <tr>
+                    <td>(r) Rak</td>
+                    <td> : <select name='rak' accesskey='r'>
+                            <option value='0'>-- Pilih Rak --</option>
+                            <?php
+                            while ($rak = mysql_fetch_array($ambilRak)) {
+                                ?>
+                                <option value='<?php echo $rak['idRak']; ?>'><?php echo $rak['namaRak']; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>(u) Urut berdasarkan</td>
+                    <td> : <select name="urutkan" accesskey="u">
+                            <option value="nama">Nama Barang</option>
+                            <option value="barcode">Barcode</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=2><input type=submit accesskey='c' value='(c) Cetak Stock Opname' ></td>
+                </tr>
+            </table>
+        </form>
+        <?php
         break;
 
 
@@ -1041,6 +1054,11 @@ switch ($_GET['act']) {
         include "../../config/config.php";
 
         $cari = mysql_query("SELECT * FROM barang WHERE idRak=$_POST[rak] AND (nonAktif!=1 or nonAktif is null) ORDER BY namaBarang ASC");
+
+        /* tambahan urutkan. oleh: Abu Muhammad */
+        if (isset($_POST['urutkan']) && $_POST['urutkan'] == 'barcode') {
+            $cari = mysql_query("SELECT * FROM barang WHERE idRak=$_POST[rak] AND (nonAktif!=1 or nonAktif is null) ORDER BY barcode ASC");
+        }
 
         $hasilRak = mysql_query("select namaRak from rak where idRak={$_POST['rak']}");
         $rak = mysql_fetch_array($hasilRak);
