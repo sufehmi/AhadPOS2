@@ -1381,7 +1381,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
                      </td>
                      <td>sampai</td>
                      <td>
-                        <input type="text" name="laporan[jumlahSampai]" value="99" size="1"/>
+                        <input type="text" name="laporan[jumlahSampai]" value="9999" size="1"/>
                      </td>
                      <td colspan="7"></td>
                      <td><input type="submit" value="Submit" /></td>
