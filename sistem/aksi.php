@@ -1975,6 +1975,26 @@ elseif ($module == 'retur_jual_barang' AND $act == 'nomorkartuinput') {
    header('Content-type: application/json');
    echo json_encode($return);
 }
+// Ambil kategori barang per rak
+elseif ($module == 'so' AND $act == 'kategorirak') {
+   if (isset($_GET['rakId'])) {
+        $sql = "SELECT distinct barang.`idKategoriBarang`, k.`namaKategoriBarang` 
+            FROM barang
+            JOIN kategori_barang k on barang.`idKategoriBarang`= k.`idKategoriBarang`
+            WHERE idRak={$_GET['rakId']} AND (nonAktif!=1 or nonAktif is null)
+            ORDER BY k.`namaKategoriBarang`";
+        $result = mysql_query($sql);
+        ?>
+        <option value="*">[Semua Kategori]</option>
+      <?php
+        while ($kategori = mysql_fetch_array($result, MYSQL_ASSOC)){
+            ?>
+        <option value="<?php echo $kategori['idKategoriBarang']; ?>"><?php echo $kategori['namaKategoriBarang']; ?></option>
+      <?php
+        }
+   }
+   
+}
 // else
 else { // =======================================================================================================================================
    echo "Tidak Ada Aksi untuk modul ini";
