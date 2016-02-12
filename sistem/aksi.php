@@ -1995,6 +1995,38 @@ elseif ($module == 'so' AND $act == 'kategorirak') {
    }
    
 }
+// Ambil kategori barang per jarak (range) rak
+elseif ($module == 'so' AND $act == 'kategorijarakrak') {
+   if (isset($_GET['darirak']) && isset($_GET['sampairak'])) {
+       $where = "WHERE rak.namaRak BETWEEN '{$_GET['darirak']}' AND '{$_GET['sampairak']}' AND (nonAktif!=1 or nonAktif is null) ";
+       
+        $sql = "SELECT distinct barang.`idKategoriBarang`, k.`namaKategoriBarang` 
+            FROM barang
+            JOIN kategori_barang k on barang.`idKategoriBarang`= k.`idKategoriBarang`
+            JOIN rak ON barang.idRak = rak.idRak
+            WHERE rak.namaRak BETWEEN '{$_GET['darirak']}' AND '{$_GET['sampairak']}' AND (nonAktif!=1 or nonAktif is null) AND jumBarang <> 0
+            ORDER BY k.`namaKategoriBarang`";
+            
+        /* spesial untuk rak virtual */
+        if ($_GET['darirak']=='999999' && $_GET['sampairak']=='999999'){
+            $sql = "SELECT distinct barang.`idKategoriBarang`, k.`namaKategoriBarang` 
+            FROM barang
+            LEFT JOIN kategori_barang k on barang.`idKategoriBarang`= k.`idKategoriBarang`
+            WHERE barang.idRak=999999 AND (nonAktif!=1 or nonAktif is null) AND jumBarang <> 0
+            ORDER BY k.`namaKategoriBarang`";
+        }
+        $result = mysql_query($sql);
+        ?>
+        <option value="*">[Semua Kategori]</option>
+      <?php
+        while ($kategori = mysql_fetch_array($result, MYSQL_ASSOC)){
+            ?>
+        <option value="<?php echo $kategori['idKategoriBarang']; ?>"><?php echo $kategori['namaKategoriBarang']; ?></option>
+      <?php
+        }
+   }
+   
+}
 // else
 else { // =======================================================================================================================================
    echo "Tidak Ada Aksi untuk modul ini";
