@@ -3,7 +3,7 @@
   version: 1.5.0
 
   Part of AhadPOS : http://ahadpos.com
-  License: GPL v2
+  License: GPL v2cetakbarang1
   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
   http://vlsm.org/etc/gpl-unofficial.id.html
 
@@ -240,7 +240,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                                  ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                                                  ?>
                         </td>
                     </tr>
                     <?php
@@ -1410,39 +1410,85 @@ switch ($_GET['act']) {
 
         // cari daftar workstation kasir yang ada
         $daftarKasir = mysql_query("SELECT idWorkstation,namaWorkstation FROM workstation");
+        $daftarRak = mysql_query("SELECT idRak, namaRak FROM rak ORDER BY namaRak");
+        ?>
 
+        <h2>Cetak Stock Barang</h2>
+        <form method=GET action='modul/mod_barang.php'  onSubmit="popupform(this, 'CETAK_STOCK_BARANG')">
 
-        echo "
-		<h2>Cetak Stock Barang</h2>
-		<form method=GET action='modul/mod_barang.php'  onSubmit=\"popupform(this, 'CETAK_STOCK_BARANG')\">
+            Disini Anda bisa mencetak daftar stok Barang yang masih ada / jumlahnya tidak nol.
+            Biasanya digunakan pada saat Tutup Buku, untuk secara acak memeriksa stok barang yang sebenarnya.
 
-	Disini Anda bisa mencetak daftar stok Barang yang masih ada / jumlahnya tidak nol.
-	Biasanya digunakan pada saat Tutup Buku, untuk secara acak memeriksa stok barang yang sebenarnya.
+            <br /><br />
 
-	<br /><br />
-
-	<table>
-	<tr>
-		<td>(d) Dari Rak</td>
-		<td> : <input type=text name=darirak value=1 accesskey='d' size=4></td>
-	</tr>
-	<tr>
-		<td>Sampai Rak</td>
-		<td> : <input type=text name=sampairak value=$jumlah_rak size=4></td>
-	</tr>
-		<td><br /> (p) Cetak ke </td>
+            <table>
+                <tr>
+                    <td>(d) Dari Rak</td>
+                    <!--<td> : <input type=text name=darirak value=1 accesskey='d' size=4></td>-->
+                    <td>
+                        <select name="darirak" id="darirak" class="pilih_rak">                            
+                            <option value='0'>-- Pilih Rak --</option>
+                            <?php
+                            while ($rak = mysql_fetch_array($daftarRak)) {
+                                ?>
+                                <option value='<?php echo $rak['namaRak']; ?>'><?php echo $rak['namaRak']; ?></option>
+                                <?php
+                            }
+                            ?>
+                            <option value='999999'>999999</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sampai Rak</td>
+                    <!--<td> : <input type=text name=sampairak value=$jumlah_rak size=4></td>-->
+                    <td>
+                        <select name="sampairak" id="sampairak" class="pilih_rak">                                                      
+                            <option value='0'>-- Pilih Rak --</option>
+                            <?php
+                            mysql_data_seek($daftarRak, 0);
+                            while ($rak = mysql_fetch_array($daftarRak)) {
+                                ?>
+                                <option value='<?php echo $rak['namaRak']; ?>'><?php echo $rak['namaRak']; ?></option>
+                                <?php
+                            }
+                            ?>
+                            <option value='999999'>999999</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Kategori</td>
+                    <td> : <select name="kategoriId" id="daftar-kategori">
+                        </select>
+                    </td>
+                </tr>
+                <td><br /> (p) Cetak ke </td>
                 <td><br /> : <select name='printer' accesskey='p'>
-			<option value='0'>-- Cetak Ke Browser --</option>";
-        while ($printer = mysql_fetch_array($daftarKasir)) {
-            echo "<option value='$printer[idWorkstation]'>$printer[namaWorkstation]</option>";
-        }
-        echo "</select></td></tr>
-
-
-		<tr><td colspan=2><br /><input type=submit accesskey='b' value='(b) Cetak Stock Barang'></td></tr>
-					<input type=hidden name=act value=cetakbarang2>
-		</table></form>";
-
+                        <option value='0'>-- Cetak Ke Browser --</option>
+                        <?php
+                        while ($printer = mysql_fetch_array($daftarKasir)) {
+                            ?>
+                            <option value="<?php echo $printer['idWorkstation']; ?>"><?php echo $printer['namaWorkstation']; ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td colspan=2><br /><input type=submit accesskey='b' value='(b) Cetak Stock Barang'></td>
+                </tr>
+                <input type=hidden name=act value=cetakbarang2>
+            </table>
+        </form>
+        <script>
+            $(".pilih_rak").change(function () {
+                darirak = $("#darirak").val();
+                sampairak = $("#sampairak").val();
+                $("#daftar-kategori").load('aksi.php?module=so&act=kategorijarakrak&darirak=' + darirak + '&sampairak=' + sampairak);
+            });
+        </script>
+        <?php
         break;
 
 
@@ -1458,20 +1504,88 @@ switch ($_GET['act']) {
 	";
 
         // ambil data barang yang akan dicetak
-        $sql = "SELECT idRak, namaBarang, hargaJual, jumBarang
-		FROM barang WHERE jumBarang <> 0 AND idRak BETWEEN " . $_GET['darirak'] . " AND " . $_GET['sampairak'] . "
-		ORDER BY idRak,namaBarang ASC";
-        if ($abangAdekMode) {
-            $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
+        if ($_GET['kategoriId'] == '*') {
+            // Semua Kategori
+            $sql = "SELECT barang.idRak, namaBarang, hargaJual, jumBarang
 		FROM barang 
-        JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
-           from detail_beli 
-           join barang on detail_beli.barcode=barang.barcode
-           WHERE idRak BETWEEN " . $_GET['darirak'] . " AND " . $_GET['sampairak'] . "
-           group by barcode) dbeli ON barang.barcode=dbeli.barcode
-        JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
-        WHERE barang.jumBarang <> 0 AND idRak BETWEEN " . $_GET['darirak'] . " AND " . $_GET['sampairak'] . "
-		ORDER BY idRak,namaBarang ASC";
+                JOIN rak ON barang.idRak = rak.idRak 
+                WHERE jumBarang <> 0 AND rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+		ORDER BY namaRak,namaBarang ASC";
+            /* Kasus spesial untuk rak virtual 999999 */
+            if ($_GET['darirak'] == '999999' && $_GET['sampairak'] == '999999') {
+                echo '999999';
+                $sql = "SELECT barang.idRak, namaBarang, hargaJual, jumBarang
+		FROM barang 
+                WHERE jumBarang <> 0 AND idRak=999999 
+		ORDER BY namaBarang ASC";
+            }
+        } else {
+            // Kategori tertentu
+            $sql = "SELECT barang.idRak, namaBarang, hargaJual, jumBarang
+		FROM barang 
+                JOIN rak ON barang.idRak = rak.idRak 
+                WHERE jumBarang <> 0 AND idKategoriBarang={$_GET['kategoriId']} AND rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+		ORDER BY namaRak,namaBarang ASC";
+            /* Kasus spesial untuk rak virtual 999999 */
+            if ($_GET['darirak'] == '999999' && $_GET['sampairak'] == '999999') {
+                $sql = "SELECT barang.idRak, namaBarang, hargaJual, jumBarang
+		FROM barang 
+                WHERE jumBarang <> 0 AND idKategoriBarang={$_GET['kategoriId']} AND idRak=999999
+		ORDER BY namaBarang ASC";
+            }
+        }
+        if ($abangAdekMode) {
+            if ($_GET['kategoriId'] == '*') {
+                $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
+                    FROM barang 
+                    JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
+                        from detail_beli 
+                        join barang on detail_beli.barcode=barang.barcode
+                        JOIN rak ON barang.idRak = rak.idRak 
+                        WHERE rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+                        group by barcode) dbeli ON barang.barcode=dbeli.barcode
+                    JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
+                    WHERE barang.jumBarang <> 0 AND namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+                    ORDER BY namaRak,namaBarang ASC";
+                /* Kasus spesial untuk rak virtual 999999 */
+                if ($_GET['darirak'] == '999999' && $_GET['sampairak'] == '999999') {
+                    $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
+                        FROM barang 
+                        JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
+                            from detail_beli 
+                            join barang on detail_beli.barcode=barang.barcode
+                            WHERE idRak=999999 
+                            group by barcode) dbeli ON barang.barcode=dbeli.barcode
+                        JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
+                        WHERE barang.jumBarang <> 0 AND barang.idRak=999999 
+                        ORDER BY namaBarang ASC";
+                }
+            } else {
+                $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
+                    FROM barang 
+                    JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
+                        from detail_beli 
+                        join barang on detail_beli.barcode=barang.barcode
+                        JOIN rak ON barang.idRak = rak.idRak 
+                        WHERE rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+                        group by barcode) dbeli ON barang.barcode=dbeli.barcode
+                    JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
+                    WHERE barang.jumBarang <> 0 AND barang.idKategoriBarang={$_GET['kategoriId']} AND namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+                    ORDER BY namaRak,namaBarang ASC";
+                /* Kasus spesial untuk rak virtual 999999 */
+                if ($_GET['darirak'] == '999999' && $_GET['sampairak'] == '999999') {
+                    $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
+                        FROM barang 
+                        JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
+                            from detail_beli 
+                            join barang on detail_beli.barcode=barang.barcode
+                            WHERE idRak=999999 
+                            group by barcode) dbeli ON barang.barcode=dbeli.barcode
+                        JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
+                        WHERE barang.jumBarang <> 0 AND barang.idKategoriBarang={$_GET['kategoriId']} AND barang.idRak=999999 
+                        ORDER BY namaBarang ASC";
+                }
+            }
         }
         $daftarBarang = mysql_query($sql);
         $jumlahBarang = mysql_num_rows($daftarBarang);
@@ -1492,12 +1606,13 @@ switch ($_GET['act']) {
                     // cetak header
                     $hasil = mysql_query("SELECT namaRak FROM rak WHERE idRak = $x[idRak]");
                     $r = mysql_fetch_array($hasil);
+                    $namaRak = $r ? $r['namaRak'] : 'Virtual';
 
                     echo "
 					</table>
 
 					<h2>
-						Rak #$x[idRak] : $r[namaRak]
+						Rak #$x[idRak] : $namaRak
 					</h2>
 
 					<table border=1>
@@ -1817,15 +1932,15 @@ switch ($_GET['act']) {
             ?>
         </select>
         <script>
-            $("#pilih-rak").change(function () {
+                $("#pilih-rak").change(function () {
                 var rakId = $(this).val();
                 var data = {"rak-id": rakId};
                 var url = "aksi.php?module=barang&act=approvemso-getbarang";
-                $("#app-table-body").load(url, data);
+                    $("#app-table-body").load(url, data);
                 if (rakId != 'null') {
                     $("#warning").html('PERHATIAN!!: Pastikan semua barang di rak ini sudah ada (sudah di-so). Barang yang tidak ada akan dipindahkan rak nya');
                 } else {
-                    $("#warning").html("");
+            $("#warning").html("");
                 }
             });
         </script>
@@ -2266,41 +2381,41 @@ switch ($_GET['act']) {
                         -
                         <input type="text" id="tanggal_sampai" name="diskon_detail[tanggal_sampai]" value="">
                         <script type="text/javascript">
-                            $("#diskonTipeId").change(function () {
+                                $("#diskonTipeId").change(function () {
                                 var diskonId = $(this).val();
-                                // 1000:gudang; 1001:waktu; 1002: waktu khusus member
+                                    // 1000:gudang; 1001:waktu; 1002: waktu khusus member
                                 if (diskonId == 1000) {
                                     $(".show-on-grosir-only").show();
-                                    $(".show-on-waktu-only").hide();
-                                } else if (diskonId == 1001 || diskonId == 1002) {
+                                $(".show-on-waktu-only").hide();
+                                    } else if (diskonId == 1001 || diskonId == 1002) {
                                     $(".show-on-grosir-only").hide();
-                                    $(".show-on-waktu-only").show();
-                                }
+                            $(".show-on-waktu-only").show();
+                            }
                             });
 
-                            $("#barcode").keydown(function (e) {
+                                    $("#barcode").keydown(function (e) {
                                 if (e.keyCode === 13) {
-                                    $('#tanggal_dari').focus();
-                                    return false;
-                                }
-                            });
+                                $('#tanggal_dari').focus();
+                            return false;
+                            }
+                                });
 
                             $(function () {
-                                $('#tanggal_dari').appendDtpicker({
+                                    $('#tanggal_dari').appendDtpicker({
                                     "closeOnSelected": true,
                                     'locale': 'id',
-                                    'dateFormat': 'DD-MM-YYYY hh:mm'
-                                });
+                            'dateFormat': 'DD-MM-YYYY hh:mm'
                             });
+                                });
                             $(function () {
-                                $('#tanggal_sampai').appendDtpicker({
+                                    $('#tanggal_sampai').appendDtpicker({
                                     "closeOnSelected": true,
                                     'locale': 'id',
-                                    'dateFormat': 'DD-MM-YYYY hh:mm'
-                                });
+                            'dateFormat': 'DD-MM-YYYY hh:mm'
                             });
-                            $("#barcode").blur(function () {
-                                $("#barcode-info").load("aksi.php?module=diskon&act=getbarcodeinfo&barcode=" + $(this).val());
+                            });
+                                $("#barcode").blur(function () {
+                            $("#barcode-info").load("aksi.php?module=diskon&act=getbarcodeinfo&barcode=" + $(this).val());
                             })
                         </script>
                     </td>
@@ -2372,18 +2487,16 @@ switch ($_GET['act']) {
             ?>
         </table>
         <script>
-            $(".status-diskon").change(function () {
+                $(".status-diskon").change(function () {
                 var diskonId = $(this).attr("id");
                 var status = $(this).val();
                 var data = "id=" + diskonId + "&status=" + status;
-                var url = "aksi.php?module=barang&act=diskonupdate";
+                    var url = "aksi.php?module=barang&act=diskonupdate";
                 $.ajax({
                     type: "POST",
-                    url: url,
-                    data: data,
+                        url: url,                     data: data,
                     success: function () {
-                        //location.reload()
-                    },
+            //location.reload()             },
                 });
             });
 
@@ -2723,15 +2836,15 @@ switch ($_GET['act']) {
             ?>
         </select>
         <script>
-            $("#pilih-rak").change(function () {
+                $("#pilih-rak").change(function () {
                 var rakId = $(this).val();
                 var data = {"rak-id": rakId};
                 var url = "aksi.php?module=barang&act=approvepdtso-getbarang";
-                $("#app-table-body").load(url, data);
+                    $("#app-table-body").load(url, data);
                 if (rakId != 'null') {
                     $("#warning").html('PERHATIAN!!: Pastikan semua barang di rak ini sudah ada (sudah di-so). Barang yang tidak ada akan dipindahkan rak nya');
                 } else {
-                    $("#warning").html("");
+            $("#warning").html("");
                 }
             });
         </script>
@@ -2915,7 +3028,7 @@ switch ($_GET['act']) {
                     var divToPrint = document.getElementById('tableToPrint');
                     newWin = window.open("");
                     newWin.document.write(divToPrint.outerHTML);
-                    newWin.print();
+                newWin.print();
                     newWin.close();
                 }
             </script>
@@ -2970,13 +3083,12 @@ switch ($_GET['act']) {
         <script>
             $("#namaBarang").autocomplete({
                 source: "aksi.php?module=hargabanded&act=getnamabarang",
-                minLength: 3,
-                select: function (event, ui) {
+                    minLength: 3,
+                            select: function (event, ui) {
                     console.log(ui.item ?
-                            "Nama: " + ui.item.value + "; Barcode " + ui.item.id :
-                            "Nothing selected, input was " + this.value);
+                        "Nama: " + ui.item.value + "; Barcode " + ui.item.id :                             "Nothing selected, input was " + this.value);
                     if (ui.item) {
-                        $("#barcode").val(ui.item.id);
+            $("#barcode").val(ui.item.id);
                     }
                 }
             });
@@ -3072,18 +3184,18 @@ switch ($_GET['act']) {
             <script>
                 $("#hb-qty").change(function () {
                     var total = parseInt($("#hb-hargajual").val()) * parseInt($("#hb-qty").val());
-                    //console.log(total);
-                    $("#hb-total").val(total);
-                });
-                $("#hb-hargabanded").keyup(function () {
+                //console.log(total);
+                $("#hb-total").val(total);
+                    });
+                    $("#hb-hargabanded").keyup(function () {
                     var hargaBanded = $(this).val();
                     var hargaSatuan = parseInt(hargaBanded) / parseInt($("#hb-qty").val());
-                    //console.log(hargaSatuan);
-                    $("#hb-hargasatuan").val(hargaSatuan);
-                });
-                $("#hb-hargasatuan").keyup(function () {
+                //console.log(hargaSatuan);
+                $("#hb-hargasatuan").val(hargaSatuan);
+                    });
+                    $("#hb-hargasatuan").keyup(function () {
                     var hargaSatuan = $(this).val();
-                    var hargaBanded = parseInt(hargaSatuan) * parseInt($("#hb-qty").val());
+                var hargaBanded = parseInt(hargaSatuan) * parseInt($("#hb-qty").val());
                     $("#hb-hargabanded").val(hargaBanded);
                 });
             </script>
@@ -3119,31 +3231,30 @@ switch ($_GET['act']) {
         <script>
             $("#namaBarang").autocomplete({
                 source: "aksi.php?module=hargabanded&act=getnamabarang",
-                minLength: 3,
-                select: function (event, ui) {
+                    minLength: 3,
+                            select: function (event, ui) {
                     console.log(ui.item ?
-                            "Nama: " + ui.item.value + "; Barcode " + ui.item.id :
-                            "Nothing selected, input was " + this.value);
+                        "Nama: " + ui.item.value + "; Barcode " + ui.item.id :                             "Nothing selected, input was " + this.value);
                     if (ui.item) {
-                        $("#barcode").val(ui.item.id);
+            $("#barcode").val(ui.item.id);
                     }
                 }
             });
-            $(function () {
-                $('#tanggal_dari').appendDtpicker({
+                    $(function () {
+                    $('#tanggal_dari').appendDtpicker({
                     "closeOnSelected": true,
                     'locale': 'id',
                     'dateFormat': 'DD-MM-YYYY',
-                    "dateOnly": true,
-                    "autodateOnStart": false
+                "dateOnly": true,
+            "autodateOnStart": false
                 });
             });
-            $(function () {
-                $('#tanggal_sampai').appendDtpicker({
+                    $(function () {
+                    $('#tanggal_sampai').appendDtpicker({
                     "closeOnSelected": true,
                     'locale': 'id',
-                    'dateFormat': 'DD-MM-YYYY',
-                    "dateOnly": true
+            'dateFormat': 'DD-MM-YYYY',
+            "dateOnly": true
                 });
             });
         </script>
