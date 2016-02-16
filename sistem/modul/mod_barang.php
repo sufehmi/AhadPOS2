@@ -240,7 +240,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                                                    ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                                                     ?>
                         </td>
                     </tr>
                     <?php
@@ -2350,6 +2350,11 @@ switch ($_GET['act']) {
                 mysql_query($sqlInsert) or die(mysql_error());
             }
         }
+        /* Menonaktifkan diskon-diskon yang sudah terlewat tanggalnya */
+        if (isset($_POST['auto_nonaktif'])) {
+            $sqlUpdate = "UPDATE diskon_detail SET status = 0 WHERE status = 1 AND tanggal_sampai < NOW()";
+            mysql_query($sqlUpdate) or die('Gagal auto non aktif, error = ' . mysql_error());
+        }
         ?>
         <h2>Diskon</h2>
         <form method="POST">
@@ -2443,6 +2448,9 @@ switch ($_GET['act']) {
             </table>
         </form>
         <hr />
+        <form method="POST">
+            <input type="submit" name="auto_nonaktif" value="Auto Non Aktif" title="Me-nonaktifkan diskon-diskon yang sudah expired" />
+        </form>
         <table class="tabel">
             <tr>
                 <th>Tipe Diskon</th>
