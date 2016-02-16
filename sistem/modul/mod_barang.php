@@ -240,7 +240,7 @@ switch ($_GET['act']) {
                         <td class="right"><?php echo $r['hargaBanded']; ?></td>
                         <td class="right"><?php echo $r['qtyBanded']; ?></td>
                         <td class="center"><?php echo $r['nonAktif'] == '1' ? '<i class="fa fa-times"></i>' : ''; ?></td>
-                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                                                  ?>
+                        <td><a href=?module=barang&act=editbarang&id=<?php echo $r['barcode']; ?>>Ubah</a><?php //|Ha<a href=./aksi.php?module=barang&act=hapus&id=<?php echo $r['barcode']; >pus</a>                                                                                                                                                                    ?>
                         </td>
                     </tr>
                     <?php
@@ -1932,15 +1932,15 @@ switch ($_GET['act']) {
             ?>
         </select>
         <script>
-                $("#pilih-rak").change(function () {
+            $("#pilih-rak").change(function () {
                 var rakId = $(this).val();
                 var data = {"rak-id": rakId};
                 var url = "aksi.php?module=barang&act=approvemso-getbarang";
-                    $("#app-table-body").load(url, data);
+                $("#app-table-body").load(url, data);
                 if (rakId != 'null') {
                     $("#warning").html('PERHATIAN!!: Pastikan semua barang di rak ini sudah ada (sudah di-so). Barang yang tidak ada akan dipindahkan rak nya');
                 } else {
-            $("#warning").html("");
+                    $("#warning").html("");
                 }
             });
         </script>
@@ -2381,41 +2381,41 @@ switch ($_GET['act']) {
                         -
                         <input type="text" id="tanggal_sampai" name="diskon_detail[tanggal_sampai]" value="">
                         <script type="text/javascript">
-                                $("#diskonTipeId").change(function () {
+                            $("#diskonTipeId").change(function () {
                                 var diskonId = $(this).val();
-                                    // 1000:gudang; 1001:waktu; 1002: waktu khusus member
+                                // 1000:gudang; 1001:waktu; 1002: waktu khusus member
                                 if (diskonId == 1000) {
                                     $(".show-on-grosir-only").show();
-                                $(".show-on-waktu-only").hide();
-                                    } else if (diskonId == 1001 || diskonId == 1002) {
+                                    $(".show-on-waktu-only").hide();
+                                } else if (diskonId == 1001 || diskonId == 1002) {
                                     $(".show-on-grosir-only").hide();
-                            $(".show-on-waktu-only").show();
-                            }
+                                    $(".show-on-waktu-only").show();
+                                }
                             });
 
-                                    $("#barcode").keydown(function (e) {
+                            $("#barcode").keydown(function (e) {
                                 if (e.keyCode === 13) {
-                                $('#tanggal_dari').focus();
-                            return false;
-                            }
-                                });
+                                    $('#tanggal_dari').focus();
+                                    return false;
+                                }
+                            });
 
                             $(function () {
-                                    $('#tanggal_dari').appendDtpicker({
+                                $('#tanggal_dari').appendDtpicker({
                                     "closeOnSelected": true,
                                     'locale': 'id',
-                            'dateFormat': 'DD-MM-YYYY hh:mm'
-                            });
+                                    'dateFormat': 'DD-MM-YYYY hh:mm'
                                 });
+                            });
                             $(function () {
-                                    $('#tanggal_sampai').appendDtpicker({
+                                $('#tanggal_sampai').appendDtpicker({
                                     "closeOnSelected": true,
                                     'locale': 'id',
-                            'dateFormat': 'DD-MM-YYYY hh:mm'
+                                    'dateFormat': 'DD-MM-YYYY hh:mm'
+                                });
                             });
-                            });
-                                $("#barcode").blur(function () {
-                            $("#barcode-info").load("aksi.php?module=diskon&act=getbarcodeinfo&barcode=" + $(this).val());
+                            $("#barcode").blur(function () {
+                                $("#barcode-info").load("aksi.php?module=diskon&act=getbarcodeinfo&barcode=" + $(this).val());
                             })
                         </script>
                     </td>
@@ -2487,16 +2487,18 @@ switch ($_GET['act']) {
             ?>
         </table>
         <script>
-                $(".status-diskon").change(function () {
+            $(".status-diskon").change(function () {
                 var diskonId = $(this).attr("id");
                 var status = $(this).val();
                 var data = "id=" + diskonId + "&status=" + status;
-                    var url = "aksi.php?module=barang&act=diskonupdate";
+                var url = "aksi.php?module=barang&act=diskonupdate";
                 $.ajax({
                     type: "POST",
-                        url: url,                     data: data,
+                    url: url,
+                    data: data,
                     success: function () {
-            //location.reload()             },
+                        location.reload();
+                    }
                 });
             });
 
@@ -2836,15 +2838,15 @@ switch ($_GET['act']) {
             ?>
         </select>
         <script>
-                $("#pilih-rak").change(function () {
+            $("#pilih-rak").change(function () {
                 var rakId = $(this).val();
                 var data = {"rak-id": rakId};
                 var url = "aksi.php?module=barang&act=approvepdtso-getbarang";
-                    $("#app-table-body").load(url, data);
+                $("#app-table-body").load(url, data);
                 if (rakId != 'null') {
                     $("#warning").html('PERHATIAN!!: Pastikan semua barang di rak ini sudah ada (sudah di-so). Barang yang tidak ada akan dipindahkan rak nya');
                 } else {
-            $("#warning").html("");
+                    $("#warning").html("");
                 }
             });
         </script>
@@ -3028,7 +3030,7 @@ switch ($_GET['act']) {
                     var divToPrint = document.getElementById('tableToPrint');
                     newWin = window.open("");
                     newWin.document.write(divToPrint.outerHTML);
-                newWin.print();
+                    newWin.print();
                     newWin.close();
                 }
             </script>
@@ -3083,12 +3085,12 @@ switch ($_GET['act']) {
         <script>
             $("#namaBarang").autocomplete({
                 source: "aksi.php?module=hargabanded&act=getnamabarang",
-                    minLength: 3,
-                            select: function (event, ui) {
+                minLength: 3,
+                select: function (event, ui) {
                     console.log(ui.item ?
-                        "Nama: " + ui.item.value + "; Barcode " + ui.item.id :                             "Nothing selected, input was " + this.value);
+                            "Nama: " + ui.item.value + "; Barcode " + ui.item.id : "Nothing selected, input was " + this.value);
                     if (ui.item) {
-            $("#barcode").val(ui.item.id);
+                        $("#barcode").val(ui.item.id);
                     }
                 }
             });
@@ -3184,18 +3186,18 @@ switch ($_GET['act']) {
             <script>
                 $("#hb-qty").change(function () {
                     var total = parseInt($("#hb-hargajual").val()) * parseInt($("#hb-qty").val());
-                //console.log(total);
-                $("#hb-total").val(total);
-                    });
-                    $("#hb-hargabanded").keyup(function () {
+                    //console.log(total);
+                    $("#hb-total").val(total);
+                });
+                $("#hb-hargabanded").keyup(function () {
                     var hargaBanded = $(this).val();
                     var hargaSatuan = parseInt(hargaBanded) / parseInt($("#hb-qty").val());
-                //console.log(hargaSatuan);
-                $("#hb-hargasatuan").val(hargaSatuan);
-                    });
-                    $("#hb-hargasatuan").keyup(function () {
+                    //console.log(hargaSatuan);
+                    $("#hb-hargasatuan").val(hargaSatuan);
+                });
+                $("#hb-hargasatuan").keyup(function () {
                     var hargaSatuan = $(this).val();
-                var hargaBanded = parseInt(hargaSatuan) * parseInt($("#hb-qty").val());
+                    var hargaBanded = parseInt(hargaSatuan) * parseInt($("#hb-qty").val());
                     $("#hb-hargabanded").val(hargaBanded);
                 });
             </script>
@@ -3231,30 +3233,30 @@ switch ($_GET['act']) {
         <script>
             $("#namaBarang").autocomplete({
                 source: "aksi.php?module=hargabanded&act=getnamabarang",
-                    minLength: 3,
-                            select: function (event, ui) {
+                minLength: 3,
+                select: function (event, ui) {
                     console.log(ui.item ?
-                        "Nama: " + ui.item.value + "; Barcode " + ui.item.id :                             "Nothing selected, input was " + this.value);
+                            "Nama: " + ui.item.value + "; Barcode " + ui.item.id : "Nothing selected, input was " + this.value);
                     if (ui.item) {
-            $("#barcode").val(ui.item.id);
+                        $("#barcode").val(ui.item.id);
                     }
                 }
             });
-                    $(function () {
-                    $('#tanggal_dari').appendDtpicker({
+            $(function () {
+                $('#tanggal_dari').appendDtpicker({
                     "closeOnSelected": true,
                     'locale': 'id',
                     'dateFormat': 'DD-MM-YYYY',
-                "dateOnly": true,
-            "autodateOnStart": false
+                    "dateOnly": true,
+                    "autodateOnStart": false
                 });
             });
-                    $(function () {
-                    $('#tanggal_sampai').appendDtpicker({
+            $(function () {
+                $('#tanggal_sampai').appendDtpicker({
                     "closeOnSelected": true,
                     'locale': 'id',
-            'dateFormat': 'DD-MM-YYYY',
-            "dateOnly": true
+                    'dateFormat': 'DD-MM-YYYY',
+                    "dateOnly": true
                 });
             });
         </script>
