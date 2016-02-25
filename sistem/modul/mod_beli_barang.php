@@ -1695,8 +1695,15 @@ switch ($_GET[act]) { // -------------------------------------------------------
                   // tambahkan counter
                   $ctr++;
                }; // while ($ctr <= $_POST[count]) {
+               
                // update nilai invoice di table transaksibeli
-               $hasil = mysql_query("UPDATE transaksibeli SET nominal=$totalInvoice WHERE idTransaksiBeli=$idTransaksiBeli");
+               $sql = "select sum(jumBarangAsli * hargaBeli) total from detail_beli where idTransaksiBeli = {$idTransaksiBeli}";
+               $result = mysql_query($sql);
+               $detailBeli = mysql_fetch_array($result);
+               /* Total invoice dioverwrite dengan ini, yang di atas sering beda, entah kenapa */
+               $totalInvoice = $detailBeli['total'];
+               
+               $hasil = mysql_query("UPDATE transaksibeli SET nominal={$totalInvoice} WHERE idTransaksiBeli=$idTransaksiBeli");
                // laporkan jumlah record yang kita proses
                echo "<br /><h2>Jumlah item di invoice ini: ".($ctr - 1)." <br />
 		Total Pembelian : Rp ".uang($totalInvoice)."</h2><br />Selesai.";
