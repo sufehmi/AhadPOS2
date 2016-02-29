@@ -1,4 +1,4 @@
 <?php
 /*
-* Diskon digabung di modul barang
-*/
+ * Diskon digabung di modul barang
+ */

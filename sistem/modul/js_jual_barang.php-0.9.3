@@ -109,13 +109,13 @@ switch($_GET[act]){ // =========================================================
 
 	echo "
                             <td>(q) Qty</td><td>: <input type=text name='jumBarang' value='1' size=5 accesskey='q'></td>
-                            <td align=right><input type='submit' class='btn btn-default'  name='btnTambah' value='(t) Tambah' accesskey='t'></td>
+                            <td align=right><input type=submit name='btnTambah' value='(t) Tambah' accesskey='t'></td>
 			    </form>
 
 			<td>
 			<FORM METHOD=POST ACTION=\"js_cari_barang.php\" onSubmit=\"popupform(this, 'cari1')\">
 			<input type=text name='namabarang' accesskey='c'>
-			<input type='submit' class='btn btn-default'  name='btnCari' id='btnCari' value='(c) Cari Barang'>
+			<input type=submit name='btnCari' id='btnCari' value='(c) Cari Barang'>
 			</form>
 			</td>
 
@@ -226,7 +226,7 @@ switch($_GET[act]){ // =========================================================
                         <tr><td colspan=2>&nbsp;</td></tr>
 
 
-                        <tr><td> [<a href='../aksi.php?module=penjualan_barang&act=batal'> BATAL </a>]</td><td align=right>&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default'  value='Simpan'></td></tr>
+                        <tr><td> [<a href='../aksi.php?module=penjualan_barang&act=batal'> BATAL </a>]</td><td align=right>&nbsp;&nbsp;&nbsp;<input type=submit value='Simpan'></td></tr>
                         </table></form>";
 
 		//fixme: buat tombol "Simpan & Cetak PDF" - untuk pengguna di Windows
