@@ -117,7 +117,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 				?>
 				<form id="entry-barang" method=POST action='js_jual_barang.php?act=caricustomer&action=tambah'>
 					<div class="input-group">
-						<label for="barcode"><span class="u">B</span>arcode</label>
+						<label for="barcode">Barcode</label>
 						<input type="text" class="form-control" name="barcode" accesskey="b" id="barcode" autofocus="autofocus" autocomplete="off">
 
 					</div>
@@ -143,7 +143,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 					if ($ukmMode) {
 						?>
 						<div class="input-group">
-						<label for="hargaBarang"><span class="u">H</span>arga</label>
+						<label for="hargaBarang">Harga</label>
 						<input type="text" class="form-control" id="hargaBarang" name='hargaBarang' value='1' size=5 accesskey="h" autocomplete="off">
 						</div>
 						<?php
@@ -151,16 +151,16 @@ ahp_popupheader('Jual Barang',$add_tohead);
 					?>
 
 					<div class="input-group">
-						<label for="jumBarang"><span class="u">Q</span>ty</label>
+						<label for="jumBarang">Qty</label>
 						<input type="text" class="form-control" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q" autocomplete="off">
 					</div>
 				<!--<input type='submit' class='btn btn-info' name="btnTambah" value="Tambah" accesskey="t">-->
-					<button type="submit"><span class="u">T</span>ambah</button>
+					<button type="submit">Tambah</button>
 				</form>
 
 				<form method="POST" action="js_cari_barang.php?caller=js_jual_barang" onSubmit="popupform(this, 'cari1')">
 					<div class="input-group">
-						<label for="namaBarang"><span class="u">C</span>ari Barang</label>
+						<label for="namaBarang">Cari Barang</label>
 						<input type="text" class="form-control" id="namaBarang" name='namabarang' accesskey='c'>
 						<input type="hidden" id="jumBarang-cariBarang" name="jumBarang" value="1"/>
 					</div>
@@ -396,7 +396,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 								$_SESSION['tot_pembelian']= $tot_pembelian;
 								?>
 								<tr>
-									<td class="right">Tipe Pembayar<span class="u">a</span>n :</td>
+									<td class="right">Tipe Pembayaran :</td>
 									<td class="">
 									<select class='form-control' name='tipePembayaran' accesskey='a' tabindex=1>
 										<option value='0'>-Tipe Pembayaran-</option>
@@ -433,7 +433,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 								if (!$transferahad) {
 									?>
 									<tr>
-									<td class="right"><span class="u">U</span>ang Dibayar :</td>
+									<td class="right">Uang Dibayar :</td>
 									<td class=""><input type="text" class="form-control" accesskey="u" name="uangDibayar" id="uangDibayar" value="0" onBlur="RecalcTotal(<?php echo $tot_pembelian; ?>)" tabindex=3></td>
 									</tr>
 									<tr>

@@ -65,21 +65,21 @@ ahp_popupheader('retur barang');
 
 				<form id="entry-barang" method=POST action='js_input_retur_barang.php?act=caricustomer&action=tambah'>
 					<div class="input-group">
-						<label for="barcode"><span class="u">B</span>arcode</label>
+						<label for="barcode">Barcode</label>
 						<input type="text" class="form-control" name="barcode" accesskey="b" id="barcode" autofocus="autofocus" autocomplete="off">
 
 					</div>
 					<div class="input-group">
-						<label for="jumBarang"><span class="u">Q</span>ty</label>
+						<label for="jumBarang">Qty</label>
 						<input type="text" class="form-control" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q" autocomplete="off">
 					</div>
 				<!--<input type='submit' class='btn btn-info' name="btnTambah" value="Tambah" accesskey="t">-->
-					<button type="submit"><span class="u">T</span>ambah</button>
+					<button type="submit">Tambah</button>
 				</form>
 
 				<form method="POST" action="js_cari_barang.php?caller=js_input_retur_barang" onSubmit="popupform(this, 'cari1')">
 					<div class="input-group">
-						<label for="namaBarang"><span class="u">C</span>ari Barang</label>
+						<label for="namaBarang">Cari Barang</label>
 						<input type="text" class="form-control" id="namaBarang" name='namabarang' accesskey='c'>
 						<input type="hidden" id="jumBarang-cariBarang" name="jumBarang" value="1"/>
 					</div>

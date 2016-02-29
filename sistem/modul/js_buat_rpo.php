@@ -73,14 +73,14 @@ if (empty($_SESSION['namauser'])) {
 
 									<form id="entry-barang" method=POST action='js_buat_rpo.php?act=mulairpo&action=tambah'>
 										<div class="input-group">
-											<label for="jumBarang"><span class="u">Q</span>ty</label>
+											<label for="jumBarang">Qty</label>
 											<input type="text" class="form-control" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q">
 										</div>
 										<div class="input-group">
-											<label for="barcode"><span class="u">B</span>arcode</label>
+											<label for="barcode">Barcode</label>
 											<input type="text" class="form-control" name="barcode" accesskey="b" id="barcode">
 										</div>
-										<button type="submit"><span class="u">T</span>ambah</button>
+										<button type="submit">Tambah</button>
 			<!--							(b) Barcode</td><td><input type='text' class='form-control' name='barcode' accesskey='b' id='barcode'></td>
 
 								<td>(q) Qty</td><td><input type='text' class='form-control' name='jumBarang' value='0' size=5 accesskey='q'></td>
@@ -92,7 +92,7 @@ if (empty($_SESSION['namauser'])) {
 								<td>
 									<FORM METHOD=POST ACTION="js_cari_barang.php?caller=js_buat_rpo" onSubmit="popupform(this, 'cari1')">
 										<div class="input-group">
-											<label for="namaBarang"><span class="u">C</span>ari Barang</label>
+											<label for="namaBarang">Cari Barang</label>
 											<input type="text" class="form-control" id="namaBarang" name='namabarang' accesskey='c'>
 										</div>
 			<!--										<input type='text' class='form-control' name='namabarang' accesskey='c'>

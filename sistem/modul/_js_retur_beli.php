@@ -57,24 +57,24 @@ if ($_GET['action']=== 'tambah') {
 </div>
 <form id="entry-barang" method=POST action='js_jual_barang.php?act=carisupplier&action=tambah'>
 	<div class="input-group">
-		<label for="barcode"><span class="u">B</span>arcode</label>
+		<label for="barcode">Barcode</label>
 		<input type="text" class="form-control" name="barcode" accesskey="b" id="barcode" autocomplete="off">
 	</div>
 	<input type=hidden name='returbeli' value='1'>
 
 	<div class="input-group">
-		<label for="jumBarang"><span class="u">Q</span>ty</label>
+		<label for="jumBarang">Qty</label>
 		<input type="text" class="form-control" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q" autocomplete="off">
 	</div>
-	<button type="submit"><span class="u">T</span>ambah</button>
+	<button type="submit">Tambah</button>
 </form>
 
 <form method="POST" action="js_cari_barang_2.php?caller=js_jual_barang.php?act=carisupplier" onSubmit="popupform(this, 'cari1')">
 	<div class="input-group">
-		<label for="namaBarang"><span class="u">C</span>ari Barang</label>
+		<label for="namaBarang">Cari Barang</label>
 		<input type="text" class="form-control" id="namaBarang" name='namabarang' accesskey='c'>
 	</div>
-	<button type="submit" style="margin-bottom: 0px;"><span class="u">C</span>ari</button>	
+	<button type="submit" style="margin-bottom: 0px;">Cari</button>	
 </form>
 
 
@@ -157,7 +157,7 @@ if ($r) {
 					$_SESSION['tot_pembelian']= $tot_pembelian;
 					?>
 					<tr>
-						<td class="right">Tipe Pembayar<span class="u">a</span>n :</td>
+						<td class="right">Tipe Pembayaran :</td>
 						<td class="">
 							<select class='form-control' name='tipePembayaran' accesskey='a' tabindex=1>
 								<option value='0'>-Tipe Pembayaran-</option>
