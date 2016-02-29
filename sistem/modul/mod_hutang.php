@@ -51,7 +51,7 @@ switch($_GET[act]){
 		}
 		echo "</table>
 		<p></p>
-		<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
+		<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 
 		break;
 

@@ -1053,7 +1053,7 @@ $hasil= mysql_query($sql);
 if (mysql_num_rows($hasil) >0) {
 	echo "Kasir ini sedang Aktif ! Silakan ditutup dulu.
 			<p></p>
-				<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
+				<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 } else {
 	$sql= "INSERT INTO kasir(tglBukaKasir,idUser,kasAwal,currentWorkstation)
 			VALUES ('$_POST[tglBukaKasir]',$_POST[idKasir],$_POST[kasAwal],$_POST[idWorkstation])";

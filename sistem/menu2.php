@@ -44,6 +44,7 @@ $hasil= mysql_query($sqlLv1);
 
 <header class="navbar navbar-default" id="header">
 <button onclick='ta_toggle($(this))' data-menu='drawer' data-active=0><i class='fa fa-bars'></i></button>
+<h1>AhadPos</h1>
 </header>
 
 <nav id='drawer' class='sidemenu' style='display:none'><ul class="nav" id="mainmenu">

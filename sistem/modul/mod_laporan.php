@@ -236,7 +236,7 @@ case "penjualan2": //===========================================================
 		<h2>Total Retur Profit:<span style="color:red">(<?php echo number_format($total_profit_retur, 0, ',', '.'); ?>)</span></h2>
 
 		<p></p>
-		<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
+		<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 
 		<?php
 		break;
@@ -477,7 +477,7 @@ case "penjualan2": //===========================================================
 		</table>
 		<h2>Total Diskon:<?php echo number_format($totalDiskon, 0, ',', '.'); ?></h2>
 		<p></p>
-		<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
+		<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 		<?php
 		break;
 
@@ -689,7 +689,7 @@ case "penjualan2": //===========================================================
 			<h3>Total Profit :<?php echo number_format($total_profit, 0, ',', '.'); ?></h3>
 
 			<p></p>
-			<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
+			<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 			<?php
 		}
 		if ($_GET[action]== 'lihatreturjual') { // ---------------------------------------------------------------------------------
@@ -748,7 +748,7 @@ case "penjualan2": //===========================================================
 			<h3>Total Retur Profit :<?php echo number_format($total_profit, 0, ',', '.'); ?></h3>
 
 			<p></p>
-			<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
+			<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 			<?php
 		}
 		break;
@@ -788,7 +788,7 @@ case "penjualan2": //===========================================================
 			echo "Total Stok Saat Ini= Rp ".number_format($x[TotalStok], 0, ',', '.')."
 
 					<p></p>
-					<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
+					<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 
 		";
 

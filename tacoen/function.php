@@ -28,9 +28,10 @@ function ahp_htmlheader($title,$add_to_head='') {
 	echo "<script type='text/javascript' src='".SITE_URL."js/jquery.simple-dtpicker.js'></script>\n";
 	echo "<script type='text/javascript' src='".SITE_URL."bootstrap/js/bootstrap.min.js'></script>\n";
 	echo "<script type='text/javascript' src='".SITE_URL."js/ahadpos.js'></script>\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/font/fa/style.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/font/dosis/style.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/jquery-ui-ac.min.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/jquery.simple-dtpicker.css' />\n";
-	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/font/fa/style.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."bootstrap/css/bootstrap.min.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."bootstrap/css/bootstrap-theme.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/ap.css' />\n";
