@@ -77,7 +77,7 @@ if ($_GET["rak"]) {
 	</table>
 
 	<input type=hidden name=count value=$n>
-	<input type=submit name=simpan value=Simpan>
+	<input type='submit' class='btn btn-default'  name=simpan value=Simpan>
 	</form>
 	";
 
@@ -148,7 +148,7 @@ echo "
 	</select>
 
 	<br /><br />
-	<input type=submit value=Pilih>
+	<input type='submit' class='btn btn-default'  value=Pilih>
 	</form>
 	";
 

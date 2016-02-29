@@ -104,22 +104,22 @@ switch($_GET[act]){ // ---------------------------------------------------------
 		<tr>
                     <td>
 			<form method=POST action='?module=pembelian_barang&act=pembelianbarang'>
-			<input type=submit value='(b) Pembelian Barang' accesskey='b'>
+			<input type='submit' class='btn btn-default'  value='(b) Pembelian Barang' accesskey='b'>
 			</form>
                     </td>
                     <td>
 			<form method=POST action='?module=pembelian_barang&act=laporanpembeliantanggal'>
-			<input type=submit value='(l) Laporan Pembelian' accesskey='l'><br /><center>(per Tanggal)</center>
+			<input type='submit' class='btn btn-default'  value='(l) Laporan Pembelian' accesskey='l'><br /><center>(per Tanggal)</center>
 			</form>
                     </td>
                     <td>
 			<form method=POST action='?module=pembelian_barang&act=laporanpembelian'>
-			<input type=submit value='(s) Laporan Pembelian' accesskey='s'><br /><center>(per Supplier)</center>
+			<input type='submit' class='btn btn-default'  value='(s) Laporan Pembelian' accesskey='s'><br /><center>(per Supplier)</center>
 			</form>
                     </td>
                     <td>
 			<form method=POST action='?module=pembelian_barang&act=pemesananbarang'>
-			<input type=submit value='(p) Pemesanan Barang' accesskey='p'>
+			<input type='submit' class='btn btn-default'  value='(p) Pemesanan Barang' accesskey='p'>
 			</form>
                     </td>
 	
@@ -129,12 +129,12 @@ switch($_GET[act]){ // ---------------------------------------------------------
 		<tr>
                     <td>
 			<form method=POST action='?module=pembelian_barang&act=returpembelian'>
-			<input type=submit value='(r) Retur Pembelian' accesskey='r'>
+			<input type='submit' class='btn btn-default'  value='(r) Retur Pembelian' accesskey='r'>
 			</form>
                     </td>
                     <td>
 			<form method=POST action='?module=pembelian_barang&act=cetakretur'>
-			<input type=submit value='(c) Cetak Nota Retur' accesskey='c'>
+			<input type='submit' class='btn btn-default'  value='(c) Cetak Nota Retur' accesskey='c'>
 			</form>
                     </td>
 		</tr>
@@ -144,7 +144,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
 		<tr>
                     <td>
 			<form method=POST action='?module=pembelian_barang&act=inputeprocurement1'>
-			<input type=submit value='Input Beli @ Gudang'>
+			<input type='submit' class='btn btn-default'  value='Input Beli @ Gudang'>
 			</form>
                     </td>
                     <td>
@@ -174,7 +174,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
             echo "<option value=$tahun[tahun]>$tahun[tahun]</option>";
         }
         echo "</select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value=Lihat>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default'  value=Lihat>
             </form>
             ";
 
@@ -207,7 +207,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
 				<td class=td>$x[username]</td>
 				<td class=td>
 					<form method=POST action='modul/js_cetak_retur_beli.php' onSubmit=\"popupform(this, 'Cetak Nota Retur')\">
-					<input type=submit value=Cetak>
+					<input type='submit' class='btn btn-default'  value=Cetak>
 					<input type=hidden name=idSupplier value='$x[idSupplier]'>
 					<input type=hidden name=tglRetur value='$x[tglRetur]'>
 					<input type=hidden name=idTransaksiBeli value='$x[idTransaksiBeli]'>
@@ -246,7 +246,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
             echo "<option value=$tahun[tahun]>$tahun[tahun]</option>";
         }
         echo "</select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value=Lihat>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default'  value=Lihat>
             </form>
             ";
 
@@ -306,7 +306,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
             }
         echo "</select>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <input type=submit value=Pilih>
+            <input type='submit' class='btn btn-default'  value=Pilih>
             </form>";
         if($_GET[action] == 'pesanbarang'){
             
@@ -341,7 +341,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
             <input type=radio name=pilih onClick='for (i=0;i<$no;i++){document.getElementById(\"id\"+i).checked=true;}'>Check All
             <input type=radio name=pilih onClick='for (i=0;i<$no;i++){document.getElementById(\"id\"+i).checked=false;}'>Uncheck All
             </td></tr>
-            <tr><td colspan=5 align=right class=td><input type=submit value=Cetak></form></td></tr>";
+            <tr><td colspan=5 align=right class=td><input type='submit' class='btn btn-default'  value=Cetak></form></td></tr>";
             echo "</table>";
             
         }
@@ -371,7 +371,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
             echo "<option value=$tahun[tahun]>$tahun[tahun]</option>";
         }
         echo "</select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value=Lihat>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default'  value=Lihat>
             </form>
             ";
 
@@ -435,7 +435,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
                     <td colspan=3 align=right>
                         <form method=POST action='aksi.php?module=inputreturbeli&act=inputtemp'>
                         <input type=hidden name=idNota value=$_GET[idnota]>
-			<input type=submit value='(i) Input Retur' accesskey='i'>
+			<input type='submit' class='btn btn-default'  value='(i) Input Retur' accesskey='i'>
 			</form></a>
                     </td>
                 </tr>
@@ -602,7 +602,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
 			    <td class=td align=center><input type=text name=jumRetur size=3     	value=$dataDetail[jumRetur]></td>
 			<td class=td align=right>
                                 <input type=hidden name=idDetailBeli value=$dataDetail[idDetailBeli]>                                
-                                <input type=submit value=Ubah>
+                                <input type='submit' class='btn btn-default'  value=Ubah>
                                 </form>
                             </td>
                             </tr>";
@@ -613,7 +613,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
                 <td class=td>
                     <form method=POST action='aksi.php?module=inputreturbeli&act=simpanretur'>
                         <input type=hidden name=idNota value=$idNota>
-                        <input type=submit value=Simpan>
+                        <input type='submit' class='btn btn-default'  value=Simpan>
                     </form>
                 </td>";
             echo "</table>";
@@ -643,7 +643,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
                     <td colspan=3 align=right>
                         <form method=POST action='aksi.php?module=editlaporanpembelian&act=inputtemp'>
                         <input type=hidden name=idNota value=$_GET[idnota]>
-			<input type=submit value='(e) Edit Laporan Pembelian' accesskey='e'>
+			<input type='submit' class='btn btn-default'  value='(e) Edit Laporan Pembelian' accesskey='e'>
 			</form></a>
                     </td>
                 </tr>
@@ -743,7 +743,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
                             <td class=td align=right>".uang($subTotal)."</td>
                             <td class=td align=right>
                                 <input type=hidden name=idDetailBeli value=$dataDetail[idDetailBeli]>                                
-                                <input type=submit value=Ubah>
+                                <input type='submit' class='btn btn-default'  value=Ubah>
                                 </form>
                             </td>
                             </tr>";
@@ -753,7 +753,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
                 <td class=td>
                     <form method=POST action='aksi.php?module=editlaporanpembelian&act=simpanedit'>
                         <input type=hidden name=idNota value=$idNota>
-                        <input type=submit value=Simpan>
+                        <input type='submit' class='btn btn-default'  value=Simpan>
                     </form>
                 </td>";
             echo "</table>";
@@ -778,7 +778,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
  		};
 
 	        echo "  </select>
-			<input type=submit value='(c) Cari' accesskey='c' name='cariSupplier' />
+			<input type='submit' class='btn btn-default'  value='(c) Cari' accesskey='c' name='cariSupplier' />
 	              </form>";
         break;
 
@@ -807,7 +807,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
  		};
 		echo "</select>";
 
-   	echo "	<input type=submit value='(2) Pilih barcode !' accesskey='2' /> 
+   	echo "	<input type='submit' class='btn btn-default'  value='(2) Pilih barcode !' accesskey='2' /> 
 		<input type='hidden' name='xppn' value='$_POST[xppn]'>
                 </form>";
 
@@ -825,7 +825,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
  		};
 		echo "</select>";
 	
-   	echo "	<input type=submit value='(4) Pilih barang !' accesskey='4' /> 
+   	echo "	<input type='submit' class='btn btn-default'  value='(4) Pilih barang !' accesskey='4' /> 
 		<input type='hidden' name='xppn' value='$_POST[xppn]'>
                 </form>";
 
@@ -924,7 +924,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
                     </tr>
                     <tr>
 
-                        <td align=right colspan=4><input type=submit accesskey='t' value='(t) Tambah' name=btTambah tabindex=8 ></td>
+                        <td align=right colspan=4><input type='submit' class='btn btn-default'  accesskey='t' value='(t) Tambah' name=btTambah tabindex=8 ></td>
                     </tr>
                 </table>
             </form>
@@ -1013,7 +1013,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
                                 <input type=hidden name=barcode value=$data[barcode]>
                                 <input type=hidden name=idBarang value=$data[idBarang]>
 				<td align=right>".number_format($total,0,',','.')."</td>
-                                <td width=120><input type=submit name=update value=Update></form> |
+                                <td width=120><input type='submit' class='btn btn-default'  name=update value=Update></form> |
                                 <a href='./aksi.php?module=pembelian_barang&act=hapus_detil&id=$data[idBarang]'>Hapus</a></td>
                         </tr>";
                     $tot_pembelian += $total;
@@ -1079,7 +1079,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
 
 			echo "
                         <tr><td colspan=2>&nbsp;</td></tr>
-                        <tr><td><a href='aksi.php?module=pembelian_barang&act=batal'>BATAL</a></td><td><input type=submit value='Simpan' tabindex=17></td></tr>
+                        <tr><td><a href='aksi.php?module=pembelian_barang&act=batal'>BATAL</a></td><td><input type='submit' class='btn btn-default'  value='Simpan' tabindex=17></td></tr>
                         </table></form>
 			";
                 
@@ -1114,7 +1114,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
             echo "<option value=$tahun[tahun]>$tahun[tahun]</option>";
         }
         echo "</select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value=Lihat>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default'  value=Lihat>
             </form>
             ";
 
@@ -1137,7 +1137,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
 
 		}; // while ($x = mysql_fetch_array($hasil)) {
 		echo "</select>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=submit value=Lihat>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default'  value=Lihat>
 
 			<input type=hidden name=module value=pembelian_barang>
 			<input type=hidden name=act value=detaillaporan>
@@ -1164,7 +1164,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
 			<option value='gudangahad' selected>Gudang.AhadMart.com</option>
 		</select> <br /><br />
 
-		<input type=submit value=Posting /> 
+		<input type='submit' class='btn btn-default'  value=Posting /> 
 		</form>
 	";
 
@@ -1431,7 +1431,7 @@ switch($_GET[act]){ // ---------------------------------------------------------
 			</td></tr>
 
 
-		          <tr><td colspan=2 align='right'><input type=submit value='(s) Simpan' accesskey='s' tabindex=32>&nbsp;&nbsp;&nbsp;
+		          <tr><td colspan=2 align='right'><input type='submit' class='btn btn-default'  value='(s) Simpan' accesskey='s' tabindex=32>&nbsp;&nbsp;&nbsp;
                             </td></tr>
           </table>
 	";
