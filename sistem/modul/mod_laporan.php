@@ -74,9 +74,9 @@ case "penjualan1": //===========================================================
 			</td>
 			</tr>
 
-			<tr><td colspan=2>&nbsp;</td></tr>
+			<tr><td colspan=2></td></tr>
 			<tr><td colspan=2>
-				<input type='submit' class='btn btn-default' value='Buat Laporan'>&nbsp;&nbsp;&nbsp;
+				<input type='submit' class='btn btn-default' value='Buat Laporan'>
 				<input type='reset' class='btn btn-default' value='Batal'>
 			</td>
 			</tr>
@@ -235,7 +235,7 @@ case "penjualan2": //===========================================================
 		<h2>Total Retur Jual:<span style="color:red">(<?php echo number_format($totalReturJual, 0, ',', '.'); ?>)</span></h2>
 		<h2>Total Retur Profit:<span style="color:red">(<?php echo number_format($total_profit_retur, 0, ',', '.'); ?>)</span></h2>
 
-		<p>&nbsp;</p>
+		<p></p>
 		<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 
 		<?php
@@ -291,8 +291,8 @@ case "penjualan2": //===========================================================
 						?>
 					</select></td>
 			</tr>
-			<tr><td colspan=2>&nbsp;</td></tr>
-			<tr><td colspan=2><input type='submit' class='btn btn-default' value='Buat Laporan'>&nbsp;&nbsp;&nbsp;
+			<tr><td colspan=2></td></tr>
+			<tr><td colspan=2><input type='submit' class='btn btn-default' value='Buat Laporan'>
 					<input type='reset' class='btn btn-default' value='Batal'></td></tr>
 			</table>
 		</form>
@@ -476,7 +476,7 @@ case "penjualan2": //===========================================================
 			?>
 		</table>
 		<h2>Total Diskon:<?php echo number_format($totalDiskon, 0, ',', '.'); ?></h2>
-		<p>&nbsp;</p>
+		<p></p>
 		<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 		<?php
 		break;
@@ -585,10 +585,10 @@ case "penjualan2": //===========================================================
 				</tr>
 
 				<tr>
-					<td colspan= 2>&nbsp;	</td>
+					<td colspan= 2>	</td>
 				</tr>
 				<tr>
-					<td colspan= 2><input type= submit value= 'Submit'>&nbsp;&nbsp;&nbsp;<input type= reset value= 'Batal'>
+					<td colspan= 2><input type= submit value= 'Submit'><input type= reset value= 'Batal'>
 					</td>
 				</tr>
 			</table>
@@ -688,7 +688,7 @@ case "penjualan2": //===========================================================
 			<h3>Total Transaksi :<?php echo number_format($total_transaksi, 0, ',', '.'); ?></h3>
 			<h3>Total Profit :<?php echo number_format($total_profit, 0, ',', '.'); ?></h3>
 
-			<p>&nbsp;</p>
+			<p></p>
 			<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 			<?php
 		}
@@ -747,7 +747,7 @@ case "penjualan2": //===========================================================
 			<h3>Total Retur Jual :<?php echo number_format($total_transaksi, 0, ',', '.'); ?></h3>
 			<h3>Total Retur Profit :<?php echo number_format($total_profit, 0, ',', '.'); ?></h3>
 
-			<p>&nbsp;</p>
+			<p></p>
 			<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 			<?php
 		}
@@ -787,7 +787,7 @@ case "penjualan2": //===========================================================
 
 			echo "Total Stok Saat Ini= Rp ".number_format($x[TotalStok], 0, ',', '.')."
 
-					<p>&nbsp;</p>
+					<p></p>
 					<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 
 		";
@@ -1210,7 +1210,7 @@ case "penjualan2": //===========================================================
 		<br />
 		Tampilkan hanya barang dengan jumlah lebih kecil dari :<input type='text' class='form-control' name=jumlahmin value=0 size=3>
 		<br />
-			&nbsp;&nbsp;&nbsp;&nbsp;
+			
 			<input type='submit' class='btn btn-default' value=Pilih>
 			</form>";
 

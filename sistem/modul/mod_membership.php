@@ -45,7 +45,7 @@ function setting() {
 					<td><input type="text" class="form-control" name="config[point_value]" value="<?php echo $config['point_value']['value']; ?>"></td>
 				</tr>
 				<tr>
-					<td colspan="2">&nbsp;</td>
+					<td colspan="2"></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right">

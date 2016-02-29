@@ -235,7 +235,7 @@ switch ($_GET['act']) {
 		};
 
 		echo "
-	<p>&nbsp;</p>
+	<p></p>
 	<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 		break;
 
@@ -261,8 +261,8 @@ switch ($_GET['act']) {
 			</td>
 			</tr>
 
-				<tr><td colspan=2>&nbsp;</td></tr>
-				<tr><td colspan=2><input type='submit' class='btn btn-default' value='Pilih Printer'>&nbsp;&nbsp;&nbsp;
+				<tr><td colspan=2></td></tr>
+				<tr><td colspan=2><input type='submit' class='btn btn-default' value='Pilih Printer'>
 									<input type='reset' class='btn btn-default' value='Batal'></td></tr>
 			</table>
 			</form>
@@ -299,8 +299,8 @@ switch ($_GET['act']) {
 			echo "<option value='$satuan[idSatuanBarang]'>$satuan[namaSatuanBarang]</option>";
 		}
 		echo "</select></td></tr>
-		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;&nbsp;&nbsp;
+		<tr><td colspan=2></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
 							<input type=button value=Batal onclick=self.history.back()></td></tr>
 		</table></form>";
 		break;
@@ -588,7 +588,7 @@ switch ($_GET['act']) {
 					$hargaBanded= mysql_fetch_array($hasil, MYSQL_ASSOC);
 
 					$namaBarang1= $r['namaBarang'];
-					$namaBarang2= '&nbsp;';
+					$namaBarang2= '';
 
 					$namaBarangLengkap= $r['namaBarang'];
 					// jika terlalu panjang nama barangnya
@@ -750,7 +750,7 @@ switch ($_GET['act']) {
 					};
 
 					$namaBarang1= $r['namaBarang'];
-					$namaBarang2= '&nbsp;';
+					$namaBarang2= '';
 					// jika terlalu panjang nama barangnya
 //				if (strlen($namaBarang) >15) {
 //					// bikin menjadi 2 baris
@@ -1307,8 +1307,8 @@ switch ($_GET['act']) {
 					<td>Harga Banded</td>
 					<td><a href="media.php?module=barang&act=hargabanded2&barcode=<?php echo $data['barcode']; ?>"><?php echo $hargaBanded ? "{$totalBanded} / {$hargaBanded['qty']}= {$hargaBandedSatuan}" : 'Belum ada, klik untuk input'; ?></a></td>
 				</tr>
-				<tr><td colspan=2>&nbsp;</td></tr>
-				<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=(S)impan accesskey=s>&nbsp;&nbsp;&nbsp;
+				<tr><td colspan=2></td></tr>
+				<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=(S)impan accesskey=s>
 						<input type=button value=Batal onclick=self.history.back()></td></tr>
 
 				<input type=hidden name='oldbarcode' value='<?php echo $data['barcode']; ?>'>
@@ -1979,7 +1979,7 @@ switch ($_GET['act']) {
 						if (!$simulasi) {
 							mysql_query("update detail_beli set jumBarang= {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
 						}
-						//echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b>";
+						//echo "detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b>";
 						$jumBarang= 0;
 					} else {
 						if (!$simulasi) {
@@ -1988,7 +1988,7 @@ switch ($_GET['act']) {
 						}
 						$jumBarang -= $detailBeli['jumBarangAsli'];
 
-						//echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
+						//echo "detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
 					}
 				//echo '<br />';
 				endwhile;
@@ -2913,7 +2913,7 @@ switch ($_GET['act']) {
 										if (!$simulasi) {
 											mysql_query("update detail_beli set jumBarang={$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
 										}
-										//echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b>";
+										//echo "detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b>";
 										$jumBarang=0;
 									} else {
 										if (!$simulasi) {
@@ -2922,7 +2922,7 @@ switch ($_GET['act']) {
 										}
 										$jumBarang -=$detailBeli['jumBarangAsli'];
 
-										//echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
+										//echo "detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
 									}
 								//echo '<br />';
 								endwhile;

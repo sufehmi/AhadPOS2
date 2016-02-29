@@ -40,12 +40,12 @@ check_ahadpos_session();
 <tr><td>User</td><td><?php echo "$_SESSION[namauser]"; ?></td></tr>
 <tr><td>Tanggal</td><td><?php echo"$tglHariIni"; ?></td></tr>
 <tr><td>Uang Kas Awal</td><td><input type="text" class="form-control" name="kasAwal"></td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2" align="center"><a href="logout.php">BATAL</a>&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-info' value="Masuk"></td></tr>
+<tr><td colspan="2"></td></tr>
+<tr><td colspan="2" align="center"><a href="logout.php">BATAL</a><input type='submit' class='btn btn-info' value="Masuk"></td></tr>
 </table>
 </form>
 
-<p>&nbsp;</p>
+<p></p>
 </div>
 
 

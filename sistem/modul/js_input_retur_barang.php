@@ -187,7 +187,7 @@ ahp_popupheader('retur barang');
 								?>
 								<tr>
 									<td><a href='../aksi.php?module=retur_barang&act=batal' class="tombol">Batal</a></td>
-									<td class="right">&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.form.submit();
+									<td class="right"><input type='submit' class='btn btn-default' value='Simpan' onclick='this.form.submit();
 													this.disabled= true;'></td>
 								</tr>
 							</table>
@@ -216,7 +216,7 @@ ahp_popupheader('retur barang');
 					?>
 					<tr>
 					<td>[<a href='../aksi.php?module=retur_barang&act=batal'>BATAL</a>]</td>
-					<td align=right>&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value='Simpan'></td>
+					<td align=right><input type='submit' class='btn btn-default' value='Simpan'></td>
 					</tr>
 					</table>
 					</form>

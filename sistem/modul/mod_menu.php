@@ -143,11 +143,11 @@ switch ($_GET[act]) {
 					<td><input type="text" class="form-control" name="urutan" value="1" /></td>
 				</tr>
 				<tr>
-					<td colspan=2>&nbsp;</td>
+					<td colspan=2></td>
 				</tr>
 				<tr>
 					<td colspan=2 align=right>
-						<input type='submit' class='btn btn-default' value=Simpan>&nbsp;&nbsp;&nbsp;
+						<input type='submit' class='btn btn-default' value=Simpan>
 						<input type=button value=Batal onclick=self.history.back()></td>
 				</tr>
 			</table>
@@ -219,8 +219,8 @@ switch ($_GET[act]) {
 					<td>Urutan</td>	
 					<td><input type="text" class="form-control" name="urutan" value="<?php echo $data['urutan']; ?>" /></td>
 				</tr>
-				<tr><td colspan=2>&nbsp;</td></tr>
-				<tr><td colspan=2><input type='submit' class='btn btn-info' value="update">&nbsp;&nbsp;&nbsp;
+				<tr><td colspan=2></td></tr>
+				<tr><td colspan=2><input type='submit' class='btn btn-info' value="update">
 						<input type=button value=Batal onclick=self.history.back()></td>
 				</tr>
 			</table>

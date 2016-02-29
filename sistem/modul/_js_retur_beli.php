@@ -192,7 +192,7 @@ if ($r) {
 					</tr>
 					<tr>
 						<td><a href='../aksi.php?module=inputreturbeli2&act=batal' class="tombol">Batal</a></td>
-						<td class="right">&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.form.submit();
+						<td class="right"><input type='submit' class='btn btn-default' value='Simpan' onclick='this.form.submit();
 									this.disabled= true;'></td>
 					</tr>
 				</table>

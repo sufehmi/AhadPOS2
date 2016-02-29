@@ -32,7 +32,7 @@ if ($_GET[module]== 'home') {
 		di sistem ini. Pergunakanlah dengan bijak jabatan Anda.</p>
 	<p>Kas Awal Anda adalah :<b>Rp.<?php echo $kas; ?></b></p>
 	<p>Uang Transaksi :<b>Rp.<?php echo $uang; ?></b></p>
-	<p>&nbsp;</p>
+	<p></p>
 
 	<?php
 	//$handle= fopen("http://www.rimbalinux.com/projects/ahadpos/news.html", "r");
@@ -55,7 +55,7 @@ if ($_GET[module]== 'home') {
 	}
 	?>
 
-	<p>&nbsp;</p>
+	<p></p>
 	<p>Waktu Login Saat ini:<?php echo tgl_indo(date("Y m d")); ?>|<?php echo date("H:i"); ?>
 	</p>
 	<?php

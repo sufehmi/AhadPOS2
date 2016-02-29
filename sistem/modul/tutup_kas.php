@@ -24,8 +24,8 @@ echo "<form method=POST action='./aksi.php?module=tutup_kas&act=input'>
 		<tr><td>Uang Transaksi</td><td>$uang</td><tr>
 		<tr><td>Uang Seharusnya</td><td>$jum</td><tr>
 		<tr><td>Uang Kasir</td><td><input type='text' class='form-control' name=kasAkhir></td><tr>
-		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;&nbsp;&nbsp;
+		<tr><td colspan=2></td></tr>
+		<tr><td colspan=2><input type='submit' class='btn btn-default' value='Simpan'>
 								<input type='reset' class='btn btn-default' value='Batal'></td></tr>
 	</table>
 </form>

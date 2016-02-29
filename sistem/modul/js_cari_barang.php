@@ -93,8 +93,8 @@ if ($adaNonAktif) {
 ?>
 <table>
 	<tr>
-		<td>&nbsp;</td>
-		<td style="background-color: #f00">&nbsp;&nbsp;</td>
+		<td></td>
+		<td style="background-color: #f00"></td>
 		<td>Barang non aktif</td>
 	</tr>
 </table>

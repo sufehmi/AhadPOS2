@@ -24,7 +24,7 @@ switch ($_GET[act]) {
 		<form method=POST action='./aksi.php?module=kategori_barang&act=input'>
 			<table>
 				<tr><td>Tambah Kategori</td><td><input type='text' class='form-control' name='namaKategoriBarang' size=30></td></tr>
-				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;&nbsp;&nbsp;
+				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
 						<input type='reset' class='btn btn-default' value='Batal'></td></tr>
 			</table>
 		</form>
@@ -62,7 +62,7 @@ switch ($_GET[act]) {
 				$no++;
 			}
 			echo "</table>
-				<p>&nbsp;</p>
+				<p></p>
 				<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 			break;
 
@@ -74,7 +74,7 @@ switch ($_GET[act]) {
 			<input type=hidden name='idKategoriBarang' value='$data[idKategoriBarang]'>
 			<table>
 				<tr><td>Edit Kategori</td><td><input type='text' class='form-control' name='namaKategoriBarang' size=30 value='$data[namaKategoriBarang]'></td></tr>
-				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;&nbsp;&nbsp;
+				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
 								<input type=button value=Batal onclick=self.history.back()></td></tr>
 			</table>
 			</form>

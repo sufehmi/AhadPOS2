@@ -78,7 +78,7 @@ switch ($act) {
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2">&nbsp;</td>
+						<td colspan="2"></td>
 					</tr>
 					<tr>
 						<td colspan="2" align="left">

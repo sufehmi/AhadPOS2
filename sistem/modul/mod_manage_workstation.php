@@ -65,7 +65,7 @@ check_ahadpos_session();
 				}
 				?>
 			</table>
-			<p>&nbsp;</p>
+			<p></p>
 			<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 			<?php
 			break;
@@ -90,8 +90,8 @@ check_ahadpos_session();
 	";
 
 			echo "
-		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;&nbsp;&nbsp;
+		<tr><td colspan=2></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
 							<input type=button value=Batal onclick=self.history.back()></td></tr>
 		</table></form>
 		";
@@ -136,8 +136,8 @@ check_ahadpos_session();
 					</tr>
 					<tr><td>Printer Commands<br />(auto-generated)</td><td><input type='text' class='form-control' name='printer_commands' id='printer_commands' value='<?php echo $data['printer_commands']; ?>' size=30 readonly></td></tr>
 
-					<tr><td colspan=2>&nbsp;</td></tr>
-					<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;&nbsp;&nbsp;
+					<tr><td colspan=2></td></tr>
+					<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
 							<input type=button value=Batal onclick=self.history.back()></td></tr>
 				</table></form>
 			<?php

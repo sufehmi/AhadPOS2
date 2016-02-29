@@ -285,7 +285,7 @@ check_ahadpos_session();
 											</tr>
 											<tr>
 												<td><a href='../aksi.php?module=penjualan_barang&act=batal'><button>Batal</button></a></td>
-												<td class="right">&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.disabled= true;'></td>
+												<td class="right"><input type='submit' class='btn btn-default' value='Simpan' onclick='this.disabled= true;'></td>
 											</tr>
 										</table>
 									</div>

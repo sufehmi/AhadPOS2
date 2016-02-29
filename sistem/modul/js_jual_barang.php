@@ -445,7 +445,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 								?>
 								<tr>
 									<td><a href='../aksi.php?module=penjualan_barang&act=batal<?php echo $transferahad ? '&transferahad=1' : ''; ?>' class="tombol">Batal</a></td>
-									<td class="right">&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.form.submit();
+									<td class="right"><input type='submit' class='btn btn-default' value='Simpan' onclick='this.form.submit();
 										this.disabled= true;'></td>
 								</tr>
 							</table>

@@ -61,7 +61,7 @@ switch ($_GET[act]) {
 					$hargaBanded= mysql_fetch_array($hasil, MYSQL_ASSOC);
 
 					$namaBarang1= $r['tmpNama'];
-					$namaBarang2= '&nbsp;';
+					$namaBarang2= '';
 
 					$namaBarangLengkap= $r['tmpNama'];
 					// jika terlalu panjang nama barangnya
@@ -229,7 +229,7 @@ switch ($_GET[act]) {
 				};
 
 				$namaBarang1= $r['tmpNama'];
-				$namaBarang2= '&nbsp;';
+				$namaBarang2= '';
 
 				$namaBarangLengkap= $r['tmpNama'];
 				// jika terlalu panjang nama barangnya

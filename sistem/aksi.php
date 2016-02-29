@@ -1052,7 +1052,7 @@ $hasil= mysql_query($sql);
 
 if (mysql_num_rows($hasil) >0) {
 	echo "Kasir ini sedang Aktif ! Silakan ditutup dulu.
-			<p>&nbsp;</p>
+			<p></p>
 				<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 } else {
 	$sql= "INSERT INTO kasir(tglBukaKasir,idUser,kasAwal,currentWorkstation)

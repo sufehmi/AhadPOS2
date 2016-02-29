@@ -58,7 +58,7 @@ case "cetakretur"; //===========================================================
 		echo "<option value=$tahun[tahun]>$tahun[tahun]</option>";
 	}
 	echo "</select>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value=Lihat>
+			<input type='submit' class='btn btn-default' value=Lihat>
 			</form>
 			";
 
@@ -159,7 +159,7 @@ case "cetakretur"; //===========================================================
 			}
 			?>
 			</select>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value=Lihat>
+			<input type='submit' class='btn btn-default' value=Lihat>
 		</form>
 
 		<?php
@@ -199,7 +199,7 @@ case "cetakretur"; //===========================================================
 					$totalPembelian += $dataPembelian[nominal];
 					$no++;
 				}
-				echo "<tr><td colspan=3 align=right class=td><b>Total</b></td><td class=td align=right><b>".uang($totalPembelian)."</b></td><td class=td>&nbsp;</td></tr>
+				echo "<tr><td colspan=3 align=right class=td><b>Total</b></td><td class=td align=right><b>".uang($totalPembelian)."</b></td><td class=td></td></tr>
 					</table>";
 			} else {
 				echo "<br/><br/>Belum ada pembelian dari supplier ini.";
@@ -240,7 +240,7 @@ case "cetakretur"; //===========================================================
 		<br />
 		Tampilkan hanya barang dengan jumlah lebih kecil dari :<input type='text' class='form-control' name=jumlahmin value=0 size=3>
 		<br />
-			&nbsp;&nbsp;&nbsp;&nbsp;
+			
 			<input type='submit' class='btn btn-default' value=Pilih>
 			</form>";
 			if ($_GET[action]== 'pesanbarang') {
@@ -306,7 +306,7 @@ case "cetakretur"; //===========================================================
 			echo "<option value=$tahun[tahun]>$tahun[tahun]</option>";
 			}
 			echo "</select>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value=Lihat>
+			<input type='submit' class='btn btn-default' value=Lihat>
 			</form>
 			";
 
@@ -349,7 +349,7 @@ case "cetakretur"; //===========================================================
 						$totalPembelian += $dataPembelian[nominal];
 						$no++;
 					}
-					echo "<tr><td colspan=4 align=right class=td><b>Total</b></td><td class=td align=right><b>".uang($totalPembelian)."</b></td><td class=td>&nbsp;</td></tr>
+					echo "<tr><td colspan=4 align=right class=td><b>Total</b></td><td class=td align=right><b>".uang($totalPembelian)."</b></td><td class=td></td></tr>
 					</table>";
 				} else {
 					echo "<br/><br/>Belum ada pembelian dari supplier ini.";
@@ -364,15 +364,15 @@ case "cetakretur"; //===========================================================
 			echo "<h2>Retur Nota No : $_GET[idnota]</h2>
 			<table>
 				<tr>
-					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
+					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20></td>
 					<td>Alamat</td><td></td><td>$dataBeli[alamatSupplier]</td>
 				</tr>
 				<tr>
-					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
+					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20></td>
 					<td>Nominal</td><td></td><td>".uang($dataBeli[nominal])."</td>
 				</tr>
 				<tr>
-					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
+					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20></td>
 					<td colspan=3 align=right>
 						<form method=POST action='aksi.php?module=inputreturbeli&act=inputtemp'>
 						<input type=hidden name=idNota value=$_GET[idnota]>
@@ -507,16 +507,16 @@ case "cetakretur"; //===========================================================
 				echo "<h2>RETUR PEMBELIAN : Detail Nota No : $idNota</h2>
 			<table>
 				<tr>
-					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
+					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20></td>
 					<td>Alamat</td><td></td><td>$dataBeli[alamatSupplier]</td>
 				</tr>
 				<tr>
-					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
+					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20></td>
 					<td>Nominal</td><td></td><td>".uang($dataBeli[nominal])."</td>
 				</tr>
 				<tr>
-					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
-					<td colspan=3 align=right>&nbsp;
+					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20></td>
+					<td colspan=3 align=right>
 					</td>
 				</tr>
 			</table>
@@ -563,7 +563,7 @@ case "cetakretur"; //===========================================================
 							</td>
 							</tr>";
 					}
-					echo "<tr><td colspan=8 align=right class=td>&nbsp;</td></tr>";
+					echo "<tr><td colspan=8 align=right class=td></td></tr>";
 					echo "<td colspan=6 align=right class=td>TOTAL</td><td align=right class=td>".uang($total)."</td>
 		<td align=right class=td>".uang($totalRetur)."</td>
 				<td class=td>
@@ -590,7 +590,7 @@ case "cetakretur"; //===========================================================
 					<td>Nama Supplier</td>
 					<td></td>
 					<td><?php echo $dataBeli['namaSupplier']; ?></td>
-					<td width=20>&nbsp;</td>
+					<td width=20></td>
 					<td>Alamat</td>
 					<td></td>
 					<td><?php echo $dataBeli['alamatSupplier']; ?></td>
@@ -598,7 +598,7 @@ case "cetakretur"; //===========================================================
 				<tr>
 					<td>Tgl Transaksi</td>
 					<td></td><td><?php echo tgl_indo($dataBeli['tglNota']); ?></td>
-					<td width=20>&nbsp;</td>
+					<td width=20></td>
 					<td>Nominal</td>
 					<td></td>
 					<td><?php echo uang($dataBeli['nominal']); ?></td>
@@ -607,7 +607,7 @@ case "cetakretur"; //===========================================================
 					<td>Nomor Invoice</td>
 					<td></td>
 					<td><?php echo $dataBeli['NomorInvoice']; ?></td>
-					<td width=20>&nbsp;</td>
+					<td width=20></td>
 					<td colspan=3 align=right>
 						<form method=POST action='aksi.php?module=editlaporanpembelian&act=inputtemp'>
 						<input type=hidden name=idNota value=<?php echo $_GET['idnota']; ?>>
@@ -688,16 +688,16 @@ case "cetakretur"; //===========================================================
 			echo "<h2>Detail Nota No : $idNota</h2>
 			<table>
 				<tr>
-					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
+					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20></td>
 					<td>Alamat</td><td></td><td>$dataBeli[alamatSupplier]</td>
 				</tr>
 				<tr>
-					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
+					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20></td>
 					<td>Nominal</td><td></td><td>".uang($dataBeli[nominal])."</td>
 				</tr>
 				<tr>
-					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
-					<td colspan=3 align=right>&nbsp;
+					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20></td>
+					<td colspan=3 align=right>
 					</td>
 				</tr>
 			</table>
@@ -1211,7 +1211,7 @@ case "cetakretur"; //===========================================================
 
 
 				echo "
-						<tr><td colspan=2>&nbsp;</td></tr>
+						<tr><td colspan=2></td></tr>
 						<tr>
 				<td><a href='aksi.php?module=pembelian_barang&act=batal'>BATAL</a></td>
 
@@ -1252,7 +1252,7 @@ case "cetakretur"; //===========================================================
 				echo "<option value=$tahun[tahun]>$tahun[tahun]</option>";
 			}
 			echo "</select>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value=Lihat>
+			<input type='submit' class='btn btn-default' value=Lihat>
 			</form>
 			";
 
@@ -1276,7 +1276,7 @@ case "cetakretur"; //===========================================================
 						}; // while ($x= mysql_fetch_array($hasil)) {
 						?>
 					</select>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value=Lihat>
+					<input type='submit' class='btn btn-default' value=Lihat>
 				</form>
 				<?php
 			}; // if($_GET[action]== 'pilihtanggal'){
@@ -1836,7 +1836,7 @@ case "cetakretur"; //===========================================================
 			<tr><td>* Harga Jual Barang</td><td><input type='text' class='form-control' name='hargaJual' id='hargaJual' value=0 tabindex=35 /></td></tr>
 			<tr><td>Tanggal Expire</td><td><input type='text' class='form-control' name='tglExpire' size=10 tabindex=36 />(yyyy-mm-dd)</td></tr>
 
-			<tr><td colspan=2>&nbsp;
+			<tr><td colspan=2>
 				<input type=hidden name=username value='$_SESSION[uname]'>
 			</td></tr>";
 				?>
@@ -1850,7 +1850,7 @@ case "cetakretur"; //===========================================================
 					<td>Harga Banded Satuan</td><td><input type="text" class="form-control" id="tbHargaBandedSatuan" name="hargaBandedSatuan" tabindex=39/></td>
 				</tr>
 
-				<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value='(s) Simpan' accesskey='s' tabindex=40>&nbsp;&nbsp;&nbsp;
+				<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value='(s) Simpan' accesskey='s' tabindex=40>
 					</td></tr>
 				</table>
 

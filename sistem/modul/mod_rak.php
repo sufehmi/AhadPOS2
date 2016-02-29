@@ -29,7 +29,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td colspan=2 align=right>
-						<input type='submit' class='btn btn-default' value='Simpan'>&nbsp;&nbsp;&nbsp;
+						<input type='submit' class='btn btn-default' value='Simpan'>
 						<input type='reset' class='btn btn-default' value='Batal'></td>
 				</tr>
 			</table>
@@ -68,7 +68,7 @@ switch ($_GET[act]) {
 				$no++;
 			}
 			echo "</table>
-				<p>&nbsp;</p>
+				<p></p>
 				<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 			break;
 
@@ -80,7 +80,7 @@ switch ($_GET[act]) {
 			<input type=hidden name='idRak' value='$data[idRak]'>
 			<table>
 				<tr><td>Edit Rak</td><td><input type='text' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
-				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;&nbsp;&nbsp;
+				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
 								<input type=button value=Batal onclick=self.history.back()></td></tr>
 			</table>
 			</form>

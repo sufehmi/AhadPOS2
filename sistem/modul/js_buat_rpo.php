@@ -210,7 +210,7 @@ if (empty($_SESSION['namauser'])) {
 								?>
 								<tr>
 									<td>[<a href='../aksi.php?module=penjualan_barang&act=batal'>BATAL</a>]</td>
-									<td align=right>&nbsp;&nbsp;&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.disabled= true;'></td>
+									<td align=right><input type='submit' class='btn btn-default' value='Simpan' onclick='this.disabled= true;'></td>
 								</tr>
 							</table>
 						</form>

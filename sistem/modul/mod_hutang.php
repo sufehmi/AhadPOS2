@@ -50,7 +50,7 @@ switch($_GET[act]){
 		$no++;
 		}
 		echo "</table>
-		<p>&nbsp;</p>
+		<p></p>
 		<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 
 		break;
@@ -61,9 +61,9 @@ switch($_GET[act]){
 		$dataTrans= mysql_fetch_array($transaksiBeli);
 		echo "<h2>Detail Hutang</h2>
 			<table>
-				<tr><td>Nomor Invoice</td><td></td><td>$dataTrans[NomorInvoice]</td><td width=10>&nbsp;</td>
+				<tr><td>Nomor Invoice</td><td></td><td>$dataTrans[NomorInvoice]</td><td width=10></td>
 					<td>Tgl Transaksi</td><td></td><td>$dataTrans[tglTransaksiBeli]</td></tr>
-				<tr><td>No Transaksi Beli</td><td></td><td>$dataTrans[idTransaksiBeli]</td><td width=10>&nbsp;</td>
+				<tr><td>No Transaksi Beli</td><td></td><td>$dataTrans[idTransaksiBeli]</td><td width=10></td>
 					<td>Nama Supplier</td><td></td><td>$dataTrans[namaSupplier]</td></tr>
 			</table><br/>
 			";
@@ -93,7 +93,7 @@ switch($_GET[act]){
 		}
 		echo "<tr><td class=td colspan=4 align=right>Total</td><td class=td colspan=2 align=right>".uang($dataTrans[nominal])."</td></tr>
 			
-			<tr><td colspan=6 class=td>&nbsp;</td></tr>
+			<tr><td colspan=6 class=td></td></tr>
 			<tr><td colspan=3 class=td><a href=?module=hutang>Kembali</a></td><td colspan=3 class=td><a href=?module=hutang&act=edittrans&id=$_GET[id]>Edit</a></td></tr>
 			</table>";
 
@@ -109,9 +109,9 @@ switch($_GET[act]){
 		$dataTrans= mysql_fetch_array($transaksiBeli);
 		echo "<h2>Edit Transaksi Beli</h2>
 			<table>
-				<tr><td>Nomor Invoice</td><td></td><td>$dataTrans[NomorInvoice]</td><td width=10>&nbsp;</td>
+				<tr><td>Nomor Invoice</td><td></td><td>$dataTrans[NomorInvoice]</td><td width=10></td>
 					<td>Tgl Transaksi</td><td></td><td>$dataTrans[tglTransaksiBeli]</td></tr>
-				<tr><td>No Transaksi Beli</td><td></td><td>$dataTrans[idTransaksiBeli]</td><td width=10>&nbsp;</td>
+				<tr><td>No Transaksi Beli</td><td></td><td>$dataTrans[idTransaksiBeli]</td><td width=10></td>
 					<td>Nama Supplier</td><td></td><td>$dataTrans[namaSupplier]</td></tr>
 			</table><br/>
 			";

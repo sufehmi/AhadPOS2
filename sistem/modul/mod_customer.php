@@ -116,7 +116,7 @@ switch ($_GET[act]) {
 			echo "[<a href='media.php?module=customer&p=$i'>$halaman</a>] ";
 		}
 		?>
-		<p>&nbsp;</p>
+		<p></p>
 		<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>
 		<?php
 		break;
@@ -179,11 +179,11 @@ switch ($_GET[act]) {
 					<td><textarea name='keterangan' rows='4' cols='35'></textarea></td>
 				</tr>
 				<tr>
-					<td colspan=2>&nbsp;</td>
+					<td colspan=2></td>
 				</tr>
 				<tr>
 					<td colspan=2 align='right'>
-						<input type='submit' class='btn btn-default' value=Simpan>&nbsp;&nbsp;&nbsp;
+						<input type='submit' class='btn btn-default' value=Simpan>
 						<input type=button value=Batal onclick=self.history.back()>
 					</td>
 				</tr>
@@ -261,10 +261,10 @@ switch ($_GET[act]) {
 					<td><input type="text" class="form-control" name='diskon_rupiah' value='<?php echo $data['diskon_rupiah']; ?>' /></td>
 				</tr>
 				<tr>
-					<td colspan=2>&nbsp;</td>
+					<td colspan=2></td>
 				</tr>
 				<tr>
-					<td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;&nbsp;&nbsp;
+					<td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
 						<input type=button value=Batal onclick=self.history.back()></td>
 				</tr>
 			</table></form>

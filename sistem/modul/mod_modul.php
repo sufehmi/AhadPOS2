@@ -53,7 +53,7 @@ default:
 
 	$no++;
 	}
-	echo "</table><p>&nbsp;</p>
+	echo "</table><p></p>
 	<a class='btn btn-x btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 	break;
 
@@ -72,8 +72,8 @@ case "tambahmodul":
 								echo "<option value='$level[idLevelUser]'>$level[levelUser]</option>";
 							}
 			echo "</select></td></tr>
-		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value=Simpan>&nbsp;&nbsp;&nbsp;
+		<tr><td colspan=2></td></tr>
+		<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value=Simpan>
 							<input type=button value=Batal onclick=self.history.back()></td></tr>
 		</table></form>";
 	break;
@@ -108,8 +108,8 @@ case "editmodul":
 								}
 							}
 			echo "</select></td></tr>
-	<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2><input type='submit' class='btn btn-default' value=Update>&nbsp;&nbsp;&nbsp;
+	<tr><td colspan=2></td></tr>
+		<tr><td colspan=2><input type='submit' class='btn btn-default' value=Update>
 							<input type=button value=Batal onclick=self.history.back()></td></tr>
 		</table></form>";
 	break;
