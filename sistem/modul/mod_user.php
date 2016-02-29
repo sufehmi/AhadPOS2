@@ -56,8 +56,8 @@ $data= mysql_fetch_array($edit);
 		<!--<tr><td>Re-Password</td><td><input type='password' class='form-control' name='repass' size=15></td></tr>-->
 		<tr><td colspan=2>*) Apabila password tidak diubah, dikosongkan saja.</td></tr>
 		<tr><td colspan=2></td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
-			<input type=button value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-info' value='Simpan'>
+			<input class='btn btn-default' type='reset' value='Batal' onclick='self.history.back()'></td></tr>
 	</table></form>
 <?php
 } else {
@@ -84,13 +84,13 @@ switch ($_GET[act]) {
 			$no= 1;
 			while ($r= mysql_fetch_array($tampil)) {
 			?>
-			<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+			<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 				<td class="center"><?php echo $no; ?></td>
 				<td class="center"><?php echo $r['idUser']; ?></td>
 				<td><?php echo $r['namaUser']; ?></td>
 				<td class="center"><?php echo $r['levelUser']; ?></td>
-				<td><a href=?module=user&act=edituser&id=<?php echo $r['idUser']; ?>>Edit</a>|
-					<a href=./aksi.php?module=user&act=hapus&id=<?php echo $r['idUser']; ?>>Hapus</a>
+				<td><a href=?module=user&act=edituser&id=<?php echo $r['idUser']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
+					<a href=./aksi.php?module=user&act=hapus&id=<?php echo $r['idUser']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 				</td>
 			</tr>
 			<?php
@@ -120,7 +120,7 @@ switch ($_GET[act]) {
 		<!--<tr><td>Re-Password</td><td><input type='password' class='form-control' name='repass' size=15></td></tr>-->
 		<tr><td colspan=2></td></tr>
 		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
-							<input type=button value=Batal onclick=self.history.back()></td></tr>
+							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 		</table></form>";
 		break;
 
@@ -150,7 +150,7 @@ switch ($_GET[act]) {
 		<tr><td colspan=2>*) Apabila password tidak diubah, dikosongkan saja.</td></tr>
 		<tr><td colspan=2></td></tr>
 		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
-							<input type=button value=Batal onclick=self.history.back()></td></tr>
+							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 		</table></form>";
 		break;
 };

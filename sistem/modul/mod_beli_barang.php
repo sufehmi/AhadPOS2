@@ -99,7 +99,7 @@ case "cetakretur"; //===========================================================
 			$no= 1;
 			while ($x= mysql_fetch_array($hasil)) {
 			?>
-			<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+			<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 				<?php
 				echo"
 				<td class=td>$x[idTransaksiBeli]</td>
@@ -188,7 +188,7 @@ case "cetakretur"; //===========================================================
 				$no= 1;
 				while ($dataPembelian= mysql_fetch_array($pembelian)) {
 					?>
-					<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<td><?php echo $no; ?></td>
 						<td class="right"><?php echo $dataPembelian['noNota']; ?></td>
 						<td class="center"><?php echo tgl_indo($dataPembelian['tglNota']); ?></td>
@@ -409,7 +409,7 @@ case "cetakretur"; //===========================================================
 						$subTotalSisaStok= $dataDetail['jumBarang'] * $dataDetail['hargaBeli'];
 						$totalSisaStok += $subTotalSisaStok;
 						?>
-						<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+						<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<td ><?php echo $no; ?></td>
 						<td><?php echo $dataDetail['idBarang']; ?></td>
 						<td><?php echo $dataDetail['barcode']; ?></td>
@@ -425,7 +425,7 @@ case "cetakretur"; //===========================================================
 						$no++;
 					}
 					?>
-					<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<td colspan=7 class="center">TOTAL</td>
 						<td class="right"><?php echo uang($total); ?></td>
 						<td class="right" colspan="2"><?php echo uang($totalSisaStok); ?></td>
@@ -461,7 +461,7 @@ case "cetakretur"; //===========================================================
 						};
 						?>
 
-					<tr<?php echo $ctr % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $ctr % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<?php
 						echo "<td class=td>$x[idTransaksiBeli]</td>
 							<td class=td>$x[idBarang]</td>
@@ -1130,7 +1130,7 @@ case "cetakretur"; //===========================================================
 					while ($data= mysql_fetch_array($query2)) {
 						$total= $data[hargaBeli] * $data[jumBarang];
 						?>
-						<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+						<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<form method=POST action='?module=pembelian_barang&act=carisupplier&action=ubahjumlah'>
 						<td><?php echo $data['barcode']; ?></td>
 						<td><?php echo $data['namaBarang']; ?></td>
@@ -1144,7 +1144,7 @@ case "cetakretur"; //===========================================================
 
 						<td align=right><?php echo number_format($total, 0, ',', '.'); ?></td>
 						<td width=120><input type='submit' class='btn btn-default' name=update value=Update></form>|
-						<a href='./aksi.php?module=pembelian_barang&act=hapus_detil&id=<?php echo $data['idBarang']; ?>'>Hapus</a></td>
+						<a href='./aksi.php?module=pembelian_barang&act=hapus_detil&id=<?php echo $data['idBarang']; ?>'><i class='fa  fa-times-circle-o'></i> Hapus</a> </td>
 						</tr>
 						<?php
 						$tot_pembelian += $total;

@@ -47,8 +47,8 @@ default:
 			<td class=td><a href=$r[link]>$r[link]</a></td>
 			<td align=center class=td>$r[publish]</td>
 			<td align=center class=td>$r[levelUser]</td>
-			<td class=td><a href=?module=modul&act=editmodul&id=$r[idModul]>Edit</a>|
-				<a href=./aksi.php?module=modul&act=hapus&id=$r[idModul]>Hapus</a>
+			<td class=td><a href=?module=modul&act=editmodul&id=$r[idModul]><i class='fa fa-pencil-square-o'></i> Edit</a> |
+				<a href=./aksi.php?module=modul&act=hapus&id=$r[idModul]><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 			</td></tr>";
 
 	$no++;
@@ -74,7 +74,7 @@ case "tambahmodul":
 			echo "</select></td></tr>
 		<tr><td colspan=2></td></tr>
 		<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value=Simpan>
-							<input type=button value=Batal onclick=self.history.back()></td></tr>
+							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 		</table></form>";
 	break;
 
@@ -110,7 +110,7 @@ case "editmodul":
 			echo "</select></td></tr>
 	<tr><td colspan=2></td></tr>
 		<tr><td colspan=2><input type='submit' class='btn btn-default' value=Update>
-							<input type=button value=Batal onclick=self.history.back()></td></tr>
+							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 		</table></form>";
 	break;
 }

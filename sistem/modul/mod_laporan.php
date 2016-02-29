@@ -495,7 +495,7 @@ case "penjualan2": //===========================================================
 
 			$grandtotal= $grandtotal + ($x[jumBarang] * $x[hargaJual]);
 
-			// kembalikan jumlah stok sebelumnya di tabel barang
+			// Kembalikan jumlah stok sebelumnya di tabel barang
 			// cari jumlah saat ini di table barang
 			$sql= "SELECT jumBarang FROM barang WHERE barcode= '".$x[barcode]."'";
 			$hasil1= mysql_query($sql);
@@ -506,7 +506,7 @@ case "penjualan2": //===========================================================
 			$sql= "UPDATE barang SET jumBarang= $jumlahbaru WHERE barcode= '".$x[barcode]."'";
 			$hasil1= mysql_query($sql);
 
-			// kembalikan jumlah stok sebelumnya di tabel detail_beli
+			// Kembalikan jumlah stok sebelumnya di tabel detail_beli
 			// cari jumlah saat ini di table barang
 			$BarangHabis= false;
 			$sql= "SELECT jumBarang FROM detail_beli WHERE barcode= '".$x[barcode]."'
@@ -606,7 +606,7 @@ case "penjualan2": //===========================================================
 
 		if ($_GET[action]== 'cetakjual2') { // ---------------------------------------------------------------------------------
 			// Pindah ke aksi.php !! Kemungkinan tidak dipakai
-			// tampilkan link untuk kembali
+			// tampilkan link untuk Kembali
 			echo "<br /><br /><a href= javascript:history.go(-1)><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
 		}
 
@@ -966,7 +966,7 @@ case "penjualan2": //===========================================================
 				//untuk mewarnai tabel menjadi selang-seling
 				$no++;
 				?>
-				<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+				<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 					<td class="center"><?php echo $no; ?></td>
 					<td><?php echo $x['barcode']; ?></td>
 					<td><?php echo $x['namaBarang']; ?></td>
@@ -1415,7 +1415,7 @@ case "penjualan2": //===========================================================
 				$alt= false;
 				while ($trx= mysql_fetch_array($queryHeader, MYSQL_ASSOC)) {
 					?>
-					<tr<?php echo $alt ? ' class="alt"' : ''; ?>>
+					<tr <?php echo $alt ? ' class="alt"' : ''; ?>>
 						<td><?php echo $trx['tglTransaksi']; ?></td>
 						<td><?php echo $trx['namaCustomer']; ?></td>
 						<td class="right"><?php echo number_format($trx['nominal'], 0, ',', '.'); ?></td>
@@ -1462,7 +1462,7 @@ case "penjualan2": //===========================================================
 			$alt= false;
 			while ($detail= mysql_fetch_array($queryDetail, MYSQL_ASSOC)) {
 				?>
-				<tr<?php echo $alt ? ' class="alt"' : ''; ?>>
+				<tr <?php echo $alt ? ' class="alt"' : ''; ?>>
 					<td><?php echo $detail['barcode']; ?></td>
 					<td><?php echo $detail['namaBarang']; ?></td>
 					<td class="right"><?php echo $detail['jumBarang']; ?></td>

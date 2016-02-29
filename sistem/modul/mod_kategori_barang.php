@@ -54,8 +54,8 @@ switch ($_GET[act]) {
 				<tr class="<?php echo $no % 2=== 0 ? 'alt' : ''; ?>">
 					<td><?php echo $no; ?></td>
 					<td><?php echo $r['namaKategoriBarang']; ?></td>
-					<td><a href=?module=kategori_barang&act=editkategori&id=<?php echo $r['idKategoriBarang']; ?>>Edit</a>|
-						<a href=./aksi.php?module=kategori_barang&act=hapus&id=<?php echo $r['idKategoriBarang']; ?>>Hapus</a>
+					<td><a href=?module=kategori_barang&act=editkategori&id=<?php echo $r['idKategoriBarang']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
+						<a href=./aksi.php?module=kategori_barang&act=hapus&id=<?php echo $r['idKategoriBarang']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 					</td>
 				</tr>
 				<?php
@@ -75,7 +75,7 @@ switch ($_GET[act]) {
 			<table>
 				<tr><td>Edit Kategori</td><td><input type='text' class='form-control' name='namaKategoriBarang' size=30 value='$data[namaKategoriBarang]'></td></tr>
 				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
-								<input type=button value=Batal onclick=self.history.back()></td></tr>
+								<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 			</table>
 			</form>
 			<br/>
@@ -93,11 +93,11 @@ switch ($_GET[act]) {
 				while ($r= mysql_fetch_array($tampil)) :
 					?>
 
-					<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<td><?php echo $no; ?></td>
 						<td><?php echo $r['namaKategoriBarang']; ?></td>
-						<td class=td><a href=?module=kategori_barang&act=editkategori&id=<?php echo $r['idKategoriBarang']; ?>>Edit</a>|
-							<a href=./aksi.php?module=kategori_barang&act=hapus&id=<?php echo $r['idKategoriBarang']; ?>>Hapus</a>
+						<td class=td><a href=?module=kategori_barang&act=editkategori&id=<?php echo $r['idKategoriBarang']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
+							<a href=./aksi.php?module=kategori_barang&act=hapus&id=<?php echo $r['idKategoriBarang']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 						</td>
 					</tr>
 					<?php

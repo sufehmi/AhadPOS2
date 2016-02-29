@@ -301,7 +301,7 @@ switch ($_GET['act']) {
 		echo "</select></td></tr>
 		<tr><td colspan=2></td></tr>
 		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
-							<input type=button value=Batal onclick=self.history.back()></td></tr>
+							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 		</table></form>";
 		break;
 
@@ -502,7 +502,7 @@ switch ($_GET['act']) {
 				$ctr= 1;
 				while ($r= mysql_fetch_array($cari)) :
 					?>
-					<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<td class="right"><?php echo $no; ?></td>
 						<td><?php echo $r['barcode']; ?></td>
 						<td><?php echo $r['namaBarang']; ?></td>
@@ -1309,7 +1309,7 @@ switch ($_GET['act']) {
 				</tr>
 				<tr><td colspan=2></td></tr>
 				<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=(S)impan accesskey=s>
-						<input type=button value=Batal onclick=self.history.back()></td></tr>
+						<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 
 				<input type=hidden name='oldbarcode' value='<?php echo $data['barcode']; ?>'>
 			</table>
@@ -1449,7 +1449,7 @@ switch ($_GET['act']) {
 
 		echo "
 	<form method='post'>
-		<input type=button value='Tutup Window Ini' onclick='window.close()'>
+		<input type='reset' class='btn btn-default' value='Tutup Window Ini' onclick='window.close()'>
 	</form>
 	";
 
@@ -2161,7 +2161,7 @@ switch ($_GET['act']) {
 				$no= 1;
 				while ($data_audit= mysql_fetch_array($result)):
 					?>
-					<tr<?php echo $no % 2== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2== 0 ? 'class="alt"' : ''; ?>>
 						<td class="center"><?php echo $no; ?></td>
 						<td><?php echo $data_audit['barcode']; ?></td>
 						<td><?php echo $data_audit['namaBarang']; ?></td>
@@ -2534,7 +2534,7 @@ switch ($_GET['act']) {
 						$i=1;
 						while ($barang=mysql_fetch_array($result)):
 							?>
-							<tr<?php echo ($i % 2===0) ? 'class="alt"' : ''; ?>>
+							<tr <?php echo ($i % 2===0) ? 'class="alt"' : ''; ?>>
 								<td><?php echo $barang['barcode']; ?></td>
 								<td><?php echo $barang['namaBarang']; ?></td>
 								<td><?php echo $barang['namaKategoriBarang']; ?></td>
@@ -2595,7 +2595,7 @@ switch ($_GET['act']) {
 						$result=mysql_query($sql) or die("Gagal ambil data barang, barcode#{$barcode}, error:" . mysql_error());
 						$barang=mysql_fetch_array($result);
 						?>
-						<tr<?php echo ($i % 2===0) ? 'class="alt"' : ''; ?>>
+						<tr <?php echo ($i % 2===0) ? 'class="alt"' : ''; ?>>
 							<td><?php echo $barang['barcode']; ?></td>
 							<td><?php echo $barang['namaBarang']; ?></td>
 							<td><?php echo $barang['namaKategoriBarang']; ?></td>
@@ -2688,7 +2688,7 @@ switch ($_GET['act']) {
 						$i=1;
 						while ($barang=mysql_fetch_array($result)):
 							?>
-							<tr<?php echo ($i % 2===0) ? 'class="alt"' : ''; ?>>
+							<tr <?php echo ($i % 2===0) ? 'class="alt"' : ''; ?>>
 								<td><?php echo $barang['barcode']; ?></td>
 								<td><?php echo $barang['namaBarang']; ?></td>
 								<td><?php echo $barang['namaKategoriBarang']; ?></td>
@@ -2752,7 +2752,7 @@ switch ($_GET['act']) {
 						$result=mysql_query($sql) or die("Gagal ambil data barang, barcode#{$barcode}, error:" . mysql_error());
 						$barang=mysql_fetch_array($result);
 						?>
-						<tr<?php echo ($i % 2===0) ? 'class="alt"' : ''; ?>>
+						<tr <?php echo ($i % 2===0) ? 'class="alt"' : ''; ?>>
 							<td><?php echo $barang['barcode']; ?></td>
 							<td><?php echo $barang['namaBarang']; ?></td>
 							<td><?php echo $barang['namaKategoriBarang']; ?></td>
@@ -3247,7 +3247,7 @@ switch ($_GET['act']) {
 					//print_r($baris);
 					$saldo +=$baris['beli'] - $baris['rbeli'] - $baris['jual'] + $baris['rjual'] + $baris['so'] + $baris['fso'];
 					?>
-					<tr<?php
+					<tr <?php
 					$alt=!$alt;
 					echo $alt ? ' class="alt"' : '';
 					?>>

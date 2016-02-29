@@ -1505,7 +1505,7 @@ $result= mysql_query('
 		if (mysql_num_rows($result) >0) {
 			while ($barang= mysql_fetch_array($result)) {
 			?>
-			<tr<?php echo $i % 2== 0 ? 'class="alt"' : ''; ?>>
+			<tr <?php echo $i % 2== 0 ? 'class="alt"' : ''; ?>>
 				<td><?php echo $barang['barcode']; ?></td>
 				<td><?php echo $barang['namaBarang']; ?></td>
 				<td<?php echo $barang['idKategoriBarang']== 0 ? 'class="error"' : ''; ?>><?php echo $barang['idKategoriBarang']; ?></td>
@@ -2044,7 +2044,7 @@ echo "Tidak Ada Aksi untuk modul ini";
 (branch "($module=='barang' AND $act=='update')")
 1.2.5 / 2012-02-14 : Harry Sufehmi	: bugfix: kini Retur Pembelian ($act=='simpanretur') akan mengurangi jumlah stok (jumBarang) di table barang dengan benar
 1.0.3 / 2011-07-14 : Harry Sufehmi	: jika ganti / edit barcode, maka otomatis barcode ybs di table-table lainnya juga di update
-1.0.2 / 2011-03-04 : Harry Sufehmi	: jika user biasa ganti password, kembali ke Home
+1.0.2 / 2011-03-04 : Harry Sufehmi	: jika user biasa ganti password, Kembali ke Home
 1.0.1 / 2010-06-03 : Harry Sufehmi	: penambahan fasilitas workstation management, print ke PDF
 
 0.9.1			: Gregorius Arief		: initial release

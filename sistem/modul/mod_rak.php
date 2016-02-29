@@ -60,8 +60,8 @@ switch ($_GET[act]) {
 				<tr class="<?php echo $no % 2=== 0 ? 'alt' : ''; ?>">
 					<td><?php echo $no; ?></td>
 					<td><?php echo $r['namaRak']; ?></td>
-					<td><a href=?module=rak&act=editrak&id=<?php echo $r['idRak']; ?>>Edit</a>|
-						<a href=./aksi.php?module=rak&act=hapus&id=<?php echo $r['idRak']; ?>>Hapus</a>
+					<td><a href=?module=rak&act=editrak&id=<?php echo $r['idRak']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
+						<a href=./aksi.php?module=rak&act=hapus&id=<?php echo $r['idRak']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 					</td>
 				</tr>
 				<?php
@@ -81,7 +81,7 @@ switch ($_GET[act]) {
 			<table>
 				<tr><td>Edit Rak</td><td><input type='text' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
 				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
-								<input type=button value=Batal onclick=self.history.back()></td></tr>
+								<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 			</table>
 			</form>
 			<br/>
@@ -98,11 +98,11 @@ switch ($_GET[act]) {
 				$no= 1;
 				while ($r= mysql_fetch_array($tampil)) :
 					?>
-					<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<td><?php echo $no; ?></td>
 						<td><?php echo $r['namaRak']; ?></td>
-						<td><a href=?module=rak&act=editrak&id=<?php echo $r['idRak']; ?>>Edit</a>|
-							<a href=./aksi.php?module=rak&act=hapus&id=<?php echo $r['idRak']; ?>>Hapus</a>
+						<td><a href=?module=rak&act=editrak&id=<?php echo $r['idRak']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
+							<a href=./aksi.php?module=rak&act=hapus&id=<?php echo $r['idRak']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 						</td>
 					</tr>
 					<?php

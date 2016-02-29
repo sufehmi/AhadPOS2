@@ -51,12 +51,12 @@ check_ahadpos_session();
 				$no= 1;
 				while ($r= mysql_fetch_array($tampil)) {
 					?>
-					<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 						<td class="center"><?php echo $no; ?></td>
 						<td class="center"><?php echo $r['idWorkstation']; ?></td>
 						<td><?php echo $r['namaWorkstation']; ?></td>
 						<td class="center"><?php echo $r['keterangan']; ?></td>
-						<td><a href=?module=workstation&act=editworkstation&id=<?php echo $r['idWorkstation']; ?>>Edit</a>|
+						<td><a href=?module=workstation&act=editworkstation&id=<?php echo $r['idWorkstation']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
 							Ha<a href=./aksi.php?module=workstation&act=hapus&id=<?php echo $r['idWorkstation']; ?>>pus</a>
 						</td>
 					</tr>
@@ -92,7 +92,7 @@ check_ahadpos_session();
 			echo "
 		<tr><td colspan=2></td></tr>
 		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
-							<input type=button value=Batal onclick=self.history.back()></td></tr>
+							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 		</table></form>
 		";
 			break;
@@ -138,7 +138,7 @@ check_ahadpos_session();
 
 					<tr><td colspan=2></td></tr>
 					<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
-							<input type=button value=Batal onclick=self.history.back()></td></tr>
+							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 				</table></form>
 			<?php
 			break;

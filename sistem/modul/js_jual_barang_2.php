@@ -221,7 +221,7 @@ check_ahadpos_session();
 							<form method=POST action='../aksi.php?module=penjualan_barang&act=input'>
 								<input type=hidden name='tot_pembayaran' value="<?php echo $tot_pembelian; ?>" >
 								<div class="kasir-kanan">
-									<div id='kembalian'></div>
+									<div id='Kembalian'></div>
 									<div class="pembayaran">
 										<table class="pembayaran">
 											<tr>

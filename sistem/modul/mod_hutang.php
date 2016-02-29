@@ -45,7 +45,7 @@ switch($_GET[act]){
 				<td align=center class=td>$tgl</td>
 				<td align=right class=td>".uang($r[nominal])."</td>
 				<td align=center class=td>$r[NomorInvoice]</td>
-				<td align=center class=td><a href=?module=hutang&act=lihatdetail&id=$r[idTransaksiBeli]>Lihat</a>|<a href=?module=hutang&act=edittrans&id=$r[idTransaksiBeli]>Edit</a></td>
+				<td align=center class=td><a href=?module=hutang&act=lihatdetail&id=$r[idTransaksiBeli]>Lihat</a>|<a href=?module=hutang&act=edittrans&id=$r[idTransaksiBeli]><i class='fa fa-pencil-square-o'></i> Edit</a> </td>
 				</tr>";
 		$no++;
 		}
@@ -94,7 +94,7 @@ switch($_GET[act]){
 		echo "<tr><td class=td colspan=4 align=right>Total</td><td class=td colspan=2 align=right>".uang($dataTrans[nominal])."</td></tr>
 			
 			<tr><td colspan=6 class=td></td></tr>
-			<tr><td colspan=3 class=td><a href=?module=hutang>Kembali</a></td><td colspan=3 class=td><a href=?module=hutang&act=edittrans&id=$_GET[id]>Edit</a></td></tr>
+			<tr><td colspan=3 class=td><a href=?module=hutang>Kembali</a></td><td colspan=3 class=td><a href=?module=hutang&act=edittrans&id=$_GET[id]><i class='fa fa-pencil-square-o'></i> Edit</a> </td></tr>
 			</table>";
 
 		break;

@@ -1,7 +1,7 @@
 <?php
 $server = "localhost";
 $username = "root";
-$password = "dbcok3";
+$password = "";
 $database = "ahpost";
 
 // disable error message level E_NOTICE

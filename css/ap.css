@@ -1,7 +1,7 @@
-html,body { font-family: 'Dosis'; font-style: normal; font-weight: 400; }
+html,body { font-family: 'Dosis'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; }
  
 #header {position: fixed;top:0;left:0;width:100%;height: 48px;border-radius:none;z-index:102}
-#header h1 { margin:0; padding:0 .25em; font-size: 24px; line-height: 48px; display:inline-block;}
+#header h1 { margin:0; font-weight:700; font-size: 24px; line-height: 48px; display:inline-block;}
 #header button {padding:0;width:48px;height:48px;padding: 12px;border: 0;background: transparent;outline:none; display:inline-block; }
 #header button i.fa {width:24px;height:24px;font-size: 24px;display:block}
 nav#drawer{position: fixed;overflow-y:auto;top: 0;left: 0;padding: 3em 0 4em 0;font-size: 16px;line-height: 1;z-index: 101;background: #e7e7e7;height:100%;}
@@ -15,21 +15,23 @@ nav#drawer a {color:#000}
 .nav a i {margin-right: .5em}
 footer {margin: 1em 0}
 
+table td { padding: .1em .2em; vertical-align:top }
+
 table.tabel {}
 .tabel th,
-.tabel td {border: 1px solid #ccc;padding: .1em .2em;font-size: .9em}
+.tabel td {border: 1px solid #ccc;padding: .1em .2em;font-size: .9em; vertical-align:middle}
 .tabel th {border-bottom: 2px solid #333;padding: .2em;}
 .tabel tr >th:first-child,
 .tabel tr >td:first-child {text-align: right}
 .tabel tr >th:last-child,
 .tabel tr >td:last-child {text-align: center}
+tr.alt { background: rgba(0,0,0,.1); }
 
-table td { padding: .1em .2em }
 
 nav#drawer {width:300px; }
 #content {min-height: calc(100vh - 128px);margin: 64px 1em 1em 1em;}
 .with_drawer #content {margin: 64px 1em 1em 316px}
-#content h2 {color: #d31}
+#content h2 {color: #d31; text-transform:capitalize;}
 
 #layer1 {display:none}
 body {overflow-x: auto;overflow-y:scroll}
@@ -43,3 +45,5 @@ body {overflow-x: auto;overflow-y:scroll}
 input[type='text']{font-family: "Courier New", Courier, monospace;font-size: 1.2em;}
 #tableToPrint {}
 */
+
+.btn .fa { margin-right: .25em; }

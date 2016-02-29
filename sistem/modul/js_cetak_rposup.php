@@ -200,7 +200,7 @@ if ($_POST['buatpo']) {
 		$grandtotal= 0;
 		while ($x= mysql_fetch_array($hasil1)) {
 			?>
-			<tr<?php echo $ctr % 2=== 0 ? 'class="alt"' : ''; ?>>
+			<tr <?php echo $ctr % 2=== 0 ? 'class="alt"' : ''; ?>>
 				<?php
 				echo "<td>".$x['barcode']."	<input type=hidden name=barcode$ctr value='".$x['barcode']."'></td>
 				<td>".$x['namaBarang']."</td>				
@@ -290,7 +290,7 @@ if ($_POST['buatpo']) {
 			$SaranOrder= $x['jumBarang'];
 			$AvgDaily= round(($x['AvgDaily']), 2);
 			?>
-			<tr<?php echo $ctr % 2=== 0 ? 'class="alt"' : ''; ?>>
+			<tr <?php echo $ctr % 2=== 0 ? 'class="alt"' : ''; ?>>
 				<?php
 				echo "<td>".$x['barcode']."	<input type=hidden name=barcode$ctr value='".$x['barcode']."'></td>
 				<td>".$x['namaBarang']."</td>

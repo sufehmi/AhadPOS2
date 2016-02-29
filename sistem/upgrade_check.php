@@ -1070,7 +1070,7 @@ $hasil= exec_query($sql);
 echo mysql_error();
 
 $sql= "INSERT INTO `config` (`option`, `value`, `description`)
-			VALUES ('footer_nota_a4','Barang yang sudah dibeli tidak bisa ditukar atau dikembalikan','Footer Nota A4')";
+			VALUES ('footer_nota_a4','Barang yang sudah dibeli tidak bisa ditukar atau diKembalikan','Footer Nota A4')";
 $hasil= exec_query($sql);
 echo mysql_error();
 

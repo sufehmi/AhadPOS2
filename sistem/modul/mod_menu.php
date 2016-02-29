@@ -64,7 +64,7 @@ switch ($_GET[act]) {
 					<td class="center"><?php echo $r['accesskey']; ?></td>
 					<td class="center"><?php echo $r['publish']; ?></td>
 					<td><?php echo $r['levelUser']; ?></td>
-					<td><a href=?module=menu&act=editmenu&id=<?php echo $r['id']; ?>>Edit</a>|<a href=./aksi.php?module=menu&act=hapus&id=<?php echo $r['id']; ?>>Hapus</a>
+					<td><a href=?module=menu&act=editmenu&id=<?php echo $r['id']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |<a href=./aksi.php?module=menu&act=hapus&id=<?php echo $r['id']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 					</td>
 				</tr>
 				<?php
@@ -148,7 +148,7 @@ switch ($_GET[act]) {
 				<tr>
 					<td colspan=2 align=right>
 						<input type='submit' class='btn btn-default' value=Simpan>
-						<input type=button value=Batal onclick=self.history.back()></td>
+						<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td>
 				</tr>
 			</table>
 		</form>
@@ -221,7 +221,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr><td colspan=2></td></tr>
 				<tr><td colspan=2><input type='submit' class='btn btn-info' value="update">
-						<input type=button value=Batal onclick=self.history.back()></td>
+						<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td>
 				</tr>
 			</table>
 		</form>

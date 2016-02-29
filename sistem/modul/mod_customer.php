@@ -22,28 +22,20 @@ switch ($_GET[act]) {
 	default:
 		?>
 		<h2>Data Customer</h2>
-		<table>
-			<tr>
-				<td>
-					<form method="POST" action="">
-						<fieldset>
-							<legend>Cari Customer</legend>
-							<input type="text" class="form-control" name="nomor-kartu" placeholder="Masukkan nomor kartu" autofocus="autofocus"/>
-							<input type="text" class="form-control" name="nama-customer" placeholder="Nama Customer"/>
-							<input type='submit' class='btn btn-info' value="Submit"/>
-						</fieldset>
-					</form>
-					<br/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<form method=POST action='?module=customer&act=tambahcustomer'>
-						<input type='submit' class='btn btn-default' value='Tambah Customer'>
-					</form>
-				</td>
-			</tr>
-		</table>
+
+		<form method="POST" action="">
+		<fieldset>
+		<legend>Cari Customer</legend>
+		<input type="text" class="form-control" name="nomor-kartu" placeholder="Masukkan nomor kartu" autofocus="autofocus"/>
+		<input type="text" class="form-control" name="nama-customer" placeholder="Nama Customer"/>
+		<input type='submit' class='btn btn-info' value="Submit" />
+		</fieldset>
+		</form>
+
+		<form method=POST action='?module=customer&act=tambahcustomer'>
+		<input type='submit' class='btn btn-default' value='Tambah Customer'>
+		</form>
+
 		<table class="tabel">
 			<tr>
 				<th>No</th>
@@ -81,7 +73,7 @@ switch ($_GET[act]) {
 			$no= $mulai + 1;
 			while ($r= mysql_fetch_array($tampil)) {
 				?>
-				<tr<?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+				<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
 					<td class="right"><?php echo $no; ?></td>
 					<td><?php echo $r['nomor_kartu']; ?></td>
 					<td><?php echo $r['namaCustomer']; ?></td>
@@ -96,8 +88,8 @@ switch ($_GET[act]) {
 					<td><?php echo $r['keterangan']; ?></td>
 					<td class="right"><?php echo $r['diskon_persen']; ?>%</td>
 					<td class="right"><?php echo number_format($r['diskon_rupiah'], 2, ',', '.'); ?></td>
-					<td><a href=?module=customer&act=editcustomer&id=<?php echo $r['idCustomer']; ?>>Edit</a>|
-						<a href=./aksi.php?module=customer&act=hapus&id=<?php echo $r['idCustomer']; ?>>Hapus</a>
+					<td><a href=?module=customer&act=editcustomer&id=<?php echo $r['idCustomer']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
+						<a href=./aksi.php?module=customer&act=hapus&id=<?php echo $r['idCustomer']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 					</td>
 				</tr>
 				<?php
@@ -140,7 +132,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td>Alamat</td>
-					<td><textarea name='alamatCustomer' rows='2' cols='35'></textarea></td>
+					<td><textarea  class="form-control"  name='alamatCustomer' rows='2' cols='35'></textarea></td>
 				</tr>
 				<tr>
 					<td>Jenis Kelamin</td>
@@ -176,7 +168,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td>Keterangan</td>
-					<td><textarea name='keterangan' rows='4' cols='35'></textarea></td>
+					<td><textarea  class="form-control"  name='keterangan' rows='4' cols='35'></textarea></td>
 				</tr>
 				<tr>
 					<td colspan=2></td>
@@ -184,7 +176,7 @@ switch ($_GET[act]) {
 				<tr>
 					<td colspan=2 align='right'>
 						<input type='submit' class='btn btn-default' value=Simpan>
-						<input type=button value=Batal onclick=self.history.back()>
+						<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()>
 					</td>
 				</tr>
 			</table>
@@ -214,7 +206,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td>Alamat</td>
-					<td><textarea name='alamatCustomer' rows='2' cols='35'><?php echo $data['alamatCustomer']; ?></textarea></td>
+					<td><textarea  class="form-control"  name='alamatCustomer' rows='2' cols='35'><?php echo $data['alamatCustomer']; ?></textarea></td>
 				</tr>
 				<tr>
 					<td>Jenis Kelamin</td>
@@ -250,7 +242,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td>Keterangan</td>
-					<td><textarea name='keterangan' rows='4' cols='35'><?php echo $data['keterangan']; ?></textarea></td>
+					<td><textarea  class="form-control"  name='keterangan' rows='4' cols='35'><?php echo $data['keterangan']; ?></textarea></td>
 				</tr>
 				<tr>
 					<td>Diskon (%)</td>
@@ -265,7 +257,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>
-						<input type=button value=Batal onclick=self.history.back()></td>
+						<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td>
 				</tr>
 			</table></form>
 		<?php

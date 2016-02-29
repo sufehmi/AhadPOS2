@@ -89,7 +89,7 @@ unset($_SESSION['hakAdmin']);
 }
 
 function cekBarang($barcode) {
-// jika ada banyak barang dengan barcode yang sama, kembalikan record yang terbaru
+// jika ada banyak barang dengan barcode yang sama, Kembalikan record yang terbaru
 $sql= "SELECT b.idBarang, b.namaBarang, b.hargaJual, b.barcode, d.hargaBeli, b.jumBarang FROM barang AS b, detail_beli AS d
 				WHERE b.barcode= '$barcode' AND d.barcode= '$barcode' ORDER BY d.idBarang DESC LIMIT 1";
 //echo $sql;
@@ -1034,7 +1034,7 @@ if ($strukRetur) {
 	$struk .= $diskonCustomer >0 ? ' Potongan Spesial : '.str_pad(number_format($diskonCustomer, 0, ',', '.'), 11, ' ', STR_PAD_LEFT)." \n" : '';
 	$struk .= " TOTAL			: ".str_pad(number_format($totalTransaksi, 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n";
 	$struk .= " Dibayar		: ".str_pad(number_format($uangDibayar, 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n";
-	$struk .= " Kembali		: ".str_pad(number_format(($uangDibayar - $totalTransaksi), 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n";
+	$struk .= "Kembali		: ".str_pad(number_format(($uangDibayar - $totalTransaksi), 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n";
 	$struk .= $diskonHargaTotal >0 ? " ANDA HEMAT	: ".str_pad(number_format($diskonHargaTotal, 0, ',', '.'), 11, " ", STR_PAD_LEFT)." \n" : '';
 };
 

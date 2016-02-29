@@ -177,7 +177,7 @@ if (empty($_SESSION['namauser'])) {
 									<td class="right"><?php echo $data['jumBarang']; // jumlah pesanan	?></td>
 									<td class="right"><?php echo $data['hargaJual']; // harga	?></td>
 									<td class="right"><?php echo number_format($total, 0, ',', '.'); ?></td>
-									<td class="right"><a href='js_buat_rpo.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?>'>Hapus</a>
+									<td class="right"><a href='js_buat_rpo.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?>'><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 									</td>
 								</tr>
 
@@ -193,7 +193,7 @@ if (empty($_SESSION['namauser'])) {
 						<form method=POST action='../aksi.php?module=buat_rpo&act=input'>
 							<input type=hidden name='tot_pembayaran' value='<?php echo $tot_pembelian; ?>'>
 
-							<div id='kembalian' style='float:right'></div>
+							<div id='Kembalian' style='float:right'></div>
 
 							<table class="daftar-pembelian" style="border:1px solid rgb(221, 221, 221)">
 								<tr>

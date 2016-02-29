@@ -146,7 +146,7 @@ ahp_popupheader('retur barang');
 							<td align=right><?php echo $data['jumBarang']; ?></td>
 							<td align=right><?php echo $data['hargaJual']; ?></td>
 							<td align=right><?php echo number_format($total, 0, ',', '.'); ?></td>
-							<td align=right><a href='js_input_retur_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?>'>Hapus</a></td>
+							<td align=right><a href='js_input_retur_barang.php?act=caricustomer&doit=hapus&uid=<?php echo $data['uid']; ?>'><i class='fa  fa-times-circle-o'></i> Hapus</a> </td>
 						</tr>
 						<?php
 						$tot_retur += $total;
@@ -158,7 +158,7 @@ ahp_popupheader('retur barang');
 						<input type=hidden name='tot_retur' value='<?php echo $tot_retur; ?>'>
 						<input type=hidden name='namaPrinter' value='<?php echo $_SESSION['namaPrinter']; ?>'>
 						<div class="kasir-kanan">
-						<div id='kembalian'></div>
+						<div id='Kembalian'></div>
 						<div class="pembayaran">
 							<table class="pembayaran">
 								<tr>
@@ -247,7 +247,7 @@ ahp_popupheader('retur barang');
 			padding: 15px;">
 			<form id="form-nomor-kartu">
 			<input type="text" class="form-control" id="nomor-kartu-id" name="nomor_kartu" placeholder="Nomor Kartu" autocomplete="off"/><br />
-			<input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
+			<input style="float: right" class="btn btn-info" type="submit" id="tombol-login-submit" value="Submit" />
 			</form>
 		</div>
 		<div id="footer" >

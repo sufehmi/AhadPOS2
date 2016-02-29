@@ -141,7 +141,7 @@ if ($r) {
 	<form method=POST action='../aksi.php?module=inputreturbeli2&act=simpan'>
 		<input type=hidden name='tot_pembayaran' value="<?php echo $tot_pembelian; ?>" >
 		<div class="kasir-kanan">
-			<div id='kembalian'></div>
+			<div id='Kembalian'></div>
 			<div class="pembayaran">
 				<table class="pembayaran">
 					<tr>

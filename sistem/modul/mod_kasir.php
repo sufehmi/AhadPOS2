@@ -273,7 +273,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<table>
 				<tr><td>Edit Rak</td><td><input type='text' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
 				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
-								<input type=button value=Batal onclick=self.history.back()></td></tr>
+								<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 			</table>
 			</form>
 			<br/>
@@ -293,8 +293,8 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			echo "<tr bgcolor=$warna>"; //end warna
 			echo "<td class=td>$no</td>
 						<td class=td>$r[namaRak]</td>
-						<td class=td><a href=?module=rak&act=editrak&id=$r[idRak]>Edit</a>|
-								<a href=./aksi.php?module=rak&act=hapus&id=$r[idRak]>Hapus</a>
+						<td class=td><a href=?module=rak&act=editrak&id=$r[idRak]><i class='fa fa-pencil-square-o'></i> Edit</a> |
+								<a href=./aksi.php?module=rak&act=hapus&id=$r[idRak]><i class='fa  fa-times-circle-o'></i> Hapus</a> 
 						</td></tr>";
 			$no++;
 		}

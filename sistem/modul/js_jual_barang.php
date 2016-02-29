@@ -358,7 +358,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 					<form method=POST action='../aksi.php?module=penjualan_barang&act=input'>
 						<input type=hidden name='tot_pembayaran' value="<?php echo $tot_pembelian; ?>" >
 						<div class="kasir-kanan">
-						<div id='kembalian'></div>
+						<div id='Kembalian'></div>
 						<div class="pembayaran">
 							<table class="pembayaran">
 								<tr>
@@ -482,7 +482,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 			<input type="text" class="form-control" id="nama-user" name="nama-user" placeholder="Nama User Admin" /><br />
 			<input type="password" class='form-control' id="password" name="password" placeholder="Password" /><br />
 			<a href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1' : ''; ?>" class="tombol" id="tombol-batal-login" accesskey="l">Bata<u>l</u></a>
-			<input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
+			<input style="float: right" class="btn btn-info" type="submit" id="tombol-login-submit" value="Submit" />
 			</form>
 		</div>
 		<div id="self-checkout" style="
@@ -497,7 +497,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 			<input type="text" class="form-control" id="self-checkout-id" name="self-checkout-id" placeholder="Nomor Self Checkout" autocomplete="off"/><br />
 			<!--<input type="password" class='form-control' id="password" name="password" placeholder="Password" /><br />-->
 			<!--<a href="js_jual_barang.php?act=caricustomer" class="tombol" id="tombol-batal-sc" accesskey="l">Bata<u>l</u></a>-->
-			<input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
+			<input style="float: right" class="btn btn-info" type="submit" id="tombol-login-submit" value="Submit" />
 			</form>
 		</div>
 		<div id="ganti-customer" style="
@@ -511,7 +511,7 @@ ahp_popupheader('Jual Barang',$add_tohead);
 			padding: 15px;">
 			<form id="form-nomor-kartu">
 			<input type="text" class="form-control" id="nomor-kartu-id" name="nomor_kartu" placeholder="Nomor Kartu" autocomplete="off"/><br />
-			<input style="float: right" type="submit" id="tombol-login-submit" value="Submit" />
+			<input style="float: right" class="btn btn-info" type="submit" id="tombol-login-submit" value="Submit" />
 			</form>
 		</div>
 		<div id="cek-harga" style="
