@@ -1,154 +1,153 @@
 <?php
 
 /* upgrade_check.php ------------------------------------------------------
-  version: 1.5.0
+version: 1.5.0
 
-  Part of AhadPOS : http://AhadPOS.com
-  License: GPL v2
-  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-  http://vlsm.org/etc/gpl-unofficial.id.html
+Part of AhadPOS : http://AhadPOS.com
+License: GPL v2
+http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+http://vlsm.org/etc/gpl-unofficial.id.html
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License v2 (links provided above) for more details.
-  ---------------------------------------------------------------- */
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License v2 (links provided above) for more details.
+---------------------------------------------------------------- */
 
 /* -------------------------------------------------------------
-  This script will automatically upgrade the database
-  as required by the current version of AhadPOS
+This script will automatically upgrade the database
+as required by the current version of AhadPOS
 
-  NO DESTRUCTIVE QUERY ALLOWED HERE
-  ---------------------------------------------------------------- */
+NO DESTRUCTIVE QUERY ALLOWED HERE
+---------------------------------------------------------------- */
 // exit;
 
 include "../config/config.php";
 
-
 // Software Version
 // probably a good idea to move these next 3 lines into config.php instead
-$major = 2;
-$minor = 0;
-$revision = 17;
+$major= 2;
+$minor= 0;
+$revision= 17;
 
 // serialize this
-$current_version = array($major, $minor, $revision);
+$current_version= array($major, $minor, $revision);
 
-// ===============================================================
+//===============================================================
 // get version number from database
-$sql = "SELECT value FROM config WHERE `option` = 'version'";
-$hasil = mysql_query($sql);
-$x = mysql_fetch_array($hasil);
+$sql= "SELECT value FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
+$x= mysql_fetch_array($hasil);
 
-// if no version, means current database structure is from version < 1.5.0
-if (mysql_num_rows($hasil) < 1) {
+// if no version, means current database structure is from version< 1.5.0
+if (mysql_num_rows($hasil)< 1) {
 
-   $dbmajor = 1;
-   $dbminor = 2;
-   $dbrevision = 0;
-} else { // ======= get the major, minor, and revision number
-   $dbversion = unserialize($x[value]);
-   $dbmajor = $dbversion[0];
-   $dbminor = $dbversion[1];
-   $dbrevision = $dbversion[2];
+$dbmajor= 1;
+$dbminor= 2;
+$dbrevision= 0;
+} else { //======= get the major, minor, and revision number
+$dbversion= unserialize($x[value]);
+$dbmajor= $dbversion[0];
+$dbminor= $dbversion[1];
+$dbrevision= $dbversion[2];
 }
 
 
 // if up to date, don't do anything at all
-if ($major == $dbmajor && $minor == $dbminor && $revision == $dbrevision) {
-   header('location:media.php?module=home');
+if ($major== $dbmajor && $minor== $dbminor && $revision== $dbrevision) {
+header('location:media.php?module=home');
 } else {
 
 
-// ---------------------- start upgrading if database version < software version
+// ---------------------- start upgrading if database version< software version
 
-   echo "Current database version : $dbmajor.$dbminor.$dbrevision <br />";
-   echo "Current software version : $major.$minor.$revision <br /><br />";
+echo "Current database version : $dbmajor.$dbminor.$dbrevision<br />";
+echo "Current software version : $major.$minor.$revision<br /><br />";
 
-   if ($dbmajor == 1) {  // ------- eksekusi semua patch versi 1.x
-      echo "Checking database version 1.x.x \n <br />";
-      check_minor_major1($dbminor, $minor, $dbrevision, $revision);
-   }
-//    else {
-//        selesai();
-//    };
+if ($dbmajor== 1) { // ------- eksekusi semua patch versi 1.x
+	echo "Checking database version 1.x.x \n<br />";
+	check_minor_major1($dbminor, $minor, $dbrevision, $revision);
+}
+//	else {
+//		selesai();
+//	};
 
-   if ($major == 2 && $dbmajor == 1) {  // ------- upgrade dari versi 1.6.1 ke versi 2.0.0
-      echo "Upgrading to database version 2.0.0 \n <br />";
-      upgrade_161_to_200();
-   }
-//    else {
-//        selesai();
-//    }
+if ($major== 2 && $dbmajor== 1) { // ------- upgrade dari versi 1.6.1 ke versi 2.0.0
+	echo "Upgrading to database version 2.0.0 \n<br />";
+	upgrade_161_to_200();
+}
+//	else {
+//		selesai();
+//	}
 
-   if (($major == 2) && ($dbmajor == 2)) {  // ------- eksekusi semua patch versi 2.x
-      echo "Checking database version 2.x.x \n <br />";
-      check_minor_major2($dbminor, $minor, $dbrevision, $revision);
-   } else {
-      selesai();
-   }
-
-   if ($major >= 3 && $dbmajor <= $major) {  // ------- eksekusi semua patch versi 3.x
-      echo "Checking database version 3.x.x \n <br />";
-      check_minor_major3($dbminor, $minor, $dbrevision, $revision);
-   } else {
-      selesai();
-   }
-
-
-
-   exit;
+if (($major== 2) && ($dbmajor== 2)) { // ------- eksekusi semua patch versi 2.x
+	echo "Checking database version 2.x.x \n<br />";
+	check_minor_major2($dbminor, $minor, $dbrevision, $revision);
+} else {
+	selesai();
 }
 
-// =================================== PATCH VERSI 1.x.x ==========================================
+if ($major >= 3 && $dbmajor<= $major) { // ------- eksekusi semua patch versi 3.x
+	echo "Checking database version 3.x.x \n<br />";
+	check_minor_major3($dbminor, $minor, $dbrevision, $revision);
+} else {
+	selesai();
+}
+
+
+
+exit;
+}
+
+//=================================== PATCH VERSI 1.x.x==========================================
 function check_minor_major1($dbminor, $minor, $dbrevision, $revision) {
 
-   if ($dbminor == 2) { // ------- eksekusi semua patch versi 1.2.x
-      echo "Upgrading database to version 1.2.x \n <br />";
-      check_revision_minor2_major1($dbminor, $minor, $dbrevision, $revision);
-   }
+if ($dbminor== 2) { // ------- eksekusi semua patch versi 1.2.x
+	echo "Upgrading database to version 1.2.x \n<br />";
+	check_revision_minor2_major1($dbminor, $minor, $dbrevision, $revision);
+}
 
-   if ($dbminor < 5) {  // ------- eksekusi semua patch versi 1.5.x
-      echo "Upgrading database to version 1.5.x \n <br />";
-      check_revision_minor5_major1($dbminor, $minor, $dbrevision, $revision);
-   }
+if ($dbminor< 5) { // ------- eksekusi semua patch versi 1.5.x
+	echo "Upgrading database to version 1.5.x \n<br />";
+	check_revision_minor5_major1($dbminor, $minor, $dbrevision, $revision);
+}
 
-   if ($dbminor < 6) {  // ------- eksekusi semua patch versi 1.6.x
-      if ($dbrevision < 1) {
-         echo "Upgrading database to version 1.6.x \n <br />";
-         check_revision_minor6_major1($dbminor, $minor, $dbrevision, $revision);
-      }
-   }
+if ($dbminor< 6) { // ------- eksekusi semua patch versi 1.6.x
+	if ($dbrevision< 1) {
+		echo "Upgrading database to version 1.6.x \n<br />";
+		check_revision_minor6_major1($dbminor, $minor, $dbrevision, $revision);
+	}
+}
 }
 
 function check_revision_minor2_major1($dbminor, $minor, $dbrevision, $revision) {
 
-   echo "Upgrading database to version 1.2.0 \n <br />";
-   upgrade_old_to_120();
+echo "Upgrading database to version 1.2.0 \n<br />";
+upgrade_old_to_120();
 
-   echo "Upgrading database from 1.2.0 to version 1.2.5 \n <br />";
-   upgrade_120_to_125();
+echo "Upgrading database from 1.2.0 to version 1.2.5 \n<br />";
+upgrade_120_to_125();
 }
 
 function check_revision_minor5_major1($dbminor, $minor, $dbrevision, $revision) {
 
-   echo "Upgrading database from 1.2.5 to version 1.5.0 \n <br />";
-   upgrade_125_to_150();
+echo "Upgrading database from 1.2.5 to version 1.5.0 \n<br />";
+upgrade_125_to_150();
 }
 
 function check_revision_minor6_major1($dbminor, $minor, $dbrevision, $revision) {
 
 // upgrade 1.5.x ke 1.6.0
-   if ($dbminor == '5') {
-      echo "Upgrading database from 1.5.0 to version 1.6.0 \n <br />";
-      upgrade_150_to_160();
-   };
+if ($dbminor== '5') {
+	echo "Upgrading database from 1.5.0 to version 1.6.0 \n<br />";
+	upgrade_150_to_160();
+};
 
 // upgrade 1.6.0 ke 1.6.x
-   if ($dbrevision < 1) {
-      echo "Upgrading database from 1.6.0 to version 1.6.1 \n <br />";
-      upgrade_160_to_161();
-   };
+if ($dbrevision< 1) {
+	echo "Upgrading database from 1.6.0 to version 1.6.1 \n<br />";
+	upgrade_160_to_161();
+};
 }
 
 // ------------------------------------------------------------------------------------
@@ -163,130 +162,130 @@ function upgrade_120_to_125() {
 
 
 // database structure upgrade -------------------------------------------------
-   $sql = "ALTER TABLE  `kategori_barang` CHANGE  `idKategoriBarang`  `idKategoriBarang` INT( 5 ) NOT NULL AUTO_INCREMENT";
-   $hasil = exec_query($sql);
+$sql= "ALTER TABLE `kategori_barang` CHANGE `idKategoriBarang` `idKategoriBarang` INT( 5 ) NOT NULL AUTO_INCREMENT";
+$hasil= exec_query($sql);
 
 // optimizations --------------------------------------------------------------
-   $sql = "ALTER TABLE  `barang` ADD INDEX (`idKategoriBarang`);
-		ALTER TABLE  `barang` ADD INDEX (`idSupplier`);
-		ALTER TABLE  `barang` ADD FULLTEXT (`namaBarang`);
+$sql= "ALTER TABLE `barang` ADD INDEX (`idKategoriBarang`);
+		ALTER TABLE `barang` ADD INDEX (`idSupplier`);
+		ALTER TABLE `barang` ADD FULLTEXT (`namaBarang`);
 
-		ALTER TABLE  `detail_beli` ADD INDEX (`isSold`);
-		ALTER TABLE  `detail_beli` ADD INDEX (`jumBarang`);
-		ALTER TABLE  `detail_beli` ADD INDEX (`idBarang`);
-		ALTER TABLE  `detail_beli` ADD INDEX (`barcode`);
+		ALTER TABLE `detail_beli` ADD INDEX (`isSold`);
+		ALTER TABLE `detail_beli` ADD INDEX (`jumBarang`);
+		ALTER TABLE `detail_beli` ADD INDEX (`idBarang`);
+		ALTER TABLE `detail_beli` ADD INDEX (`barcode`);
 
-		ALTER TABLE  `detail_jual` ADD INDEX (`username`);
-		ALTER TABLE  `detail_jual` ADD INDEX (`nomorStruk`);
-		ALTER TABLE  `detail_jual` ADD INDEX (`barcode`);
+		ALTER TABLE `detail_jual` ADD INDEX (`username`);
+		ALTER TABLE `detail_jual` ADD INDEX (`nomorStruk`);
+		ALTER TABLE `detail_jual` ADD INDEX (`barcode`);
 
-		ALTER TABLE  `tmp_detail_beli` ADD INDEX (`idSupplier`);
-		ALTER TABLE  `tmp_detail_beli` ADD INDEX (`username`);
+		ALTER TABLE `tmp_detail_beli` ADD INDEX (`idSupplier`);
+		ALTER TABLE `tmp_detail_beli` ADD INDEX (`username`);
 
-		ALTER TABLE  `transaksijual` ADD INDEX (`idUser`);
-		ALTER TABLE  `transaksijual` ADD INDEX (`tglTransaksiJual`);
-		ALTER TABLE  `transaksijual` ADD INDEX (`nominal`);
+		ALTER TABLE `transaksijual` ADD INDEX (`idUser`);
+		ALTER TABLE `transaksijual` ADD INDEX (`tglTransaksiJual`);
+		ALTER TABLE `transaksijual` ADD INDEX (`nominal`);
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(1, 2, 5))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(1, 2, 5))."', '')";
-   };
-   $hasil = mysql_query($sql);
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(1, 2, 5))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(1, 2, 5))."', '')";
+};
+$hasil= mysql_query($sql);
 }
 
 function upgrade_125_to_150() {
 
 // database structure upgrade -------------------------------------------------
-   $sql = "
+$sql= "
 		ALTER TABLE `modul` ADD `script_name` VARCHAR( 50 ) NOT NULL;
 		ALTER TABLE `modul` ADD INDEX (`script_name`);
 
-                UPDATE `modul` SET `script_name` = 'mod_user.php' WHERE `modul`.`link` = '?module=user' ;
-                UPDATE `modul` SET `script_name` = 'mod_supplier.php' WHERE `modul`.`link` = '?module=supplier' ;
-                UPDATE `modul` SET `script_name` = 'mod_customer.php' WHERE `modul`.`link` = '?module=customer' ;
-                UPDATE `modul` SET `script_name` = 'mod_barang.php' WHERE `modul`.`link` = '?module=barang' ;
-                UPDATE `modul` SET `script_name` = 'mod_rak.php' WHERE `modul`.`link` = '?module=rak' ;
-                UPDATE `modul` SET `script_name` = 'mod_satuan_barang.php' WHERE `modul`.`link` = '?module=satuan_barang' ;
-                UPDATE `modul` SET `script_name` = 'mod_kategori_barang.php' WHERE `modul`.`link` = '?module=kategori_barang' ;
-                UPDATE `modul` SET `script_name` = 'mod_beli_barang.php' WHERE `modul`.`link` = '?module=pembelian_barang' ;
-                UPDATE `modul` SET `script_name` = 'mod_jual_barang.php' WHERE `modul`.`link` = '?module=penjualan_barang' ;
-                UPDATE `modul` SET `script_name` = 'mod_hutang.php' WHERE `modul`.`link` = '?module=hutang' ;
-                UPDATE `modul` SET `script_name` = 'mod_piutang.php' WHERE `modul`.`link` = '?module=piutang' ;
-                UPDATE `modul` SET `script_name` = 'mod_modul.php' WHERE `modul`.`link` = '?module=modul' ;
-                UPDATE `modul` SET `script_name` = 'mod_kasir.php' WHERE `modul`.`link` = '?module=kasir' ;
-                UPDATE `modul` SET `script_name` = 'mod_laporan.php' WHERE `modul`.`link` = '?module=laporan' ;
-                UPDATE `modul` SET `script_name` = 'mod_manage_workstation.php' WHERE `modul`.`link` = '?module=workstation' ;
+				UPDATE `modul` SET `script_name`= 'mod_user.php' WHERE `modul`.`link`= '?module=user';
+				UPDATE `modul` SET `script_name`= 'mod_supplier.php' WHERE `modul`.`link`= '?module=supplier';
+				UPDATE `modul` SET `script_name`= 'mod_customer.php' WHERE `modul`.`link`= '?module=customer';
+				UPDATE `modul` SET `script_name`= 'mod_barang.php' WHERE `modul`.`link`= '?module=barang';
+				UPDATE `modul` SET `script_name`= 'mod_rak.php' WHERE `modul`.`link`= '?module=rak';
+				UPDATE `modul` SET `script_name`= 'mod_satuan_barang.php' WHERE `modul`.`link`= '?module=satuan_barang';
+				UPDATE `modul` SET `script_name`= 'mod_kategori_barang.php' WHERE `modul`.`link`= '?module=kategori_barang';
+				UPDATE `modul` SET `script_name`= 'mod_beli_barang.php' WHERE `modul`.`link`= '?module=pembelian_barang';
+				UPDATE `modul` SET `script_name`= 'mod_jual_barang.php' WHERE `modul`.`link`= '?module=penjualan_barang';
+				UPDATE `modul` SET `script_name`= 'mod_hutang.php' WHERE `modul`.`link`= '?module=hutang';
+				UPDATE `modul` SET `script_name`= 'mod_piutang.php' WHERE `modul`.`link`= '?module=piutang';
+				UPDATE `modul` SET `script_name`= 'mod_modul.php' WHERE `modul`.`link`= '?module=modul';
+				UPDATE `modul` SET `script_name`= 'mod_kasir.php' WHERE `modul`.`link`= '?module=kasir';
+				UPDATE `modul` SET `script_name`= 'mod_laporan.php' WHERE `modul`.`link`= '?module=laporan';
+				UPDATE `modul` SET `script_name`= 'mod_manage_workstation.php' WHERE `modul`.`link`= '?module=workstation';
 
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // optimizations --------------------------------------------------------------
-// no optimizations for 1.2.5 --> 1.5.0
-//$sql = "";
-//$hasil  = exec_query($sql);
+// no optimizations for 1.2.5 -->1.5.0
+//$sql= "";
+//$hasil= exec_query($sql);
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(1, 5, 0))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(1, 5, 0))."', '')";
-   };
-   $hasil = mysql_query($sql);
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(1, 5, 0))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(1, 5, 0))."', '')";
+};
+$hasil= mysql_query($sql);
 }
 
 function upgrade_150_to_160() {
 
-   $sql = "alter table modul add index(idLevelUser);";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "alter table modul add index(idLevelUser);";
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "alter table modul add index(publish);";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "alter table modul add index(publish);";
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "alter table leveluser add index (idLevelUser);";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "alter table leveluser add index (idLevelUser);";
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "alter table leveluser add index (levelUser);";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "alter table leveluser add index (levelUser);";
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "ALTER TABLE `supplier` ADD `interval` INT NOT NULL DEFAULT '7'";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "ALTER TABLE `supplier` ADD `interval` INT NOT NULL DEFAULT '7'";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(1, 6, 0))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(1, 6, 0))."', '')";
-   };
-   $hasil = mysql_query($sql);
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(1, 6, 0))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(1, 6, 0))."', '')";
+};
+$hasil= mysql_query($sql);
 }
 
 function upgrade_160_to_161() {
 
-   $sql = "CREATE TABLE IF NOT EXISTS `arsip_barang` (
+$sql= "CREATE TABLE IF NOT EXISTS `arsip_barang` (
 			`idBarang` bigint(20) NOT NULL DEFAULT '0',
 			`namaBarang` varchar(30) DEFAULT ' ',
 			`idKategoriBarang` int(5) DEFAULT '0',
-  			`idSatuanBarang` int(5) DEFAULT '0',
+			`idSatuanBarang` int(5) DEFAULT '0',
 			`jumBarang` int(10) DEFAULT '0',
 			`hargaJual` bigint(20) DEFAULT '0',
 			`last_update` date DEFAULT '2000-01-01',
@@ -294,20 +293,20 @@ function upgrade_160_to_161() {
 			`barcode` varchar(25) DEFAULT NULL,
 			`username` varchar(30) DEFAULT NULL,
 			`idRak` bigint(5) DEFAULT NULL,
-			  UNIQUE KEY `barcode` (`barcode`),
-			  KEY `idKategoriBarang` (`idKategoriBarang`),
-			  KEY `namaBarang` (`namaBarang`),
-			  KEY `idSupplier` (`idSupplier`),
-			  KEY `idKategoriBarang_2` (`idKategoriBarang`),
-			  KEY `idSupplier_2` (`idSupplier`)
+			UNIQUE KEY `barcode` (`barcode`),
+			KEY `idKategoriBarang` (`idKategoriBarang`),
+			KEY `namaBarang` (`namaBarang`),
+			KEY `idSupplier` (`idSupplier`),
+			KEY `idKategoriBarang_2` (`idKategoriBarang`),
+			KEY `idSupplier_2` (`idSupplier`)
 			) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "CREATE TABLE IF NOT EXISTS `tmp_cetak_label_perbarcode` (
+$sql= "CREATE TABLE IF NOT EXISTS `tmp_cetak_label_perbarcode` (
 			`id` int(12) NOT NULL AUTO_INCREMENT,
-  			`tmpBarcode` varchar(50) DEFAULT NULL,
+			`tmpBarcode` varchar(50) DEFAULT NULL,
 			`tmpNama` varchar(100) DEFAULT NULL,
 			`tmpKategori` varchar(50) DEFAULT NULL,
 			`tmpSatuan` varchar(50) DEFAULT NULL,
@@ -315,126 +314,126 @@ function upgrade_160_to_161() {
 			`tmpHargaJual` varchar(100) DEFAULT NULL,
 			`tmpIdBarang` int(12) DEFAULT NULL,
 			PRIMARY KEY (`id`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9;";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+		) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=9;";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(1, 6, 1))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(1, 6, 1))."', '')";
-   };
-   $hasil = mysql_query($sql);
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(1, 6, 1))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(1, 6, 1))."', '')";
+};
+$hasil= mysql_query($sql);
 }
 
-// =================================== PATCH VERSI 2.x.x ==========================================
+//=================================== PATCH VERSI 2.x.x==========================================
 function check_minor_major2($dbminor, $minor, $dbrevision, $revision) {
 
-   if ($minor == 0) { // ------- eksekusi semua patch versi 2.0.x
-      echo "Upgrading database to version 2.0.x \n <br />";
-      check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision);
-   }
+if ($minor== 0) { // ------- eksekusi semua patch versi 2.0.x
+	echo "Upgrading database to version 2.0.x \n<br />";
+	check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision);
+}
 }
 
 function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) {
-   if ($dbrevision < 1) {
-      echo "Upgrading database to version 2.0.1 <br />";
-      upgrade_200_to_201();
-   }
-   if ($dbrevision < 2) {
-      echo "Upgrading database to version 2.0.2 <br />";
-      upgrade_201_to_202();
-   }
-   if ($dbrevision < 3) {
-      echo "Upgrading database to version 2.0.3 <br />";
-      upgrade_202_to_203();
-   }
-   if ($dbrevision < 4) {
-      echo "Upgrading database to version 2.0.4 <br />";
-      upgrade_203_to_204();
-   }
-   if ($dbrevision < 5) {
-      echo "Upgrading database to version 2.0.5 <br />";
-      upgrade_204_to_205();
-   }
-   if ($dbrevision < 6) {
-      echo "Upgrading database to version 2.0.6 <br />";
-      upgrade_205_to_206();
-   }
-   if ($dbrevision < 7) {
-      echo "Upgrading database to version 2.0.7 <br />";
-      upgrade_206_to_207();
-   }
-   if ($dbrevision < 8) {
-      echo "Upgrading database to version 2.0.8 <br />";
-      upgrade_207_to_208();
-   }
-   if ($dbrevision < 9) {
-      echo "Upgrading database to version 2.0.9 <br />";
-      upgrade_208_to_209();
-   }
-   if ($dbrevision < 10) {
-      echo "Upgrading database to version 2.0.10 <br />";
-      upgrade_209_to_210();
-   }
-   if ($dbrevision < 11) {
-      echo "Upgrading database to version 2.0.11 <br />";
-      upgrade_210_to_211();
-   }
-   if ($dbrevision < 12) {
-      echo "Upgrading database to version 2.0.12 <br />";
-      upgrade_211_to_212();
-   }
-   if ($dbrevision < 13) {
-      echo "Upgrading database to version 2.0.13 <br />";
-      upgrade_212_to_213();
-   }
-   if ($dbrevision < 14) {
-      echo "Upgrading database to version 2.0.14 <br />";
-      upgrade_213_to_214();
-   }
-   if ($dbrevision < 15) {
-      echo "Upgrading database to version 2.0.15 <br />";
-      upgrade_214_to_215();
-   }
-   if ($dbrevision < 16) {
-      echo "Upgrading database to version 2.0.16 <br />";
-      upgrade_215_to_216();
-   }
-   if ($dbrevision < 17) {
-      echo "Upgrading database to version 2.0.17 <br />";
-      upgrade_216_to_217();
-   }
+if ($dbrevision< 1) {
+	echo "Upgrading database to version 2.0.1<br />";
+	upgrade_200_to_201();
+}
+if ($dbrevision< 2) {
+	echo "Upgrading database to version 2.0.2<br />";
+	upgrade_201_to_202();
+}
+if ($dbrevision< 3) {
+	echo "Upgrading database to version 2.0.3<br />";
+	upgrade_202_to_203();
+}
+if ($dbrevision< 4) {
+	echo "Upgrading database to version 2.0.4<br />";
+	upgrade_203_to_204();
+}
+if ($dbrevision< 5) {
+	echo "Upgrading database to version 2.0.5<br />";
+	upgrade_204_to_205();
+}
+if ($dbrevision< 6) {
+	echo "Upgrading database to version 2.0.6<br />";
+	upgrade_205_to_206();
+}
+if ($dbrevision< 7) {
+	echo "Upgrading database to version 2.0.7<br />";
+	upgrade_206_to_207();
+}
+if ($dbrevision< 8) {
+	echo "Upgrading database to version 2.0.8<br />";
+	upgrade_207_to_208();
+}
+if ($dbrevision< 9) {
+	echo "Upgrading database to version 2.0.9<br />";
+	upgrade_208_to_209();
+}
+if ($dbrevision< 10) {
+	echo "Upgrading database to version 2.0.10<br />";
+	upgrade_209_to_210();
+}
+if ($dbrevision< 11) {
+	echo "Upgrading database to version 2.0.11<br />";
+	upgrade_210_to_211();
+}
+if ($dbrevision< 12) {
+	echo "Upgrading database to version 2.0.12<br />";
+	upgrade_211_to_212();
+}
+if ($dbrevision< 13) {
+	echo "Upgrading database to version 2.0.13<br />";
+	upgrade_212_to_213();
+}
+if ($dbrevision< 14) {
+	echo "Upgrading database to version 2.0.14<br />";
+	upgrade_213_to_214();
+}
+if ($dbrevision< 15) {
+	echo "Upgrading database to version 2.0.15<br />";
+	upgrade_214_to_215();
+}
+if ($dbrevision< 16) {
+	echo "Upgrading database to version 2.0.16<br />";
+	upgrade_215_to_216();
+}
+if ($dbrevision< 17) {
+	echo "Upgrading database to version 2.0.17<br />";
+	upgrade_216_to_217();
+}
 }
 
 function upgrade_161_to_200() {
 
-   /* Create Tabel Menu */
-   $sql = "CREATE TABLE IF NOT EXISTS `menu` (
-			  `id` int(11) NOT NULL AUTO_INCREMENT,
-			  `nama` varchar(100) NOT NULL,
-			  `link` varchar(1000) NOT NULL,
-			  `icon` varchar(45) DEFAULT NULL,
-			  `parent_id` int(11) DEFAULT NULL,
-			  `label` varchar(100) NOT NULL,
-			  `accesskey` varchar(1) DEFAULT NULL,
-			  `publish` enum('Y','N') NOT NULL,
-			  `level_user_id` int(11) NOT NULL,
-			  `urutan` int(11) NOT NULL DEFAULT '1',
-			  `level` int(11) NOT NULL DEFAULT '0',
-			  `last_update` datetime DEFAULT NULL,
-			  PRIMARY KEY (`id`)
+/* Create Tabel Menu */
+$sql= "CREATE TABLE IF NOT EXISTS `menu` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`nama` varchar(100) NOT NULL,
+			`link` varchar(1000) NOT NULL,
+			`icon` varchar(45) DEFAULT NULL,
+			`parent_id` int(11) DEFAULT NULL,
+			`label` varchar(100) NOT NULL,
+			`accesskey` varchar(1) DEFAULT NULL,
+			`publish` enum('Y','N') NOT NULL,
+			`level_user_id` int(11) NOT NULL,
+			`urutan` int(11) NOT NULL DEFAULT '1',
+			`level` int(11) NOT NULL DEFAULT '0',
+			`last_update` datetime DEFAULT NULL,
+			PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   /* Isi tabel menu */
-   $sql = "INSERT INTO `menu` (`id`, `nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+/* Isi tabel menu */
+$sql= "INSERT INTO `menu` (`id`, `nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			(1, 'Home', 'media.php?module=home', 'fa fa-home fa-4x', 0, 'Home', '', 'Y', 1, 1, 0, ''),
 			(2, 'Barang', 'media.php?module=barang', 'fa fa-barcode fa-4x', 0, 'Barang', '', 'Y', 3, 2, 0, ''),
 			(3, 'Pembelian', 'media.php?module=pembelian_barang', 'fa fa-truck fa-4x', 0, 'Pembelian', '', 'Y', 3, 3, 0, ''),
@@ -486,791 +485,791 @@ function upgrade_161_to_200() {
 			(53, 'Diskon', 'media.php?module=barang&act=diskon', '', 2, 'Diskon', '', 'Y', 2, 9, 0, ''),
 			(54, 'Diskon', 'media.php?module=laporan&act=diskon1', '', 5, 'Diskon', '', 'Y', 2, 7, 0, ''),
 			(55, 'Pindah Supplier', 'media.php?module=barang&act=pindahsupplier', '', 2, 'Pindah Supplier', '', 'Y', 2, 10, 0, ''),
-            (56, 'Pindah Rak', 'media.php?module=barang&act=pindahrak', '', 2, 'Pindah Rak', '', 'Y', 2, 11, 0, ''),
-            (57, 'Rpo per Supplier Responsive', '../tools/rpo', '', 3, 'Input RPO per Supplier per Rak', '', 'Y', 3, 7, 0, '');
+			(56, 'Pindah Rak', 'media.php?module=barang&act=pindahrak', '', 2, 'Pindah Rak', '', 'Y', 2, 11, 0, ''),
+			(57, 'Rpo per Supplier Responsive', '../tools/rpo', '', 3, 'Input RPO per Supplier per Rak', '', 'Y', 3, 7, 0, '');
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   /* Update deskripsi untuk memudahkan update config di aplikasi */
-   $sql = "update config set description = 'Nama Toko' where `option`='store_name';
-            update config set description = 'Struk Footer 1' where `option`='receipt_footer1';
-            update config set description = 'Struk Footer 2' where `option`='receipt_footer2';
-            update config set description = 'Struk Header 1' where `option`='receipt_header1';
-            update config set description = 'Temporary Space' where `option`='temporary_space';
-            update config set description = 'Versi' where `option`='version';
+/* Update deskripsi untuk memudahkan update config di aplikasi */
+$sql= "update config set description= 'Nama Toko' where `option`='store_name';
+			update config set description= 'Struk Footer 1' where `option`='receipt_footer1';
+			update config set description= 'Struk Footer 2' where `option`='receipt_footer2';
+			update config set description= 'Struk Header 1' where `option`='receipt_header1';
+			update config set description= 'Temporary Space' where `option`='temporary_space';
+			update config set description= 'Versi' where `option`='version';
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   /* Update struktur database untuk diskon (detail_jual, customer)
-    * Create table diskon (diskon_detail, diskon_tipe, diskon_transaksi)
-    */
-   $sql = "ALTER TABLE  `tmp_detail_jual` ADD  `diskon_persen` INT( 11 ) NOT NULL DEFAULT  '0';
-            ALTER TABLE  `tmp_detail_jual` ADD  `diskon_rupiah` DECIMAL( 15, 2 ) NOT NULL DEFAULT  '0';
-            ALTER TABLE  `tmp_detail_jual` ADD  `diskon_detail_uids` varchar(255) DEFAULT NULL ;
+/* Update struktur database untuk diskon (detail_jual, customer)
+	* Create table diskon (diskon_detail, diskon_tipe, diskon_transaksi)
+	*/
+$sql= "ALTER TABLE `tmp_detail_jual` ADD `diskon_persen` INT( 11 ) NOT NULL DEFAULT '0';
+			ALTER TABLE `tmp_detail_jual` ADD `diskon_rupiah` DECIMAL( 15, 2 ) NOT NULL DEFAULT '0';
+			ALTER TABLE `tmp_detail_jual` ADD `diskon_detail_uids` varchar(255) DEFAULT NULL;
 
-            ALTER TABLE `detail_jual`
-            ADD COLUMN `uid` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
-            ADD PRIMARY KEY (`uid`);
+			ALTER TABLE `detail_jual`
+			ADD COLUMN `uid` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
+			ADD PRIMARY KEY (`uid`);
 
-            ALTER TABLE `customer`
-            ADD COLUMN `diskon_persen` INT NULL DEFAULT 0 AFTER `last_update`,
-            ADD COLUMN `diskon_rupiah` DECIMAL(15,5) NULL DEFAULT 0 AFTER `diskon_persen`;
-
-
-            CREATE TABLE IF NOT EXISTS `diskon_detail` (
-              `uid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-              `diskon_tipe_id` bigint(20) UNSIGNED NOT NULL,
-              `diskon_tipe_nama` varchar(25) NOT NULL,
-              `trigger` varchar(25) NOT NULL,
-              `barcode` varchar(25) DEFAULT NULL,
-              `tanggal_dari` datetime DEFAULT '0000-00-00 00:00:00',
-              `tanggal_sampai` datetime DEFAULT '0000-00-00 00:00:00',
-              `diskon_rupiah` decimal(15,2) NOT NULL DEFAULT '0.00',
-              `diskon_persen` int(11) NOT NULL DEFAULT '0',
-              `min_item` int(11) unsigned DEFAULT NULL COMMENT 'if (value >= qty) dapatDiskon;',
-              `max_item` int(11) unsigned DEFAULT NULL,
-              `status` tinyint(1) DEFAULT '1' COMMENT 'true=aktif; ',
-              PRIMARY KEY (`uid`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1000 ;
+			ALTER TABLE `customer`
+			ADD COLUMN `diskon_persen` INT NULL DEFAULT 0 AFTER `last_update`,
+			ADD COLUMN `diskon_rupiah` DECIMAL(15,5) NULL DEFAULT 0 AFTER `diskon_persen`;
 
 
-            CREATE TABLE IF NOT EXISTS `diskon_tipe` (
-              `uid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-              `nama` varchar(25) NOT NULL,
-              `deskripsi` varchar(250) DEFAULT NULL,
-              `trigger_quantity` tinyint(1) NOT NULL DEFAULT '0',
-              `trigger_price` tinyint(1) NOT NULL DEFAULT '0',
-              `trigger_time` tinyint(1) NOT NULL DEFAULT '0',
-              `trigger_total` tinyint(1) NOT NULL DEFAULT '0',
-              `trigger_barcode` tinyint(1) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`uid`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1000 ;
+			CREATE TABLE IF NOT EXISTS `diskon_detail` (
+			`uid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			`diskon_tipe_id` bigint(20) UNSIGNED NOT NULL,
+			`diskon_tipe_nama` varchar(25) NOT NULL,
+			`trigger` varchar(25) NOT NULL,
+			`barcode` varchar(25) DEFAULT NULL,
+			`tanggal_dari` datetime DEFAULT '0000-00-00 00:00:00',
+			`tanggal_sampai` datetime DEFAULT '0000-00-00 00:00:00',
+			`diskon_rupiah` decimal(15,2) NOT NULL DEFAULT '0.00',
+			`diskon_persen` int(11) NOT NULL DEFAULT '0',
+			`min_item` int(11) unsigned DEFAULT NULL COMMENT 'if (value >= qty) dapatDiskon;',
+			`max_item` int(11) unsigned DEFAULT NULL,
+			`status` tinyint(1) DEFAULT '1' COMMENT 'true=aktif; ',
+			PRIMARY KEY (`uid`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1000;
 
 
-            INSERT INTO `diskon_tipe` (`uid`, `nama`, `deskripsi`, `trigger_quantity`, `trigger_price`, `trigger_time`, `trigger_total`, `trigger_barcode`) VALUES
-            (1, 'Admin', 'Entry Diskon Manual by Admin', 0, 0, 0, 0, 0),
-            (2, 'Customer', 'Diskon per Customer/Member', 0, 0, 0, 0, 0),
-            (1000, 'Grosir', 'Beli banyak harga turun', 1, 0, 0, 0, 1),
-            (1001, 'Waktu', 'Turun Harga selama waktu tertentu', 0, 0, 1, 0, 1);
+			CREATE TABLE IF NOT EXISTS `diskon_tipe` (
+			`uid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			`nama` varchar(25) NOT NULL,
+			`deskripsi` varchar(250) DEFAULT NULL,
+			`trigger_quantity` tinyint(1) NOT NULL DEFAULT '0',
+			`trigger_price` tinyint(1) NOT NULL DEFAULT '0',
+			`trigger_time` tinyint(1) NOT NULL DEFAULT '0',
+			`trigger_total` tinyint(1) NOT NULL DEFAULT '0',
+			`trigger_barcode` tinyint(1) NOT NULL DEFAULT '0',
+			PRIMARY KEY (`uid`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1000;
 
 
-            CREATE TABLE IF NOT EXISTS `diskon_transaksi` (
-              `uid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-              `diskon_detail_uids` varchar(255) NOT NULL COMMENT 'json = {diskon_detail_uid : diskon_rupiah}',
-              `barcode` varchar(25) DEFAULT NULL,
-              `waktu` datetime NOT NULL,
-              `diskon_rupiah` decimal(15,2) NOT NULL DEFAULT '0.00',
-              `diskon_persen` int(11) NOT NULL DEFAULT '0',
-              `idDetailJual` bigint(20) unsigned NOT NULL,
-              PRIMARY KEY (`uid`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+			INSERT INTO `diskon_tipe` (`uid`, `nama`, `deskripsi`, `trigger_quantity`, `trigger_price`, `trigger_time`, `trigger_total`, `trigger_barcode`) VALUES
+			(1, 'Admin', 'Entry Diskon Manual by Admin', 0, 0, 0, 0, 0),
+			(2, 'Customer', 'Diskon per Customer/Member', 0, 0, 0, 0, 0),
+			(1000, 'Grosir', 'Beli banyak harga turun', 1, 0, 0, 0, 1),
+			(1001, 'Waktu', 'Turun Harga selama waktu tertentu', 0, 0, 1, 0, 1);
+
+
+			CREATE TABLE IF NOT EXISTS `diskon_transaksi` (
+			`uid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			`diskon_detail_uids` varchar(255) NOT NULL COMMENT 'json= {diskon_detail_uid : diskon_rupiah}',
+			`barcode` varchar(25) DEFAULT NULL,
+			`waktu` datetime NOT NULL,
+			`diskon_rupiah` decimal(15,2) NOT NULL DEFAULT '0.00',
+			`diskon_persen` int(11) NOT NULL DEFAULT '0',
+			`idDetailJual` bigint(20) unsigned NOT NULL,
+			PRIMARY KEY (`uid`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   /* Create table "universal" tmp, saat ini dibuat, tabel ini hanya digunakan untuk rpo per supplier */
-   $sql = "CREATE TABLE IF NOT EXISTS `tmp` (
-              `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-              `bigint1` bigint(20) DEFAULT NULL,
-              `bigint2` bigint(20) DEFAULT NULL,
-              `bigint3` bigint(20) DEFAULT NULL,
-              `integer1` int(11) DEFAULT NULL,
-              `integer2` int(11) DEFAULT NULL,
-              `integer3` int(11) DEFAULT NULL,
-              `vc1` varchar(45) DEFAULT NULL,
-              `vc2` varchar(45) DEFAULT NULL,
-              `vc3` varchar(45) DEFAULT NULL,
-              `float1` float DEFAULT NULL,
-              `float2` float DEFAULT NULL,
-              `float3` float DEFAULT NULL,
-              `dt1` datetime DEFAULT NULL,
-              `dt2` datetime DEFAULT NULL,
-              `dt3` datetime DEFAULT NULL,
-              PRIMARY KEY (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+/* Create table "universal" tmp, saat ini dibuat, tabel ini hanya digunakan untuk rpo per supplier */
+$sql= "CREATE TABLE IF NOT EXISTS `tmp` (
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`bigint1` bigint(20) DEFAULT NULL,
+			`bigint2` bigint(20) DEFAULT NULL,
+			`bigint3` bigint(20) DEFAULT NULL,
+			`integer1` int(11) DEFAULT NULL,
+			`integer2` int(11) DEFAULT NULL,
+			`integer3` int(11) DEFAULT NULL,
+			`vc1` varchar(45) DEFAULT NULL,
+			`vc2` varchar(45) DEFAULT NULL,
+			`vc3` varchar(45) DEFAULT NULL,
+			`float1` float DEFAULT NULL,
+			`float2` float DEFAULT NULL,
+			`float3` float DEFAULT NULL,
+			`dt1` datetime DEFAULT NULL,
+			`dt2` datetime DEFAULT NULL,
+			`dt3` datetime DEFAULT NULL,
+			PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   /* Ubah struktur tabel barang agar bisa menampung status nonAktif */
-   $sql = "ALTER TABLE `barang`
-            ADD COLUMN `nonAktif` TINYINT(1) NULL COMMENT '1=Tidak Aktif' AFTER `idRak`;
+/* Ubah struktur tabel barang agar bisa menampung status nonAktif */
+$sql= "ALTER TABLE `barang`
+			ADD COLUMN `nonAktif` TINYINT(1) NULL COMMENT '1=Tidak Aktif' AFTER `idRak`;
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   /* Create tabel untuk proses self_checkout / mobile cashier
-    * Tabel: self_checkout, self_checkout_detail, self_checkout_temp
-    */
-   $sql = "CREATE TABLE `self_checkout` (
-              `uid` int(11) NOT NULL AUTO_INCREMENT,
-              `datetime` datetime NOT NULL,
-              `ipv4` varchar(15) NOT NULL,
-              PRIMARY KEY (`uid`)
-            ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+/* Create tabel untuk proses self_checkout / mobile cashier
+	* Tabel: self_checkout, self_checkout_detail, self_checkout_temp
+	*/
+$sql= "CREATE TABLE `self_checkout` (
+			`uid` int(11) NOT NULL AUTO_INCREMENT,
+			`datetime` datetime NOT NULL,
+			`ipv4` varchar(15) NOT NULL,
+			PRIMARY KEY (`uid`)
+			) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-            CREATE TABLE `self_checkout_detail` (
-              `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-              `self_checkout_uid` bigint(20) NOT NULL,
-              `barcode` varchar(45) NOT NULL,
-              `qty` int(11) NOT NULL,
-              `harga_jual` bigint(20) NOT NULL,
-              `diskon` bigint(20) NOT NULL,
-              PRIMARY KEY (`uid`)
-            ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+			CREATE TABLE `self_checkout_detail` (
+			`uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+			`self_checkout_uid` bigint(20) NOT NULL,
+			`barcode` varchar(45) NOT NULL,
+			`qty` int(11) NOT NULL,
+			`harga_jual` bigint(20) NOT NULL,
+			`diskon` bigint(20) NOT NULL,
+			PRIMARY KEY (`uid`)
+			) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-            CREATE TABLE `self_checkout_temp` (
-              `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-              `barcode` varchar(45) NOT NULL,
-              `qty` int(10) unsigned NOT NULL,
-              `harga_jual` bigint(20) NOT NULL,
-              `diskon` bigint(20) NOT NULL DEFAULT '0',
-              `ipv4` varchar(15) NOT NULL,
-              PRIMARY KEY (`id`)
-            ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+			CREATE TABLE `self_checkout_temp` (
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`barcode` varchar(45) NOT NULL,
+			`qty` int(10) unsigned NOT NULL,
+			`harga_jual` bigint(20) NOT NULL,
+			`diskon` bigint(20) NOT NULL DEFAULT '0',
+			`ipv4` varchar(15) NOT NULL,
+			PRIMARY KEY (`id`)
+			) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 
-   /* Create tabel untuk modul rpo (responsive layout) di /tools/rpo
-    * Tabel: purchase_order, purchase_order_detail
-    */
-   $sql = "CREATE TABLE `purchase_order` (
-              `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-              `tanggal_buat` datetime NOT NULL,
-              `supplier_id` bigint(20) NOT NULL,
-              `range` int(11) NOT NULL COMMENT 'hari',
-              `buffer` int(11) NOT NULL COMMENT '%',
-              `jumlah_hari_persediaan` int(11) NOT NULL COMMENT 'hari',
-              `updated_by` varchar(30) NOT NULL,
-              `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-              `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=rpo; 1=po',
-              PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+/* Create tabel untuk modul rpo (responsive layout) di /tools/rpo
+	* Tabel: purchase_order, purchase_order_detail
+	*/
+$sql= "CREATE TABLE `purchase_order` (
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`tanggal_buat` datetime NOT NULL,
+			`supplier_id` bigint(20) NOT NULL,
+			`range` int(11) NOT NULL COMMENT 'hari',
+			`buffer` int(11) NOT NULL COMMENT '%',
+			`jumlah_hari_persediaan` int(11) NOT NULL COMMENT 'hari',
+			`updated_by` varchar(30) NOT NULL,
+			`last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			`status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=rpo; 1=po',
+			PRIMARY KEY (`id`)
+			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 
-            CREATE TABLE `purchase_order_detail` (
-              `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-              `purchase_order_id` bigint(20) unsigned NOT NULL,
-              `barcode` varchar(25) NOT NULL,
-              `harga_beli_terakhir` bigint(20) NOT NULL,
-              `stok_saat_ini` int(11) DEFAULT NULL,
-              `avg_daily_sales` float DEFAULT NULL,
-              `saran_order` int(11) DEFAULT NULL,
-              `jumlah_order` int(11) DEFAULT NULL,
-              PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+			CREATE TABLE `purchase_order_detail` (
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`purchase_order_id` bigint(20) unsigned NOT NULL,
+			`barcode` varchar(25) NOT NULL,
+			`harga_beli_terakhir` bigint(20) NOT NULL,
+			`stok_saat_ini` int(11) DEFAULT NULL,
+			`avg_daily_sales` float DEFAULT NULL,
+			`saran_order` int(11) DEFAULT NULL,
+			`jumlah_order` int(11) DEFAULT NULL,
+			PRIMARY KEY (`id`)
+			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 0))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 0))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 0))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 0))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_200_to_201() {
 // alter tabel self_checkout_temp
-   $sql = "ALTER TABLE `self_checkout_temp`
-            ADD COLUMN `waktu` TIMESTAMP NOT NULL AFTER `ipv4`;
+$sql= "ALTER TABLE `self_checkout_temp`
+			ADD COLUMN `waktu` TIMESTAMP NOT NULL AFTER `ipv4`;
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // ubah tabel ke myisam (standar ahadpos)
-   $sql = "ALTER TABLE `purchase_order`
-            ENGINE = MyISAM";
-   $hasil = exec_query($sql);
-   echo mysql_error();
-   $sql = "ALTER TABLE `purchase_order_detail`
-            ENGINE = MyISAM";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "ALTER TABLE `purchase_order`
+			ENGINE= MyISAM";
+$hasil= exec_query($sql);
+echo mysql_error();
+$sql= "ALTER TABLE `purchase_order_detail`
+			ENGINE= MyISAM";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 1))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 1))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 1))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 1))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_201_to_202() {
-   /*
-    * Init DB ahadPOS2 dari versi ini
-    * Yang belum ada di init script. dipindah ke upgrade_202_to_203
-    */
+/*
+	* Init DB ahadPOS2 dari versi ini
+	* Yang belum ada di init script. dipindah ke upgrade_202_to_203
+	*/
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 2))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 2))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 2))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 2))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_202_to_203() {
 // Menambahkan UKM Mode: default Off
-   $sql = "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('ukm_mode', '0', 'UKM Mode')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('ukm_mode', '0', 'UKM Mode')";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Menambahkan Stok (SO dengan tambahan summary )
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			('SO dengan Summary', '../tools/stok', '', 6, 'Stok', '', 'Y', 3, 8, 0, '')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "CREATE TABLE `stok_stat` (
-              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-              `keterangan` varchar(1000) NOT NULL,
-              `updated_by` varchar(30) NOT NULL,
-              `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-              `status` tinyint(4) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "CREATE TABLE `stok_stat` (
+			`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+			`keterangan` varchar(1000) NOT NULL,
+			`updated_by` varchar(30) NOT NULL,
+			`last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			`status` tinyint(4) NOT NULL DEFAULT '0',
+			PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "CREATE TABLE `stok_stat_detail` (
-              `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-              `stok_stat_id` int(10) unsigned NOT NULL,
-              `barcode` varchar(25) NOT NULL,
-              `harga_jual` bigint(20) NOT NULL,
-              `stok_tercatat` int(11) NOT NULL,
-              `stok_sebenarnya` int(11) DEFAULT NULL,
-              `updated_by` varchar(30) NOT NULL,
-              `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-              PRIMARY KEY (`id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "CREATE TABLE `stok_stat_detail` (
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`stok_stat_id` int(10) unsigned NOT NULL,
+			`barcode` varchar(25) NOT NULL,
+			`harga_jual` bigint(20) NOT NULL,
+			`stok_tercatat` int(11) NOT NULL,
+			`stok_sebenarnya` int(11) DEFAULT NULL,
+			`updated_by` varchar(30) NOT NULL,
+			`last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // alter tabel stok_stat_detail
-   $sql = "ALTER TABLE `stok_stat_detail`
-            ADD UNIQUE INDEX `stok_stat_id_UNIQUE` (`stok_stat_id` ASC, `barcode` ASC)
+$sql= "ALTER TABLE `stok_stat_detail`
+			ADD UNIQUE INDEX `stok_stat_id_UNIQUE` (`stok_stat_id` ASC, `barcode` ASC)
 		";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 3))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 3))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 3))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 3))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_203_to_204() {
 // ubah urutan menu Stok ke belakang
-   $sql = "UPDATE `menu` SET `urutan`='10' WHERE `label`='Stok'";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "UPDATE `menu` SET `urutan`='10' WHERE `label`='Stok'";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Tambahkan menu Fast PDT SO (input SO dengan menggunakan Portable Data Terminal atau alat lain yang bisa batch scan barcode)
 // dan "Approve" nya
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			('Input SO dengan Portable Data Terminal', '../tools/fast-stock-opname/pdt-so.php', '', 6, 'Input PDT SO', '', 'Y', 3, 8, 0, ''),
-            ('Approve SO dengan Portable Data Terminal', 'media.php?module=barang&act=ApprovePdtSO1', '', 6, 'Approve PDT SO', '', 'Y', 3, 9, 0, '');";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+			('Approve SO dengan Portable Data Terminal', 'media.php?module=barang&act=ApprovePdtSO1', '', 6, 'Approve PDT SO', '', 'Y', 3, 9, 0, '');";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 4))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 4))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 4))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 4))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_204_to_205() {
 // Create Tabel harga_banded
-   $sql = "CREATE TABLE `harga_banded` (
-          `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-          `barcode` varchar(25) NOT NULL,
-          `qty` int(10) unsigned NOT NULL,
-          `harga` int(11) NOT NULL,
-          PRIMARY KEY (`id`),
-          UNIQUE KEY `barcode_UNIQUE` (`barcode`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "CREATE TABLE `harga_banded` (
+		`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+		`barcode` varchar(25) NOT NULL,
+		`qty` int(10) unsigned NOT NULL,
+		`harga` int(11) NOT NULL,
+		PRIMARY KEY (`id`),
+		UNIQUE KEY `barcode_UNIQUE` (`barcode`)
+		) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Tambahkan menu Harga banded
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			('Harga Banded', 'media.php?module=barang&act=hargabanded', '', 2, 'Harga Banded', '', 'Y', 2, 12, 0, '')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 5))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 5))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 5))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 5))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_205_to_206() {
 // Create Tabel tmp_harga_banded
-   $sql = "CREATE TABLE `tmp_harga_banded` (
-              `barcode` varchar(25) NOT NULL,
-              `supplier_id` int(11) NOT NULL,
-              `user_name` varchar(30) NOT NULL,
-              `qty` int(11) NOT NULL,
-              `harga_satuan` float NOT NULL,
-              PRIMARY KEY (`barcode`,`user_name`,`supplier_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "CREATE TABLE `tmp_harga_banded` (
+			`barcode` varchar(25) NOT NULL,
+			`supplier_id` int(11) NOT NULL,
+			`user_name` varchar(30) NOT NULL,
+			`qty` int(11) NOT NULL,
+			`harga_satuan` float NOT NULL,
+			PRIMARY KEY (`barcode`,`user_name`,`supplier_id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 6))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 6))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 6))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 6))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_206_to_207() {
 // Create Tabel tmp_harga_banded
-   $sql = "ALTER TABLE `detail_jual`
-            ADD COLUMN `harga_jual_asli` BIGINT NULL AFTER `hargaJual`
-            ";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "ALTER TABLE `detail_jual`
+			ADD COLUMN `harga_jual_asli` BIGINT NULL AFTER `hargaJual`
+			";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 7))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 7))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 7))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 7))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_207_to_208() {
 // Pembuatan tabel untuk menyimpan transaksi transfer antar ahad
-   $sql = "CREATE TABLE `transaksitransferbarang` (
-                  `idTransaksi` bigint(20) NOT NULL AUTO_INCREMENT,
-                  `tglTransaksi` datetime DEFAULT NULL,
-                  `idCustomer` varchar(10) DEFAULT NULL,
-                  `tglKirimBarang` date DEFAULT NULL,
-                  `idTipePembayaran` int(3) DEFAULT NULL,
-                  `nominal` bigint(20) DEFAULT '0',
-                  `idUser` int(3) DEFAULT NULL,
-                  `last_update` date DEFAULT NULL,
-                  PRIMARY KEY (`idTransaksi`),
-                  KEY `idUser` (`idUser`),
-                  KEY `tglTransaksi` (`tglTransaksi`),
-                  KEY `nominal` (`nominal`)
-                ) ENGINE=MyISAM
-            ";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "CREATE TABLE `transaksitransferbarang` (
+				`idTransaksi` bigint(20) NOT NULL AUTO_INCREMENT,
+				`tglTransaksi` datetime DEFAULT NULL,
+				`idCustomer` varchar(10) DEFAULT NULL,
+				`tglKirimBarang` date DEFAULT NULL,
+				`idTipePembayaran` int(3) DEFAULT NULL,
+				`nominal` bigint(20) DEFAULT '0',
+				`idUser` int(3) DEFAULT NULL,
+				`last_update` date DEFAULT NULL,
+				PRIMARY KEY (`idTransaksi`),
+				KEY `idUser` (`idUser`),
+				KEY `tglTransaksi` (`tglTransaksi`),
+				KEY `nominal` (`nominal`)
+				) ENGINE=MyISAM
+			";
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "CREATE TABLE `detail_transfer_barang` (
-                  `uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                  `idBarang` bigint(20) NOT NULL,
-                  `jumBarang` int(10) NOT NULL,
-                  `hargaJual` bigint(20) NOT NULL,
-                  `username` varchar(30) DEFAULT NULL,
-                  `barcode` varchar(25) DEFAULT NULL,
-                  `nomorStruk` bigint(20) DEFAULT NULL,
-                  PRIMARY KEY (`uid`),
-                  KEY `username` (`username`),
-                  KEY `nomorStruk` (`nomorStruk`),
-                  KEY `barcode` (`barcode`)
-                ) ENGINE=MyISAM
-            ";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "CREATE TABLE `detail_transfer_barang` (
+				`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				`idBarang` bigint(20) NOT NULL,
+				`jumBarang` int(10) NOT NULL,
+				`hargaJual` bigint(20) NOT NULL,
+				`username` varchar(30) DEFAULT NULL,
+				`barcode` varchar(25) DEFAULT NULL,
+				`nomorStruk` bigint(20) DEFAULT NULL,
+				PRIMARY KEY (`uid`),
+				KEY `username` (`username`),
+				KEY `nomorStruk` (`nomorStruk`),
+				KEY `barcode` (`barcode`)
+				) ENGINE=MyISAM
+			";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Tambahkan menu Laporan Transfer Barang
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			('Laporan Transfer Barang', 'media.php?module=laporan&act=transferbarang', '', 5, 'Transfer Barang', '', 'Y', 3, 8, 0, '')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 8))."' WHERE `option` = 'version'";
-   } else {
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 8))."', '')";
-   };
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 8))."' WHERE `option`= 'version'";
+} else {
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 8))."', '')";
+};
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_208_to_209() {
 // Penambahan field customer
-   $sql = "ALTER TABLE `customer`
-                ADD COLUMN `nomor_ktp` VARCHAR(45) NULL,
-                ADD COLUMN `jenis_kelamin` TINYINT(1) NULL COMMENT '0=Laki-laki; 1=Perempuan',
-                ADD COLUMN `tanggal_lahir` DATE NULL,
-                ADD COLUMN `handphone` VARCHAR(45) NULL,
-                ADD COLUMN `email` VARCHAR(255) NULL,
-                ADD COLUMN `member` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=bukan, 1=member'
-            ";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "ALTER TABLE `customer`
+				ADD COLUMN `nomor_ktp` VARCHAR(45) NULL,
+				ADD COLUMN `jenis_kelamin` TINYINT(1) NULL COMMENT '0=Laki-laki; 1=Perempuan',
+				ADD COLUMN `tanggal_lahir` DATE NULL,
+				ADD COLUMN `handphone` VARCHAR(45) NULL,
+				ADD COLUMN `email` VARCHAR(255) NULL,
+				ADD COLUMN `member` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=bukan, 1=member'
+			";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Penambahan field nomor_kartu, dan perubahan idCustomer menjadi auto increment
-   $sql = "ALTER TABLE `customer`
-            CHANGE COLUMN `idCustomer` `idCustomer` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-            ADD COLUMN `nomor_kartu` VARCHAR(45) NULL AFTER `idCustomer`,
-            ADD UNIQUE INDEX `nomor_kartu_UNIQUE` (`nomor_kartu` ASC)
-            ";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "ALTER TABLE `customer`
+			CHANGE COLUMN `idCustomer` `idCustomer` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+			ADD COLUMN `nomor_kartu` VARCHAR(45) NULL AFTER `idCustomer`,
+			ADD UNIQUE INDEX `nomor_kartu_UNIQUE` (`nomor_kartu` ASC)
+			";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Menambahkan konfigurasi untuk point member
-   $sql = "INSERT INTO config (`option`, `value`, `description`)
-                VALUES ('point_value', '', 'Nilai rupiah untuk member mendapatkan 1 point')
-            ";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "INSERT INTO config (`option`, `value`, `description`)
+				VALUES ('point_value', '', 'Nilai rupiah untuk member mendapatkan 1 point')
+			";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Tambahkan menu Membership
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			('Membership', 'media.php?module=membership', '', 7, 'Membership', '', 'Y', 2, 7, 0, '')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Tambahkan menu Laporan Jumlah Poin
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			('Jumlah POIN member', 'media.php?module=laporan&act=jumlahpoin', '', 5, 'Jumlah Poin', '', 'Y', 3, 8, 0, '')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Tambahkan field jumlah poin pada transaksi penjualan, jika ada
-   $sql = "ALTER TABLE `transaksijual`
-            ADD COLUMN `jumlah_poin` INT NULL DEFAULT 0 AFTER `uangDibayar`";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "ALTER TABLE `transaksijual`
+			ADD COLUMN `jumlah_poin` INT NULL DEFAULT 0 AFTER `uangDibayar`";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Membuat tabel periode_poin untuk menentukan perhitungan di tampilan POS,
 // Dan memudahkan dalam melihat laporan
-   $sql = "CREATE TABLE `periode_poin` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `nama` varchar(45) NOT NULL,
-                `awal` tinyint(4) NOT NULL,
-                `akhir` tinyint(4) NOT NULL,
-                PRIMARY KEY (`id`),
-                UNIQUE KEY `nama_UNIQUE` (`nama`)
-              ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "CREATE TABLE `periode_poin` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`nama` varchar(45) NOT NULL,
+				`awal` tinyint(4) NOT NULL,
+				`akhir` tinyint(4) NOT NULL,
+				PRIMARY KEY (`id`),
+				UNIQUE KEY `nama_UNIQUE` (`nama`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1";
+$hasil= exec_query($sql);
+echo mysql_error();
 //INSERT INTO `insan`.`diskon_tipe` (`uid`, `nama`, `deskripsi`, `trigger_time`) VALUES ('1002', 'Member: Waktu', 'Turun Harga selama waktu tertentu', '1');
 
-   $sql = "INSERT INTO `diskon_tipe` (`uid`, `nama`, `deskripsi`, `trigger_time`) VALUES ('1002', 'Member: Waktu', 'Turun Harga selama waktu tertentu', '1')";
-   $hasil = exec_query($sql);
+$sql= "INSERT INTO `diskon_tipe` (`uid`, `nama`, `deskripsi`, `trigger_time`) VALUES ('1002', 'Member: Waktu', 'Turun Harga selama waktu tertentu', '1')";
+$hasil= exec_query($sql);
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 9))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 9))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 9))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 9))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_209_to_210() {
-   // Penambahan field untuk menyimpan waktu terakhir perubahan harga jual
-   $sql = "ALTER TABLE `barang` 
+// Penambahan field untuk menyimpan waktu terakhir perubahan harga jual
+$sql= "ALTER TABLE `barang` 
 				ADD COLUMN `hargaJualLastUpdate` DATETIME NULL AFTER `hargaJual`";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 10))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 10))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 10))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 10))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_210_to_211() {
-   // Penambahan panjang karakter untuk menyimpan alamat
-   $sql = "ALTER TABLE `customer` 
+// Penambahan panjang karakter untuk menyimpan alamat
+$sql= "ALTER TABLE `customer` 
 				CHANGE COLUMN `alamatCustomer` `alamatCustomer` VARCHAR(1000) NULL DEFAULT NULL";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 11))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 11))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 11))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 11))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_211_to_212() {
-   // Penambahan tipe printer untuk tipe text/plain download (print dari text editor)
-   $sql = "ALTER TABLE `workstation` 
+// Penambahan tipe printer untuk tipe text/plain download (print dari text editor)
+$sql= "ALTER TABLE `workstation` 
 			CHANGE COLUMN `printer_type` `printer_type` ENUM('pdf','rlpr','text') NOT NULL DEFAULT 'pdf' COMMENT 'types: pdf - Adobe PDF, rlpr: remote lpr (for unix/linux), text: Text/plain'";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "ALTER TABLE `config` 
+$sql= "ALTER TABLE `config` 
 			CHANGE COLUMN `value` `value` VARCHAR(70) NOT NULL";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   $sql = "INSERT INTO `config` (`option`, `value`, `description`)
+$sql= "INSERT INTO `config` (`option`, `value`, `description`)
 			VALUES ('footer_nota_a4','Barang yang sudah dibeli tidak bisa ditukar atau dikembalikan','Footer Nota A4')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
-   /*
-    * Setting untuk: mengirimkan perintah buka cash drawer dan "auto" potong kertas ke printer
-    */
-   $sql = "ALTER TABLE `workstation` 
+/*
+	* Setting untuk: mengirimkan perintah buka cash drawer dan "auto" potong kertas ke printer
+	*/
+$sql= "ALTER TABLE `workstation` 
 			ADD COLUMN `send_cdopen_commands` TINYINT NOT NULL DEFAULT 1 COMMENT '0=tidak, 1=Ya' AFTER `printer_commands`,
 			ADD COLUMN `send_autocut_commands` TINYINT NOT NULL DEFAULT 1 COMMENT '0=Tidak, 1=Ya' AFTER `send_cdopen_commands`";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 12))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 12))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 12))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 12))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_212_to_213() {
 // Menambahkan AbangAdek Mode: default Off
-   $sql = "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('abangadek_mode', '0', 'Abang Adek Mode')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "INSERT INTO `config` (`option`, `value`, `description`) VALUES ('abangadek_mode', '0', 'Abang Adek Mode')";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 13))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 13))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 13))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 13))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_213_to_214() {
 // Menambahkan AbangAdek Mode: default Off
-   $sql = "CREATE TABLE `transaksireturjual` (
-         `id` bigint(20) NOT NULL AUTO_INCREMENT,
-         `tglTransaksi` datetime DEFAULT NULL,
-         `idCustomer` varchar(10) DEFAULT NULL,
-         `nominal` bigint(20) DEFAULT '0',
-         `idUser` int(3) DEFAULT NULL,
-         `idKasir` int(3) DEFAULT NULL,
-         PRIMARY KEY (`id`),
-         KEY `idUser` (`idUser`),
-         KEY `tglTransaksi` (`tglTransaksi`),
-         KEY `nominal` (`nominal`)
-         ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "CREATE TABLE `transaksireturjual` (
+		`id` bigint(20) NOT NULL AUTO_INCREMENT,
+		`tglTransaksi` datetime DEFAULT NULL,
+		`idCustomer` varchar(10) DEFAULT NULL,
+		`nominal` bigint(20) DEFAULT '0',
+		`idUser` int(3) DEFAULT NULL,
+		`idKasir` int(3) DEFAULT NULL,
+		PRIMARY KEY (`id`),
+		KEY `idUser` (`idUser`),
+		KEY `tglTransaksi` (`tglTransaksi`),
+		KEY `nominal` (`nominal`)
+		) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 14))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 14))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 14))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 14))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_214_to_215() {
 // Setting (ganti password) dibolehkan untuk kasir
-   $sql = "UPDATE menu SET level_user_id=4 WHERE nama = 'Settings';";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "UPDATE menu SET level_user_id=4 WHERE nama= 'Settings';";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Menambahkan Menu Kasir: Kasir Aktif
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
 			('List kasir yang aktif', 'media.php?module=kasir', '', 4, 'Kasir Aktif', '', 'Y', 3, 5, 0, '')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // Default menu Kasir diubah menjadi penjualan
-   $sql = "UPDATE menu SET link = 'media.php?module=penjualan_barang' WHERE nama='Kasir';";
-   $hasil = exec_query($sql);
-   echo mysql_error();
+$sql= "UPDATE menu SET link= 'media.php?module=penjualan_barang' WHERE nama='Kasir';";
+$hasil= exec_query($sql);
+echo mysql_error();
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 15))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 15))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 15))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 15))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_215_to_216() {
 
-   // Menambahkan Sub Menu Barang
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
-			   ('Cetak label per barcode / update HJ', 'media.php?module=barang&act=cetakperbarcode', '', 2, 'Cetak Label per Barcode/Update HJ', '', 'Y', 3, 13, 0, ''),
-            ('Sinkronisasi harga jual dari toko lain', 'module=barang&act=hargajualsync', '', 2, 'Sync HJ', '', 'N', 2, 14, 0, ''),
-            ('Kartu Stok', 'media.php?module=barang&act=kartustok', '', 2, 'Kartu Stok', '', 'Y', 3, 15, 0, '')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
-   
-   /* Ganti link dan label Retur Pembelian, menjadi Retur Pembelian per Nota */
-   $sql = "UPDATE menu 
-            SET link = 'media.php?module=pembelian_barang&act=returpembelianpernota',
-            label='Retur Pembelian per Nota'  
-            WHERE nama='Retur Pembelian'";
-   $hasil = exec_query($sql);
-   echo mysql_error();
-   
-   /* Geser urutan untuk menu pembelian */
-   $sql = "update menu set urutan=urutan+1 where parent_id=3 and urutan >=3";
-   $hasil = exec_query($sql);
-   echo mysql_error();
-   
-   /* Tambah sub menu Retur beli per barcode di menu Pembelian */
-   /* Tambah sub menu PO by stok di menu Laporan */
-   $sql = "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
-			   ('Retur Beli per Barcode', 'media.php?module=pembelian_barang&act=returpembelianperbarang', '', 3, 'Retur Pembelian per barang', '', 'Y', 3, 3, 0, ''),
-			   ('PO by jumlah barang (stok)', 'media.php?module=laporan&act=po', '', 5, 'Purchase Order', '', 'Y', 3, 9, 0, '')";
-   $hasil = exec_query($sql);
-   echo mysql_error();
-   
-     
+// Menambahkan Sub Menu Barang
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Cetak label per barcode / update HJ', 'media.php?module=barang&act=cetakperbarcode', '', 2, 'Cetak Label per Barcode/Update HJ', '', 'Y', 3, 13, 0, ''),
+			('Sinkronisasi harga jual dari toko lain', 'module=barang&act=hargajualsync', '', 2, 'Sync HJ', '', 'N', 2, 14, 0, ''),
+			('Kartu Stok', 'media.php?module=barang&act=kartustok', '', 2, 'Kartu Stok', '', 'Y', 3, 15, 0, '')";
+$hasil= exec_query($sql);
+echo mysql_error();
+
+/* Ganti link dan label Retur Pembelian, menjadi Retur Pembelian per Nota */
+$sql= "UPDATE menu 
+			SET link= 'media.php?module=pembelian_barang&act=returpembelianpernota',
+			label='Retur Pembelian per Nota' 
+			WHERE nama='Retur Pembelian'";
+$hasil= exec_query($sql);
+echo mysql_error();
+
+/* Geser urutan untuk menu pembelian */
+$sql= "update menu set urutan=urutan+1 where parent_id=3 and urutan >=3";
+$hasil= exec_query($sql);
+echo mysql_error();
+
+/* Tambah sub menu Retur beli per barcode di menu Pembelian */
+/* Tambah sub menu PO by stok di menu Laporan */
+$sql= "INSERT INTO `menu` (`nama`, `link`, `icon`, `parent_id`, `label`, `accesskey`, `publish`, `level_user_id`, `urutan`, `level`, `last_update`) VALUES
+			('Retur Beli per Barcode', 'media.php?module=pembelian_barang&act=returpembelianperbarang', '', 3, 'Retur Pembelian per barang', '', 'Y', 3, 3, 0, ''),
+			('PO by jumlah barang (stok)', 'media.php?module=laporan&act=po', '', 5, 'Purchase Order', '', 'Y', 3, 9, 0, '')";
+$hasil= exec_query($sql);
+echo mysql_error();
+
+	
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 16))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 16))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 16))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 16))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 function upgrade_216_to_217() {
-   
-   /* Ganti hak akses Laporan Penjualan ke gudang */
-   $sql = "update menu set level_user_id = 3 where nama = 'Laporan Penjualan'";
-   $hasil = exec_query($sql);
-   echo mysql_error();        
+
+/* Ganti hak akses Laporan Penjualan ke gudang */
+$sql= "update menu set level_user_id= 3 where nama= 'Laporan Penjualan'";
+$hasil= exec_query($sql);
+echo mysql_error();		
 
 // update version number ------------------------------------------------------
-   $sql = "SELECT * FROM config WHERE `option` = 'version'";
-   $hasil = mysql_query($sql);
+$sql= "SELECT * FROM config WHERE `option`= 'version'";
+$hasil= mysql_query($sql);
 
-   if (mysql_num_rows($hasil) > 0) {
-      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 17))."' WHERE `option` = 'version'";
-   } else {
+if (mysql_num_rows($hasil) >0) {
+	$sql= "UPDATE `config` SET value= '".serialize(array(2, 0, 17))."' WHERE `option`= 'version'";
+} else {
 
-      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 17))."', '')";
-   }
-   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+	$sql= "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 17))."', '')";
+}
+$hasil= mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
 
-// =================================== PATCH VERSI 3.x.x ==========================================
+//=================================== PATCH VERSI 3.x.x==========================================
 function check_minor_major3($dbminor, $minor, $dbrevision, $revision) {
 
 // nothing here yet
 }
 
-// ==================== general functions ==============================
+//==================== general functions==============================
 
 function exec_query($sql) {
 // able to loop through & execute MULTIPLE query lines
 
-   $queries = preg_split("/;+(?=([^'|^\\\']*['|\\\'][^'|^\\\']*['|\\\'])*[^'|^\\\']*[^'|^\\\']$)/", $sql);
-   foreach ($queries as $query) {
-      if (strlen(trim($query)) > 0)
-         mysql_query($query);
-   }
+$queries= preg_split("/;+(?=([^'|^\\\']*['|\\\'][^'|^\\\']*['|\\\'])*[^'|^\\\']*[^'|^\\\']$)/", $sql);
+foreach ($queries as $query) {
+	if (strlen(trim($query)) >0)
+		mysql_query($query);
+}
 }
 
 function selesai() {
 
-   echo "Database upgrade finished, thank you. <br /> Silakan <a href=index.php> <b>LOGIN</b> </a> lagi.";
-   exit;
+echo "Database upgrade finished, thank you.<br />Silakan<a href=index.php><b>LOGIN</b></a>lagi.";
+exit;
 }
 
 /* CHANGELOG -----------------------------------------------------------
 
-  1.6.0 / 2013-02-07  : Harry Sufehmi	: table arsip_barang
+1.6.0 / 2013-02-07 : Harry Sufehmi	: table arsip_barang
 
-  1.5.0 / 2012-11-25  : Harry Sufehmi	: initial release
+1.5.0 / 2012-11-25 : Harry Sufehmi	: initial release
 
-  ------------------------------------------------------------------------ */
+------------------------------------------------------------------------ */
