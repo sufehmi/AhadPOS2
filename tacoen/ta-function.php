@@ -74,9 +74,11 @@ function ahp_kasirheader($title,$add_to_head='') {
 	echo "<script type='text/javascript' src='".SITE_URL."js/jquery.poshytip.js'></script>\n";
 	echo "<script type='text/javascript' src='".SITE_URL."js/jquery-editable-poshytip.min.js'></script>\n";
 	echo "<script type='text/javascript' src='".SITE_URL."tacoen/js/kasir.js'></script>\n";
-	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/jquery-editable.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/font/fa/style.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/font/dosis/style.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap.min.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap-theme.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/jquery-editable.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/css/ap.css' />\n";
 	if ($add_to_head!='') { echo $add_to_head; }
 	echo "</head>";
