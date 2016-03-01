@@ -12,23 +12,25 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ---------------------------------------------------------------- */
+require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
 
-include_once('../tacoen/function.php');
 session_start();
 check_ahadpos_session();
 ahp_htmlheader('Halaman Awal');
 echo "<body class=''>\n";
-require_once("menu2.php");?>
-
-<main id="content">
+require_once("menu2.php");
+?>
+<div id="content">
+<main>
 <?php include "content.php"; ?>
 <div class="clearfix"></div>
+</main>
 
 <footer>
-<div><small><a href="http://ahadpos.com/">AhadPOS</a>Copyright &copy; 2011 by Rimbalinux.com ::Tim Support IT::</small></div>
+<div><small><?php e(BRAND_NAME); ?> -- Angkasa Pura I - Point of Sales<br/>Base on <a href="http://ahadpos.com/">AhadPOS</a> Copyright &copy; 2011 by Rimbalinux.com.</small></div>
 </footer>
 
-</main>
+</div>
 </body>
 </html>
 

@@ -44,7 +44,7 @@ $hasil= mysql_query($sqlLv1);
 
 <header class="navbar navbar-default" id="header">
 <button onclick='ta_toggle($(this))' data-menu='drawer' data-active=0><i class='fa fa-bars'></i></button>
-<h1>AhadPos</h1>
+<h1><?php e(BRAND_NAME); ?></h1>
 </header>
 
 <nav id='drawer' class='sidemenu' style='display:none'><ul class="nav" id="mainmenu">
@@ -75,10 +75,10 @@ $hasil= mysql_query($sqlLv1);
 					//echo $sqlLv2;
 					$hasil2= mysql_query($sqlLv2); $count2= mysql_num_rows($hasil2);
 					
-					if ($count2 >0) { 
+					if ($count2 >0) {
 					e("\n<ul class='nav ah-menu-lv2' role='menu'>");
 					while ($dataLv2= mysql_fetch_array($hasil2)):
-						if ($idMenu['id']=== $dataLv2['id'] ) { $active2='active'; } else { $active2=''; } 
+						if ($idMenu['id']=== $dataLv2['id'] ) { $active2='active'; } else { $active2=''; }
 						e("\n<li class='".$active2."'><a href='".$dataLv2['link']."' accesskey='".$dataLv2['accesskey']."'>");
 						e("<i class='".$dataLv2['icon']."'></i>");
 						e($dataLv2['label']);

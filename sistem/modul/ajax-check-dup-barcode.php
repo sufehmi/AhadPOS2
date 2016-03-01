@@ -13,18 +13,18 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ----------------------------------------------------------------*/
 
-	include "../../config/config.php";
+require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
 
-$barcode= $_POST['barcode']; // get the barcode
-$barcode= trim(htmlentities($barcode)); // strip some crap out of it
+$barcode=$_POST['barcode']; // get the barcode
+$barcode=trim(htmlentities($barcode)); // strip some crap out of it
 
 echo check_barcode($barcode); // call the check_barcode function and echo the results.
 
 function check_barcode($barcode){
 
-	$sql= "SELECT * FROM barang WHERE barcode='$barcode'";
-	$hasil= mysql_query($sql);
-	if (mysql_num_rows($hasil) >0) {
+	$sql="SELECT * FROM barang WHERE barcode='$barcode'";
+	$hasil=mysql_query($sql);
+	if (mysql_num_rows($hasil) > 0) {
 		return '<span style="color:#f00">ERROR: Barcode Sudah Ada !</span>';
 	};
 

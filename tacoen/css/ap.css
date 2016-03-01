@@ -1,5 +1,5 @@
-html,body { font-family: 'Dosis'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px; }
- 
+html,body { font-family: 'Tahoma'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 28px; }
+
 #header {position: fixed;top:0;left:0;width:100%;height: 48px;border-radius:none;z-index:102}
 #header h1 { margin:0; font-weight:700; font-size: 24px; line-height: 48px; display:inline-block;}
 #header button {padding:0;width:48px;height:48px;padding: 12px;border: 0;background: transparent;outline:none; display:inline-block; }
@@ -15,9 +15,9 @@ nav#drawer a {color:#000}
 .nav a i {margin-right: .5em}
 footer {margin: 1em 0}
 
-table td { padding: .1em .2em; vertical-align:top }
+table td { padding: .2em .25em; vertical-align:top }
 
-table.tabel {}
+table.tabel {width:100%;}
 .tabel th,
 .tabel td {border: 1px solid #ccc;padding: .1em .2em;font-size: .9em; vertical-align:middle}
 .tabel th {border-bottom: 2px solid #333;padding: .2em;}
@@ -29,11 +29,13 @@ tr.alt { background: rgba(0,0,0,.1); }
 
 
 nav#drawer {width:300px; }
-#content {min-height: calc(100vh - 128px);margin: 64px 1em 1em 1em;}
+#content {margin: 64px 1em 1em 1em;}
 .with_drawer #content {margin: 64px 1em 1em 316px}
 #content h2 {color: #d31; text-transform:capitalize;}
 
-#layer1 {display:none}
+#content main { min-height: calc(100vh - 150px); }
+#drawer .fa-4x { font-size: 100%!important; }
+
 body {overflow-x: auto;overflow-y:scroll}
 /* pembelian barang */
 #layer1{position: absolute;left:200px;top:100px;width:450px;background-color:#eef4d2;border: 1px solid #000;z-index: 50;}
@@ -47,3 +49,16 @@ input[type='text']{font-family: "Courier New", Courier, monospace;font-size: 1.2
 */
 
 .btn .fa { margin-right: .25em; }
+
+select.form-control {
+ padding: 0 .5em;
+}
+
+input[type='reset'] { color:#888; }
+
+td form input[type='submit'] { width:100%; }
+
+input[name='barcode'] { text-align:right; }
+
+footer small { line-height:1em; }
+footer small { font-size: 11px; }

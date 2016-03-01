@@ -13,19 +13,23 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ----------------------------------------------------------------*/
 
-include_once('../tacoen/function.php');
-session_start();
-check_ahadpos_session();
 
+session_start();
+if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])){
+echo "<link href='../css/adminstyle.css' rel='stylesheet' type='text/css'>
+<center>Untuk mengakses modul, Anda harus login <br>";
+echo "<a href=index.php><b>LOGIN</b></a></center>";
+}
+else{
 ?>
 
 <html>
 <head>
 <title>Halaman Login AhadPOS</title>
-<link href="../config/adminstyle.css" rel="stylesheet" type="text/css" />
+<link href="../css/adminstyle.css" rel="stylesheet" type="text/css" />
 </head>
 <?php
-	$tglHariIni= date("Y-m-d");
+	$tglHariIni=date("Y-m-d");
 
 ?>
 <body>
@@ -37,15 +41,15 @@ check_ahadpos_session();
 <form method="POST" action="aksi.php?module=transaksi_kas&act=input">
 <input type="hidden" name="idUser" value=<?php echo"$_SESSION[iduser]"; ?>>
 <table>
-<tr><td>User</td><td><?php echo "$_SESSION[namauser]"; ?></td></tr>
-<tr><td>Tanggal</td><td><?php echo"$tglHariIni"; ?></td></tr>
-<tr><td>Uang Kas Awal</td><td><input type="text" class="form-control" name="kasAwal"></td></tr>
-<tr><td colspan="2"></td></tr>
-<tr><td colspan="2" align="center"><a href="logout.php">BATAL</a><input type='submit' class='btn btn-info' value="Masuk"></td></tr>
+<tr><td>User</td><td> <?php echo "$_SESSION[namauser]"; ?></td></tr>
+<tr><td>Tanggal</td><td> <?php echo"$tglHariIni"; ?></td></tr>
+<tr><td>Uang Kas Awal</td><td> <input type="text" class="form-control" name="kasAwal"></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" align="center"><a href="logout.php">BATAL</a>&nbsp;<input type="submit" class="btn btn-default" value="Masuk"></td></tr>
 </table>
 </form>
 
-<p></p>
+<p>&nbsp;</p>
 </div>
 
 
@@ -53,6 +57,8 @@ check_ahadpos_session();
 </html>
 
 <?php
+}
+
 
 
 /* CHANGELOG -----------------------------------------------------------

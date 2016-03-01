@@ -2,7 +2,7 @@
 $server = "localhost";
 $username = "root";
 $password = "";
-$database = "ahpost";
+$database = "ahpos";
 
 // disable error message level E_NOTICE
 error_reporting(E_ALL);

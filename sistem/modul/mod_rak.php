@@ -21,15 +21,15 @@ switch ($_GET[act]) {
 	default:
 		?>
 		<h2>Tambah Rak Barang</h2>
-		<form method=POST action='./aksi.php?module=rak&act=input'>
+		<form method='post' action='./aksi.php?module=rak&act=input'>
 			<table>
 				<tr>
 					<td>Tambah Rak</td>
-					<td><input type='text' class='form-control' name='namaRak' size=30></td>
+					<td> <input type='text' class='form-control' class='form-control' name='namaRak' size=30></td>
 				</tr>
 				<tr>
 					<td colspan=2 align=right>
-						<input type='submit' class='btn btn-default' value='Simpan'>
+						<input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
 						<input type='reset' class='btn btn-default' value='Batal'></td>
 				</tr>
 			</table>
@@ -43,44 +43,44 @@ switch ($_GET[act]) {
 				<th>Aksi</th>
 			</tr>
 			<?php
-			$tampil= mysql_query("SELECT * from rak");
-			$no= 1;
-			while ($r= mysql_fetch_array($tampil)) {
+			$tampil=mysql_query("SELECT * from rak");
+			$no=1;
+			while ($r=mysql_fetch_array($tampil)) {
 				//untuk mewarnai tabel menjadi selang-seling
 				/*
-				if (($no % 2)== 0) {
-				$warna= "#EAF0F7";
+				if (($no % 2) == 0) {
+				$warna="#EAF0F7";
 				} else {
-				$warna= "#FFFFFF";
+				$warna="#FFFFFF";
 				}
-				* 
+				*
 				*/
 				// Mewarnai tabel diganti dengan css agar lebih fleksibel
 				?>
-				<tr class="<?php echo $no % 2=== 0 ? 'alt' : ''; ?>">
+				<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
 					<td><?php echo $no; ?></td>
 					<td><?php echo $r['namaRak']; ?></td>
-					<td><a href=?module=rak&act=editrak&id=<?php echo $r['idRak']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
-						<a href=./aksi.php?module=rak&act=hapus&id=<?php echo $r['idRak']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
+					<td><a href=?module=rak&act=editrak&id=<?php echo $r['idRak']; ?>>Edit</a> |
+						<a href=./aksi.php?module=rak&act=hapus&id=<?php echo $r['idRak']; ?>>Hapus</a>
 					</td>
 				</tr>
 				<?php
 				$no++;
 			}
 			echo "</table>
-				<p></p>
-				<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
+				<p>&nbsp;</p>
+				<a href='javascript:history.go(-1)'><i class='fa fa-arrow-left'></i> Kembali</a>";
 			break;
 
 		case "editrak":
-			$edit= mysql_query("select * from rak where idRak= '$_GET[id]'");
-			$data= mysql_fetch_array($edit);
+			$edit=mysql_query("select * from rak where idRak='$_GET[id]'");
+			$data=mysql_fetch_array($edit);
 			echo "<h2>Edit Rak Barang</h2>
-			<form method=POST action='./aksi.php?module=rak&act=update' name='editrak'>
+			<form method='post' action='./aksi.php?module=rak&act=update' name='editrak'>
 			<input type=hidden name='idRak' value='$data[idRak]'>
 			<table>
-				<tr><td>Edit Rak</td><td><input type='text' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
-				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
+				<tr><td>Edit Rak</td><td> <input type='text' class='form-control' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
+				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
 								<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 			</table>
 			</form>
@@ -94,15 +94,15 @@ switch ($_GET[act]) {
 					<th>Aksi</th>
 				</tr>
 				<?php
-				$tampil= mysql_query("SELECT * from rak");
-				$no= 1;
-				while ($r= mysql_fetch_array($tampil)) :
+				$tampil=mysql_query("SELECT * from rak");
+				$no=1;
+				while ($r=mysql_fetch_array($tampil)) :
 					?>
-					<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2 === 0 ? 'class="alt"' : ''; ?>>
 						<td><?php echo $no; ?></td>
 						<td><?php echo $r['namaRak']; ?></td>
-						<td><a href=?module=rak&act=editrak&id=<?php echo $r['idRak']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
-							<a href=./aksi.php?module=rak&act=hapus&id=<?php echo $r['idRak']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
+						<td><a href=?module=rak&act=editrak&id=<?php echo $r['idRak']; ?>>Edit</a> |
+							<a href=./aksi.php?module=rak&act=hapus&id=<?php echo $r['idRak']; ?>>Hapus</a>
 						</td>
 					</tr>
 					<?php

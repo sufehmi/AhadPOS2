@@ -12,26 +12,25 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ---------------------------------------------------------------- */
-
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-<title>Halaman Login AhadPOS</title>
-<link href="../css/style.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
+	<head>
+		<title>Halaman Login AhadPOS</title>
+		<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
 
-<div id="login">
-<div class="header"><img src="../img/logo-login.png" /></div>
+		<div id="login">
+			<div class="header"><img src="../img/logo-login.png" /></div>
 
-<form method="POST" action="cek_login.php">
-<input type="text" class="form-control" id="username" name="username" placeholder="User Name" autofocus="autofocus">
-<input type="password" class='form-control' id="password" name="password" placeholder="Password">
-<input type='submit' class='btn btn-info' class="tombol" id="tombol-login" value="Login">
-</form>
-</div>
-</body>
+			<form method="POST" action="cek_login.php">
+				<input type="text" class="form-control" id="username" name="username" placeholder="User Name">
+				<input class='form-control' type="password" id="password" name="password" placeholder="Password">
+				<input type="submit" class="btn btn-default" class="tombol" id="tombol-login" value="Login">
+			</form>
+		</div>
+	</body>
 </html>
 
 <?php

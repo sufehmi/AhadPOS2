@@ -62,7 +62,7 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
                             <tr>
                                 <td>
                                     <?php
-                                    $sql = "select idRak, namaRak from rak ORDER BY LPAD(lower(namaRak), 10,0)";
+                                    $sql = "select idRak, namaRak from rak order by namaRak";
                                     $raks = mysql_query($sql) or die('Gagal ambil data rak');
                                     ?>
                                     <select name="rak">
@@ -115,15 +115,10 @@ $_SESSION['nomorraks'] = $_GET['nomorrak'];
                     foreach ($barcodes as $barcode):
                         if (!empty($barcode) || $barcode != ''):
                             $data = explode(',', $barcode);
-								if (isset($dataSO[$data[0]])){
-									/* Jika sudah ada, tambahkan quantiti nya */
-									$dataSO[$data[0]]['qty'] += $data[1];
-								} else {
-                            $dataSO[$data[0]] = array(
+                            $dataSO[] = array(
                                 'barcode' => $data[0],
                                 'qty' => $data[1]
                             );
-								}
                         endif;
                     endforeach;
 

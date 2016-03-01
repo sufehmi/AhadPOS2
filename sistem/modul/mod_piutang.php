@@ -13,7 +13,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ----------------------------------------------------------------*/
 
-include "../config/config.php";
+require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
+
 check_user_access(basename($_SERVER['SCRIPT_NAME']));
 
 
@@ -26,16 +27,16 @@ switch($_GET[act]){
 				<th>Tgl Harus Bayar</th><th>Nominal</th></tr>";
 		$tampil=mysql_query("select p.idTransaksiJual, namaCustomer, p.tglDiBayar, p.nominal
 			from piutang p, transaksijual tj, customer c
-			where p.idTransaksiJual= tj.idTransaksiJual and tj.idCustomer= c.idCustomer");
+			where p.idTransaksiJual=tj.idTransaksiJual and tj.idCustomer=c.idCustomer");
 		$no=1;
 		while ($r=mysql_fetch_array($tampil)){
-			$tgl= tgl_indo($r[tglDiBayar]);
+			$tgl=tgl_indo($r[tglDiBayar]);
 			//untuk mewarnai tabel menjadi selang-seling
-			if(($no % 2)== 0){
-				$warna= "#EAF0F7";
+			if(($no % 2) == 0){
+				$warna="#EAF0F7";
 			}
 			else{
-				$warna= "#FFFFFF";
+				$warna="#FFFFFF";
 			}
 			echo "<tr bgcolor=$warna>";//end warna
 		echo "<td align=right class=td>$no</td>
@@ -47,8 +48,8 @@ switch($_GET[act]){
 		$no++;
 		}
 		echo "</table>
-		<p></p>
-		<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
+		<p>&nbsp;</p>
+		<a href='javascript:history.go(-1)'><i class='fa fa-arrow-left'></i> Kembali</a>";
 
 		break;
 }

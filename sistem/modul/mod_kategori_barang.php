@@ -21,10 +21,10 @@ switch ($_GET[act]) {
 	default:
 		?>
 		<h2>Tambah Kategori Barang</h2>
-		<form method=POST action='./aksi.php?module=kategori_barang&act=input'>
+		<form method='post' action='./aksi.php?module=kategori_barang&act=input'>
 			<table>
-				<tr><td>Tambah Kategori</td><td><input type='text' class='form-control' name='namaKategoriBarang' size=30></td></tr>
-				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
+				<tr><td>Tambah Kategori</td><td> <input type='text' class='form-control' class='form-control' name='namaKategoriBarang' size=30></td></tr>
+				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
 						<input type='reset' class='btn btn-default' value='Batal'></td></tr>
 			</table>
 		</form>
@@ -37,44 +37,44 @@ switch ($_GET[act]) {
 				<th>Aksi</th>
 			</tr>
 			<?php
-			$tampil= mysql_query("SELECT * from kategori_barang");
-			$no= 1;
-			while ($r= mysql_fetch_array($tampil)) {
+			$tampil=mysql_query("SELECT * from kategori_barang");
+			$no=1;
+			while ($r=mysql_fetch_array($tampil)) {
 				//untuk mewarnai tabel menjadi selang-seling
 				/*
-				if (($no % 2)== 0) {
-				$warna= "#EAF0F7";
+				if (($no % 2) == 0) {
+				$warna="#EAF0F7";
 				} else {
-				$warna= "#FFFFFF";
+				$warna="#FFFFFF";
 				}
-				* 
+				*
 				*/
 				// Mewarnai tabel diganti dengan css agar lebih fleksibel
 				?>
-				<tr class="<?php echo $no % 2=== 0 ? 'alt' : ''; ?>">
+				<tr class="<?php echo $no % 2 === 0 ? 'alt' : ''; ?>">
 					<td><?php echo $no; ?></td>
 					<td><?php echo $r['namaKategoriBarang']; ?></td>
-					<td><a href=?module=kategori_barang&act=editkategori&id=<?php echo $r['idKategoriBarang']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
-						<a href=./aksi.php?module=kategori_barang&act=hapus&id=<?php echo $r['idKategoriBarang']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
+					<td><a href=?module=kategori_barang&act=editkategori&id=<?php echo $r['idKategoriBarang']; ?>>Edit</a> |
+						<a href=./aksi.php?module=kategori_barang&act=hapus&id=<?php echo $r['idKategoriBarang']; ?>>Hapus</a>
 					</td>
 				</tr>
 				<?php
 				$no++;
 			}
 			echo "</table>
-				<p></p>
-				<a class='btn btn-sm btn-default' href='javascript:history.go(-1)'><i class='fa fa-arrow-circle-o-left'></i>Kembali</a>";
+				<p>&nbsp;</p>
+				<a href='javascript:history.go(-1)'><i class='fa fa-arrow-left'></i> Kembali</a>";
 			break;
 
 		case "editkategori":
-			$edit= mysql_query("select * from kategori_barang where idKategoriBarang= '$_GET[id]'");
-			$data= mysql_fetch_array($edit);
+			$edit=mysql_query("select * from kategori_barang where idKategoriBarang='$_GET[id]'");
+			$data=mysql_fetch_array($edit);
 			echo "<h2>Edit Kategori Barang</h2>
-			<form method=POST action='./aksi.php?module=kategori_barang&act=update' name='editkategori'>
+			<form method='post' action='./aksi.php?module=kategori_barang&act=update' name='editkategori'>
 			<input type=hidden name='idKategoriBarang' value='$data[idKategoriBarang]'>
 			<table>
-				<tr><td>Edit Kategori</td><td><input type='text' class='form-control' name='namaKategoriBarang' size=30 value='$data[namaKategoriBarang]'></td></tr>
-				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>
+				<tr><td>Edit Kategori</td><td> <input type='text' class='form-control' class='form-control' name='namaKategoriBarang' size=30 value='$data[namaKategoriBarang]'></td></tr>
+				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
 								<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 			</table>
 			</form>
@@ -88,16 +88,16 @@ switch ($_GET[act]) {
 					<th>Aksi</th>
 				</tr>
 				<?php
-				$tampil= mysql_query("SELECT * from kategori_barang");
-				$no= 1;
-				while ($r= mysql_fetch_array($tampil)) :
+				$tampil=mysql_query("SELECT * from kategori_barang");
+				$no=1;
+				while ($r=mysql_fetch_array($tampil)) :
 					?>
 
-					<tr <?php echo $no % 2=== 0 ? 'class="alt"' : ''; ?>>
+					<tr <?php echo $no % 2 === 0 ? 'class="alt"' : ''; ?>>
 						<td><?php echo $no; ?></td>
 						<td><?php echo $r['namaKategoriBarang']; ?></td>
-						<td class=td><a href=?module=kategori_barang&act=editkategori&id=<?php echo $r['idKategoriBarang']; ?>><i class='fa fa-pencil-square-o'></i> Edit</a> |
-							<a href=./aksi.php?module=kategori_barang&act=hapus&id=<?php echo $r['idKategoriBarang']; ?>><i class='fa  fa-times-circle-o'></i> Hapus</a> 
+						<td class=td><a href=?module=kategori_barang&act=editkategori&id=<?php echo $r['idKategoriBarang']; ?>>Edit</a> |
+							<a href=./aksi.php?module=kategori_barang&act=hapus&id=<?php echo $r['idKategoriBarang']; ?>>Hapus</a>
 						</td>
 					</tr>
 					<?php

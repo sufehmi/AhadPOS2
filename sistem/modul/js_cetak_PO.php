@@ -14,29 +14,37 @@ GNU General Public License v2 (links provided above) for more details.
 ----------------------------------------------------------------*/
 
 
-include "../../config/config.php";
-include "function.php";
-include_once('../tacoen/function.php');
+require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
+
+include SITE_ROOT."sistem/modul/function.php";
+
+
+
 session_start();
-check_ahadpos_session();
+if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])){
+echo "<link href='../../../css/adminstyle.css' rel='stylesheet' type='text/css'>
+<center>Untuk mengakses modul, Anda harus login <br>";
+echo "<a href=index.php><b>LOGIN</b></a></center>";
+}
+else{
 
 	if ($_POST['cetakcsv']) {
 
 		// persiapan membuat output file CSV
-		$csv= "\"Nomor\",\"Barcode\",\"Nama Barang\",\"Stok Saat Ini\",\"Harga Beli\",\"Pesan\"\n";
+		$csv="\"Nomor\",\"Barcode\",\"Nama Barang\",\"Stok Saat Ini\",\"Harga Beli\",\"Pesan\"\n";
 
-			$cek= $_POST['cek'];
-			$jumlah= count($cek);
-			$no= 1;
+			$cek=$_POST['cek'];
+			$jumlah=count($cek);
+			$no=1;
 			for($i=0;$i<$jumlah;$i++){
-				$data= getBarangPesan($cek[$i]);
-				$barangPesan= mysql_fetch_array($data);
+				$data=getBarangPesan($cek[$i]);
+				$barangPesan=mysql_fetch_array($data);
 			$csv .= "\"".$no."\",\"".$barangPesan['barcode']."\",\"".$barangPesan['namaBarang']."\",\"".$barangPesan['jumBarang']."\",\"".$barangPesan['hargaBeli']."\",\"\"\n";
 				$no++;
 			};
 
 			$supplier 	= getDetailSupplier($_POST['idSupplier']);
-			$detailSupplier= mysql_fetch_array($supplier);
+			$detailSupplier=mysql_fetch_array($supplier);
 		$namaFile	= $detailSupplier['namaSupplier']."-".date("Y-m-d--H-i").".csv";
 
 		// kirim output CSV ke browser untuk di download
@@ -47,20 +55,20 @@ check_ahadpos_session();
 		echo $csv;
 		
 	} else {
-		echo "<link href='../../config/adminstyle.css' rel='stylesheet' type='text/css'>";
+		echo "<link href='../../css/adminstyle.css' rel='stylesheet' type='text/css'>";
 
 			echo "<h2>Purchase Order</h2>";
-			$supplier= getDetailSupplier($_POST[idSupplier]);
-			$detailSupplier= mysql_fetch_array($supplier);
+			$supplier=getDetailSupplier($_POST[idSupplier]);
+			$detailSupplier=mysql_fetch_array($supplier);
 			echo "Nama Supplier : $detailSupplier[namaSupplier]
 				<br/>Tanggal PO : ".date("d-m-Y")."<br/><br/>";
-			$cek= $_POST['cek'];
-			$jumlah= count($cek);
-			$no= 1;
+			$cek=$_POST['cek'];
+			$jumlah=count($cek);
+			$no=1;
 			echo "<table width=500><tr><th>No</th><th>Barcode</th><th>Nama Barang</th><th>Stok<br />Saat Ini</th><th>Pesan</th></tr>";
 			for($i=0;$i<$jumlah;$i++){
-				$data= getBarangPesan($cek[$i]);
-				$barangPesan= mysql_fetch_array($data);
+				$data=getBarangPesan($cek[$i]);
+				$barangPesan=mysql_fetch_array($data);
 				echo "<tr><td class=td>$no</td>
 					<td class=td>$barangPesan[barcode]</td>
 					<td class=td>$barangPesan[namaBarang]</td>
@@ -69,7 +77,8 @@ check_ahadpos_session();
 				$no++;
 			}
 			echo "</table>";
-
+	}
+};
 
 
 /* CHANGELOG -----------------------------------------------------------

@@ -5,46 +5,41 @@ Style for ahad pos 2
     Created on : Nov 6, 2013, 1:08:59 PM
     Author     : abufathir
 */
-/*@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 300;
-    src: url('fonts/OpenSans-Light.ttf');
-}
 @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/OpenSans.ttf');
-}
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    src: url('fonts/OpenSans-Bold.ttf');
-}
-@font-face {
-    font-family: 'Open Sans';
-    font-style: italic;
-    font-weight: 300;
-    src: url('fonts/OpenSans-LightItalic.ttf');
-}
-@font-face {
-    font-family: 'Open Sans';
-    font-style: italic;
-    font-weight: 400;
-    src: url('fonts/OpenSans-Italic.ttf');
-}
-@font-face {
-    font-family: 'Open Sans';
-    font-style: italic;
-    font-weight: 700;
-    src: url('fonts/OpenSans-BoldItalic.ttf');
-}*/
-@font-face {
-  font-family: 'Ubuntu';
+  font-family: 'Open Sans';
   font-style: normal;
-  src: url('fonts/ubuntu-r.ttf');
+  font-weight: 300;
+  src: url('fonts/OpenSans-Light.ttf');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/OpenSans.ttf');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('fonts/OpenSans-Bold.ttf');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: url('fonts/OpenSans-LightItalic.ttf');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url('fonts/OpenSans-Italic.ttf');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: url('fonts/OpenSans-BoldItalic.ttf');
 }
 @font-face {
   font-family: 'Ubuntu';
@@ -258,7 +253,7 @@ table {
   img {
     max-width: 100% !important;
   }
-  @page  {
+  @page {
     margin: 2cm .5cm;
   }
   p,
@@ -296,12 +291,6 @@ table {
     border: 1px solid #ddd !important;
   }
 }
-.getar {
-  -webkit-animation: tada 1s infinite;
-  -moz-animation: tada 1s infinite;
-  -ms-animation: tada 1s infinite;
-  animation: tada 1s infinite;
-}
 .tombol {
   display: inline-block;
   margin-bottom: 0;
@@ -314,7 +303,7 @@ table {
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 15px;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
   border-radius: 0;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -349,13 +338,8 @@ fieldset[disabled] .tombol {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.tombol.getar {
-  background-color: red;
-  color: #fff !important;
-}
 input,
-select,
-a.tombol {
+select {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
@@ -373,28 +357,23 @@ a.tombol {
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 input:-moz-placeholder,
-select:-moz-placeholder,
-a.tombol:-moz-placeholder {
+select:-moz-placeholder {
   color: #999999;
 }
 input::-moz-placeholder,
-select::-moz-placeholder,
-a.tombol::-moz-placeholder {
+select::-moz-placeholder {
   color: #999999;
 }
 input:-ms-input-placeholder,
-select:-ms-input-placeholder,
-a.tombol:-ms-input-placeholder {
+select:-ms-input-placeholder {
   color: #999999;
 }
 input::-webkit-input-placeholder,
-select::-webkit-input-placeholder,
-a.tombol::-webkit-input-placeholder {
+select::-webkit-input-placeholder {
   color: #999999;
 }
 input:focus,
-select:focus,
-a.tombol:focus {
+select:focus {
   border-color: #a8cf45;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(168, 207, 69, 0.6);
@@ -402,19 +381,15 @@ a.tombol:focus {
 }
 input[disabled],
 select[disabled],
-a.tombol[disabled],
 input[readonly],
 select[readonly],
-a.tombol[readonly],
 fieldset[disabled] input,
-fieldset[disabled] select,
-fieldset[disabled] a.tombol {
+fieldset[disabled] select {
   cursor: not-allowed;
   background-color: #eeeeee;
 }
 textareainput,
-textareaselect,
-textareaa.tombol {
+textareaselect {
   height: auto;
 }
 select {
@@ -435,7 +410,7 @@ button {
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 15px;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -502,13 +477,6 @@ fieldset[disabled] button {
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
   box-shadow: none;
-}
-input[type="submit"].getar,
-input[type="reset"].getar,
-input[type="button"].getar,
-button.getar {
-  background-color: red;
-  color: #fff !important;
 }
 input[type="submit"]:hover,
 input[type="reset"]:hover,
@@ -617,7 +585,6 @@ input[type="file"] {
 .input-group {
   position: relative;
   /*display: table;*/
-
   border-collapse: separate;
   display: inline-table;
   width: 50px;
@@ -656,36 +623,26 @@ body {
   font-weight: 300;
   background: white;
   /*		&.kasir{
-            //background-color: #272727;
-            //background-image: url('carbon_fibre.png');
-            //background-image: url('linen-gray.png');
-            background-color: black;
-            color: greenyellow;
-            th{
-               color:white;
-               background-color: darkgreen;
-               border: thin solid gray;
-            }
-            tr.alt{
-               background-color: #444;
-            }
-         }*/
-
+                //background-color: #272727;
+                //background-image: url('carbon_fibre.png');
+                //background-image: url('linen-gray.png');
+                background-color: black;
+                color: greenyellow;
+                th{
+                    color:white;
+                    background-color: darkgreen;
+                    border: thin solid gray;
+                }
+                tr.alt{
+                    background-color: #444;
+                }
+            }*/
 }
 body.kasir {
   display: inline;
 }
 body.kasir form {
   display: inline;
-}
-body.kasir #footer {
-  margin-left: -20px;
-  padding: 5px 20px;
-  background-color: #ccc;
-}
-body.kasir #footer a {
-  color: #2c3e50;
-  float: left;
 }
 a {
   text-decoration: none;
@@ -871,11 +828,6 @@ fieldset[disabled] #login form #tombol-login.active {
   top: 0px;
   font-size: 7em;
 }
-#tot_pembelian small {
-  color: red;
-  text-decoration: line-through;
-  font-size: 0.5em;
-}
 #kembalian {
   text-align: right;
   font-size: 6em;
@@ -917,9 +869,6 @@ table.top td {
 .tabel tr.alt {
   background-color: #eef4d2;
 }
-.tabel tr.merah {
-  background-color: #f00;
-}
 .tabel tr td {
   border-right: thin solid #dddddd;
   padding: 3px 5px;
@@ -933,26 +882,9 @@ table.top td {
 }
 .tabel .pilih:focus {
   /*		color: white;
-            background-color: red;*/
-
+                background-color: red;*/
   outline: 1px solid #6fa738;
   background-color: yellow;
-}
-.tabel.print th {
-  background-color: #fff;
-  border-right: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
-.tabel.print tr.alt {
-  background-color: #eef4d2;
-}
-.tabel.print tr td {
-  border-right: thin solid #ccc;
-  padding: 3px 5px;
-}
-.tabel.print tr td.error {
-  color: orange;
-  font-weight: bold;
 }
 div.top {
   margin-top: 90px;
@@ -964,29 +896,28 @@ div.pembayaran {
   display: inline;
   float: right;
   padding: 10px;
-  margin-bottom: 55px;
 }
 /*#submenu{
-   ul{
-      margin: 0px;
-      padding-left: 20px;
-      background-color: @hijau-front;
-      line-height: 25px;
-      li{
-         display: inline;
-         a{
-            text-transform: uppercase;
-            color: black;
-            font-size:12px;
-            font-weight:bold;
-            text-decoration:none;
-            margin-right: 15px;
-         }
-         &.active a{
-            .active;
-         }
-      }
-   }
+    ul{
+        margin: 0px;
+        padding-left: 20px;
+        background-color: @hijau-front;
+        line-height: 25px;
+        li{
+            display: inline;
+            a{
+                text-transform: uppercase;
+                color: black;
+                font-size:12px;
+                font-weight:bold;
+                text-decoration:none;
+                margin-right: 15px;
+            }
+            &.active a{
+                .active;
+            }
+        }
+    }
 }*/
 #header {
   position: fixed;
@@ -1030,9 +961,6 @@ div.pembayaran {
   background-color: #eef4d2;
   margin: 0;
 }
-textarea {
-  margin-bottom: 5px;
-}
 /*!
  *  Font Awesome 4.0.3 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -1057,7 +985,7 @@ textarea {
 }
 /* makes the font 33% larger relative to the icon container */
 .fa-lg {
-  font-size: 1.3333333333333333em;
+  font-size: 1.33333333em;
   line-height: 0.75em;
   vertical-align: -15%;
 }
@@ -1074,12 +1002,12 @@ textarea {
   font-size: 5em;
 }
 .fa-fw {
-  width: 1.2857142857142858em;
+  width: 1.28571429em;
   text-align: center;
 }
 .fa-ul {
   padding-left: 0;
-  margin-left: 2.142857142857143em;
+  margin-left: 2.14285714em;
   list-style-type: none;
 }
 .fa-ul > li {
@@ -1087,13 +1015,13 @@ textarea {
 }
 .fa-li {
   position: absolute;
-  left: -2.142857142857143em;
-  width: 2.142857142857143em;
-  top: 0.14285714285714285em;
+  left: -2.14285714em;
+  width: 2.14285714em;
+  top: 0.14285714em;
   text-align: center;
 }
 .fa-li.fa-lg {
-  left: -1.8571428571428572em;
+  left: -1.85714286em;
 }
 .fa-border {
   padding: .2em .25em .15em;
@@ -2371,3 +2299,4 @@ textarea {
 .fa-plus-square-o:before {
   content: "\f196";
 }
+/*# sourceMappingURL=style.css.map */
