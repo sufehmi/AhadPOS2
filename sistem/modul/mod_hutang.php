@@ -62,10 +62,10 @@ switch($_GET[act]){
 		$dataTrans=mysql_fetch_array($transaksiBeli);
 		echo "<h2>Detail Hutang</h2>
 			<table>
-				<tr><td>Nomor Invoice</td><td> </td><td>$dataTrans[NomorInvoice]</td><td width=10>&nbsp;</td>
-					<td>Tgl Transaksi</td><td> </td><td>$dataTrans[tglTransaksiBeli]</td></tr>
-				<tr><td>No Transaksi Beli</td><td> </td><td>$dataTrans[idTransaksiBeli]</td><td width=10>&nbsp;</td>
-					<td>Nama Supplier</td><td> </td><td>$dataTrans[namaSupplier]</td></tr>
+				<tr><td>Nomor Invoice</td><td></td><td>$dataTrans[NomorInvoice]</td><td width=10>&nbsp;</td>
+					<td>Tgl Transaksi</td><td></td><td>$dataTrans[tglTransaksiBeli]</td></tr>
+				<tr><td>No Transaksi Beli</td><td></td><td>$dataTrans[idTransaksiBeli]</td><td width=10>&nbsp;</td>
+					<td>Nama Supplier</td><td></td><td>$dataTrans[namaSupplier]</td></tr>
 			</table><br/>
 			";
 		echo "<table>
@@ -110,10 +110,10 @@ switch($_GET[act]){
 		$dataTrans=mysql_fetch_array($transaksiBeli);
 		echo "<h2>Edit Transaksi Beli</h2>
 			<table>
-				<tr><td>Nomor Invoice</td><td> </td><td>$dataTrans[NomorInvoice]</td><td width=10>&nbsp;</td>
-					<td>Tgl Transaksi</td><td> </td><td>$dataTrans[tglTransaksiBeli]</td></tr>
-				<tr><td>No Transaksi Beli</td><td> </td><td>$dataTrans[idTransaksiBeli]</td><td width=10>&nbsp;</td>
-					<td>Nama Supplier</td><td> </td><td>$dataTrans[namaSupplier]</td></tr>
+				<tr><td>Nomor Invoice</td><td></td><td>$dataTrans[NomorInvoice]</td><td width=10>&nbsp;</td>
+					<td>Tgl Transaksi</td><td></td><td>$dataTrans[tglTransaksiBeli]</td></tr>
+				<tr><td>No Transaksi Beli</td><td></td><td>$dataTrans[idTransaksiBeli]</td><td width=10>&nbsp;</td>
+					<td>Nama Supplier</td><td></td><td>$dataTrans[namaSupplier]</td></tr>
 			</table><br/>
 			";
 		echo "<table>

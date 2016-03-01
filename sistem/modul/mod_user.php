@@ -29,9 +29,9 @@ if ($_GET[module] == 'ganti_password') {
 	<form method='post' action=./aksi.php?module=user&act=update&home=1 name='edituser'>
 		<input type=hidden name='idUser' value='<?php echo $data['idUser']; ?>'>
 		<table>
-			<tr><td>Nama User</td><td> <input type='text' class='form-control' class='form-control' name='namaUser' size=30 value='<?php echo $data['namaUser']; ?>'></td></tr>
+			<tr><td>Nama User</td><td><input type='text' class='form-control' class='form-control' name='namaUser' size=30 value='<?php echo $data['namaUser']; ?>'></td></tr>
 			<tr><td>Jabatan User</td>
-				<td> <select class='form-control' name='levelUser'>
+				<td><select class='form-control' name='levelUser'>
 						<?php
 						while ($level=mysql_fetch_array($ambilLevelUser)) {
 							if ($level[idLevelUser] == $data[idLevelUser]) {
@@ -42,9 +42,9 @@ if ($_GET[module] == 'ganti_password') {
 						}
 						?>
 					</select></td></tr>
-			<tr><td>Username</td><td> <input type='text' class='form-control' class='form-control' name='uname' size=15 value='<?php echo $data['uname']; ?>'></td></tr>
-			<tr><td>Password</td><td> <input type='password' class='form-control' name='pass' size=15></td></tr>
-			<!-- <tr><td>Re-Password</td><td> <input type='password' class='form-control' name='repass' size=15></td></tr> -->
+			<tr><td>Username</td><td><input type='text' class='form-control' class='form-control' name='uname' size=15 value='<?php echo $data['uname']; ?>'></td></tr>
+			<tr><td>Password</td><td><input type='password' class='form-control' name='pass' size=15></td></tr>
+			<!-- <tr><td>Re-Password</td><td><input type='password' class='form-control' name='repass' size=15></td></tr> -->
 			<tr><td colspan=2>*) Apabila password tidak diubah, dikosongkan saja.</td></tr>
 			<tr><td colspan=2>&nbsp;</td></tr>
 			<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
@@ -98,17 +98,17 @@ if ($_GET[module] == 'ganti_password') {
 			echo "<h2>Tambah User</h2>
 		<form method='post' action='./aksi.php?module=user&act=input' name='tambahuser'>
 		<table>
-		<tr><td>Nama User</td><td> <input type='text' class='form-control' class='form-control' name='namaUser' size=30></td></tr>
+		<tr><td>Nama User</td><td><input type='text' class='form-control' class='form-control' name='namaUser' size=30></td></tr>
 		<tr><td>Jabatan User</td>
-				<td> <select class='form-control' name='levelUser'>
+				<td><select class='form-control' name='levelUser'>
 							<option value='0'>- Jabatan User-</option>";
 			while ($level=mysql_fetch_array($ambilLevelUser)) {
 				echo "<option value='$level[idLevelUser]'>$level[levelUser]</option>";
 			}
 			echo "</select></td></tr>
-		<tr><td>Username</td><td> <input type='text' class='form-control' class='form-control' name='uname' size=15></td></tr>
-		<tr><td>Password</td><td> <input type='password' class='form-control' name='pass' size=15></td></tr>
-		<!-- <tr><td>Re-Password</td><td> <input type='password' class='form-control' name='repass' size=15></td></tr> -->
+		<tr><td>Username</td><td><input type='text' class='form-control' class='form-control' name='uname' size=15></td></tr>
+		<tr><td>Password</td><td><input type='password' class='form-control' name='pass' size=15></td></tr>
+		<!-- <tr><td>Re-Password</td><td><input type='password' class='form-control' name='repass' size=15></td></tr> -->
 		<tr><td colspan=2>&nbsp;</td></tr>
 		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
 							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
@@ -123,9 +123,9 @@ if ($_GET[module] == 'ganti_password') {
 		<form method='post' action=./aksi.php?module=user&act=update name='edituser'>
 		<input type=hidden name='idUser' value='$data[idUser]'>
 		<table>
-		<tr><td>Nama User</td><td> <input type='text' class='form-control' class='form-control' name='namaUser' size=30 value='$data[namaUser]'></td></tr>
+		<tr><td>Nama User</td><td><input type='text' class='form-control' class='form-control' name='namaUser' size=30 value='$data[namaUser]'></td></tr>
 		<tr><td>Jabatan User</td>
-				<td> <select class='form-control' name='levelUser'>
+				<td><select class='form-control' name='levelUser'>
 							";
 			while ($level=mysql_fetch_array($ambilLevelUser)) {
 				if ($level[idLevelUser] == $data[idLevelUser]) {
@@ -135,9 +135,9 @@ if ($_GET[module] == 'ganti_password') {
 				}
 			}
 			echo "</select></td></tr>
-		<tr><td>Username</td><td> <input type='text' class='form-control' class='form-control' name='uname' size=15 value='$data[uname]'></td></tr>
-		<tr><td>Password</td><td> <input type='password' class='form-control' name='pass' size=15></td></tr>
-		<!-- <tr><td>Re-Password</td><td> <input type='password' class='form-control' name='repass' size=15></td></tr> -->
+		<tr><td>Username</td><td><input type='text' class='form-control' class='form-control' name='uname' size=15 value='$data[uname]'></td></tr>
+		<tr><td>Password</td><td><input type='password' class='form-control' name='pass' size=15></td></tr>
+		<!-- <tr><td>Re-Password</td><td><input type='password' class='form-control' name='repass' size=15></td></tr> -->
 		<tr><td colspan=2>*) Apabila password tidak diubah, dikosongkan saja.</td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
 		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;

@@ -120,15 +120,15 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<table>
 				<tr>
 					<td>(d) Dari Tanggal </td>
-					<td> <input type="text" class="form-control" class="tanggalan" name="DariTanggal" value="<?php echo date("d-m-Y 00:00:00"); ?>" accesskey='d'></td>
+					<td><input type="text" class="form-control" class="tanggalan" name="DariTanggal" value="<?php echo date("d-m-Y 00:00:00"); ?>" accesskey='d'></td>
 				</tr>
 				<tr>
 					<td>Sampai Tanggal </td>
-					<td> <input type="text" class="form-control" class="tanggalan" name="SampaiTanggal" value="<?php echo date("d-m-Y 23:59:59"); ?>"></td>
+					<td><input type="text" class="form-control" class="tanggalan" name="SampaiTanggal" value="<?php echo date("d-m-Y 23:59:59"); ?>"></td>
 				</tr>
 				<tr>
 					<td>Pilih Kasir </td>
-					<td> <select class='form-control' name='idKasir'>
+					<td><select class='form-control' name='idKasir'>
 							<option value='SEMUA' selected>SEMUA</option>";
 							<?php
 							while ($kasir=mysql_fetch_array($namaKasir)) :
@@ -265,15 +265,15 @@ switch ($_GET[act]) { //--------------------------------------------------------
 				<table>
 					<tr>
 						<td>(d) Dari Tanggal </td>
-						<td> <input type='text' class='form-control' class='form-control' class="tanggalan" name='DariTanggal' value='<?php echo date("d-m-Y 00:00"); ?>' accesskey='d'></td>
+						<td><input type='text' class='form-control' class='form-control' class="tanggalan" name='DariTanggal' value='<?php echo date("d-m-Y 00:00"); ?>' accesskey='d'></td>
 					</tr>
 					<tr>
 						<td>Sampai Tanggal </td>
-						<td> <input type='text' class='form-control' class='form-control' class="tanggalan" name='SampaiTanggal' value='<?php echo date("d-m-Y 23:59"); ?>'></td>
+						<td><input type='text' class='form-control' class='form-control' class="tanggalan" name='SampaiTanggal' value='<?php echo date("d-m-Y 23:59"); ?>'></td>
 					</tr>
 					<tr>
 						<td>Pilih Kasir </td>
-						<td> <select class='form-control' name='idKasir'> <option value='SEMUA' selected>SEMUA</option>
+						<td><select class='form-control' name='idKasir'> <option value='SEMUA' selected>SEMUA</option>
 								<?php
 								// ambil daftar nama kasir
 								// idLevelUser : 4=kasir
@@ -292,7 +292,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					</tr>
 					<tr>
 						<td>Pilih Jenis Diskon </td>
-						<td> <select class='form-control' name="tipeDiskon">
+						<td><select class='form-control' name="tipeDiskon">
 								<option value="SEMUA" selected>SEMUA</option>
 								<?php
 								$sql="select uid, nama, deskripsi from diskon_tipe order by uid";
@@ -582,7 +582,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<table>
 			<tr>
 			<td>Pilih Printer </td>
-			<td> <select class='form-control' name='namaPrinter'>";
+			<td><select class='form-control' name='namaPrinter'>";
 
 				while ($printer=mysql_fetch_array($hasil)) {
 					echo "<option value='$printer[printer_commands]'>$printer[namaWorkstation]</option>\n";
@@ -777,19 +777,19 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		<table>
 			<tr>
 			<td>Dari Tanggal </td>
-			<td> <input type='text' class='form-control' class='form-control' name=dari value='$tanggal'>
+			<td><input type='text' class='form-control' class='form-control' name=dari value='$tanggal'>
 			</td>
 		</tr>
 
 			<tr>
 			<td>Sampai Tanggal </td>
-			<td> <input type='text' class='form-control' class='form-control' name=sampai value='$tanggal'>
+			<td><input type='text' class='form-control' class='form-control' name=sampai value='$tanggal'>
 			</td>
 		</tr>
 
 			<tr>
 			<td>Kategori </td>
-			<td> 	<select class='form-control' name='kategori'>
+			<td>	<select class='form-control' name='kategori'>
 				<option value='0' selected>--pilih--</option>
 				<option value='SEMUA'>SEMUA</option>";
 				$hasil=mysql_query("SELECT idKategoriBarang, namaKategoriBarang FROM kategori_barang");
@@ -803,7 +803,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 			<tr>
 			<td>Rack </td>
-			<td> 	<select class='form-control' name='rak'>
+			<td>	<select class='form-control' name='rak'>
 				<option value='0' selected>--pilih--</option>
 				<option value='SEMUA'>SEMUA</option>";
 				$hasil=mysql_query("SELECT idRak, namaRak FROM rak");
@@ -817,13 +817,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 			<tr>
 			<td>Jumlah Item </td>
-			<td> <input type='text' class='form-control' class='form-control' name=jumlah value='200'>
+			<td><input type='text' class='form-control' class='form-control' name=jumlah value='200'>
 			</td>
 		</tr>
 
 			<tr>
 			<td>Sortir berdasarkan</td>
-			<td> 	<select class='form-control' name='sortir'>
+			<td>	<select class='form-control' name='sortir'>
 				<option value='jumlah' selected>jumlah</option>
 				<option value='omset' >		omset</option>
 				<option value='profit'>		profit</option>
@@ -971,19 +971,19 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		<table>
 			<tr>
 			<td>Dari Tanggal </td>
-			<td> <input type='text' class='form-control' class='form-control' name=dari value='$tanggal'>
+			<td><input type='text' class='form-control' class='form-control' name=dari value='$tanggal'>
 			</td>
 		</tr>
 
 			<tr>
 			<td>Sampai Tanggal </td>
-			<td> <input type='text' class='form-control' class='form-control' name=sampai value='$tanggal'>
+			<td><input type='text' class='form-control' class='form-control' name=sampai value='$tanggal'>
 			</td>
 		</tr>
 
 			<tr>
 			<td>Kategori </td>
-			<td> 	<select class='form-control' name='kategori'>
+			<td>	<select class='form-control' name='kategori'>
 				<option value='SEMUA' selected>SEMUA</option>";
 				$hasil=mysql_query("SELECT idKategoriBarang, namaKategoriBarang FROM kategori_barang");
 				while ($x=mysql_fetch_array($hasil)) {
@@ -996,13 +996,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 			<tr>
 			<td>Jumlah Item </td>
-			<td> <input type='text' class='form-control' class='form-control' name=jumlah value='200'>
+			<td><input type='text' class='form-control' class='form-control' name=jumlah value='200'>
 			</td>
 		</tr>
 
 			<tr>
 			<td>Sortir berdasarkan</td>
-			<td> 	<select class='form-control' name='sortir'>
+			<td>	<select class='form-control' name='sortir'>
 				<option value='avgSales' selected>	Average Daily Sales</option>
 				<option value='jmlStokIni' >		Jumlah Sisa Stok</option>
 				<option value='umurStok' >		Umur Stok</option>

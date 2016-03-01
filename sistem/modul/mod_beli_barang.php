@@ -464,15 +464,15 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					echo "<h2>Retur Nota No : $_GET[idnota]</h2>
 			<table>
 				<tr>
-					<td>Nama Supplier</td><td> </td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
-					<td>Alamat</td><td> </td><td>$dataBeli[alamatSupplier]</td>
+					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
+					<td>Alamat</td><td></td><td>$dataBeli[alamatSupplier]</td>
 				</tr>
 				<tr>
-					<td>Tgl Transaksi</td><td> </td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
-					<td>Nominal</td><td> </td><td>".uang($dataBeli[nominal])."</td>
+					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
+					<td>Nominal</td><td></td><td>".uang($dataBeli[nominal])."</td>
 				</tr>
 				<tr>
-					<td>Nomor Invoice</td><td> </td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
+					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
 					<td colspan=3 align=right>
 						<form method='post' action='aksi.php?module=inputreturbeli&act=inputtemp'>
 						<input type=hidden name=idNota value=$_GET[idnota]>
@@ -607,15 +607,15 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						echo "<h2>RETUR PEMBELIAN : Detail Nota No : $idNota</h2>
 			<table>
 				<tr>
-					<td>Nama Supplier</td><td> </td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
-					<td>Alamat</td><td> </td><td>$dataBeli[alamatSupplier]</td>
+					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
+					<td>Alamat</td><td></td><td>$dataBeli[alamatSupplier]</td>
 				</tr>
 				<tr>
-					<td>Tgl Transaksi</td><td> </td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
-					<td>Nominal</td><td> </td><td>".uang($dataBeli[nominal])."</td>
+					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
+					<td>Nominal</td><td></td><td>".uang($dataBeli[nominal])."</td>
 				</tr>
 				<tr>
-					<td>Nomor Invoice</td><td> </td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
+					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
 					<td colspan=3 align=right>&nbsp;
 					</td>
 				</tr>
@@ -688,24 +688,24 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					<table>
 						<tr>
 							<td>Nama Supplier</td>
-							<td> </td>
+							<td></td>
 							<td><?php echo $dataBeli['namaSupplier']; ?></td>
 							<td width=20>&nbsp;</td>
 							<td>Alamat</td>
-							<td> </td>
+							<td></td>
 							<td><?php echo $dataBeli['alamatSupplier']; ?></td>
 						</tr>
 						<tr>
 							<td>Tgl Transaksi</td>
-							<td> </td><td><?php echo tgl_indo($dataBeli['tglNota']); ?></td>
+							<td></td><td><?php echo tgl_indo($dataBeli['tglNota']); ?></td>
 							<td width=20>&nbsp;</td>
 							<td>Nominal</td>
-							<td> </td>
+							<td></td>
 							<td><?php echo uang($dataBeli['nominal']); ?></td>
 						</tr>
 						<tr>
 							<td>Nomor Invoice</td>
-							<td> </td>
+							<td></td>
 							<td><?php echo $dataBeli['NomorInvoice']; ?></td>
 							<td width=20>&nbsp;</td>
 							<td colspan=3 align=right>
@@ -788,15 +788,15 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					echo "<h2>Detail Nota No : $idNota</h2>
 			<table>
 				<tr>
-					<td>Nama Supplier</td><td> </td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
-					<td>Alamat</td><td> </td><td>$dataBeli[alamatSupplier]</td>
+					<td>Nama Supplier</td><td></td><td>$dataBeli[namaSupplier]</td><td width=20>&nbsp;</td>
+					<td>Alamat</td><td></td><td>$dataBeli[alamatSupplier]</td>
 				</tr>
 				<tr>
-					<td>Tgl Transaksi</td><td> </td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
-					<td>Nominal</td><td> </td><td>".uang($dataBeli[nominal])."</td>
+					<td>Tgl Transaksi</td><td></td><td>".tgl_indo($dataBeli[tglNota])."</td><td width=20>&nbsp;</td>
+					<td>Nominal</td><td></td><td>".uang($dataBeli[nominal])."</td>
 				</tr>
 				<tr>
-					<td>Nomor Invoice</td><td> </td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
+					<td>Nomor Invoice</td><td></td><td>$dataBeli[NomorInvoice]</td><td width=20>&nbsp;</td>
 					<td colspan=3 align=right>&nbsp;
 					</td>
 				</tr>
@@ -1034,28 +1034,28 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							<table>
 								<tr>
 									<td>Barcode</td>
-									<td> <input type="text" class="form-control" name="barcode" value="<?php echo $barang['barcode']; ?>" readonly="readonly" />
+									<td><input type="text" class="form-control" name="barcode" value="<?php echo $barang['barcode']; ?>" readonly="readonly" />
 										<input type="hidden" name="idBarang" value="<?php echo $barang['idBarang']; ?>" /></td>
 									<td><a name='#jumlah'> <u>J</u>umlah yang dibeli </a></td>
-									<td> <input type='text' class='form-control' class='form-control' name='jumBarang' id='jumBarang' tabindex=1 accesskey='j'/></td>
+									<td><input type='text' class='form-control' class='form-control' name='jumBarang' id='jumBarang' tabindex=1 accesskey='j'/></td>
 								</tr>
 								<tr>
 									<td>Nama Barang</td>
-									<td> <input type='text' class='form-control' class='form-control' name='namaBarang' value='<?php echo $barang['namaBarang']; ?>' readonly='readonly' /></td>
+									<td><input type='text' class='form-control' class='form-control' name='namaBarang' value='<?php echo $barang['namaBarang']; ?>' readonly='readonly' /></td>
 									<td>Subtotal (Rp)</td>
-									<td> <input type='text' class='form-control' class='form-control' name='subtotal' value='0' id='xsubtotal' tabindex=2 /></td>
+									<td><input type='text' class='form-control' class='form-control' name='subtotal' value='0' id='xsubtotal' tabindex=2 /></td>
 								</tr>
 								<tr>
 									<td>Diskon (%)</td>
-									<td> <input type='text' class='form-control' class='form-control' name='xDiskonPersen' value='<?php echo $_POST['xDiskonPersen']; ?>' id='xDiskonPersen' tabindex="3" /></td>
+									<td><input type='text' class='form-control' class='form-control' name='xDiskonPersen' value='<?php echo $_POST['xDiskonPersen']; ?>' id='xDiskonPersen' tabindex="3" /></td>
 									<td>PPN (%)</td>
-									<td> <input type='text' class='form-control' class='form-control' name='xppn' value='<?php echo $_POST['xppn']; ?>' id='xppn' tabindex=5 /></td>
+									<td><input type='text' class='form-control' class='form-control' name='xppn' value='<?php echo $_POST['xppn']; ?>' id='xppn' tabindex=5 /></td>
 								</tr>
 								<tr>
 									<td>Diskon (Rp)</td>
-									<td> <input type='text' class='form-control' class='form-control' name='xDiskonRupiah' value='0' id='xDiskonRupiah' tabindex="4"/></td>
+									<td><input type='text' class='form-control' class='form-control' name='xDiskonRupiah' value='0' id='xDiskonRupiah' tabindex="4"/></td>
 									<td>Profit (%)</td>
-									<td> <input type='text' class='form-control' class='form-control' name='persenprofit' value='<?php echo $_POST['persenprofit']; ?>' id='xPersenProfit' tabindex=6 /></td>
+									<td><input type='text' class='form-control' class='form-control' name='persenprofit' value='<?php echo $_POST['persenprofit']; ?>' id='xPersenProfit' tabindex=6 /></td>
 								</tr>
 								<tr>
 									<td colspan="4"><button style="float:right" onclick="RecalcHargaBarangLama();
@@ -1063,30 +1063,30 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								</tr>
 								<tr>
 									<td>Harga Beli Sekarang</td>
-									<td> <input type='text' class='form-control' class='form-control' name='hargaBeliLama' value='<?php echo $barang['hargaBeli']; ?>' readonly='readonly' /></td>
+									<td><input type='text' class='form-control' class='form-control' name='hargaBeliLama' value='<?php echo $barang['hargaBeli']; ?>' readonly='readonly' /></td>
 									<td>Harga Beli Barang</td>
-									<td> <input type='text' class='form-control' class='form-control' name='hargaBeliBaru' id='hargaBeliBaru' tabindex="8" value='<?php echo $barang['hargaBeli']; ?>' /></td>
+									<td><input type='text' class='form-control' class='form-control' name='hargaBeliBaru' id='hargaBeliBaru' tabindex="8" value='<?php echo $barang['hargaBeli']; ?>' /></td>
 								</tr>
 								<tr>
 									<td>Harga Jual Sekarang</td>
-									<td> <input type='text' class='form-control' class='form-control' name='hargaJualLama' value='<?php echo $barang['hargaJual']; ?>' readonly='readonly' /></td>
+									<td><input type='text' class='form-control' class='form-control' name='hargaJualLama' value='<?php echo $barang['hargaJual']; ?>' readonly='readonly' /></td>
 									<td>Harga Jual Barang</td>
-									<td> <input type='text' class='form-control' class='form-control' name='hargaJualBaru' id='hargaJualBaru' value='<?php echo $barang['hargaJual']; ?>' tabindex=9 /></td>
+									<td><input type='text' class='form-control' class='form-control' name='hargaJualBaru' id='hargaJualBaru' value='<?php echo $barang['hargaJual']; ?>' tabindex=9 /></td>
 								</tr>
 								<tr>
 									<td colspan=2>&nbsp</td>
 									<td>Tanggal Expire (yyyy-mm-dd)</td>
-									<td> <input type='text' class='form-control' class='form-control' name='tglExpire' size=10 tabindex=10 /></td>
+									<td><input type='text' class='form-control' class='form-control' name='tglExpire' size=10 tabindex=10 /></td>
 								</tr>
 								<tr>
 									<td>Harga Banded</td>
-									<td> <input type='text' class='form-control' class='form-control' name='hargaBanded' size=10 tabindex=11 id="hargaBanded" value="<?php echo isset($hargaBanded) ? $hargaBanded['qty'] * $hargaBanded['harga'] : ''; ?>"/></td>
+									<td><input type='text' class='form-control' class='form-control' name='hargaBanded' size=10 tabindex=11 id="hargaBanded" value="<?php echo isset($hargaBanded) ? $hargaBanded['qty'] * $hargaBanded['harga'] : ''; ?>"/></td>
 									<td>Harga Banded Satuan</td>
-									<td> <input type='text' class='form-control' class='form-control' name='hargaBandedSatuan' size=10 tabindex=13 id="hargaBandedSatuan" value="<?php echo $hargaBanded['harga'] ?>"/></td>
+									<td><input type='text' class='form-control' class='form-control' name='hargaBandedSatuan' size=10 tabindex=13 id="hargaBandedSatuan" value="<?php echo $hargaBanded['harga'] ?>"/></td>
 								</tr>
 								<tr>
 									<td>Qty Banded</td>
-									<td> <input type="text" class="form-control" name="qtyBanded" tabindex=12 id="qtyBanded" value="<?php echo $hargaBanded['qty']; ?>"/></td>
+									<td><input type="text" class="form-control" name="qtyBanded" tabindex=12 id="qtyBanded" value="<?php echo $hargaBanded['qty']; ?>"/></td>
 								</tr>
 								<tr>
 
@@ -1669,15 +1669,15 @@ switch ($_GET[act]) { // -------------------------------------------------------
 	<table>
 
 	<tr><td>Periode delivery Supplier </td>
-		<td> <input type='text' class='form-control' class='form-control' size=4 			name=periode value='".$x['interval']."'> hari</td>
+		<td><input type='text' class='form-control' class='form-control' size=4 			name=periode value='".$x['interval']."'> hari</td>
 	</tr>
 
 	<tr><td>Range analisa penjualan </td>
-		<td> <input type='text' class='form-control' class='form-control' size=4 			name=range value='30'> hari</td>
+		<td><input type='text' class='form-control' class='form-control' size=4 			name=range value='30'> hari</td>
 	</tr>
 
 	<tr><td>Jumlah pemesanan </td>
-		<td> untuk persediaan <input type='text' class='form-control' class='form-control' size=4 name=persediaan value='".$x['interval']."'> hari</td>
+		<td>untuk persediaan <input type='text' class='form-control' class='form-control' size=4 name=persediaan value='".$x['interval']."'> hari</td>
 	</tr>
 
 	</table>
@@ -1738,33 +1738,33 @@ switch ($_GET[act]) { // -------------------------------------------------------
 	<table>
 
 	<tr><td>Range analisa penjualan </td>
-		<td> <input type='text' class='form-control' class='form-control' size=4 			name=range value='30'> hari</td>
+		<td><input type='text' class='form-control' class='form-control' size=4 			name=range value='30'> hari</td>
 	</tr>
 
 	<tr><td>Buffer Stock </td>
-		<td> <input type='text' class='form-control' class='form-control' size=4 			name=buffer value='30'> %</td>
+		<td><input type='text' class='form-control' class='form-control' size=4 			name=buffer value='30'> %</td>
 	</tr>
 
 	<tr><td></td>
 		<td>Periode delivery Supplier </td>
-		<td> <input type='text' class='form-control' class='form-control' size=4 			name=periode 		id=periode		value='".$x['interval']."' readonly> hari</td>
+		<td><input type='text' class='form-control' class='form-control' size=4 			name=periode 		id=periode		value='".$x['interval']."' readonly> hari</td>
 	</tr>
 
 	<tr><td></td>
 		<td>Pesanan tiba di Gudang</td>
-		<td> <input type='text' class='form-control' class='form-control' size=4 			name=tibagudang 	id=tibagudang	value='2' onBlur='RecalcTotal(1)'> hari</td>
+		<td><input type='text' class='form-control' class='form-control' size=4 			name=tibagudang 	id=tibagudang	value='2' onBlur='RecalcTotal(1)'> hari</td>
 	</tr>
 
 	<tr><td></td>
 		<td>Pesanan tiba di Toko</td>
-		<td> <input type='text' class='form-control' class='form-control' size=4 			name=tibatoko 		id=tibatoko		value='3' onBlur='RecalcTotal(1)'> hari</td>
+		<td><input type='text' class='form-control' class='form-control' size=4 			name=tibatoko 		id=tibatoko		value='3' onBlur='RecalcTotal(1)'> hari</td>
 	</tr>
 
 
 
 	<tr><td>Jumlah pemesanan </td>
-		<td> untuk persediaan </td>
-		<td> <input type='text' class='form-control' class='form-control' size=4 			name=persediaan 	id=persediaan	value='".($x['interval'] + 2 + 3)."'> hari</td>
+		<td>untuk persediaan </td>
+		<td><input type='text' class='form-control' class='form-control' size=4 			name=persediaan 	id=persediaan	value='".($x['interval'] + 2 + 3)."'> hari</td>
 	</tr>
 
 	</table>
@@ -1836,13 +1836,13 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 						echo "
 				<table>
-					<tr><td>* <u>B</u>arcode</td><td> <input type='text' class='form-control' class='form-control' accesskey='b' name='barcode' id='barcode' size=30 value='$_GET[id]' tabindex=24 >
+					<tr><td>* <u>B</u>arcode</td><td><input type='text' class='form-control' class='form-control' accesskey='b' name='barcode' id='barcode' size=30 value='$_GET[id]' tabindex=24 >
 				</td></tr>
 
 
-					<tr><td>* Nama Barang</td><td> <input type='text' class='form-control' class='form-control' name='namaBarang' id='tambahbarang-namabarang' size=30 maxlength=30 tabindex=25></td></tr>
+					<tr><td>* Nama Barang</td><td><input type='text' class='form-control' class='form-control' name='namaBarang' id='tambahbarang-namabarang' size=30 maxlength=30 tabindex=25></td></tr>
 					<tr><td>* Supplier</td>
-							<td> <select class='form-control' name='supplier' tabindex=26>";
+							<td><select class='form-control' name='supplier' tabindex=26>";
 						while ($supplier=mysql_fetch_array($ambilSupplier)) {
 							if ($supplier[idSupplier] == $_SESSION[idSupplier]) {
 								echo "<option value='$supplier[idSupplier]'>$supplier[namaSupplier]</option>";
@@ -1850,7 +1850,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						}
 						echo "</select></td></tr>
 					<tr><td>* Kategori Barang</td>
-				<td> <select class='form-control' name='kategori_barang' tabindex=27>
+				<td><select class='form-control' name='kategori_barang' tabindex=27>
 								<option value='0'>- Kategori Barang-</option>";
 						while ($kategori=mysql_fetch_array($ambilKategoriBarang)) {
 							echo "<option value='$kategori[idKategoriBarang]'>$kategori[namaKategoriBarang]</option>";
@@ -1858,7 +1858,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						echo "</select></td></tr>
 
 				<tr><td>* Satuan Barang</td>
-						<td> <select class='form-control' name='satuan_barang' tabindex=28>
+						<td><select class='form-control' name='satuan_barang' tabindex=28>
 								<option value='0'>- Satuan Barang-</option>";
 						while ($satuan=mysql_fetch_array($ambilSatuanBarang)) {
 							echo "<option value='$satuan[idSatuanBarang]'>$satuan[namaSatuanBarang]</option>";
@@ -1866,7 +1866,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 						echo "</select></td></tr>
 
 								<tr><td>* Rak</td>
-								<td> <select class='form-control' name='rak' tabindex=29>
+								<td><select class='form-control' name='rak' tabindex=29>
 									<option value='0'>- Rak -</option>";
 						while ($rak=mysql_fetch_array($ambilRak)) {
 							echo "<option value='$rak[idRak]'>$rak[idRak] :: $rak[namaRak]</option>";
@@ -1875,27 +1875,27 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 
 
-			<tr background=#666666><td>Subtotal</td><td> <input type='text' class='form-control' class='form-control' name='subtotal' id='subtotal' value=0 tabindex=30 /></td></tr>
-			<tr background=#666666><td>* Jumlah Barang</td><td> <input type='text' class='form-control' class='form-control' name='jumBarang' id='tjumBarang' value=1 tabindex=31 /></td></tr>
-			<tr background=#666666><td>PPN </td><td> <input type='text' class='form-control' class='form-control' name='ppn' id='bppn' value='10' tabindex=32 /> %</td></tr>
-			<tr background=#666666><td>% Profit</td><td> <input type='text' class='form-control' class='form-control' value='0' name='PersenProfit' id='PersenProfit' tabindex=33 /></td></tr>
+			<tr background=#666666><td>Subtotal</td><td><input type='text' class='form-control' class='form-control' name='subtotal' id='subtotal' value=0 tabindex=30 /></td></tr>
+			<tr background=#666666><td>* Jumlah Barang</td><td><input type='text' class='form-control' class='form-control' name='jumBarang' id='tjumBarang' value=1 tabindex=31 /></td></tr>
+			<tr background=#666666><td>PPN </td><td><input type='text' class='form-control' class='form-control' name='ppn' id='bppn' value='10' tabindex=32 /> %</td></tr>
+			<tr background=#666666><td>% Profit</td><td><input type='text' class='form-control' class='form-control' value='0' name='PersenProfit' id='PersenProfit' tabindex=33 /></td></tr>
 
-			<tr><td>* Harga Beli Barang</td><td> <input type='text' class='form-control' class='form-control' name='hargaBeli' id='hargaBeli' value=0 tabindex=34 /> <a href='#' onclick=\"RecalcHargaBarangBaru();\" accesskey='h'> (h) <i><b>H</b></i>itung Harga</td></tr>
-			<tr><td>* Harga Jual Barang</td><td> <input type='text' class='form-control' class='form-control' name='hargaJual' id='hargaJual' value=0 tabindex=35 /></td></tr>
-			<tr><td>Tanggal Expire</td><td> <input type='text' class='form-control' class='form-control' name='tglExpire' size=10 tabindex=36 />(yyyy-mm-dd)</td></tr>
+			<tr><td>* Harga Beli Barang</td><td><input type='text' class='form-control' class='form-control' name='hargaBeli' id='hargaBeli' value=0 tabindex=34 /> <a href='#' onclick=\"RecalcHargaBarangBaru();\" accesskey='h'> (h) <i><b>H</b></i>itung Harga</td></tr>
+			<tr><td>* Harga Jual Barang</td><td><input type='text' class='form-control' class='form-control' name='hargaJual' id='hargaJual' value=0 tabindex=35 /></td></tr>
+			<tr><td>Tanggal Expire</td><td><input type='text' class='form-control' class='form-control' name='tglExpire' size=10 tabindex=36 />(yyyy-mm-dd)</td></tr>
 
 			<tr><td colspan=2>&nbsp;
 				<input type=hidden name=username value='$_SESSION[uname]'>
 			</td></tr>";
 			?>
 						<tr>
-							<td>Harga Banded</td><td> <input type="text" class="form-control" name="hargaBanded" id="tbHargaBanded" tabindex=37 /></td>
+							<td>Harga Banded</td><td><input type="text" class="form-control" name="hargaBanded" id="tbHargaBanded" tabindex=37 /></td>
 						</tr>
 						<tr>
-							<td>Qty Banded</td><td> <input type="text" class="form-control" name="qtyBanded" id="tbQtyBanded" tabindex=38 /></td>
+							<td>Qty Banded</td><td><input type="text" class="form-control" name="qtyBanded" id="tbQtyBanded" tabindex=38 /></td>
 						</tr>
 						<tr>
-							<td>Harga Banded Satuan</td><td> <input type="text" class="form-control" id="tbHargaBandedSatuan" name="hargaBandedSatuan" tabindex=39/></td>
+							<td>Harga Banded Satuan</td><td><input type="text" class="form-control" id="tbHargaBandedSatuan" name="hargaBandedSatuan" tabindex=39/></td>
 						</tr>
 
 				<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value='(s) Simpan' accesskey='s' tabindex=40>&nbsp;

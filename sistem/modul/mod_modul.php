@@ -61,12 +61,12 @@ case "tambahmodul":
 	echo "<h2>Tambah Modul</h2>
 		<form method='post' action='./aksi.php?module=modul&act=input'>
 		<table>
-		<tr><td>Nama Modul</td><td> <input type='text' class='form-control' class='form-control' name='namaModul' size=30></td></tr>
-		<tr><td>Link</td>	<td> <input type='text' class='form-control' class='form-control' name='link' size=30 value='?module='></td></tr>
-		<tr><td>Publish</td>	<td> <input type=radio name='publish' value='Y' checked>Y
+		<tr><td>Nama Modul</td><td><input type='text' class='form-control' class='form-control' name='namaModul' size=30></td></tr>
+		<tr><td>Link</td>	<td><input type='text' class='form-control' class='form-control' name='link' size=30 value='?module='></td></tr>
+		<tr><td>Publish</td>	<td><input type=radio name='publish' value='Y' checked>Y
 										<input type=radio name='publish' value='N'>N </td></tr>
 		<tr><td>Pejabat</td>
-				<td> <select class='form-control' name='levelUser'>
+				<td><select class='form-control' name='levelUser'>
 							<option value='0'>- Jabatan User-</option>";
 							while($level=mysql_fetch_array($ambilLevelUser)){
 								echo "<option value='$level[idLevelUser]'>$level[levelUser]</option>";
@@ -86,18 +86,18 @@ case "editmodul":
 		<form method='post' action=./aksi.php?module=modul&act=update>
 		<input type=hidden name='idModul' value='$data[idModul]'>
 		<table>
-		<tr><td>Nama Modul</td>	<td> <input type='text' class='form-control' class='form-control' name='namaModul' value='$data[namaModul]'></td></tr>
-		<tr><td>Link</td>	<td> <input type='text' class='form-control' class='form-control' name='link' size=30 value='$data[link]'></td></tr>";
+		<tr><td>Nama Modul</td>	<td><input type='text' class='form-control' class='form-control' name='namaModul' value='$data[namaModul]'></td></tr>
+		<tr><td>Link</td>	<td><input type='text' class='form-control' class='form-control' name='link' size=30 value='$data[link]'></td></tr>";
 	if ($data[publish]=='Y'){
-	echo "<tr><td>Publish</td><td> <input type=radio name='publish' value='Y' checked>Y
+	echo "<tr><td>Publish</td><td><input type=radio name='publish' value='Y' checked>Y
 										<input type=radio name='publish' value='N'> N</td></tr>";
 	}
 	else{
-	echo "<tr><td>Publish</td><td> <input type=radio name='publish' value='Y'>Y
+	echo "<tr><td>Publish</td><td><input type=radio name='publish' value='Y'>Y
 										<input type=radio name='publish' value='N' checked>N</td></tr>";
 	}
 	echo "<tr><td>Jabatan User</td>
-				<td> <select class='form-control' name='levelUser'>
+				<td><select class='form-control' name='levelUser'>
 							";
 							while($level=mysql_fetch_array($ambilLevelUser)){
 								if($level[idLevelUser] == $data[idLevelUser]){

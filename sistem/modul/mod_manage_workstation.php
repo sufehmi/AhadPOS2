@@ -100,17 +100,17 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 			echo "<h2>Tambah Workstation</h2>
 		<form method='post' action='./aksi.php?module=workstation&act=input' name='tambahwks'>
 		<table>
-		<tr><td>Nama Workstation</td><td> <input type='text' class='form-control' class='form-control' name='namaWorkstation' size=30></td></tr>
-		<tr><td>Keterangan</td><td> <input type='text' class='form-control' class='form-control' name='keterangan' size=30></td></tr>
-		<tr><td>IP address</td><td> <input type='text' class='form-control' class='form-control' name='workstation_address' id='workstation_address' size=30 value='10.1.1.1'></td></tr>
+		<tr><td>Nama Workstation</td><td><input type='text' class='form-control' class='form-control' name='namaWorkstation' size=30></td></tr>
+		<tr><td>Keterangan</td><td><input type='text' class='form-control' class='form-control' name='keterangan' size=30></td></tr>
+		<tr><td>IP address</td><td><input type='text' class='form-control' class='form-control' name='workstation_address' id='workstation_address' size=30 value='10.1.1.1'></td></tr>
 
-	<tr><td>Jenis Printer</td><td> <select class='form-control' name='printer_type' id='printer_type' onBlur='CalculatePrinterCommands()'>
+	<tr><td>Jenis Printer</td><td><select class='form-control' name='printer_type' id='printer_type' onBlur='CalculatePrinterCommands()'>
 		<option value='pdf' selected>PDF : paling kompatibel</option>
 		<option value='rlpr'>Remote LPR : khusus untuk komputer Unix / Linux</option>
 		</select>
 	</td></tr>
 
-		<tr><td>Printer Commands<br />(auto-generated)</td><td> <input type='text' class='form-control' class='form-control' name='printer_commands' id='printer_commands' size=30 readonly></td></tr>
+		<tr><td>Printer Commands<br />(auto-generated)</td><td><input type='text' class='form-control' class='form-control' name='printer_commands' id='printer_commands' size=30 readonly></td></tr>
 	";
 
 			echo "
@@ -132,17 +132,17 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 		<input type=hidden name='idWorkstation' value='$data[idWorkstation]'>
 
 		<table>
-		<tr><td>Nama Workstation</td><td> <input type='text' class='form-control' class='form-control' name='namaWorkstation' value='$data[namaWorkstation]' size=30></td></tr>
-		<tr><td>Keterangan</td><td> <input type='text' class='form-control' class='form-control' name='keterangan' value='$data[keterangan]' size=30></td></tr>
-		<tr><td>IP address</td><td> <input type='text' class='form-control' class='form-control' name='workstation_address' id='workstation_address' value='$data[workstation_address]'size=30 value='10.1.1.1'></td></tr>
+		<tr><td>Nama Workstation</td><td><input type='text' class='form-control' class='form-control' name='namaWorkstation' value='$data[namaWorkstation]' size=30></td></tr>
+		<tr><td>Keterangan</td><td><input type='text' class='form-control' class='form-control' name='keterangan' value='$data[keterangan]' size=30></td></tr>
+		<tr><td>IP address</td><td><input type='text' class='form-control' class='form-control' name='workstation_address' id='workstation_address' value='$data[workstation_address]'size=30 value='10.1.1.1'></td></tr>
 
-	<tr><td>Jenis Printer</td><td> <select class='form-control' name='printer_type' id='printer_type' onBlur='CalculatePrinterCommands()'>
+	<tr><td>Jenis Printer</td><td><select class='form-control' name='printer_type' id='printer_type' onBlur='CalculatePrinterCommands()'>
 		<option value='pdf' selected>PDF : paling kompatibel</option>
 		<option value='rlpr'>Remote LPR : khusus untuk komputer Unix / Linux</option>
 		</select>
 	</td></tr>
 
-		<tr><td>Printer Commands<br />(auto-generated)</td><td> <input type='text' class='form-control' class='form-control' name='printer_commands' id='printer_commands' value='$data[printer_commands]' size=30 readonly></td></tr>
+		<tr><td>Printer Commands<br />(auto-generated)</td><td><input type='text' class='form-control' class='form-control' name='printer_commands' id='printer_commands' value='$data[printer_commands]' size=30 readonly></td></tr>
 	";
 
 			echo "

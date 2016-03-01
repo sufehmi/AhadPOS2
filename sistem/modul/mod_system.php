@@ -28,27 +28,27 @@ switch ($act) {
 				<tbody>
 					<tr>
 						<td><?php echo $config['store_name']['description']; ?></td>
-						<td> <input type="text" class="form-control" name="config[store_name]" size="40" value="<?php echo $config['store_name']['value']; ?>"></td>
+						<td><input type="text" class="form-control" name="config[store_name]" size="40" value="<?php echo $config['store_name']['value']; ?>"></td>
 					</tr>
 					<tr>
 						<td><?php echo $config['receipt_header1']['description']; ?></td>
-						<td> <input type="text" class="form-control" name="config[receipt_header1]" size="40" value="<?php echo $config['receipt_header1']['value']; ?>"></td>
+						<td><input type="text" class="form-control" name="config[receipt_header1]" size="40" value="<?php echo $config['receipt_header1']['value']; ?>"></td>
 					</tr>
 					<tr>
 						<td><?php echo $config['receipt_footer1']['description']; ?></td>
-						<td> <input type="text" class="form-control" name="config[receipt_footer1]" size="40" value="<?php echo $config['receipt_footer1']['value']; ?>"></td>
+						<td><input type="text" class="form-control" name="config[receipt_footer1]" size="40" value="<?php echo $config['receipt_footer1']['value']; ?>"></td>
 					</tr>
 					<tr>
 						<td><?php echo $config['receipt_footer2']['description']; ?></td>
-						<td> <input type="text" class="form-control" name="config[receipt_footer2]" size="40" value="<?php echo $config['receipt_footer2']['value']; ?>"></td>
+						<td><input type="text" class="form-control" name="config[receipt_footer2]" size="40" value="<?php echo $config['receipt_footer2']['value']; ?>"></td>
 					</tr>
 					<tr>
 						<td><?php echo $config['temporary_space']['description']; ?></td>
-						<td> <input type="text" class="form-control" name="temporary_space" size="40" value="<?php echo $config['temporary_space']['value']; ?>" disabled="disabled"></td>
+						<td><input type="text" class="form-control" name="temporary_space" size="40" value="<?php echo $config['temporary_space']['value']; ?>" disabled="disabled"></td>
 					</tr>
 					<tr>
 						<td><?php echo $config['version']['description']; ?></td>
-						<td> <input type="text" class="form-control" name="version" size="40" value="<?php
+						<td><input type="text" class="form-control" name="version" size="40" value="<?php
 							$first=true;
 							foreach (unserialize($config['version']['value']) as $ver) {
 								echo $first ? '' : '.';

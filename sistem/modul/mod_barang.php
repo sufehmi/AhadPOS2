@@ -270,7 +270,7 @@ switch ($_GET['act']) {
 		<table>
 			<tr>
 			<td>Pilih Printer </td>
-			<td> <select class='form-control' name='namaPrinter'>";
+			<td><select class='form-control' name='namaPrinter'>";
 
 		while ($printer=mysql_fetch_array($hasil)) {
 			echo "<option value='$printer[printer_commands]'>$printer[namaWorkstation]</option>\n";
@@ -295,24 +295,24 @@ switch ($_GET['act']) {
 		echo "<h2>Tambah Barang</h2>
 		<form method='post' action='./aksi.php?module=barang&act=input' name='tambahbarang'>
 		<table>
-		<tr><td>Barcode</td><td> <input type='text' class='form-control' class='form-control' name='barcode' size=30 value=$_GET[id]></td></tr>
-		<tr><td>Nama Barang</td><td> <input type='text' class='form-control' class='form-control' name='namaBarang' size=30></td></tr>
+		<tr><td>Barcode</td><td><input type='text' class='form-control' class='form-control' name='barcode' size=30 value=$_GET[id]></td></tr>
+		<tr><td>Nama Barang</td><td><input type='text' class='form-control' class='form-control' name='namaBarang' size=30></td></tr>
 		<tr><td>Supplier</td>
-				<td> <select class='form-control' name='supplier'>
+				<td><select class='form-control' name='supplier'>
 							<option value='0'>- Supplier -</option>";
 		while ($supplier=mysql_fetch_array($ambilSupplier)) {
 			echo "<option value='$supplier[idSupplier]'>$supplier[namaSupplier]</option>";
 		}
 		echo "</select></td></tr>
 		<tr><td>Kategori Barang</td>
-				<td> <select class='form-control' name='kategori_barang'>
+				<td><select class='form-control' name='kategori_barang'>
 							<option value='0'>- Kategori Barang-</option>";
 		while ($kategori=mysql_fetch_array($ambilKategoriBarang)) {
 			echo "<option value='$kategori[idKategoriBarang]'>$kategori[namaKategoriBarang]</option>";
 		}
 		echo "</select></td></tr>
 		<tr><td>Satuan Barang</td>
-				<td> <select class='form-control' name='satuan_barang'>
+				<td><select class='form-control' name='satuan_barang'>
 							<option value='0'>- Satuan Barang-</option>";
 		while ($satuan=mysql_fetch_array($ambilSatuanBarang)) {
 			echo "<option value='$satuan[idSatuanBarang]'>$satuan[namaSatuanBarang]</option>";
@@ -336,7 +336,7 @@ switch ($_GET['act']) {
 
 		<table>
 		<tr><td>(r) Pilih Rak ? </td>
-				<td> <select class='form-control' name='rak' accesskey='r'>
+				<td><select class='form-control' name='rak' accesskey='r'>
 			<option value='0'>-- Tidak Usah --</option>";
 
 		while ($rak=mysql_fetch_array($ambilRak)) {
@@ -344,8 +344,8 @@ switch ($_GET['act']) {
 		}
 		echo "</select></td></tr>
 
-		<tr><td>(b) Barcode</td><td> <input class='form-control' accesskey='b' type='text' name='barcode' size=30 value='0'></td></tr>
-		<tr><td>(n) Nama Barang</td><td> <input accesskey='n' type='text' name='namaBarang' size=30 value=''></td></tr>
+		<tr><td>(b) Barcode</td><td><input class='form-control' accesskey='b' type='text' name='barcode' size=30 value='0'></td></tr>
+		<tr><td>(n) Nama Barang</td><td><input accesskey='n' type='text' name='namaBarang' size=30 value=''></td></tr>
 		<tr><td><input type='submit' class='btn btn-default' accesskey='c' value='(c) Cari Barang'></td></tr>
 
 		</table></form>";
@@ -430,14 +430,14 @@ switch ($_GET['act']) {
 
 		<table>
 		<tr><td>(s) Supplier</td>
-				<td> <select class='form-control' name='supplier' accesskey='s'>
+				<td><select class='form-control' name='supplier' accesskey='s'>
 			<option value='0'>-- Pilih Supplier --</option>";
 		while ($supplier=mysql_fetch_array($ambilSupplier)) {
 			echo "<option value='$supplier[idSupplier]'>$supplier[namaSupplier]</option>";
 		}
 		echo "</select></td></tr>
 		<tr><td>(r) Rak</td>
-				<td> <select class='form-control' name='rak' accesskey='r'>
+				<td><select class='form-control' name='rak' accesskey='r'>
 			<option value='0'>-- Pilih Rak --</option>";
 		while ($rak=mysql_fetch_array($ambilRak)) {
 			echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
@@ -831,7 +831,7 @@ switch ($_GET['act']) {
 
 		<table>
 		<tr><td>(r) Rak</td>
-				<td> <select class='form-control' name='rak' accesskey='r'>
+				<td><select class='form-control' name='rak' accesskey='r'>
 			<option value='0'>-- Pilih Rak --</option>";
 		while ($rak=mysql_fetch_array($ambilRak)) {
 			if ($rak[idRak] == $_POST[rak]) {
@@ -842,7 +842,7 @@ switch ($_GET['act']) {
 			}
 		}
 		echo "</select></td></tr>
-		<tr><td>(b) Barcode</td><td> <input type='text' class='form-control' class='form-control' name='barcode' id='barcode' accesskey='b' size=30 value=''>	</td></tr>
+		<tr><td>(b) Barcode</td><td><input type='text' class='form-control' class='form-control' name='barcode' id='barcode' accesskey='b' size=30 value=''>	</td></tr>
 	</table>
 	<input type='submit' class='btn btn-default' accesskey='i' name='masuk' value='(i) Input'></td></tr>
 
@@ -869,7 +869,7 @@ switch ($_GET['act']) {
 		<table>
 
 		<tr><td>(r) Rak</td>
-				<td> <select class='form-control' name='rak' accesskey='r'>
+				<td><select class='form-control' name='rak' accesskey='r'>
 			<option value='0'>-- Pilih Rak --</option>";
 		while ($rak=mysql_fetch_array($ambilRak)) {
 			echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
@@ -949,7 +949,7 @@ switch ($_GET['act']) {
 		<table>
 
 		<tr><td>(r) Rak</td>
-				<td> <select class='form-control' name='rak' accesskey='r'>
+				<td><select class='form-control' name='rak' accesskey='r'>
 			<option value='0'>-- Pilih Rak --</option>";
 		while ($rak=mysql_fetch_array($ambilRak)) {
 			echo "<option value='$rak[idRak]'>$rak[namaRak]</option>";
@@ -1084,10 +1084,10 @@ switch ($_GET['act']) {
 		<form method='post' action=./aksi.php?module=barang&act=update name='editbarang'>
 			<input type=hidden name='idBarang' value='<?php echo $data['idBarang']; ?>'>
 			<table>
-				<tr><td>Barcode</td><td> <input type="text" class="form-control" name='barcode' size=30 value='<?php echo $data['barcode']; ?>' /></td></tr>
-				<tr><td>Nama Barang</td><td> <input type="text" class="form-control" name='namaBarang' size=30 value='<?php echo $data['namaBarang']; ?>' /></td><td style="color:red"><?php echo isset($_GET['barang']) ? 'Nama barang sudah diperbarui' : '' ?></td></tr>
+				<tr><td>Barcode</td><td><input type="text" class="form-control" name='barcode' size=30 value='<?php echo $data['barcode']; ?>' /></td></tr>
+				<tr><td>Nama Barang</td><td><input type="text" class="form-control" name='namaBarang' size=30 value='<?php echo $data['namaBarang']; ?>' /></td><td style="color:red"><?php echo isset($_GET['barang']) ? 'Nama barang sudah diperbarui' : '' ?></td></tr>
 				<tr><td>Kategori Barang</td>
-					<td> <select class='form-control' name='kategori_barang'>
+					<td><select class='form-control' name='kategori_barang'>
 							<?php
 							while ($kategori=mysql_fetch_array($ambilKategoriBarang)) {
 								if ($kategori[idKategoriBarang] == $data[idKategoriBarang]) {
@@ -1103,7 +1103,7 @@ switch ($_GET['act']) {
 					<td style="color:red"><?php echo isset($_GET['kategori']) ? 'Kategori sudah diperbarui' : '' ?></td>
 				</tr>
 				<tr><td>Satuan Barang</td>
-					<td> <select class='form-control' name='satuan_barang'>
+					<td><select class='form-control' name='satuan_barang'>
 							<?php
 							while ($satuan=mysql_fetch_array($ambilSatuanBarang)) {
 								if ($satuan[idSatuanBarang] == $data[idSatuanBarang]) {
@@ -1119,7 +1119,7 @@ switch ($_GET['act']) {
 					<td style="color:red"><?php echo isset($_GET['satuan']) ? 'Satuan sudah diperbarui' : '' ?></td>
 				</tr>
 				<tr><td>Supplier</td>
-					<td> <select class='form-control' name='supplier'>
+					<td><select class='form-control' name='supplier'>
 							<?php
 							while ($supplier=mysql_fetch_array($ambilSupplier)) {
 								if ($supplier[idSupplier] == $data[idSupplier]) {
@@ -1135,7 +1135,7 @@ switch ($_GET['act']) {
 					<td style="color:red"><?php echo isset($_GET['supplier']) ? 'Supplier sudah diperbarui' : '' ?></td>
 				</tr>
 				<tr><td>Rak</td>
-					<td> <select class='form-control' name='rak'>
+					<td><select class='form-control' name='rak'>
 							<?php
 							while ($rak=mysql_fetch_array($ambilRak)) {
 								if ($rak[idRak] == $data[idRak]) {
@@ -1152,7 +1152,7 @@ switch ($_GET['act']) {
 				</tr>
 				<tr>
 					<td>Harga Jual</td>
-					<td> <input type='text' class='form-control' class='form-control' name='hargaJual' size=20 value='<?php echo $data['hargaJual']; ?>'></td>
+					<td><input type='text' class='form-control' class='form-control' name='hargaJual' size=20 value='<?php echo $data['hargaJual']; ?>'></td>
 					<td style="color:red"><?php echo isset($_GET['hargajual']) ? 'Harga jual sudah diperbarui' : '' ?></td>
 				</tr>
 				<tr>
@@ -1173,7 +1173,7 @@ switch ($_GET['act']) {
 				?>
 				<tr>
 					<td>Harga Banded</td>
-					<td> <a href="media.php?module=barang&act=hargabanded2&barcode=<?php echo $data['barcode']; ?>"><?php echo $hargaBanded ? "{$totalBanded} / {$hargaBanded['qty']}={$hargaBandedSatuan}" : 'Belum ada, klik untuk input'; ?></a></td>
+					<td><a href="media.php?module=barang&act=hargabanded2&barcode=<?php echo $data['barcode']; ?>"><?php echo $hargaBanded ? "{$totalBanded} / {$hargaBanded['qty']}={$hargaBandedSatuan}" : 'Belum ada, klik untuk input'; ?></a></td>
 				</tr>
 				<tr><td colspan=2>&nbsp;</td></tr>
 				<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=(S)impan accesskey=s>&nbsp;
@@ -1238,11 +1238,11 @@ switch ($_GET['act']) {
 	<table>
 	<tr>
 		<td>(d) Dari Rak</td>
-		<td> <input type='text' class='form-control' class='form-control' name=darirak value=1 accesskey='d' size=4></td>
+		<td><input type='text' class='form-control' class='form-control' name=darirak value=1 accesskey='d' size=4></td>
 	</tr>
 	<tr>
 		<td>Sampai Rak</td>
-		<td> <input type='text' class='form-control' class='form-control' name=sampairak value=$jumlah_rak size=4></td>
+		<td><input type='text' class='form-control' class='form-control' name=sampairak value=$jumlah_rak size=4></td>
 	</tr>
 		<td>(p) Cetak ke </td>
 				<td><select class='form-control' name='printer' accesskey='p'>
@@ -1783,7 +1783,7 @@ switch ($_GET['act']) {
 			<table>
 				<tr>
 					<td>(r) Rak</td>
-					<td> <select class='form-control' name="rak" accesskey="r">
+					<td><select class='form-control' name="rak" accesskey="r">
 							<option value="0">-- Pilih Rak --</option>
 							<?php
 							while ($rak=mysql_fetch_array($ambilRak)) {

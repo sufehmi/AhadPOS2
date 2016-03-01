@@ -61,10 +61,10 @@ switch ($_GET[act]) {
 		echo "<h2>Tambah Supplier</h2>
 		<form method='post' action='./aksi.php?module=supplier&act=input' name='tambahsupplier'>
 		<table>		
-		<tr><td>Nama Supplier</td><td> <input type='text' class='form-control' class='form-control' name='namaSupplier' size=40></td></tr>
-		<tr><td>Alamat Supplier</td><td> <textarea name='alamatSupplier' rows='2' cols='35'></textarea></td></tr>
-		<tr><td>Telp Supplier</td><td> <input type='text' class='form-control' class='form-control' name='telpSupplier' size=15></td></tr>
-		<tr><td>Keterangan</td><td> <textarea name='Keterangan' rows='4' cols='35'></textarea></td></tr>
+		<tr><td>Nama Supplier</td><td><input type='text' class='form-control' class='form-control' name='namaSupplier' size=40></td></tr>
+		<tr><td>Alamat Supplier</td><td><textarea name='alamatSupplier' rows='2' cols='35'></textarea></td></tr>
+		<tr><td>Telp Supplier</td><td><input type='text' class='form-control' class='form-control' name='telpSupplier' size=15></td></tr>
+		<tr><td>Keterangan</td><td><textarea name='Keterangan' rows='4' cols='35'></textarea></td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
 		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
 							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
@@ -79,11 +79,11 @@ switch ($_GET[act]) {
 		<form method='post' action=./aksi.php?module=supplier&act=update name='editsupplier'>
 		<input type=hidden name='idSupplier' value='$data[idSupplier]'>
 		<table>
-		<tr><td>Nama Supplier</td><td> <input type='text' class='form-control' class='form-control' name='namaSupplier' size=40 value='$data[namaSupplier]'></td></tr>
-		<tr><td>Interval</td><td> <input type='text' class='form-control' class='form-control' name='interval' size=5 value='$data[interval]'> hari<br />(selang waktu / periode kunjungan)</td></tr>
-		<tr><td>Alamat Supplier</td><td> <textarea name='alamatSupplier' rows='2' cols='35'>$data[alamatSupplier]</textarea></td></tr>
-		<tr><td>Telp Supplier</td><td> <input type='text' class='form-control' class='form-control' name='telpSupplier' size=15 value='$data[telpSupplier]'></td></tr>
-		<tr><td>Keterangan</td><td> <textarea name='Keterangan' rows='4' cols='35'>$data[Keterangan]</textarea></td></tr>
+		<tr><td>Nama Supplier</td><td><input type='text' class='form-control' class='form-control' name='namaSupplier' size=40 value='$data[namaSupplier]'></td></tr>
+		<tr><td>Interval</td><td><input type='text' class='form-control' class='form-control' name='interval' size=5 value='$data[interval]'> hari<br />(selang waktu / periode kunjungan)</td></tr>
+		<tr><td>Alamat Supplier</td><td><textarea name='alamatSupplier' rows='2' cols='35'>$data[alamatSupplier]</textarea></td></tr>
+		<tr><td>Telp Supplier</td><td><input type='text' class='form-control' class='form-control' name='telpSupplier' size=15 value='$data[telpSupplier]'></td></tr>
+		<tr><td>Keterangan</td><td><textarea name='Keterangan' rows='4' cols='35'>$data[Keterangan]</textarea></td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
 		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
 							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>

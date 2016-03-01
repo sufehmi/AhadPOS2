@@ -45,7 +45,7 @@ $caller=$_GET[caller];
 	<table>
 	<tr>
 
-	//echo "<td>Barcode</td><td> <select class='form-control' name='barcode' id='barcode1'>";
+	//echo "<td>Barcode</td><td><select class='form-control' name='barcode' id='barcode1'>";
 	// ambil daftar barang
 	//$sql="SELECT namaBarang,barcode,hargaJual
 	//	FROM barang FORCE INDEX (barcode) ORDER BY barcode ASC";

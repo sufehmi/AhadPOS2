@@ -112,11 +112,11 @@ switch ($_GET[act]) { //--------------------------------------------------------
 	<table>
 		<tr>
 		<td>Tanggal / Waktu </td>
-		<td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='tglBukaKasir' value='" . date("Y-m-d H:i:s") . "'></td>
+		<td><input type='text' class='form-control' class='form-control' readonly='readonly' name='tglBukaKasir' value='" . date("Y-m-d H:i:s") . "'></td>
 	</tr>
 		<tr>
 		<td>(k) Pilih Kasir </td>
-		<td> <select class='form-control' name='idKasir' accesskey='k'>";
+		<td><select class='form-control' name='idKasir' accesskey='k'>";
 		while ($kasir=mysql_fetch_array($namaKasir)) {
 			echo "<option value='$kasir[idUser]'>$kasir[namaUser]</option>\n";
 		}
@@ -126,7 +126,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 	</tr>
 		<tr>
 		<td>Pilih Workstation </td>
-		<td> <select class='form-control' name='idWorkstation'>";
+		<td><select class='form-control' name='idWorkstation'>";
 		while ($wks=mysql_fetch_array($namaWorkstation)) {
 			echo "<option value='$wks[idWorkstation]'>$wks[namaWorkstation]</option>\n";
 		}
@@ -134,7 +134,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		echo "
 		</td>
 	</tr>
-		<tr><td>Uang Kasir</td><td> <input type='text' class='form-control' class='form-control' name=kasAwal></td></tr>
+		<tr><td>Uang Kasir</td><td><input type='text' class='form-control' class='form-control' name=kasAwal></td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
 		<tr><td colspan=2><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
 								<input type='reset' class='btn btn-default' value='Batal'></td></tr>
@@ -163,7 +163,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 	<table>
 		<tr>
 		<td>(k) Pilih Kasir </td>
-		<td> <select class='form-control' name='idKasir' accesskey='k'>";
+		<td><select class='form-control' name='idKasir' accesskey='k'>";
 		while ($kasir=mysql_fetch_array($namaKasir)) {
 			echo "<option value='$kasir[idUser]'>$kasir[namaUser]</option>\n";
 		}
@@ -238,15 +238,15 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 	<table>
 	<tr>	<td>Tanggal / Waktu </td>
-		<td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='tglTutupKasir' value='" . date("Y-m-d H:i:s") . "'></td></tr>
-	<tr><td>Kas Awal</td><td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='kasAwal' value='$kasAwal'></td><tr>
-		<tr><td>Total Transaksi</td><td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='totalTransaksi' value='$totalTransaksi'></td><tr>
-		<tr><td>Total Profit</td><td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='totalProfit' value='$totalProfit'></td><tr>
-		<tr><td>Total Retur</td><td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='totalRetur' value='$totalRetur'></td><tr>
-		<tr><td>Total Transaksi Kas</td><td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='totalTransaksiKas' value='$totalTransaksiKas'></td><tr>
-		<tr><td>Total Transaksi Kartu Kredit/Debit</td><td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='totalTransaksiKartu' value='$totalTransaksiKartu'></td><tr>
-		<tr><td>Uang Seharusnya</td><td> <input type='text' class='form-control' class='form-control' readonly='readonly' name='kasSeharusnya' value='$kasSeharusnya'></td><tr>
-		<tr><td>Uang Kasir</td><td> <input type='text' class='form-control' class='form-control' name=kasAkhir></td><tr>
+		<td><input type='text' class='form-control' class='form-control' readonly='readonly' name='tglTutupKasir' value='" . date("Y-m-d H:i:s") . "'></td></tr>
+	<tr><td>Kas Awal</td><td><input type='text' class='form-control' class='form-control' readonly='readonly' name='kasAwal' value='$kasAwal'></td><tr>
+		<tr><td>Total Transaksi</td><td><input type='text' class='form-control' class='form-control' readonly='readonly' name='totalTransaksi' value='$totalTransaksi'></td><tr>
+		<tr><td>Total Profit</td><td><input type='text' class='form-control' class='form-control' readonly='readonly' name='totalProfit' value='$totalProfit'></td><tr>
+		<tr><td>Total Retur</td><td><input type='text' class='form-control' class='form-control' readonly='readonly' name='totalRetur' value='$totalRetur'></td><tr>
+		<tr><td>Total Transaksi Kas</td><td><input type='text' class='form-control' class='form-control' readonly='readonly' name='totalTransaksiKas' value='$totalTransaksiKas'></td><tr>
+		<tr><td>Total Transaksi Kartu Kredit/Debit</td><td><input type='text' class='form-control' class='form-control' readonly='readonly' name='totalTransaksiKartu' value='$totalTransaksiKartu'></td><tr>
+		<tr><td>Uang Seharusnya</td><td><input type='text' class='form-control' class='form-control' readonly='readonly' name='kasSeharusnya' value='$kasSeharusnya'></td><tr>
+		<tr><td>Uang Kasir</td><td><input type='text' class='form-control' class='form-control' name=kasAkhir></td><tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
 		<tr><td colspan=2><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
 								<input type='reset' class='btn btn-default' value='Batal'></td></tr>
@@ -300,7 +300,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 			<form method='post' action='./aksi.php?module=rak&act=update' name='editrak'>
 			<input type=hidden name='idRak' value='$data[idRak]'>
 			<table>
-				<tr><td>Edit Rak</td><td> <input type='text' class='form-control' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
+				<tr><td>Edit Rak</td><td><input type='text' class='form-control' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
 				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
 								<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 			</table>

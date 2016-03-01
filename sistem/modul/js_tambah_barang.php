@@ -58,25 +58,25 @@ require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
 	echo "			<form method='post' action='?module=pembelian_barang&act=carisupplier&action=tambah'>
 				<table>
 					<tr>
-						<td>Barcode</td><td> <input type='text' class='form-control' class='form-control' name='barcode' value='$_POST[barcode]' readonly='readonly' />
+						<td>Barcode</td><td><input type='text' class='form-control' class='form-control' name='barcode' value='$_POST[barcode]' readonly='readonly' />
 				<input type=hidden name='idBarang' value=".$idBarang." /></td>
 			<td></td>
 					</tr>
 					<tr>
-						<td>Nama Barang</td><td> <input type='text' class='form-control' class='form-control' name='namaBarang' value='$_POST[namaBarang]' readonly='readonly' /></td>
-						<td><u>j</u>umlah yang dibeli</td><td> <input type='text' class='form-control' class='form-control' name='jumBarang' value='$_POST[jumBarang]' accesskey='j' tabindex=1/></td>
+						<td>Nama Barang</td><td><input type='text' class='form-control' class='form-control' name='namaBarang' value='$_POST[namaBarang]' readonly='readonly' /></td>
+						<td><u>j</u>umlah yang dibeli</td><td><input type='text' class='form-control' class='form-control' name='jumBarang' value='$_POST[jumBarang]' accesskey='j' tabindex=1/></td>
 					</tr>
 			<tr>
-				<td>Harga Beli Sekarang</td><td> <input type='text' class='form-control' class='form-control' name='hargaBeliLama' value='$_POST[hargaBeli]' readonly='readonly' /></td>
-							<td>Harga Beli Barang</td><td> <input type='text' class='form-control' class='form-control' name='hargaBeliBaru' value='$_POST[hargaBeli]' tabindex=2/></td>
+				<td>Harga Beli Sekarang</td><td><input type='text' class='form-control' class='form-control' name='hargaBeliLama' value='$_POST[hargaBeli]' readonly='readonly' /></td>
+							<td>Harga Beli Barang</td><td><input type='text' class='form-control' class='form-control' name='hargaBeliBaru' value='$_POST[hargaBeli]' tabindex=2/></td>
 			</tr>
 					<tr>
-						<td>Harga Jual Sekarang</td><td> <input type='text' class='form-control' class='form-control' name='hargaJualLama' value='$_POST[hargaJual]' readonly='readonly' /></td>
-						<td>Harga Jual Barang</td><td> <input type='text' class='form-control' class='form-control' name='hargaJualBaru' value='$_POST[hargaJual]' tabindex=3/></td>
+						<td>Harga Jual Sekarang</td><td><input type='text' class='form-control' class='form-control' name='hargaJualLama' value='$_POST[hargaJual]' readonly='readonly' /></td>
+						<td>Harga Jual Barang</td><td><input type='text' class='form-control' class='form-control' name='hargaJualBaru' value='$_POST[hargaJual]' tabindex=3/></td>
 					</tr>
 					<tr>
 						<td colspan=2>&nbsp</td>
-						<td>Tanggal Expire</td><td> <input type='text' class='form-control' class='form-control' name='tglExpire' size=10 tabindex=4/>(yyyy-mm-dd)</td>
+						<td>Tanggal Expire</td><td><input type='text' class='form-control' class='form-control' name='tglExpire' size=10 tabindex=4/>(yyyy-mm-dd)</td>
 					</tr>
 					<tr>
 						<td align=right colspan=4><input type='submit' class='btn btn-default' value='(t) Tambah' name=btTambah accesskey='t' tabindex=5></td>

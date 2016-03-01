@@ -124,7 +124,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td>Pejabat</td>
-					<td> : 
+					<td>: 
 						<select class='form-control' name="level_user_id">
 							<option value="0">- Jabatan User-</option>
 							<?php

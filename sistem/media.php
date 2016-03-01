@@ -13,7 +13,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ---------------------------------------------------------------- */
 require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
-
 session_start();
 check_ahadpos_session();
 ahp_htmlheader('Halaman Awal');
@@ -27,7 +26,8 @@ require_once("menu2.php");
 </main>
 
 <footer>
-<div><small><?php e(BRAND_NAME); ?> -- Angkasa Pura I - Point of Sales<br/>Base on <a href="http://ahadpos.com/">AhadPOS</a> Copyright &copy; 2011 by Rimbalinux.com.</small></div>
+<div><small><?php e(BRAND_NAME); ?> &mdash;  Point of Sales &mdash; <?php e(BRAND_OWNER); ?><br>
+It's an <a href="http://ahadpos.com/">AhadPOS</a> &mdash; Copyright &copy; 2011 by Rimbalinux.com.</small></div>
 </footer>
 
 </div>

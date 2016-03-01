@@ -25,7 +25,7 @@ switch ($_GET[act]) {
 			<table>
 				<tr>
 					<td>Tambah Rak</td>
-					<td> <input type='text' class='form-control' class='form-control' name='namaRak' size=30></td>
+					<td><input type='text' class='form-control' class='form-control' name='namaRak' size=30></td>
 				</tr>
 				<tr>
 					<td colspan=2 align=right>
@@ -79,7 +79,7 @@ switch ($_GET[act]) {
 			<form method='post' action='./aksi.php?module=rak&act=update' name='editrak'>
 			<input type=hidden name='idRak' value='$data[idRak]'>
 			<table>
-				<tr><td>Edit Rak</td><td> <input type='text' class='form-control' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
+				<tr><td>Edit Rak</td><td><input type='text' class='form-control' class='form-control' name='namaRak' size=30 value='$data[namaRak]'></td></tr>
 				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
 								<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
 			</table>

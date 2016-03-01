@@ -159,9 +159,9 @@ if (empty($_SESSION['namauser'])) {
 											<input type="text" class="form-control" name="barcode" accesskey="b" id="barcode">
 										</div>
 										<button type="submit" class="btn btn-default"><span class="u">T</span>ambah</button>
-			<!--							(b) Barcode</td><td> <input type='text' class='form-control' class='form-control' name='barcode' accesskey='b' id='barcode'></td>
+			<!--							(b) Barcode</td><td><input type='text' class='form-control' class='form-control' name='barcode' accesskey='b' id='barcode'></td>
 
-								<td>(q) Qty</td><td> <input type='text' class='form-control' class='form-control' name='jumBarang' value='0' size=5 accesskey='q'></td>
+								<td>(q) Qty</td><td><input type='text' class='form-control' class='form-control' name='jumBarang' value='0' size=5 accesskey='q'></td>
 								<td align=right><input type='submit' class='btn btn-default' name='btnTambah' value='(t) Tambah' accesskey='t'></td>-->
 									</form>
 

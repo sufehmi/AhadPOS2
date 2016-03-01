@@ -12,24 +12,12 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ---------------------------------------------------------------- */
-
-
 require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
-
 include SITE_ROOT."sistem/modul/function.php";
-
-
 session_start();
-if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
-	echo "<link href='../../css/style.css' rel='stylesheet' type='text/css'>
-<center>Untuk mengakses modul, Anda harus login <br>";
-	echo "<a href=index.php><b>LOGIN</b></a></center>";
-}
-else {
+check_ahadpos_session();
 
-	if (!isset($_SESSION[idCustomer])) {
-		findCustomer($_POST[idCustomer]);
-	}
+if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 
 	$result=mysql_query("select `value` from config where `option`='ukm_mode'") or die(mysql_error());
 	$hasil=mysql_fetch_array($result);
@@ -40,90 +28,8 @@ else {
 		$transferahad=true;
 	}
 
-//HS javascript untuk menampilkan popup
-	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-
-
-			<script>
-				function popupform(myform, windowname)
-				{
-					if (!window.focus)
-						return true;
-					popWindo=window.open('', windowname, 'height=400,width=700,scrollbars=yes');
-					myform.target=windowname;
-					popWindo.focus();
-					return true;
-				}
-
-				function number_format(a, b, c, d) {
-					// credit: http://www.krisnanda.web.id/2009/06/09/javascript-number-format/
-
-					a=Math.round(a * Math.pow(10, b)) / Math.pow(10, b);
-
-					e=a + '';
-					f=e.split('.');
-					if (!f[0]) {
-						f[0]='0';
-					}
-					if (!f[1]) {
-						f[1]='';
-					}
-
-					if (f[1].length < b) {
-						g=f[1];
-						for (i=f[1].length + 1; i <= b; i++) {
-							g += '0';
-						}
-						f[1]=g;
-					}
-
-					if (d != '' && f[0].length > 3) {
-						h=f[0];
-						f[0]='';
-						for (j=3; j < h.length; j += 3) {
-							i=h.slice(h.length - j, h.length - j + 3);
-							f[0]=d + i + f[0] + '';
-						}
-						j=h.substr(0, (h.length % 3 == 0) ? 3 : (h.length % 3));
-						f[0]=j + f[0];
-					}
-
-					c=(b <= 0) ? '' : c;
-					return f[0] + c + f[1];
-				}
-
-
-				function RecalcTotal(tot_pembelian) {
-					var totalBeli=0;
-					var Kembali=0;
-					var uangDibayar=parseInt(document.getElementById("uangDibayar").value);
-					var surcharge=parseInt(document.getElementById("surcharge").value);
-
-					totalSurcharge=((tot_pembelian / 100) * surcharge);
-					totalBeli=tot_pembelian + totalSurcharge;
-					Kembali=uangDibayar - totalBeli;
-
-					document.getElementById("uangKembali").value=Kembali;
-					document.getElementById("kembalian").innerHTML='<span>' + number_format(Kembali, 0, ',', '.') + '</span>';
-
-					document.getElementById("TotalSurcharge").value=number_format(totalSurcharge, 0, ',', '.');
-					document.getElementById("tot_pembelian").innerHTML='<span>' + number_format(totalBeli, 0, ',', '.') + '</span>';
-				}
-
-			</script>
-
-			<link rel="stylesheet" type="text/css" href="../../css/style.css" />
-			<link rel="stylesheet" type="text/css" href="../../css/jquery-editable.css" />
-
-			<script src="../../js/jquery-1.9.1.min.js"></script>
-			<script src="../../js/jquery.poshytip.js"></script>
-			<script src="../../js/jquery-editable-poshytip.min.js"></script>
-
-		</head>
-		<body class="kasir" id="dokumen">
+	ahp_kasirheader('Jual Barang','')?>
+	<body class="kasir" id="dokumen">
 			<div id="content" >
 				<?php
 				if ($_GET[doit] == 'hapus') {
@@ -493,15 +399,9 @@ else {
 							<a href='../aksi.php?module=penjualan_barang&act=batal'><button>BATAL</button></a>
 							<?php
 						}
-						?>
-						<div class="logo-kasir">
-							<!--<img src='../../image/logo-ahadpos-1.gif'>-->
-							<img src="../../img/logo-glow.png">
-						</div>
-						<?php
+						/* logo pindah ke css, agar mudah di skin */
 						break;
 				}
-			} // if (empty($_SESSION[namauser])
 			?>
 			<div id="login-admin" style="
 				display: none;
@@ -663,9 +563,7 @@ if ($ukmMode) {
 							return false;
 						}
 					});
-	<?php
-}
-?>
+	<?php } ?>
 			</script>
 		</div>
 	</body>

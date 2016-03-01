@@ -126,11 +126,11 @@ switch($_GET[act]){ // =========================================================
 							<td colspan=3>
 
 				<form method='post' action='js_input_retur_barang.php?act=caricustomer&action=tambah'>
-				(b) Barcode</td><td> <input type='text' class='form-control' class='form-control' name='barcode' accesskey='b' id='barcode'></td>
+				(b) Barcode</td><td><input type='text' class='form-control' class='form-control' name='barcode' accesskey='b' id='barcode'></td>
 		";
 
 	echo "
-							<td>(q) Qty</td><td> <input type='text' class='form-control' class='form-control' name='jumBarang' value='1' size=5 accesskey='q'></td>
+							<td>(q) Qty</td><td><input type='text' class='form-control' class='form-control' name='jumBarang' value='1' size=5 accesskey='q'></td>
 							<td align=right><input type='submit' class='btn btn-default' name='btnTambah' value='(t) Tambah' accesskey='t'></td>
 				</form>
 
