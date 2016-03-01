@@ -62,3 +62,7 @@ input[name='barcode'] { text-align:right; }
 
 footer small { line-height:1em; }
 footer small { font-size: 11px; }
+
+body.kasir { padding-bottom: 3em; }
+.kasir #footer { position:fixed; height: 48px; bottom:0; left:0; width:100%; padding: .5em 1em; background:#eee; text-align: right; }
+

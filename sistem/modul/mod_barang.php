@@ -2547,7 +2547,7 @@ switch ($_GET['act']) {
 	case "ApprovePdtSO2": // ----------------------------------------------------------------------------
 		?>
 		<h2>Proses PDT Stock Opname</h2>
-		<a href="#" onclick="printTable();" class="tombol" accesskey="c"><u>C</u>etak</a>
+		<a href="#" onclick="printTable();" class="btn btn-primary" accesskey="c"><u>C</u>etak</a>
 		<?php
 		if (isset($_POST['dataApproval'])):
 			$dataApproval=$_POST['dataApproval'];
@@ -2829,7 +2829,7 @@ switch ($_GET['act']) {
 						<td><input type="text" class="form-control" id="hb-hargasatuan" name="hargasatuan" value="<?php echo isset($hbHarga) ? $hbHarga : ''; ?>" autocomplete="off"/></td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="submit" class="btn btn-default" class="tombol" value="(s) Simpan" accept="s"/></td>
+						<td colspan="2"><input type="submit" class="btn btn-default" value="(s) Simpan" accept="s"/></td>
 					</tr>
 				</table>
 			</form>

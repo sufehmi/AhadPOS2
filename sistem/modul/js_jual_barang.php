@@ -80,7 +80,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 						?>
 						<form id="entry-barang" method='post' action='js_jual_barang.php?act=caricustomer&action=tambah'>
 							<div class="input-group">
-								<label for="barcode"><span class="u">B</span>arcode</label>
+								<label for="barcode">Barcode</label>
 								<input type="text" class="form-control" name="barcode" accesskey="b" id="barcode">
 							</div>
 							<?php
@@ -105,7 +105,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 							if ($ukmMode) {
 								?>
 								<div class="input-group">
-									<label for="hargaBarang"><span class="u">H</span>arga</label>
+									<label for="hargaBarang">Harga</label>
 									<input type="text" class="form-control" id="hargaBarang" name='hargaBarang' value='1' size=5 accesskey="h">
 								</div>
 								<?php
@@ -113,16 +113,16 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 							?>
 
 							<div class="input-group">
-								<label for="jumBarang"><span class="u">Q</span>ty</label>
+								<label for="jumBarang">Qty</label>
 								<input type="text" class="form-control" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q">
 							</div>
 						<!--<input type="submit" class="btn btn-default" name="btnTambah" value="Tambah" accesskey="t">-->
-							<button type="submit" class="btn btn-default"><span class="u">T</span>ambah</button>
+							<button type="submit" class="btn btn-default">Tambah</button>
 						</form>
 
 						<form method="POST" action="js_cari_barang.php?caller=js_jual_barang" onSubmit="popupform(this, 'cari1')">
 							<div class="input-group">
-								<label for="namaBarang"><span class="u">C</span>ari Barang</label>
+								<label for="namaBarang">Cari Barang</label>
 								<input type="text" class="form-control" id="namaBarang" name='namabarang' accesskey='c'>
 							</div>
 							<?php
@@ -340,7 +340,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 											$_SESSION['tot_pembelian']=$tot_pembelian;
 											?>
 											<tr>
-												<td class="right">Tipe Pembayar<span class="u">a</span>n :</td>
+												<td class="right">Tipe Pembayaran :</td>
 												<td class="">
 													<select class='form-control' name='tipePembayaran' accesskey='a' tabindex=1>
 														<option value='0'>-Tipe Pembayaran-</option>
@@ -375,7 +375,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 												</td>
 											</tr>
 											<tr>
-												<td class="right"><span class="u">U</span>ang Dibayar :</td>
+												<td class="right">Uang Dibayar :</td>
 												<td class=""><input type="text" class="form-control" accesskey="u" name="uangDibayar" id="uangDibayar" value="0" onBlur="RecalcTotal(<?php echo $tot_pembelian; ?>)" tabindex=3></td>
 											</tr>
 											<tr>
@@ -383,7 +383,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 												<td class=""><input type='text' class='form-control' class='form-control' name='uangKembali' id='uangKembali' value=0></td>
 											</tr>
 											<tr>
-												<td><a href='../aksi.php?module=penjualan_barang&act=batal' class="tombol">Batal</a></td>
+												<td><a href='../aksi.php?module=penjualan_barang&act=batal' class="btn btn-primary">Batal</a></td>
 												<td class="right">&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.form.submit();
 																		this.disabled=true;'></td>
 											</tr>
@@ -414,7 +414,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 				<form>
 					<input type="text" class="form-control" id="nama-user" name="nama-user" placeholder="Nama User Admin" /><br />
 					<input class='form-control' type="password" id="password" name="password" placeholder="Password" /><br />
-					<a href="js_jual_barang.php?act=caricustomer" class="tombol" id="tombol-batal-login" accesskey="l">Bata<u>l</u></a>
+					<a href="js_jual_barang.php?act=caricustomer" class="btn btn-primary" id="tombol-batal-login" accesskey="l">Bata<u>l</u></a>
 					<input style="float: right" type="submit" class="btn btn-default" id="tombol-login-submit" value="Submit" />
 				</form>
 			</div>
@@ -429,151 +429,140 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 				<form id="form-sc">
 					<input type="text" class="form-control" id="self-checkout-id" name="self-checkout-id" placeholder="Nomor Self Checkout" /><br />
 					<!--<input class='form-control' type="password" id="password" name="password" placeholder="Password" /><br />-->
-					<!--<a href="js_jual_barang.php?act=caricustomer" class="tombol" id="tombol-batal-sc" accesskey="l">Bata<u>l</u></a>-->
+					<!--<a href="js_jual_barang.php?act=caricustomer" class="btn btn-primary" id="tombol-batal-sc" accesskey="l">Bata<u>l</u></a>-->
 					<input style="float: right" type="submit" class="btn btn-default" id="tombol-login-submit" value="Submit" />
 				</form>
 			</div>
 			<div id="footer" >
-				<a class="tombol" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1':''; ?>" accesskey="r" ><b><u>R</u></b>eload</a>
-				<a class="tombol" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
-					<?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> A<u><b>d</b></u>min Mode
+				<a class="btn btn-primary" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1':''; ?>" accesskey="r" >Reload</a>
+				<a class="btn btn-primary" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
+					<?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> Admin Mode
 				</a>
-				<a class="tombol" href="#" id="tombol-self-checkout" accesskey="f" >Sel<b><u>f</u></b> Checkout</a>
+				<a class="btn btn-primary" href="#" id="tombol-self-checkout" accesskey="f" >Self Checkout</a>
 			</div>
 			<script>
-				$(document).ready(function () {
-					$('.harga-jual').editable({
-						success: function (response, newValue) {
-							var respon=JSON && JSON.parse(response) || $.parseJSON(response);
-							if (respon.sukses) {
-								window.location="js_jual_barang.php?act=caricustomer";
-							} else {
-								alert('hmm, error!')
-							}
-						}
-					});
-				});
+			
+$(document).ready(function () {
+	$('.harga-jual').editable({
+		success: function (response, newValue) {
+			var respon=JSON && JSON.parse(response) || $.parseJSON(response);
+			if (respon.sukses) {
+				window.location="js_jual_barang.php?act=caricustomer";
+			} else {
+				alert('hmm, error!')
+			}
+		}
+	});
+});
 
-				$("#tombol-self-checkout").click(function () {
-					//$("#self-checkout").show(500);
-					$("#self-checkout").toggle(500, function () {
-						if ($("#self-checkout").css('display') === 'none') {
-							console.log('hidden');
-						} else {
-							console.log("show");
-							$("#self-checkout-id").val("");
-							$("#self-checkout-id").focus();
-						}
-					});
+$("#tombol-self-checkout").click(function () {
+	//$("#self-checkout").show(500);
+	$("#self-checkout").toggle(500, function () {
+		if ($("#self-checkout").css('display') === 'none') {
+			console.log('hidden');
+		} else {
+			console.log("show");
+			$("#self-checkout-id").val("");
+			$("#self-checkout-id").focus();
+		}
+	});
 
-					return false;
-				});
+	return false;
+});
 
-				$("#form-sc").submit(function () {
-					console.log($("#self-checkout-id").val());
-					var datakirim={
-						'sc-id': $("#self-checkout-id").val()
-					};
-					dataurl="../aksi.php?module=penjualan_barang&act=selfcheckoutinput";
-					$.ajax({
-						type: "POST",
-						url: dataurl,
-						data: datakirim,
-						success: window.location="js_jual_barang.php?act=caricustomer"
-					});
-					$("#self-checkout").hide(500);
-					return false;
-				})
+$("#form-sc").submit(function () {
+	console.log($("#self-checkout-id").val());
+	var datakirim={
+		'sc-id': $("#self-checkout-id").val()
+	};
+	dataurl="../aksi.php?module=penjualan_barang&act=selfcheckoutinput";
+	$.ajax({
+		type: "POST",
+		url: dataurl,
+		data: datakirim,
+		success: window.location="js_jual_barang.php?act=caricustomer"
+	});
+	$("#self-checkout").hide(500);
+	return false;
+})
 
-				$("#admin-mode").click(function () {
-<?php
-if ($_SESSION['hakAdmin']) {
-	?>
-						var datakirim={
-							'logout': 'iya'
-						};
-						dataurl="../aksi.php?module=diskon&act=loginadmin";
-						$.ajax({
-							type: "POST",
-							url: dataurl,
-							data: datakirim,
-							success: window.location="js_jual_barang.php?act=caricustomer"
-						});
-	<?php
-}
-else {
-	?>
-						$("#login-admin").show(500);
-						$("#nama-user").focus();
-	<?php
-}
-?>
-					return false;
-				});
-				$("#tombol-batal-login").click(function () {
-					$("#login-admin").hide(500);
-					return false;
-				});
-				$("#tombol-login-submit").click(function () {
-					var datakirim={
-						'username': $("#nama-user").val(),
-						'pass': $("#password").val()
-					}
-					console.log(datakirim);
-					dataurl="../aksi.php?module=diskon&act=loginadmin";
-					$.ajax({
-						type: "POST",
-						url: dataurl,
-						data: datakirim,
-						success: function (data) {
-							if (data === 'ketemu') {
-								window.location="js_jual_barang.php?act=caricustomer";
-							} else {
-								alert('Login ditolak!');
-							}
-						},
-					});
-					return false;
-				});
-<?php
-// ukmMode: Barcode -> enter. Muncul Harga Jual
-if ($ukmMode) {
-	?>
-					$("#barcode").keydown(function (e) {
-						var datakirim={
-							barcode: $(this).val()
-						};
-						var dataurl='../aksi.php?module=penjualan_barang&act=get_harga_jual';
-						if (e.keyCode === 13) {
-							$.ajax({
-								data: datakirim,
-								url: dataurl,
-								type: "POST",
-								dataType: "json",
-								success: function (data) {
-									if (data.sukses) {
-										$("#hargaBarang").val(data.hargaJual);
-									} else {
+$("#admin-mode").click(function () {
 
-									}
-									$("#hargaBarang").focus();
-									$("#hargaBarang").select();
-								}
-							});
-							return false;
-						}
-					});
-	<?php } ?>
-			</script>
-		</div>
-	</body>
+<?php if ($_SESSION['hakAdmin']) {?>
+	var datakirim={ 'logout': 'iya' };
+	dataurl="../aksi.php?module=diskon&act=loginadmin";
+	$.ajax({
+		type: "POST",
+		url: dataurl,
+		data: datakirim,
+		success: window.location="js_jual_barang.php?act=caricustomer"
+	});
+<?php } else { ?>
+	$("#login-admin").show(500);
+	$("#nama-user").focus();
+<?php } ?>
+	return false;
+});
+$("#tombol-batal-login").click(function () {
+	$("#login-admin").hide(500);
+	return false;
+});
+$("#tombol-login-submit").click(function () {
+	var datakirim={
+		'username': $("#nama-user").val(),
+		'pass': $("#password").val()
+	}
+	console.log(datakirim);
+	dataurl="../aksi.php?module=diskon&act=loginadmin";
+	$.ajax({
+		type: "POST",
+		url: dataurl,
+		data: datakirim,
+		success: function (data) {
+			if (data === 'ketemu') {
+window.location="js_jual_barang.php?act=caricustomer";
+			} else {
+alert('Login ditolak!');
+			}
+		},
+	});
+	return false;
+});
+<?php if ($ukmMode) { ?>
+
+$("#barcode").keydown(function (e) {
+	var datakirim={ barcode: $(this).val() };
+	var dataurl='../aksi.php?module=penjualan_barang&act=get_harga_jual';
+	if (e.keyCode === 13) {
+		$.ajax({
+			data: datakirim,
+			url: dataurl,
+			type: "POST",
+			dataType: "json",
+			success: function (data) {
+				if (data.sukses) {
+					$("#hargaBarang").val(data.hargaJual);
+				} else {
+
+				}
+				$("#hargaBarang").focus();
+				$("#hargaBarang").select();
+			}
+		});
+		return false;
+	}
+});
+<?php } ?>
+</script>
+</div>
+</body>
 </html>
-
 <?php
 
-			/* CHANGELOG -----------------------------------------------------------
+// ukmMode: Barcode -> enter. Muncul Harga Jual
 
-			1.6.0 / 2013-02-24 : Harry Sufehmi	: fitur : transfer barang antar sesama pengguna AhadPOS
-			1.0.1 / 2010-06-03 : Harry Sufehmi	: perhitungan Surcharge dibetulkan
-			0.9.2 / 2010-03-03 : Harry Sufehmi 	: initial release
-			------------------------------------------------------------------------ */
+	/* CHANGELOG -----------------------------------------------------------
+	1.6.0 / 2013-02-24 : Harry Sufehmi	: fitur : transfer barang antar sesama pengguna AhadPOS
+	1.0.1 / 2010-06-03 : Harry Sufehmi	: perhitungan Surcharge dibetulkan
+	0.9.2 / 2010-03-03 : Harry Sufehmi 	: initial release
+	------------------------------------------------------------------------ */

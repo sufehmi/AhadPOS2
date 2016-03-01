@@ -81,7 +81,7 @@ if ($_SESSION['leveluser'] === 'admin') {
 			endwhile;
 			?>
 		</select>
-		<a href="#" id="tombol-buka" class="tombol" accesskey="b"><u>B</u>uka</a>
+		<a href="#" id="tombol-buka" class="btn btn-primary" accesskey="b"><u>B</u>uka</a>
 	</label>
 	<script>
 		$("#tombol-buka").click(function() {
@@ -105,7 +105,7 @@ if ($_SESSION['leveluser'] === 'admin') {
 							where kasTutup is null and idUser={$_SESSION['iduser']}");
 	$workstation=mysql_fetch_array($result);
 	?>
-	<a href="#" id="tombol-buka" class="tombol" accesskey="C">Buka <u>C</u>ash Drawer</a>
+	<a href="#" id="tombol-buka" class="btn btn-primary" accesskey="C">Buka <u>C</u>ash Drawer</a>
 	<script>
 		$("#tombol-buka").click(function() {
 			var dataKirim={

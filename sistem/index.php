@@ -27,7 +27,7 @@ GNU General Public License v2 (links provided above) for more details.
 			<form method="POST" action="cek_login.php">
 				<input type="text" class="form-control" id="username" name="username" placeholder="User Name">
 				<input class='form-control' type="password" id="password" name="password" placeholder="Password">
-				<input type="submit" class="btn btn-default" class="tombol" id="tombol-login" value="Login">
+				<input type="submit" class="btn btn-default" id="tombol-login" value="Login">
 			</form>
 		</div>
 	</body>
