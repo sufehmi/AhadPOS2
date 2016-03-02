@@ -13,18 +13,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ---------------------------------------------------------------- */
 require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
-
+ahp_nojs_header(BRAND_NAME);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php e(BRAND_NAME); ?></title>
-<link href="../tacoen/font/dosis/style.css" rel="stylesheet" type="text/css" />
-<link href="../tacoen/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="../tacoen/css/ap.css" rel="stylesheet" type="text/css" />
-</head>
 <body class='loginpage'>
-
 
 <div id="login">
 <div class="col-lg-6 col-md-6">

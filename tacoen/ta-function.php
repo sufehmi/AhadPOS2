@@ -31,12 +31,15 @@ function ahp_htmlheader($title,$add_to_head='') {
 	echo "<script type='text/javascript' src='".SITE_URL."js/jquery.simple-dtpicker.js'></script>\n";
 	//echo "<script type='text/javascript' src='".SITE_URL."tacoen/bootstrap/js/bootstrap.min.js'></script>\n";
 	echo "<script type='text/javascript' src='".SITE_URL."tacoen/js/ahadpos.js'></script>\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap.compile.min.css' />\n";
+	/*
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/font/fa/style.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/font/dosis/style.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap.min.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap-theme.min.css' />\n";
+	*/
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/jquery-ui-ac.min.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/jquery.simple-dtpicker.css' />\n";
-	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap.min.css' />\n";
-	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap-theme.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/css/ap.css' />\n";
 	echo "<link rel='apple-touch-icon' sizes='57x57' href='".SITE_URL."tacoen/icons/apple-touch-icon-57x57.png'>\n";
 	echo "<link rel='apple-touch-icon' sizes='60x60' href='".SITE_URL."tacoen/icons/apple-touch-icon-60x60.png'>\n";
@@ -51,7 +54,7 @@ function ahp_htmlheader($title,$add_to_head='') {
 
 }
 
-function ahp_popupheader($title,$add_to_head='') {
+function ahp_nojs_header($title,$add_to_head='') {
 	echo "<!DOCTYPE html>\n";
 	echo "<html lang='en'>\n";
 	echo "<head>\n";
@@ -60,11 +63,14 @@ function ahp_popupheader($title,$add_to_head='') {
 	echo "<meta http-equiv='X-UA-Compatible' content='IE=edge' />\n";
 	echo "<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0'>\n";
 	echo "<title>AhadPOS: $title</title>\n";
-	echo "<script type='text/javascript' src='".SITE_URL."js/jquery-1.9.1.min.js'></script>\n";
-	echo "<script type='text/javascript' src='".SITE_URL."js/interface.js'></script>\n";
-	echo "<script type='text/javascript' src='".SITE_URL."/js/jquery-ui.min-ac.js'></script>\n";	
-	echo "<script type='text/javascript' src='".SITE_URL."js/ahadpos.js'></script>\n";
-	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/ap.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap.compile.min.css' />\n";
+	/*
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/font/fa/style.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/font/dosis/style.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap.min.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap-theme.min.css' />\n";
+	*/
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/css/ap.css' />\n";
 	echo "<link rel='apple-touch-icon' sizes='57x57' href='".SITE_URL."tacoen/icons/apple-touch-icon-57x57.png'>\n";
 	echo "<link rel='apple-touch-icon' sizes='60x60' href='".SITE_URL."tacoen/icons/apple-touch-icon-60x60.png'>\n";
 	echo "<link rel='icon' type='image/png' href='".SITE_URL."tacoen/icons/favicon-32x32.png' sizes='32x32'>\n";
@@ -73,10 +79,11 @@ function ahp_popupheader($title,$add_to_head='') {
 	echo "<link rel='mask-icon' href='".SITE_URL."tacoen/icons/safari-pinned-tab.svg' color='#5bbad5'>\n";
 	echo "<meta name='msapplication-TileColor' content='#00aba9'>\n";
 	echo "<meta name='theme-color' content='#ffffff'>\n";
-	
 	if ($add_to_head!='') { echo $add_to_head; }
 	echo "</head>";
+
 }
+	
 
 function ahp_kasirheader($title,$add_to_head='') {
 	echo "<!DOCTYPE html>\n";
@@ -91,10 +98,13 @@ function ahp_kasirheader($title,$add_to_head='') {
 	echo "<script type='text/javascript' src='".SITE_URL."js/jquery.poshytip.js'></script>\n";
 	echo "<script type='text/javascript' src='".SITE_URL."js/jquery-editable-poshytip.min.js'></script>\n";
 	echo "<script type='text/javascript' src='".SITE_URL."tacoen/js/kasir.js'></script>\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap.compile.min.css' />\n";
+	/*
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/font/fa/style.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/font/dosis/style.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap.min.css' />\n";
-	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap-theme.css' />\n";
+	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/bootstrap/css/bootstrap-theme.min.css' />\n";
+	*/
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."css/jquery-editable.css' />\n";
 	echo "<link rel='stylesheet' type='text/css' href='".SITE_URL."tacoen/css/ap.css' />\n";
 	echo "<link rel='apple-touch-icon' sizes='57x57' href='".SITE_URL."tacoen/icons/apple-touch-icon-57x57.png'>\n";
