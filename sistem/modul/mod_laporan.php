@@ -1172,7 +1172,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					) AS t
 				WHERE isSold = 'N' AND t.idTransaksiBeli = b.idTransaksiBeli AND b.jumBarang > 0
 				) AS dj
-			WHERE dj.barcode = b.barcode   $idKategoriBarang   ORDER BY dj.barcode
+			WHERE dj.barcode = b.barcode ORDER BY dj.barcode
 			) AS lb
 
 		GROUP BY lb.barcode
@@ -1182,6 +1182,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
             $hasil = mysql_query($sql) or die("Error : ".mysql_error());
 
             // masukkan ke temporary table
+            mysql_query("truncate table tmp_lap_aging"); // Memastikan isi tabel kosong sebelum diinsert
             $sqltmp = "INSERT INTO tmp_lap_aging (barcode,namaBarang,nilaiStok,umurStok,jmlStokIni,jmlStokSemua,avgSales) VALUES ";
             while ($x = mysql_fetch_array($hasil)) {
                // hitung Average Sales / Day
@@ -1205,6 +1206,48 @@ switch ($_GET[act]) { //--------------------------------------------------------
             $sqltmp = substr($sqltmp, 0, -1);
             // simpan ke temporary table
             $hasil = mysql_query($sqltmp) or die("Error : ".mysql_error());
+            
+            /*
+             * INSERT INTO tmp_lap_aging (barcode,namaBarang,nilaiStok,umurStok,jmlStokIni,jmlStokSemua,avgSales) 
+SELECT 
+    barang.barcode,
+    barang.namaBarang,
+    dbAgregat.nilaistok,
+    TIMESTAMPDIFF(DAY,
+        dbAgregat.maxTglTransaksiBeli,
+        NOW()) umurstok,
+    #dbAgregat.maxTglTransaksiBeli tglTransaksiBeli,
+    dbAgregat.sisastok,
+    barang.jumBarang totalJumlah,
+    penjualan.avg_daily_sales
+FROM
+    barang
+        JOIN
+    (SELECT 
+        barcode,
+            SUM(jumBarang) sisastok,
+            SUM(jumBarang * hargaBeli) nilaistok,
+            MAX(tb.tglTransaksiBeli) maxTglTransaksiBeli
+    FROM
+        detail_beli db
+    JOIN transaksibeli tb ON db.idTransaksiBeli = tb.idTransaksiBeli
+        AND tb.tglTransaksiBeli BETWEEN '2016-02-02' AND '2016-03-02'
+    WHERE
+        db.isSold = 'N'
+    GROUP BY db.barcode) AS dbAgregat ON barang.barcode = dbAgregat.barcode
+        LEFT JOIN
+    (SELECT 
+        barcode,
+            SUM(jumBarang) / TIMESTAMPDIFF(DAY, '2016-02-02', '2016-03-02') avg_daily_sales
+    FROM
+        detail_jual dj
+    JOIN transaksijual tj ON dj.nomorStruk = tj.idTransaksiJual
+        AND tj.tglTransaksiJual BETWEEN '2016-02-02' AND '2016-03-02'
+    GROUP BY barcode) penjualan ON barang.barcode = penjualan.barcode
+#WHERE
+#    barang.jumBarang > 0
+ORDER BY barang.namaBarang;
+             */
 
             echo "
 		<br/>
