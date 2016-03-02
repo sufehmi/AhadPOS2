@@ -1039,7 +1039,7 @@ switch ($_GET['act']) {
 		$idStockOpname=mysql_insert_id();
 		$ctr=$_POST[ctr];
 
-		echo "Stock Opname sudah disimpan di database, nota SO nomor: " . $idStockOpname . " <br /><br /> Mulai menyimpan transaksi Stock Opname : <br /><br />";
+		echo "Stock Opname sudah disimpan di database, nota SO nomor: " . $idStockOpname . "<br /><br /> Mulai menyimpan transaksi Stock Opname : <br /><br />";
 
 		for ($i=1; $i <= $ctr; $i++) {
 
@@ -1081,7 +1081,7 @@ switch ($_GET['act']) {
 		$data=mysql_fetch_array($edit);
 		?>
 		<h2>Edit Barang</h2>
-		<form method='post' action=./aksi.php?module=barang&act=update name='editbarang'>
+		<form method='post' action='./aksi.php?module=barang&act=update' name='editbarang'>
 			<input type=hidden name='idBarang' value='<?php echo $data['idBarang']; ?>'>
 			<table>
 				<tr><td>Barcode</td><td><input type="text" class="form-control" name='barcode' size=30 value='<?php echo $data['barcode']; ?>' /></td></tr>
@@ -1159,8 +1159,8 @@ switch ($_GET['act']) {
 					<td>Non Aktif</td>
 					<td>
 						<select class='form-control' name="nonAktif">
-							<option value="0" <?php echo $data['nonAktif'] != '1' ? 'selected' : ''; ?>>Tidak</option>
-							<option value="1" <?php echo $data['nonAktif'] == '1' ? 'selected' : ''; ?>>Ya</option>
+							<option value="0"<?php echo $data['nonAktif'] != '1' ? 'selected' : ''; ?>>Tidak</option>
+							<option value="1"<?php echo $data['nonAktif'] == '1' ? 'selected' : ''; ?>>Ya</option>
 						</select>
 					</td>
 					<td style="color:red"><?php echo isset($_GET['nonAktif']) ? 'Status barang sudah diperbarui' : '' ?></td>
@@ -1720,7 +1720,7 @@ switch ($_GET['act']) {
 						if (!$simulasi) {
 							mysql_query("update detail_beli set jumBarang={$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
 						}
-						//echo "&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
+						//echo "&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b>";
 						$jumBarang=0;
 					}
 					else {
@@ -2157,8 +2157,8 @@ switch ($_GET['act']) {
 					<td><?php echo $diskonDetail['max_item']; ?></td>
 					<td>
 						<select class='form-control' class="status-diskon" id="<?php echo $diskonDetail['uid']; ?>" >
-							<option value="1" <?php echo $diskonDetail['status'] ? 'selected' : ''; ?>>Ya</option>
-							<option value="0" <?php echo $diskonDetail['status'] ? '' : 'selected'; ?>>Tidak</option>
+							<option value="1"<?php echo $diskonDetail['status'] ? 'selected' : ''; ?>>Ya</option>
+							<option value="0"<?php echo $diskonDetail['status'] ? '' : 'selected'; ?>>Tidak</option>
 						</select>
 					</td>
 				</tr>
@@ -2195,7 +2195,7 @@ switch ($_GET['act']) {
 				<?php
 				while ($data=mysql_fetch_array($sqlSupplier)) :
 					?>
-					<option value="<?php echo $data['idSupplier']; ?>" <?php echo $data['idSupplier'] == $_POST['idSupplier'] ? 'selected' : ''; ?>>
+					<option value="<?php echo $data['idSupplier']; ?>"<?php echo $data['idSupplier'] == $_POST['idSupplier'] ? 'selected' : ''; ?>>
 						<?php
 						echo $data['namaSupplier'];
 						echo trim($data['alamatSupplier']) === '' ? '' : ' | ' . $data['alamatSupplier'];
@@ -2228,7 +2228,7 @@ switch ($_GET['act']) {
 					mysql_data_seek($sqlSupplier, 0);
 					while ($data=mysql_fetch_array($sqlSupplier)) :
 						?>
-						<option value="<?php echo $data['idSupplier']; ?>" <?php echo $data['idSupplier'] == $_POST['idSupplier'] ? 'selected' : ''; ?>>
+						<option value="<?php echo $data['idSupplier']; ?>"<?php echo $data['idSupplier'] == $_POST['idSupplier'] ? 'selected' : ''; ?>>
 							<?php
 							echo $data['namaSupplier'];
 							echo trim($data['alamatSupplier']) === '' ? '' : ' | ' . $data['alamatSupplier'];
@@ -2345,7 +2345,7 @@ switch ($_GET['act']) {
 				$hasilSqlRak=mysql_query($sqlRak) or die('Gagal ambil data rak, error:' . mysql_error());
 				while ($data=mysql_fetch_array($hasilSqlRak)) :
 					?>
-					<option value="<?php echo $data['idRak']; ?>" <?php echo $data['idRak'] == $_POST['idRak'] ? 'selected' : ''; ?>>
+					<option value="<?php echo $data['idRak']; ?>"<?php echo $data['idRak'] == $_POST['idRak'] ? 'selected' : ''; ?>>
 						<?php
 						echo $data['namaRak'];
 						?>
@@ -2636,7 +2636,7 @@ switch ($_GET['act']) {
 										if (!$simulasi) {
 											mysql_query("update detail_beli set jumBarang={$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
 										}
-										//echo "&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
+										//echo "&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b>";
 										$jumBarang=0;
 									}
 									else {

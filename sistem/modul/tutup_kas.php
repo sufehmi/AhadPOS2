@@ -31,7 +31,6 @@ echo "<form method='post' action='./aksi.php?module=tutup_kas&act=input'>
 </form>
 ";
 
-
 /* CHANGELOG -----------------------------------------------------------
 
 1.0.1 / 2010-06-03 : Harry Sufehmi		: various enhancements, bugfixes

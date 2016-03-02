@@ -76,7 +76,7 @@ switch ($_GET[act]) {
 		$data=mysql_fetch_array($edit);
 
 		echo "<h2>Edit Supplier</h2>
-		<form method='post' action=./aksi.php?module=supplier&act=update name='editsupplier'>
+		<form method='post' action='./aksi.php?module=supplier&act=update' name='editsupplier'>
 		<input type=hidden name='idSupplier' value='$data[idSupplier]'>
 		<table>
 		<tr><td>Nama Supplier</td><td><input type='text' class='form-control' class='form-control' name='namaSupplier' size=40 value='$data[namaSupplier]'></td></tr>

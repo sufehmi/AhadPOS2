@@ -175,7 +175,7 @@ switch ($_GET[act]) {
 							$hasil=mysql_query($sql) or die(mysql_error());
 							while ($parent=mysql_fetch_array($hasil)) :
 								?>
-								<option value="<?php echo $parent['id']; ?>" <?php echo $parent['id'] === $data['parent_id'] ? 'selected' : ''; ?>><?php echo $parent['nama']; ?></option>
+								<option value="<?php echo $parent['id']; ?>"<?php echo $parent['id'] === $data['parent_id'] ? 'selected' : ''; ?>><?php echo $parent['nama']; ?></option>
 								<?php
 							endwhile;
 							?>
@@ -208,7 +208,7 @@ switch ($_GET[act]) {
 							<?php
 							while ($level=mysql_fetch_array($ambilLevelUser)) :
 								?>
-								<option value="<?php echo $level['idLevelUser']; ?>" <?php echo $level['idLevelUser'] === $data['level_user_id'] ? 'selected' : '' ?>><?php echo $level['levelUser']; ?></option>
+								<option value="<?php echo $level['idLevelUser']; ?>"<?php echo $level['idLevelUser'] === $data['level_user_id'] ? 'selected' : '' ?>><?php echo $level['levelUser']; ?></option>
 								<?php
 							endwhile;
 							?>

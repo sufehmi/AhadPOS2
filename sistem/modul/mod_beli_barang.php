@@ -13,7 +13,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ---------------------------------------------------------------- */
 
-
 check_user_access(basename($_SERVER['SCRIPT_NAME']));
 session_start();
 
@@ -260,7 +259,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 				while ($dataSupplier=mysql_fetch_array($supplier)) {
 					echo "<option value=$dataSupplier[idSupplier]>$dataSupplier[namaSupplier]::$dataSupplier[idSupplier]::$dataSupplier[alamatSupplier]</option>";
 				}
-				echo " </select>
+				echo "</select>
 				<br/>Periode Laporan : Bulan :
 				<select class='form-control' name=bulanLaporan>";
 				$dataBulan=getMonth();
@@ -392,7 +391,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 				while ($dataSupplier=mysql_fetch_array($supplier)) {
 					echo "<option value=$dataSupplier[idSupplier]>$dataSupplier[namaSupplier]::$dataSupplier[idSupplier]::$dataSupplier[alamatSupplier]</option>";
 				}
-				echo " </select>
+				echo "</select>
 				<br/>Periode Laporan : Bulan :
 				<select class='form-control' name=bulanLaporan>";
 				$dataBulan=getMonth();
@@ -551,7 +550,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							$currentTotal=$x[nominal];
 							if (($currentTotal !== $oldTotal) && ($oldTotal > 0)) {
 								?>
-								<tr style="text-align:right" <?php echo $ctr % 2 === 0 ? 'class="alt"' : ''; ?>>
+								<tr style="text-align:right"<?php echo $ctr % 2 === 0 ? 'class="alt"' : ''; ?>>
 									<?php
 									echo "<td colspan=6 class=td>
 				".uang($oldTotal)."<br />
@@ -577,7 +576,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								$oldUser=$x[username];
 							} // while ($x=mysql_fetch_array($hasil))
 							?>
-						<tr style="text-align:right" <?php echo $ctr % 2 === 0 ? 'class="alt"' : ''; ?>>
+						<tr style="text-align:right"<?php echo $ctr % 2 === 0 ? 'class="alt"' : ''; ?>>
 							<?php
 							echo "
 <td colspan=6 class=td>
@@ -1406,7 +1405,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 					echo "<h2>Input Transaksi Pembelian Elektronik</h2>
 
-		<form method='post' action='?module=pembelian_barang&act=inputeprocurement3'> ";
+		<form method='post' action='?module=pembelian_barang&act=inputeprocurement3'>";
 					// tambahan untuk nomor invoice jika ada
 					?>
 					Nomor Invoice (opt): <input type="text" class="form-control" name="nomorInvoice" size="10" value ="<?php echo is_numeric($nomorInvoice[0]) ? $nomorInvoice[0] : '' ?>" />
@@ -1606,7 +1605,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 							$hasil=mysql_query($sql);
 							echo "<br />=== Barcode sudah ada: di <u>Database</u>: <b>$x[namaBarang]</b>,
 							di <u>Invoice</u>: <b>".$_POST["namabarang$ctr"]."</b>";
-							echo "<br />### Update data barang: $sql - ".$_POST["namabarang$ctr"]." <br />";
+							echo "<br />### Update data barang: $sql - ".$_POST["namabarang$ctr"]."<br />";
 							// jika tidak - bikin 1 recordnya
 						} else {
 							$sql="INSERT INTO barang (idBarang, namaBarang, idKategoriBarang, idSatuanBarang, jumBarang, hargaJual,
@@ -1626,7 +1625,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					// update nilai invoice di table transaksibeli
 					$hasil=mysql_query("UPDATE transaksibeli SET nominal=$totalInvoice WHERE idTransaksiBeli=$idTransaksiBeli");
 					// laporkan jumlah record yang kita proses
-					echo "<br /><h2>Jumlah item di invoice ini: ".($ctr - 1)." <br />
+					echo "<br /><h2>Jumlah item di invoice ini: ".($ctr - 1)."<br />
 		Total Pembelian : Rp ".uang($totalInvoice)."</h2><br />Selesai.";
 
 					break;
@@ -1643,7 +1642,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					while ($dataSupplier=mysql_fetch_array($supplier)) {
 						echo "<option value=$dataSupplier[idSupplier]>$dataSupplier[namaSupplier]::$dataSupplier[idSupplier]::$dataSupplier[alamatSupplier]</option>";
 					}
-					echo " </select>
+					echo "</select>
 
 
 			<input type='submit' class='btn btn-default' value='Pilih Supplier'>
@@ -1699,7 +1698,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 					while ($dataSupplier=mysql_fetch_array($supplier)) {
 						echo "<option value=$dataSupplier[idSupplier]>$dataSupplier[namaSupplier]::$dataSupplier[idSupplier]::$dataSupplier[alamatSupplier]</option>";
 					}
-					echo " </select>
+					echo "</select>
 
 
 			<input type='submit' class='btn btn-default' value='Pilih Supplier'>

@@ -14,19 +14,14 @@ GNU General Public License v2 (links provided above) for more details.
 ---------------------------------------------------------------- */
 
 require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
-
 check_user_access(basename($_SERVER['SCRIPT_NAME']));
-
-
 $ambilLevelUser=mysql_query("select * from leveluser");
 
-
 if ($_GET[module] == 'ganti_password') {
-
 	$edit=mysql_query("SELECT * FROM user WHERE idUser='$_SESSION[iduser]'");
-	$data=mysql_fetch_array($edit);
-	?>
-	<form method='post' action=./aksi.php?module=user&act=update&home=1 name='edituser'>
+	$data=mysql_fetch_array($edit);?>
+	<h2>User Info</h2>
+	<form method='post' action='./aksi.php?module=user&act=update&home=1' name='edituser'>
 		<input type=hidden name='idUser' value='<?php echo $data['idUser']; ?>'>
 		<table>
 			<tr><td>Nama User</td><td><input type='text' class='form-control' class='form-control' name='namaUser' size=30 value='<?php echo $data['namaUser']; ?>'></td></tr>
@@ -49,8 +44,8 @@ if ($_GET[module] == 'ganti_password') {
 			<tr><td colspan=2>&nbsp;</td></tr>
 			<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
 					<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
-		</table></form>
-	<?php
+		</table></form><?php
+	
 } else {
 
 	switch ($_GET[act]) {
@@ -120,7 +115,7 @@ if ($_GET[module] == 'ganti_password') {
 			$data=mysql_fetch_array($edit);
 
 			echo "<h2>Edit User</h2>
-		<form method='post' action=./aksi.php?module=user&act=update name='edituser'>
+		<form method='post' action='./aksi.php?module=user&act=update' name='edituser'>
 		<input type=hidden name='idUser' value='$data[idUser]'>
 		<table>
 		<tr><td>Nama User</td><td><input type='text' class='form-control' class='form-control' name='namaUser' size=30 value='$data[namaUser]'></td></tr>

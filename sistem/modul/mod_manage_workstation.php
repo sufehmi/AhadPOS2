@@ -128,7 +128,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 			$data=mysql_fetch_array($edit);
 
 			echo "<h2>Edit Workstation</h2>
-		<form method='post' action=./aksi.php?module=workstation&act=update name='editworkstation'>
+		<form method='post' action='./aksi.php?module=workstation&act=update' name='editworkstation'>
 		<input type=hidden name='idWorkstation' value='$data[idWorkstation]'>
 
 		<table>

@@ -1157,13 +1157,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
 					echo "<tr bgcolor=$warna>";
 					echo "
 			<td class=td align=center> $no </td>
-			<td class=td>" . $x['barcode'] . " </td>
-			<td class=td>" . $x['namaBarang'] . " </td>
-			<td class=td align=right> " . number_format($x['nilaiStok'], 0, ',', '.') . " </td>
-			<td class=td align=right> " . number_format($x['umurStok'], 0, ',', '.') . " </td>
-			<td class=td align=right> <center>" . number_format($x['jmlStokIni'], 0, ',', '.') . " </td>
-			<td class=td align=right> <center>" . number_format($x['jmlStokSemua'], 0, ',', '.') . " </td>
-			<td class=td align=right> " . number_format($x['avgSales'], 6, ',', '.') . " </td>
+			<td class=td>" . $x['barcode'] . "</td>
+			<td class=td>" . $x['namaBarang'] . "</td>
+			<td class=td align=right>" . number_format($x['nilaiStok'], 0, ',', '.') . "</td>
+			<td class=td align=right>" . number_format($x['umurStok'], 0, ',', '.') . "</td>
+			<td class=td align=right> <center>" . number_format($x['jmlStokIni'], 0, ',', '.') . "</td>
+			<td class=td align=right> <center>" . number_format($x['jmlStokSemua'], 0, ',', '.') . "</td>
+			<td class=td align=right>" . number_format($x['avgSales'], 6, ',', '.') . "</td>
 			</tr>";
 					$nilai=$nilai + ($x['nilaiStok'] / $x['jmlStokIni'] * $x['jmlStokSemua']);
 				};

@@ -359,7 +359,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 											</tr>
 											<tr>
 												<td class="right">Surcharge :</td>
-												<td class="">
+												<td class="surchange-td">
 													<div class="input-group">
 														<label for="surcharge">%</label>
 														<input type='text' class='form-control' class='form-control' name='surcharge' id='surcharge' value=0 size=2 tabindex=2>
@@ -431,7 +431,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 			</div>
 			<div id="footer" >
 				<a class="btn btn-sm btn-primary" href="js_jual_barang.php?act=caricustomer<?php echo $transferahad ? '&transferahad=1':''; ?>" accesskey="r" >Reload</a>
-				<a class="btn btn-sm btn-primary" href="" accesskey="d" id="admin-mode" <?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
+				<a class="btn btn-sm btn-primary" href="" accesskey="d" id="admin-mode"<?php echo $_SESSION['hakAdmin'] ? 'style="background-color:#a8cf45;color:#fff"' : ''; ?>>
 					<?php echo $_SESSION['hakAdmin'] ? '<i class="fa fa-power-off" style="color:green;"></i>' : '<i class="fa fa-power-off" ></i>'; ?> Admin Mode
 				</a>
 				<a class="btn btn-sm btn-primary" href="#" id="tombol-self-checkout" accesskey="f" >Self Checkout</a>

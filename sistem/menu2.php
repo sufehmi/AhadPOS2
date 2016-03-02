@@ -13,6 +13,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ---------------------------------------------------------------- */
 
+require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
+
 // Query menu yang tampil sesuai level user
 $sqlLv1= "select distinct m.id, m.nama, m.link, m.icon, m.label, m.accesskey "
 		. "from menu m "
@@ -24,8 +26,10 @@ $sqlLv1= "select distinct m.id, m.nama, m.link, m.icon, m.label, m.accesskey "
 if ($_SESSION['leveluser']=== 'admin') {
 	// nothing to do;
 } elseif ($_SESSION['leveluser']=== 'gudang') {
+	// Gudang-an
 	$sqlLv1.="and (m.level_user_id=1 or lu.levelUser='gudang') or clu.levelUser='gudang' ";
 } elseif ($_SESSION['leveluser']=== 'kasir') {
+	// Kasir-an
 	$sqlLv1.="and (m.level_user_id=1 or lu.levelUser='kasir') or clu.levelUser='kasir' ";
 }
 
@@ -34,7 +38,6 @@ $sqlLv1.='order by m.urutan';
 // Cek link yang sedang aktif
 $link= substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
 
-include "../config/config.php";
 // Cari id menu dan/atau parent nya jika ada
 $sql= "select id,parent_id from menu where '{$link}' like concat(link,'%') order by parent_id desc limit 0,1";
 $h= mysql_query($sql) or die(mysql_error());
@@ -43,7 +46,7 @@ $hasil= mysql_query($sqlLv1);
 ?>
 
 <header class="navbar navbar-default" id="header">
-<button onclick='ta_toggle($(this))' data-menu='drawer' data-active=0><i class='fa fa-bars'></i></button>
+<button onclick='ta_toggle($(this))' data-menu='drawer' id='drawer-btn' data-active=0><i class='fa fa-bars'></i></button>
 <h1><?php e(BRAND_NAME); ?></h1>
 </header>
 
@@ -93,10 +96,13 @@ $hasil= mysql_query($sqlLv1);
 		e("</li>\n");
 	endwhile;
 ?>
-</ul></nav>
-<!--- nanti
-<span id="logo"><img src="../img/logo.png" /></span>
---->
+</ul>
+
+<div class="nav-option">
+<p class='expand' onclick='ta_toggle_navExpand()'>Always Expand <i class='fa fa-square-o'></i></p>
+</div>
+
+</nav>
 
 <?php
 /* CHANGELOG -----------------------------------------------------------

@@ -63,8 +63,8 @@ switch ($act) {
 						<td>
 							<select class='form-control' name="config[ukm_mode]" >
 								<?php $ukmMode=$config['ukm_mode']['value']; ?>
-								<option value="0" <?php echo $ukmMode ? '' : 'selected'; ?>>OFF</option>
-								<option value="1" <?php echo $ukmMode ? 'selected' : ''; ?>>ON</option>
+								<option value="0"<?php echo $ukmMode ? '' : 'selected'; ?>>OFF</option>
+								<option value="1"<?php echo $ukmMode ? 'selected' : ''; ?>>ON</option>
 							</select>
 						</td>
 					</tr>

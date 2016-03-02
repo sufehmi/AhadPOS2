@@ -38,7 +38,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 		<br/>Nota : $_POST[idTransaksiBeli]<br /><br />";
 
 
-		echo " <table>
+		echo "<table>
 		<tr><th>No</th><th>Id Barang</th><th>Barcode</th><th>Nama Barang</th>
 		<th>Jumlah<br />Retur</th><th>Harga Beli</th></tr>";
 
@@ -73,7 +73,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 		} // while ($x=mysql_fetch_array($hasil))
 
 		echo "</table><br />
-		TOTAL : " . uang($nominal) . " <br />(username: $username)
+		TOTAL : " . uang($nominal) . "<br />(username: $username)
 	";
 	} elseif (isset($_POST['download'])) {
 //		echo 'Download CSV';

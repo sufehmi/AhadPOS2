@@ -83,7 +83,7 @@ case "editmodul":
 	$data	= mysql_fetch_array($edit);
 
 	echo "<h2>Edit Modul</h2>
-		<form method='post' action=./aksi.php?module=modul&act=update>
+		<form method='post' action='./aksi.php?module=modul&act=update'>
 		<input type=hidden name='idModul' value='$data[idModul]'>
 		<table>
 		<tr><td>Nama Modul</td>	<td><input type='text' class='form-control' class='form-control' name='namaModul' value='$data[namaModul]'></td></tr>

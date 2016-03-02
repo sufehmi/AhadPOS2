@@ -13,11 +13,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License v2 (links provided above) for more details.
 ----------------------------------------------------------------*/
 
-
 require_once($_SERVER["DOCUMENT_ROOT"].'/define.php');
-
 check_user_access(basename($_SERVER['SCRIPT_NAME']));
-
 
 switch($_GET[act]){
 	default:
