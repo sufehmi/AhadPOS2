@@ -148,8 +148,8 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 								<label for="jumBarang"><span class="u">Q</span>ty</label>
 								<input type="text" class="form-control" id="jumBarang" name='jumBarang' value='1' size=5 accesskey="q">
 							</div>
-						<!--<input type="submit" class="btn btn-default" name="btnTambah" value="Tambah" accesskey="t">-->
-							<button type="submit" class="btn btn-default"><span class="u">T</span>ambah</button>
+						<!--<input type="submit" class="btn btn-primary" name="btnTambah" value="Tambah" accesskey="t">-->
+							<button type="submit" class="btn btn-primary"><span class="u">T</span>ambah</button>
 						</form>
 
 						<form method="POST" action="js_cari_barang.php?caller=js_jual_barang" onSubmit="popupform(this, 'cari1')">
@@ -164,7 +164,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 								<?php
 							};
 							?>
-							<!--<button type="submit" class="btn btn-default" name="btnCari" id="btnCari">GO</button>-->
+							<!--<button type="submit" class="btn btn-primary" name="btnCari" id="btnCari">GO</button>-->
 							<!--<input type='submit' class='btn btn-default' name='btnCari' id='btnCari' value='Cari'>-->
 						</form>
 
@@ -337,7 +337,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 											</tr>
 											<tr>
 												<td><a href='../aksi.php?module=penjualan_barang&act=batal'><button>Batal</button></a></td>
-												<td class="right">&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.disabled=true;'></td>
+												<td class="right">&nbsp;<input type='submit' class='btn btn-primary' value='Simpan' onclick='this.disabled=true;'></td>
 											</tr>
 										</table>
 									</div>

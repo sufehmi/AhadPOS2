@@ -158,7 +158,7 @@ if (empty($_SESSION['namauser'])) {
 											<label for="barcode"><span class="u">B</span>arcode</label>
 											<input type="text" class="form-control" name="barcode" accesskey="b" id="barcode">
 										</div>
-										<button type="submit" class="btn btn-default"><span class="u">T</span>ambah</button>
+										<button type="submit" class="btn btn-primary"><span class="u">T</span>ambah</button>
 			<!--							(b) Barcode</td><td><input type='text' class='form-control' class='form-control' name='barcode' accesskey='b' id='barcode'></td>
 
 								<td>(q) Qty</td><td><input type='text' class='form-control' class='form-control' name='jumBarang' value='0' size=5 accesskey='q'></td>
@@ -288,7 +288,7 @@ if (empty($_SESSION['namauser'])) {
 								?>
 								<tr>
 									<td>[<a href='../aksi.php?module=penjualan_barang&act=batal'> BATAL </a>]</td>
-									<td align=right>&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.disabled=true;'></td>
+									<td align=right>&nbsp;<input type='submit' class='btn btn-primary' value='Simpan' onclick='this.disabled=true;'></td>
 								</tr>
 							</table>
 						</form>

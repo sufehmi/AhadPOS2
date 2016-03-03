@@ -155,6 +155,10 @@ function ahad_homepage() {
 
 <?php }
 
+function ahad_info() {
+	echo "<pre>"; print_r($_SERVER); echo "</pre>";
+}
+
 function ahad_shortcut($lvl) {
 	$m ="";
 	switch($lvl) {

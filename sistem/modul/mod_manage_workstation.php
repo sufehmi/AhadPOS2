@@ -59,7 +59,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 			?>
 			<h2>Data Workstation</h2>			
 			<form method='post' action='?module=workstation&act=tambahworkstation'>
-				<input type='submit' class='btn btn-default' value='Tambah Workstation'></form>
+				<input type='submit' class='btn btn-primary' value='Tambah Workstation'></form>
 			<br/>
 			<table class="tabel">
 				<tr>
@@ -115,8 +115,8 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 
 			echo "
 		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>
 		";
 			break;
@@ -147,8 +147,8 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
 
 			echo "
 		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>";
 			break;
 	}

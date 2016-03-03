@@ -25,10 +25,10 @@ switch ($_GET[act]) {
 		?>
 		<h2>Data Menu</h2>
 		<form method='post' action='?module=menu&act=tambahmenu'>
-			<input type=submit value='Tambah Menu'>
+			<input type='submit' class='btn btn-primary' value='Tambah Menu'>
 		</form>
 		<form method='post' action='?module=menu&act=listicon'>
-			<input type=submit value='List Icon'>
+			<input type='submit' class='btn btn-primary' value='List Icon'>
 		</form>
 
 		<br/>
@@ -147,8 +147,8 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td colspan=2 align=right>
-						<input type=submit value=Simpan>&nbsp;
-						<input type=button value=Batal onclick=self.history.back()></td>
+						<input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+						<input type='reset' value='Batal' onclick='self.history.back()'></td>
 				</tr>
 			</table>
 		</form>
@@ -220,8 +220,8 @@ switch ($_GET[act]) {
 					<td><input type="text" class="form-control" name="urutan" value="<?php echo $data['urutan']; ?>" /></td>
 				</tr>
 				<tr><td colspan=2>&nbsp;</td></tr>
-				<tr><td colspan=2><input type="submit" value="update">&nbsp;
-						<input type=button value=Batal onclick=self.history.back()></td>
+				<tr><td colspan=2><input type="submit" class='btn btn-primary' value="update">&nbsp;
+						<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td>
 				</tr>
 			</table>
 		</form>

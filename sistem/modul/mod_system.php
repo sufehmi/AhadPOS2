@@ -16,12 +16,7 @@ switch ($act) {
 			);
 		}
 		?>
-		<style>
-			input[type='text']{
-				font-family: "Courier New", Courier, monospace;
-				font-size: 1.2em;
-			}
-		</style>
+
 		<h2>Setting Configuration</h2>
 		<form method="POST" action="./aksi.php?module=system&act=setting-simpan">
 			<table>
@@ -73,7 +68,7 @@ switch ($act) {
 					</tr>
 					<tr>
 						<td colspan="2" align="right">
-							<input type="submit" class="btn btn-default" value="Simpan">
+							<input type="submit" class='btn btn-primary' value='Simpan'>
 						</td>
 					</tr>
 				</tbody>
@@ -106,12 +101,8 @@ switch ($act) {
 		break;
 
 	default:
-		?>
-		<p>
-			Pilih Sub Menu <i class="fa fa-arrow-circle-up"></i>
-		</p>
-
-		<?php
+		echo "<h2>Server Info</h2>";
+		ahad_info();
 		break;
 }
 //eof

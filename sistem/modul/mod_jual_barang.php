@@ -61,7 +61,7 @@ $namaCustomer=mysql_query($sql);
 		endwhile;
 		?>
 	</select>
-	<input type='submit' class='btn btn-default' value='(p) Pilih Customer' name='cariCustomer' accesskey='p'/>
+	<input type='submit' class='btn btn-primary' value='(p) Pilih Customer' name='cariCustomer' accesskey='p'/>
 </form>
 <?php
 /** Menampilkan tombol untuk membuka cash drawer

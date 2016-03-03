@@ -95,70 +95,50 @@ switch ($_GET[act]) { // -------------------------------------------------------
 	// Tampil Satuan Barang
 	default:
 		echo "<h2>Pembelian Barang</h2>
-		<table>
-		<tr>
-					<td>
-			<form method='post' action='?module=pembelian_barang&act=pembelianbarang'>
-			<input type='submit' class='btn btn-default' value='(b) Pembelian Barang' accesskey='b'>
-			</form>
-					</td>
-					<td style='width:100px'>
-			<form method='post' action='?module=pembelian_barang&act=laporanpembeliantanggal'>
-			<input type='submit' class='btn btn-default' value='(l) Laporan Pembelian per Tanggal' accesskey='l'>
-			</form>
-					</td>
-					<td>
-			<form method='post' action='?module=pembelian_barang&act=laporanpembelian'>
-			<input type='submit' class='btn btn-default' value='(s) Laporan Pembelian per Supplier' accesskey='s'>
-			</form>
-					</td>
-					<td>
-			<form method='post' action='?module=pembelian_barang&act=pemesananbarang'>
-			<input type='submit' class='btn btn-default' value='(p) Pemesanan Barang' accesskey='p'>
-			</form>
-					</td>
 
-		</tr>
+		<div style='margin: .5em 0'>
+		<form class='inline' method='post' action='?module=pembelian_barang&act=pembelianbarang'>
+		<input type='submit' class='btn btn-info' value='(b) Pembelian Barang' accesskey='b'>
+		</form>
 
+		<form class='inline' method='post' action='?module=pembelian_barang&act=laporanpembeliantanggal'>
+		<input type='submit' class='btn btn-info' value='(l) Laporan Pembelian per Tanggal' accesskey='l'>
+		</form>
 
-		<tr>
-					<td>
-			<form method='post' action='?module=pembelian_barang&act=returpembelian'>
-			<input type='submit' class='btn btn-default' value='(r) Retur Pembelian' accesskey='r'>
-			</form>
-					</td>
-					<td>
-			<form method='post' action='?module=pembelian_barang&act=cetakretur'>
-			<input type='submit' class='btn btn-default' value='(c) Cetak Nota Retur' accesskey='c'>
-			</form>
-					</td>
-		</tr>
+		<form class='inline' method='post' action='?module=pembelian_barang&act=laporanpembelian'>
+		<input type='submit' class='btn btn-info' value='(s) Laporan Pembelian per Supplier' accesskey='s'>
+		</form>
 
+		<form class='inline' method='post' action='?module=pembelian_barang&act=pemesananbarang'>
+		<input type='submit' class='btn btn-info' value='(p) Pemesanan Barang' accesskey='p'>
+		</form>
+		
+		</div><div style='margin: .5em 0'>
+		
+		<form class='inline' method='post' action='?module=pembelian_barang&act=returpembelian'>
+		<input type='submit' class='btn btn-info' value='(r) Retur Pembelian' accesskey='r'>
+		</form>
+		<form class='inline' method='post' action='?module=pembelian_barang&act=cetakretur'>
+		<input type='submit' class='btn btn-info' value='(c) Cetak Nota Retur' accesskey='c'>
+		</form>
 
+		</div><div style='margin: .5em 0'>
 
-		<tr>
-					<td>
-			<form method='post' action='?module=pembelian_barang&act=inputeprocurement1'>
-			<input type='submit' class='btn btn-default' value='Input Beli Otomatis'>
-			</form>
-					</td>
-					<td>
-		</tr>
+		<form class='inline' method='post' action='?module=pembelian_barang&act=inputeprocurement1'>
+		<input type='submit' class='btn btn-info' value='Input Beli Otomatis'>
+		</form>
 
-		<tr>
-					<td>
-			<form method='post' action='?module=pembelian_barang&act=buatrpo1'>
-			<input type='submit' class='btn btn-default' value='(o) Buat RPO' accesskey='o'>
-			</form>
-					</td>
-					<td>
-			<form method='post' action='?module=pembelian_barang&act=rposup1'>
-			<input type='submit' class='btn btn-default' value='(o) Buat RPO Per Supplier' accesskey='o'>
-			</form>
-					</td>
-		</tr>
+		</div><div style='margin: .5em 0'>
 
-		</table>";
+		<form class='inline' method='post' action='?module=pembelian_barang&act=buatrpo1'>
+		<input type='submit' class='btn btn-info' value='(o) Buat RPO' accesskey='o'>
+		</form>
+
+		<form class='inline' method='post' action='?module=pembelian_barang&act=rposup1'>
+		<input type='submit' class='btn btn-info' value='(o) Buat RPO Per Supplier' accesskey='o'>
+		</form>
+		
+		</div>";
 		break;
 
 
@@ -668,7 +648,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 				<td class=td>
 					<form method='post' action='aksi.php?module=inputreturbeli&act=simpanretur'>
 						<input type=hidden name=idNota value=$idNota>
-						<input type='submit' class='btn btn-default' value=Simpan>
+						<input type='submit' class='btn btn-primary' value='Simpan'>
 					</form>
 				</td>";
 							echo "</table>";
@@ -852,7 +832,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								<td>
 									<form method='post' action='aksi.php?module=editlaporanpembelian&act=simpanedit'>
 										<input type=hidden name=idNota value=<?php echo $idNota; ?>>
-										<input type='submit' class='btn btn-default' value=Simpan>
+										<input type='submit' class='btn btn-primary' value='Simpan'>
 									</form>
 								</td>
 							</tr>
@@ -923,7 +903,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 								</select>
 							</td>
 							<td>
-								<input type="submit" class="btn btn-default" value="(2) Pilih barcode !" accesskey="2" />
+								<input type="submit" class="btn btn-primary" value="(2) Pilih barcode !" accesskey="2" />
 								<input type="hidden" name="xppn" value="<?php echo $_POST['xppn']; ?>">
 								<input type="hidden" name="xDiskonPersen" value="<?php echo $_POST['xDiskonPersen']; ?>">
 								<input type="hidden" name="persenprofit" value="<?php echo $_POST['persenprofit']; ?>">
@@ -1216,7 +1196,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 									<input type=hidden name=idBarang value="<?php echo $data['idBarang']; ?>">
 
 									<td align=right><?php echo number_format($total, 0, ',', '.'); ?></td>
-									<td width=120><input type='submit' class='btn btn-default' name=update value=Update></form> |
+									<td width=120><input type='submit' class='btn btn-default' name=update value='Update'></form> |
 								<a href='./aksi.php?module=pembelian_barang&act=hapus_detil&id=<?php echo $data['idBarang']; ?>'>Hapus</a></td>
 								</tr>
 								<?php
@@ -1290,7 +1270,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 				<td>
 					<input type='hidden' name='idSupplier' value='".$_SESSION['idSupplier']."'>
-					<input type='submit' class='btn btn-default' value='Simpan' tabindex=23>
+					<input type='submit' class='btn btn-primary' value='Simpan' tabindex=23>
 				</td>
 			</tr>
 						</table></form>
@@ -1491,7 +1471,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
 		<input type=hidden name=count value=$n>
 		<input type=hidden name=jenistransaksi value=".$_POST['jenistransaksi'].">
 
-		<input type='submit' class='btn btn-default' value=SIMPAN />
+		<input type='submit' class='btn btn-primary' value='Simpan' />
 		</form>
 	";
 

@@ -236,7 +236,7 @@ switch($_GET[act]){ // =========================================================
 
 						<tr><td>[<a href='../aksi.php?module=retur_barang&act=batal'> BATAL </a>]</td><td align=right>&nbsp;
 
-	<input type='submit' class='btn btn-default' value='Simpan'>
+	<input type='submit' class='btn btn-primary' value='Simpan'>
 			</td></tr>
 						</table></form>";
 

@@ -68,84 +68,23 @@ switch ($_GET['act']) {
 		?>
 		<h2>Data barang</h2>
 
-		<?php
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=tambahbarang'>
-//		<input type='submit' class='btn btn-default' accesskey='t' value='(t) Tambah Barang'></form>
-//	</div>
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=caribarang1'>
-//		<input type='submit' class='btn btn-default' accesskey='c' value='(c) Cari Barang'></form>
-//	</div>
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=cetaklabel1'>
-//		<input type='submit' class='btn btn-default' accesskey='l' value='(l) Cetak Label'></form>
-//	</div>
-		?>
+		<div style='margin: .5em 0'>
 
 		<form class="inline" method='post' action='?module=barang&act=cetakperbarcode'>
-			<input type='submit' class='btn btn-default' value='Cetak Label / barcode' >
+		<input type='submit' class='btn btn-info' value='Cetak Label / barcode' >
 		</form>
 
-		<?php
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=cetakbarang1'>
-//		<input type='submit' class='btn btn-default' accesskey='b' value='(b) Cetak Stock Barang'></form>
-//	</div>
-//	<br /><br />
-//
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=cetakSO'>
-//		<input type='submit' class='btn btn-default' accesskey='s' value='(s) Cetak Stock Opname' ></form>
-//	</div>
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=inputSO'>
-//		<input type='submit' class='btn btn-default' accesskey='o' value='(o) Input Stock Opname' ></form>
-//	</div>
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=inputrak' onSubmit=\"popupform(this, 'inputrak')\" >
-//		<input type='submit' class='btn btn-default' accesskey='i' value='(i) Input Cepat Rak' ></form>
-//	</div>
-//			<br /><br />
-//
-//	<div style=\"float:left\">
-//		<form method='post' action='../tools/fast-stock-opname/fast-SO.php'>
-//		<input type='submit' class='btn btn-default' value='Input Fast SO' ></form>
-//	</div>
-//	<div style=\"float:left\">
-//		<form method='post' action='../tools/fast-stock-opname/fast-SO-mobile.php'>
-//		<input type='submit' class='btn btn-default' value='Input Mobile SO' ></form>
-//	</div>
-//
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=ApproveFastSO1'>
-//		|| <input type='submit' class='btn btn-default' value='Approve Fast SO' ></form>
-//	</div>
-//
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=ApproveMobileSO1'>
-//		|| <input type='submit' class='btn btn-default' value='Approve Mobile SO' ></form>
-//	</div>
-//			<br /><br />
-		//		<form method='post' action='?module=barang&act=returbarang1' onSubmit=\"popupform(this, 'inputrak')\" >
-		?>
-
 		<form class="inline" method='post' action='modul/js_input_retur_barang.php?act=caricustomer' onSubmit="popupform(this, 'INPUT_RETUR_BARANG')">
-			<input type='submit' class='btn btn-default' accesskey='r' value='(r) Input Retur'>
+		<input type='submit' class='btn btn-info' accesskey='r' value='(r) Input Retur'>
 		</form>
 
 
 		<form class="inline" method='post' action='?module=barang&act=hargajualsync'>
-			<input type='submit' class='btn btn-default' value='Sinkronisasi Harga Jual' >
+		<input type='submit' class='btn btn-info' value='Sinkronisasi Harga Jual' >
 		</form>
 
-		<?php
-//	<div style=\"float:left\">
-//		<form method='post' action='?module=barang&act=transfer1'>
-//		|| <input type='submit' class='btn btn-default' value='Transfer Barang antar Ahad' ></form>
-//	</div>
-		?>
-		<br/>
+		</div>
+		
 		<table class="tabel">
 			<thead>
 				<tr>
@@ -319,8 +258,8 @@ switch ($_GET['act']) {
 		}
 		echo "</select></td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>";
 		break;
 
@@ -749,7 +688,7 @@ switch ($_GET['act']) {
 		<div>
 			<form action="?module=barang&act=cetakperbarcode&cek=barcode" method="POST">
 				<input type="text" class="form-control" name="lBarcode" size="25" placeholder="Input barcode" id="barcode" />
-				<input type="submit" class="btn btn-default" name="cekBarcode" value="Get Barang" />
+				<input type="submit" class="btn btn-primary" name="cekBarcode" value="Get Barang" />
 			</form>
 
 			<script>
@@ -1177,7 +1116,7 @@ switch ($_GET['act']) {
 				</tr>
 				<tr><td colspan=2>&nbsp;</td></tr>
 				<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=(S)impan accesskey=s>&nbsp;
-						<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+						<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 
 				<input type=hidden name='oldbarcode' value='<?php echo $data['barcode']; ?>'>
 			</table>
@@ -1768,7 +1707,7 @@ switch ($_GET['act']) {
 			</select><p>
 		<input type=hidden name='transferahad' value='1'>
 
-		<input type='submit' class='btn btn-default' value='(p) Pilih Customer' name='cariCustomer' accesskey='p'/>
+		<input type='submit' class='btn btn-primary' value='(p) Pilih Customer' name='cariCustomer' accesskey='p'/>
 			</form>";
 
 
@@ -1792,7 +1731,7 @@ switch ($_GET['act']) {
 							?>
 						</select></td></tr>
 
-				<tr><td><button type="submit" class="btn btn-default" accesskey="O"><u>O</u>K</button></td></tr>
+				<tr><td><button type="submit" class="btn btn-primary" accesskey="O"><u>O</u>K</button></td></tr>
 
 			</table>
 		</form>
@@ -1848,7 +1787,7 @@ switch ($_GET['act']) {
 				Proses Sinkronisasi Selesai<br /><br />
 				<form method="POST" action="modul/mod_barang.php?act=cetakhargajualsync" onSubmit="popupform(this, 'cetaklabel')">
 					<input type="hidden" name="lastupdate" value="<?php echo $lastupdate; ?>" />
-					<input type="submit" class="btn btn-default" name="cetak" value="Cetak label harga yang disinkronisasi" />
+					<input type="submit" class="btn btn-primary" name="cetak" value="Cetak label harga yang disinkronisasi" />
 				</form>
 				<?php
 			}
@@ -1872,7 +1811,7 @@ switch ($_GET['act']) {
 			?>
 			<form method="POST">
 				<input type="hidden" name="rak" value="<?php echo $idRak; ?>" />
-				<button type="submit" class="btn btn-default" name="sinkronisasi_harga" accesskey="u"><u>U</u>pdate Harga ke Harga Jual Baru</button>
+				<button type="submit" class="btn btn-primary" name="sinkronisasi_harga" accesskey="u"><u>U</u>pdate Harga ke Harga Jual Baru</button>
 			</form>
 			<br />
 			<table class="tabel">
@@ -1906,7 +1845,7 @@ switch ($_GET['act']) {
 			<br />
 			<form method="POST">
 				<input type="hidden" name="rak" value="<?php echo $idRak; ?>" />
-				<button type="submit" class="btn btn-default" name="sinkronisasi_harga" accesskey="u"><u>U</u>pdate Harga ke Harga Jual Baru</button>
+				<button type="submit" class="btn btn-primary" name="sinkronisasi_harga" accesskey="u"><u>U</u>pdate Harga ke Harga Jual Baru</button>
 			</form
 			<?php
 		} else {
@@ -2118,7 +2057,7 @@ switch ($_GET['act']) {
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="submit" class="btn btn-default" name="submit" value="submit" /></td>
+					<td><input type="submit" class="btn btn-primary" name="submit" value="submit" /></td>
 				</tr>
 			</table>
 		</form>
@@ -2271,7 +2210,7 @@ switch ($_GET['act']) {
 						?>
 					</tbody>
 				</table>
-				<input type="submit" class="btn btn-default" name="pilihBarang" value="Pindahkan Barang" />
+				<input type="submit" class="btn btn-primary" name="pilihBarang" value="Pindahkan Barang" />
 			</form>
 			<?php
 		endif;
@@ -2424,7 +2363,7 @@ switch ($_GET['act']) {
 						?>
 					</tbody>
 				</table>
-				<input type="submit" class="btn btn-default" name="pilihBarang" value="Pindahkan Barang" />
+				<input type="submit" class="btn btn-primary" name="pilihBarang" value="Pindahkan Barang" />
 			</form>
 			<?php
 		endif;
@@ -2829,7 +2768,7 @@ switch ($_GET['act']) {
 						<td><input type="text" class="form-control" id="hb-hargasatuan" name="hargasatuan" value="<?php echo isset($hbHarga) ? $hbHarga : ''; ?>" autocomplete="off"/></td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="submit" class="btn btn-default" value="(s) Simpan" accept="s"/></td>
+						<td colspan="2"><input type="submit" class="btn btn-primary" value="(s) Simpan" accept="s"/></td>
 					</tr>
 				</table>
 			</form>

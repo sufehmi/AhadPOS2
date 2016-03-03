@@ -69,8 +69,8 @@ switch ($_GET[act]) {
 		<tr><td>Telp Customer</td><td><input type='text' class='form-control' class='form-control' name='telpCustomer' size=15></td></tr>
 		<tr><td>Keterangan</td><td><textarea name='keterangan' rows='4' cols='35'></textarea></td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>";
 		break;
 
@@ -89,8 +89,8 @@ switch ($_GET[act]) {
 			<tr><td>Diskon (%)</td><td><input type='text' class='form-control' class='form-control' name='diskon_persen' value='$data[diskon_persen]' /></td></tr>
 		<tr><td>Diskon (Rp)</td><td><input type='text' class='form-control' class='form-control' name='diskon_rupiah' value='$data[diskon_rupiah]' /></td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>";
 		break;
 }

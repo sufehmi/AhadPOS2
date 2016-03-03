@@ -73,8 +73,8 @@ case "tambahmodul":
 							}
 			echo "</select></td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align=right><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>";
 	break;
 
@@ -109,8 +109,8 @@ case "editmodul":
 							}
 			echo "</select></td></tr>
 	<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2><input type='submit' class='btn btn-default' value=Update>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2><input type='submit' class='btn btn-primary' value='Update'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>";
 	break;
 }

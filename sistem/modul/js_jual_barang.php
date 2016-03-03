@@ -112,7 +112,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 							</div>
 						<div class="input-group">
 							<br/>
-							<button type="submit" class="btn btn-default">Tambah</button>
+							<button type="submit" class="btn btn-primary">Tambah</button>
 						</div>
 						</form>
 
@@ -128,7 +128,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 								<?php
 							};
 							?>
-							<!--<button type="submit" class="btn btn-default" name="btnCari" id="btnCari">GO</button>-->
+							<!--<button type="submit" class="btn btn-primary" name="btnCari" id="btnCari">GO</button>-->
 							<!--<input type='submit' class='btn btn-default' name='btnCari' id='btnCari' value='Cari'>-->
 						</form>
 
@@ -380,7 +380,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 											</tr>
 											<tr>
 												<td><a href='../aksi.php?module=penjualan_barang&act=batal' class="btn btn-sm btn-primary">Batal</a></td>
-												<td class="right">&nbsp;<input type='submit' class='btn btn-default' value='Simpan' onclick='this.form.submit();
+												<td class="right">&nbsp;<input type='submit' class='btn btn-primary' value='Simpan' onclick='this.form.submit();
 																		this.disabled=true;'></td>
 											</tr>
 										</table>
@@ -411,7 +411,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 					<input type="text" class="form-control" id="nama-user" name="nama-user" placeholder="Nama User Admin" /><br />
 					<input class='form-control' type="password" id="password" name="password" placeholder="Password" /><br />
 					<a href="js_jual_barang.php?act=caricustomer" class="btn btn-sm btn-primary" id="tombol-batal-login" accesskey="l">Bata<u>l</u></a>
-					<input style="float: right" type="submit" class="btn btn-default" id="tombol-login-submit" value="Submit" />
+					<input style="float: right" type="submit" class="btn btn-primary" id="tombol-login-submit" value="Submit" />
 				</form>
 			</div>
 			<div id="self-checkout" style="
@@ -426,7 +426,7 @@ if (!isset($_SESSION[idCustomer])) { findCustomer($_POST[idCustomer]); }
 					<input type="text" class="form-control" id="self-checkout-id" name="self-checkout-id" placeholder="Nomor Self Checkout" /><br />
 					<!--<input class='form-control' type="password" id="password" name="password" placeholder="Password" /><br />-->
 					<!--<a href="js_jual_barang.php?act=caricustomer" class="btn btn-sm btn-primary" id="tombol-batal-sc" accesskey="l">Bata<u>l</u></a>-->
-					<input style="float: right" type="submit" class="btn btn-default" id="tombol-login-submit" value="Submit" />
+					<input style="float: right" type="submit" class="btn btn-primary" id="tombol-login-submit" value="Submit" />
 				</form>
 			</div>
 			<div id="footer" >

@@ -65,3 +65,5 @@ nav#drawer .fa-4x {font-size: 100%!important; }
 .kasir #footer:hover {height: 48px; bottom:0; left:0; width:100%;padding: .5em 1em;  }
 .smallprint {font-size: 10px; line-height:1;  margin-top:1em; padding-top:2em; border-top: 1px solid #ddd; }
 .surchange-td input.form-control {width: auto; float:none} 
+
+form.inline { display:inline-block; }

@@ -42,8 +42,8 @@ if ($_GET[module] == 'ganti_password') {
 			<!-- <tr><td>Re-Password</td><td><input type='password' class='form-control' name='repass' size=15></td></tr> -->
 			<tr><td colspan=2>*) Apabila password tidak diubah, dikosongkan saja.</td></tr>
 			<tr><td colspan=2>&nbsp;</td></tr>
-			<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-					<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+			<tr><td colspan=2 align='right'><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+					<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form><?php
 	
 } else {
@@ -105,8 +105,8 @@ if ($_GET[module] == 'ganti_password') {
 		<tr><td>Password</td><td><input type='password' class='form-control' name='pass' size=15></td></tr>
 		<!-- <tr><td>Re-Password</td><td><input type='password' class='form-control' name='repass' size=15></td></tr> -->
 		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>";
 			break;
 
@@ -135,8 +135,8 @@ if ($_GET[module] == 'ganti_password') {
 		<!-- <tr><td>Re-Password</td><td><input type='password' class='form-control' name='repass' size=15></td></tr> -->
 		<tr><td colspan=2>*) Apabila password tidak diubah, dikosongkan saja.</td></tr>
 		<tr><td colspan=2>&nbsp;</td></tr>
-		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-default' value=Simpan>&nbsp;
-							<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+		<tr><td colspan=2 align='right'><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+							<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 		</table></form>";
 			break;
 	};

@@ -139,7 +139,7 @@ switch($_GET[act]){
 				<td class=td align=right><input type='text' class='form-control' class='form-control' name=jumBarang size=10 value=$dataBarangTrans[jumBarang]></td>
 				<td class=td align=right><input type='text' class='form-control' class='form-control' name=hargaBeli value=$dataBarangTrans[hargaBeli]></td>
 				<td class=td align=right>".uang($total)."</td>
-				<td class=td align=center><input type='submit' class='btn btn-default' value=Update></td>
+				<td class=td align=center><input type='submit' class='btn btn-primary' value='Update'></td>
 				</form>
 				";
 			echo "</tr>";

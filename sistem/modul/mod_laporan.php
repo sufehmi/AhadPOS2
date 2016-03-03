@@ -42,59 +42,36 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 		echo "<h2>Laporan Manajemen</h2>
 
-		<table>
-		<tr>
+		<div style='margin:.5em 0'>
+		<form class='inline' method='post' action='?module=laporan&act=penjualan1'>
+		<input type='submit' class='btn btn-info' value='(j) Laporan Penjualan' accesskey='j'>
+		</form>
 
-		<td>
-			<form method='post' action='?module=laporan&act=penjualan1'>
-			<input type='submit' class='btn btn-default' value='(j) Laporan Penjualan' accesskey='j'>
-			</form>
-		</td>
+		<form class='inline' method='post' action='?module=laporan&act=pembelian1'>
+		<input type='submit' class='btn btn-info' value='(b) Laporan Pembelian' accesskey='b'>
+		</form>
 
-		<td>
-			<form method='post' action='?module=laporan&act=pembelian1'>
-			<input type='submit' class='btn btn-default' value='(b) Laporan Pembelian' accesskey='b'>
-			</form>
-		</td>
+		<form class='inline' method='post' action='?module=laporan&act=total1'>
+		<input type='submit' class='btn btn-info' value='(t) Total Stok' accesskey='t'>
+		</form>
 
-		<td>
-			<form method='post' action='?module=laporan&act=total1'>
-			<input type='submit' class='btn btn-default' value='(t) Total Stok' accesskey='t'>
-			</form>
-		</td>
+		</div><div style='margin:.5em 0'>
 
-		</tr>
+		<form class='inline' method='post' action='?module=laporan&act=toprank1'>
+		<input type='submit' class='btn btn-info' value='(r) Top Rank' accesskey='r'>
+		</form>
 
-		<tr>
+		<form class='inline' method='post' action='?module=laporan&act=aging1'>
+		<input type='submit' class='btn btn-info' value='(a) Aging' accesskey='a'>
+		</form>
+		
+		</div><div style='margin:.5em 0'>
 
-			<td>
-			<form method='post' action='?module=laporan&act=toprank1'>
-			<input type='submit' class='btn btn-default' value='(r) Top Rank' accesskey='r'>
-			</form>
-			</td>
-
-
-			<td>
-			<form method='post' action='?module=laporan&act=aging1'>
-			<input type='submit' class='btn btn-default' value='(a) Aging' accesskey='a'>
-			</form>
-			</td>
-
-		</tr>
-
-		<tr>
-
-			<td>
-			<form method='post' action='?module=laporan&act=po'>
-			<input type='submit' class='btn btn-default' value='(p) Purchase Order' accesskey='r'>
-			</form>
-			</td>
-		</tr>
-
-
-		</table>
-
-	";
+		<form class='inline' method='post' action='?module=laporan&act=po'>
+		<input type='submit' class='btn btn-info' value='(p) Purchase Order' accesskey='r'>
+		</form>
+		
+		</div>";
 
 		break;
 
@@ -594,7 +571,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 			<tr><td colspan=2>&nbsp;
 			</td></tr>
-			<tr><td colspan=2><input type=submit value='Pilih Printer'>&nbsp;
+			<tr><td colspan=2><input type='submit' value='Pilih Printer'>&nbsp;
 			&nbsp;
 			&nbsp;
 			<input type=reset value='Batal'></td></tr>

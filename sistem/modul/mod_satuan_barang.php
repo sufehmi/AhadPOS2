@@ -29,7 +29,7 @@ switch ($_GET[act]) {
 				</tr>
 				<tr>
 					<td colspan=2 align=right>
-						<input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
+						<input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
 						<input type='reset' class='btn btn-default' value='Batal'>
 					</td>
 				</tr>
@@ -84,8 +84,8 @@ switch ($_GET[act]) {
 			<input type=hidden name='idSatuanBarang' value='$data[idSatuanBarang]'>
 			<table>
 				<tr><td>Edit Satuan</td><td><input type='text' class='form-control' class='form-control' name='namaSatuanBarang' size=30 value='$data[namaSatuanBarang]'></td></tr>
-				<tr><td colspan=2 align=right><input type='submit' class='btn btn-default' value='Simpan'>&nbsp;
-								<input type='reset' class='btn btn-default' value=Batal onclick=self.history.back()></td></tr>
+				<tr><td colspan=2 align=right><input type='submit' class='btn btn-primary' value='Simpan'>&nbsp;
+								<input type='reset' class='btn btn-default' value='Batal' onclick='self.history.back()'></td></tr>
 			</table>
 			</form>
 			<br/>
