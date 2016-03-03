@@ -26,7 +26,7 @@ require_once("menu2.php");
 </main>
 
 <footer>
-<div><small><?php e(BRAND_NAME); ?> &mdash;  Point of Sales &mdash; <?php e(BRAND_OWNER); ?><br>
+<div><small><?php e(BRAND_NAME); ?> &mdash;  Point of Sales &mdash; <?php e(BRAND_OWNER); ?> &mdash; 
 It's an <a href="http://ahadpos.com/">AhadPOS</a> &mdash; Copyright &copy; 2011 by Rimbalinux.com.</small></div>
 </footer>
 
