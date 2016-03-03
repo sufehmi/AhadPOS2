@@ -1,6 +1,6 @@
 <?php
 
-/* Default: hitung untuk 180 hari terakhir */
+/* Default: hitung untuk 180 hari terakhir kebelakang */
 $jumlahHari = 180;
 
 /*
