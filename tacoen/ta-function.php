@@ -14,7 +14,6 @@ function check_ahadpos_session() {
 
 // dari 2b
 
-
 function ahp_htmlheader($title,$add_to_head='') {
 	echo "<!DOCTYPE html>\n";
 	echo "<html lang='en'>\n";
@@ -122,16 +121,17 @@ function ahp_kasirheader($title,$add_to_head='') {
 
 function ahad_homepage() {
 
-	$kas=getKasAwal($_SESSION[iduser]);
-	$uang=getUangKasir($_SESSION[iduser]); ?>
+	$kas=getKasAwal($_SESSION['iduser']);
+	$uang=getUangKasir($_SESSION['iduser']); ?>
 	<div class='row'>
 	<div class='col-md-8 col-lg-8'>
 
-	<h1 style='margin-top:0'>Hi! <?php echo $_SESSION[namauser]; ?>.</h1>
+	<h1 style='margin-top:0'>Halo <?php echo $_SESSION['namauser']; ?>.</h1>
 	
 	<p>Waktu Login Saat ini: <?php echo tgl_indo(date("Y m d")); ?> | <?php echo date("H:i"); ?> </p>
 	
-	<pre><?php print_r($_SESSION); ?></pre>
+	<h2>Pintasan Cepat</h2>
+	<ul><?php echo ahad_shortcut($_SESSION['leveluser']); ?></ul>
 
 	</div><div class='col-md-4 col-lg-4'>
 
@@ -147,11 +147,35 @@ function ahad_homepage() {
 	
 	<div class="panel panel-danger">
 	<div class="panel-heading">Akses ID</div>
-	<div class="panel-body"><b><?php echo $_SESSION[leveluser]; ?> / <?php echo $_SESSION[iduser]; ?></b></div>
+	<div class="panel-body"><b><?php echo $_SESSION['leveluser']; ?> / <?php echo $_SESSION['iduser']; ?></b></div>
 	</div>
 	
 	</div>
 	</div>
 
 <?php }
-?>
+
+function ahad_shortcut($lvl) {
+	$m ="";
+	switch($lvl) {
+		case 'admin':
+			$m .="<li><a href='media.php?module=user'>User Manager</a></li>";
+			$m .="<li><a href='media.php?module=workstation'>Cashier Workstation</a></li>";
+			break;
+		case 'gudang':
+			$m .="<li><a href='media.php?module=barang'>Data Barang</a></li>";
+			$m .="<li><a href='media.php?media.php?module=pembelian_barang&act=pembelianbarang'>Pembelian Barang</a></li>";
+			$m .="<li><a href='media.php?module=customer'>Data Customer</a></li>";
+			$m .="<li><a href='media.php?module=kasir&act=bukakasir'>Jadi Kasir</a></li>";
+			break;
+		case 'kasir':
+			$m .="<li><a href='media.php?module=customer'>Data Customer</a></li>";
+			$m .="<li><a href='media.php?module=kasir&act=bukakasir'>Buka Kasir</a></li>";
+			break;
+		default:
+			$m .="<li><a href='#'>Opsi1</a></li>";
+			break;
+	}
+
+	return $m;
+}?>
