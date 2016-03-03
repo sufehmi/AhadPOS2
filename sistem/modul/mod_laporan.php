@@ -1209,6 +1209,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
                  */
 
                 mysql_query("truncate table tmp_lap_aging"); // Memastikan isi tabel kosong sebelum diinsert
+                
+                $kondisi = '';
+                      
+                if ($_POST['kategori'] != 'SEMUA') {
+                    $kondisi .= "WHERE barang.idKategoriBarang = {$_POST['kategori']}";
+                } 
+                
                 $sqltmp = "INSERT INTO tmp_lap_aging (barcode,namaBarang,nilaiStok,umurStok,jmlStokIni,jmlStokSemua,avgSales) 
                 SELECT 
                     barang.barcode,
@@ -1245,7 +1252,11 @@ switch ($_GET[act]) { //--------------------------------------------------------
                     JOIN transaksijual tj ON dj.nomorStruk = tj.idTransaksiJual
                         AND tj.tglTransaksiJual BETWEEN '{$_POST['dari']}' AND '{$_POST['sampai']}'
                     GROUP BY barcode) penjualan ON barang.barcode = penjualan.barcode
+                {$kondisi}
                 ORDER BY barang.namaBarang";
+                        
+                  
+                
                 $hasil = mysql_query($sqltmp) or die("Error : " . mysql_error());
 
 
