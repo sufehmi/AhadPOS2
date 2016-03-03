@@ -1100,11 +1100,29 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
         	<tr>
 			<td>Sortir berdasarkan</td>
-			<td>: 	<select name='sortir'>
-				<option value='avgSales' selected>	Average Daily Sales</option>
-				<option value='jmlStokIni' >		Jumlah Sisa Stok</option>
-				<option value='umurStok' >		Umur Stok</option>
-				<option value='nilaiStok'>		Nilai Stok</option>
+			<td>: 	<select name='sortir1'>
+				<option value='avgSales1'>	Average Daily Sales (a-z)</option>
+				<option value='avgSales2'>	Average Daily Sales (z-a)</option>
+				<option value='jmlStokIni1' >		Jumlah Sisa Stok (a-z)</option>
+				<option value='jmlStokIni2' >		Jumlah Sisa Stok (z-a)</option>
+				<option value='umurStok1' >		Umur Stok (a-z)</option>
+				<option value='umurStok2' selected >		Umur Stok (z-a)</option>
+				<option value='nilaiStok1'>		Nilai Stok (a-z)</option>
+				<option value='nilaiStok2'>		Nilai Stok (z-a)</option>
+				</select>
+			</td>
+		</tr>
+        	<tr>
+			<td></td>
+			<td>: 	<select name='sortir2'>
+				<option value='avgSales1'>	Average Daily Sales (a-z)</option>
+				<option value='avgSales2'>	Average Daily Sales (z-a)</option>
+				<option value='jmlStokIni1' >		Jumlah Sisa Stok (a-z)</option>
+				<option value='jmlStokIni2' >		Jumlah Sisa Stok (z-a)</option>
+				<option value='umurStok1' >		Umur Stok (a-z)</option>
+				<option value='umurStok2' >		Umur Stok (z-a)</option>
+				<option value='nilaiStok1'>		Nilai Stok (a-z)</option>
+				<option value='nilaiStok2' selected>		Nilai Stok (z-a)</option>
 				</select>
 			</td>
 		</tr>
@@ -1152,7 +1170,6 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		";
                 $hasil = mysql_query($sql) or die("Error : " . mysql_error());
 
-                $sortir = $_POST['sortir'];
                 /*
                   $sql = "SELECT lb.barcode, lb.namaBarang, SUM(lb.jumBarang) AS sisastok,
                   SUM(lb.hargaBeli * lb.jumBarang) AS nilaistok,
@@ -1209,13 +1226,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
                  */
 
                 mysql_query("truncate table tmp_lap_aging"); // Memastikan isi tabel kosong sebelum diinsert
-                
+
                 $kondisi = '';
-                      
+
                 if ($_POST['kategori'] != 'SEMUA') {
                     $kondisi .= "WHERE barang.idKategoriBarang = {$_POST['kategori']}";
-                } 
-                
+                }
+
                 $sqltmp = "INSERT INTO tmp_lap_aging (barcode,namaBarang,nilaiStok,umurStok,jmlStokIni,jmlStokSemua,avgSales) 
                 SELECT 
                     barang.barcode,
@@ -1254,9 +1271,9 @@ switch ($_GET[act]) { //--------------------------------------------------------
                     GROUP BY barcode) penjualan ON barang.barcode = penjualan.barcode
                 {$kondisi}
                 ORDER BY barang.namaBarang";
-                        
-                  
-                
+
+
+
                 $hasil = mysql_query($sqltmp) or die("Error : " . mysql_error());
 
 
@@ -1279,10 +1296,68 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		";
 
                 // ambil data dari temporary table
-                if ($sortir == 'avgSales') {
-                    $sortir = 'avgSales,nilaiStok';
-                };
-                $sql = "SELECT * FROM tmp_lap_aging ORDER BY $sortir DESC";
+                /*
+                  if ($sortir == 'avgSales') {
+                  $sortir = 'avgSales,nilaiStok';
+                  };
+                 */
+                $sortir1 = $_POST['sortir1'];
+                $urut1 = '';
+                switch ($sortir1) {
+                    case 'avgSales1':
+                        $urut1 = 'avgSales';
+                        break;
+                    case 'avgSales2':
+                        $urut1 = 'avgSales desc';
+                        break;
+                    case 'jmlStokIni1':
+                        $urut1 = 'jmlStokIni';
+                        break;
+                    case 'jmlStokIni2':
+                        $urut1 = 'jmlStokIni desc';
+                        break;
+                    case 'umurStok1':
+                        $urut1 = 'umurStok';
+                        break;
+                    case 'umurStok2':
+                        $urut1 = 'umurStok desc';
+                        break;
+                    case 'nilaiStok1':
+                        $urut1 = 'nilaiStok';
+                        break;
+                    case 'nilaiStok2':
+                        $urut1 = 'nilaiStok desc';
+                        break;
+                }
+                $sortir2 = $_POST['sortir2'];
+                $urut2 = '';
+                switch ($sortir2) {
+                    case 'avgSales1':
+                        $urut2 = 'avgSales';
+                        break;
+                    case 'avgSales2':
+                        $urut2 = 'avgSales desc';
+                        break;
+                    case 'jmlStokIni1':
+                        $urut2 = 'jmlStokIni';
+                        break;
+                    case 'jmlStokIni2':
+                        $urut2 = 'jmlStokIni desc';
+                        break;
+                    case 'umurStok1':
+                        $urut2 = 'umurStok';
+                        break;
+                    case 'umurStok2':
+                        $urut2 = 'umurStok desc';
+                        break;
+                    case 'nilaiStok1':
+                        $urut2 = 'nilaiStok';
+                        break;
+                    case 'nilaiStok2':
+                        $urut2 = 'nilaiStok desc';
+                        break;
+                }
+                $sql = "SELECT * FROM tmp_lap_aging ORDER BY {$urut1}, {$urut2}";
                 $hasil = mysql_query($sql) or die("Error : " . mysql_error());
 
 
