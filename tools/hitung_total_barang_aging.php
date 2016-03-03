@@ -1,12 +1,12 @@
 <?php
 
-/* Default: hitung untuk 3 bulan terakhir */
+/* Default: hitung untuk 180 hari terakhir */
 $jumlahHari = 180;
 
 /*
  * ambil argument pertama, argument setelahnya diabaikan 
  * scriptnya bisa dipanggil seperti ini:
- * php hitung_penjualan.php 3 bulan pertama
+ * php hitung_total_barang_aging.php 180 hari terakhir
  */
 if (isset($argv[1]) && $argv[1] > 0) {
     $jumlahHari = $argv[1];
