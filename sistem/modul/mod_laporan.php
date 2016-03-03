@@ -1059,7 +1059,9 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
 
         case 'aging1': { // ---------------------------------------------------------------------------------
-                $tanggal = date('Y-m-d');
+                $tanggalAwal = '2000-01-01';                
+                // Tanggal akhir > 180 hari dari hari ini
+                $tanggalAkhir = $day_before = date( 'Y-m-d', strtotime( date('Y-m-d') . ' -181 day' ) );
                 echo "
               <br/>
               <h2>Laporan Aging / Barang Mati</h2>
@@ -1069,13 +1071,13 @@ switch ($_GET[act]) { //--------------------------------------------------------
 		<table>
         	<tr>
 			<td>Dari Tanggal </td>
-			<td>: <input type=text name=dari value='$tanggal'>
+			<td>: <input type=text name=dari value='$tanggalAwal'>
 			</td>
 		</tr>
 
         	<tr>
 			<td>Sampai Tanggal </td>
-			<td>: <input type=text name=sampai value='$tanggal'>
+			<td>: <input type=text name=sampai value='$tanggalAkhir'>
 			</td>
 		</tr>
 

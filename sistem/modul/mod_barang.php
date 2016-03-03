@@ -1247,6 +1247,48 @@ switch ($_GET['act']) {
                 $sql = "UPDATE barang SET jumBarang = '" . $StokSekarang . "' WHERE barcode = '" . $_POST["barcode$i"] . "'";
                 $hasil = mysql_query($sql);
 
+                // Sesuaikan jumlah barang di tabel detail_beli
+                $barcode = $_POST["barcode$i"];
+                $jumBarang = $StokSekarang;
+                // Init detail beli (dinol kan)
+                $sql = "update detail_beli set jumBarang=0, isSold='Y' where barcode = '{$barcode}' ";
+                mysql_query($sql) or die('Gagal init detail_beli, error: ' . mysql_error());
+
+                $sql = "select *
+                                from detail_beli db
+                                join transaksibeli tb on tb.idTransaksiBeli = db.idTransaksiBeli
+                                where barcode = '{$barcode}'
+                                order by db.idTransaksiBeli desc";
+                $resultDetailBeli = mysql_query($sql) or die('Gagal Ambil Detail Beli, error: ' . mysql_error());
+
+                $simulasi = false; // Variabel untuk testing.. (just for programmers)
+
+                while (($detailBeli = mysql_fetch_array($resultDetailBeli)) && $jumBarang > 0):
+
+                    /*
+                     * Jika pembelian (detail_beli.jumlahBarangAsli) lebih besar dari stock (barang.jumBarang)
+                     * langsung update detail_beli.jumBarang  dengan barang.jumBarang
+                     * Jika lebih kecil
+                     * update detail_beli.jumBarang dengan jumlah pembelian (detail_beli.jumBarangAsli)
+                     * yang kemudian mencari lagi di row selanjutnya
+                     */
+                    if ($detailBeli['jumBarangAsli'] >= $jumBarang) {
+                        if (!$simulasi) {
+                            mysql_query("update detail_beli set jumBarang = {$jumBarang}, isSold='N' where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 1, error: ' . mysql_error());
+                        }
+                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$jumBarang}</b> ";
+                        $jumBarang = 0;
+                    } else {
+                        if (!$simulasi) {
+                            mysql_query("update detail_beli set jumBarang = jumBarangAsli, isSold='N'
+                                              where idDetailBeli={$detailBeli['idDetailBeli']}") or die('Gagal update detailbeli script 2, error: ' . mysql_error());
+                        }
+                        $jumBarang -= $detailBeli['jumBarangAsli'];
+
+                        //echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detail beli {$detailBeli['idDetailBeli']} {$detailBeli['tglTransaksiBeli']} jumlahBarangAsli={$detailBeli['jumBarangAsli']}: UPDATE jumBarang=<b>{$detailBeli['jumBarangAsli']}</b>, Sisa={$jumBarang}";
+                    }
+                //echo '<br />';
+                endwhile;
                 echo "
 			Transaksi SO : Nama Barang: " . $_POST["namaBarang$i"] . ", Selisih: " . $_POST["selisih$i"] . " - sudah disimpan<br />
 			";
