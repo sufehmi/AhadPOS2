@@ -29,7 +29,7 @@ include "../config/config.php";
 // probably a good idea to move these next 3 lines into config.php instead
 $major = 2;
 $minor = 0;
-$revision = 17;
+$revision = 18;
 
 // serialize this
 $current_version = array($major, $minor, $revision);
@@ -408,6 +408,10 @@ function check_revision_minor0_major2($dbminor, $minor, $dbrevision, $revision) 
    if ($dbrevision < 17) {
       echo "Upgrading database to version 2.0.17 <br />";
       upgrade_216_to_217();
+   }
+   if ($dbrevision < 18) {
+      echo "Upgrading database to version 2.0.18 <br />";
+      upgrade_217_to_218();
    }
 }
 
@@ -1242,6 +1246,39 @@ function upgrade_216_to_217() {
    $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
 }
 
+function upgrade_217_to_218() {
+   
+   /* Tabel audit_stok untuk mencatat jika ada perbedaan antara barang.jumBarang
+    * dengan sum(detail_beli.jumBarang) 
+    */
+   $sql = "CREATE TABLE `audit_stok` (
+          `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+          `tglTransaksi` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          `jenis_transaksi` varchar(30) NOT NULL COMMENT 'script manual, so manual, pdt so, mobile so',
+          `username` varchar(30) NOT NULL,
+          `barcode` varchar(25) NOT NULL,
+          `nama_barang` varchar(45) NOT NULL,
+          `harga_beli` bigint(20) NOT NULL DEFAULT '0',
+          `harga_jual` bigint(20) NOT NULL DEFAULT '0',
+          `barang_jumBarang` int(11) NOT NULL DEFAULT '0',
+          `beli_jumBarang` int(11) NOT NULL,
+          PRIMARY KEY (`uid`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+   $hasil = exec_query($sql);
+   echo mysql_error();        
+
+// update version number ------------------------------------------------------
+   $sql = "SELECT * FROM config WHERE `option` = 'version'";
+   $hasil = mysql_query($sql);
+
+   if (mysql_num_rows($hasil) > 0) {
+      $sql = "UPDATE `config` SET value = '".serialize(array(2, 0, 18))."' WHERE `option` = 'version'";
+   } else {
+
+      $sql = "INSERT INTO `config` (`option`, value, description) VALUES ('version', '".serialize(array(2, 0, 18))."', '')";
+   }
+   $hasil = mysql_query($sql) or die('Gagal update db version, error: '.mysql_error());
+}
 
 // =================================== PATCH VERSI 3.x.x ==========================================
 function check_minor_major3($dbminor, $minor, $dbrevision, $revision) {
