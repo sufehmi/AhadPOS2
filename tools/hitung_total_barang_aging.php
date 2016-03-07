@@ -64,7 +64,8 @@ try {
                 WHERE
                     db.isSold = 'N'
                 GROUP BY db.barcode
-                ) AS dbAgregat ON barang.barcode = dbAgregat.barcode";
+                ) AS dbAgregat ON barang.barcode = dbAgregat.barcode
+            WHERE (barang.nonAktif!=1 or barang.nonAktif is null) AND barang.jumBarang > 0 ";
                 
     $insert = $dbh->prepare($sql)->execute(array(':jumlahHari' => $jumlahHari));
     echo "Selesai \n";
