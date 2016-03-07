@@ -1229,10 +1229,10 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
                 mysql_query("truncate table tmp_lap_aging"); // Memastikan isi tabel kosong sebelum diinsert
 
-                $kondisi = '';
+                $kondisi = 'WHERE (barang.nonAktif!=1 or barang.nonAktif is null)';
 
                 if ($_POST['kategori'] != 'SEMUA') {
-                    $kondisi .= "WHERE barang.idKategoriBarang = {$_POST['kategori']}";
+                    $kondisi .= " AND barang.idKategoriBarang = {$_POST['kategori']}";
                 }
 
                 $sqltmp = "INSERT INTO tmp_lap_aging (barcode,namaBarang,nilaiStok,umurStok,jmlStokIni,jmlStokSemua,avgSales) 
@@ -1359,7 +1359,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
                         $urut2 = 'nilaiStok desc';
                         break;
                 }
-                $sql = "SELECT * FROM tmp_lap_aging ORDER BY {$urut1}, {$urut2}";
+                $sql = "SELECT * FROM tmp_lap_aging ORDER BY {$urut1}, {$urut2} LIMIT {$_POST['jumlah']}";
                 $hasil = mysql_query($sql) or die("Error : " . mysql_error());
 
 
