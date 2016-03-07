@@ -1229,7 +1229,7 @@ switch ($_GET[act]) { //--------------------------------------------------------
 
                 mysql_query("truncate table tmp_lap_aging"); // Memastikan isi tabel kosong sebelum diinsert
 
-                $kondisi = 'WHERE (barang.nonAktif!=1 or barang.nonAktif is null)';
+                $kondisi = 'WHERE (barang.nonAktif!=1 or barang.nonAktif is null) AND barang.jumBarang > 0';
 
                 if ($_POST['kategori'] != 'SEMUA') {
                     $kondisi .= " AND barang.idKategoriBarang = {$_POST['kategori']}";
