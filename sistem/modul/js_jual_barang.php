@@ -129,6 +129,26 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
             <?php // JqueryUI untuk autocomplete cari barang pada cek harga ?>
             <script type="text/javascript" src="../../js/jquery-ui.min-ac.js"></script>
 
+            <style>
+                @media print {
+                    a,
+                    a:visited {
+                        text-decoration: none;
+                    }
+
+                    a[href]:after {
+                        content: "";
+                    }
+                    
+                    .hide-for-print{
+                        display: none;
+                    }       
+                    
+                    table.daftar-pembelian {
+                        width: 100%;
+                    }
+                }
+            </style>
         </head>
         <body class="kasir" id="dokumen">
             <div id="content" >
@@ -438,7 +458,6 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                             <?php
                             $pmbyrn = mysql_query("SELECT * from pembayaran");
                             ?>
-
                             <form method=POST action='../aksi.php?module=penjualan_barang&act=input'>
                                 <input type=hidden name='tot_pembayaran' value="<?php echo $tot_pembelian; ?>" >
                                 <div class="kasir-kanan">
@@ -640,7 +659,7 @@ if (empty($_SESSION[namauser]) AND empty($_SESSION[passuser])) {
                     </form>
                 </table>
             </div>
-            <div id="footer" >
+            <div id="footer" class="hide-for-print" >
                 <?php
                 if ($returBeli) {
                     ?>	
