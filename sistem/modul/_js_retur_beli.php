@@ -55,6 +55,7 @@ if ($_GET['action'] === 'tambah') {
 	RETUR BELI : <?php echo $_SESSION['namaSupplier']; ?> <br />
 	<?php echo date('d-m-Y'); ?>
 </div>
+<div  class="hide-for-print">
 <form id="entry-barang" method=POST action='js_jual_barang.php?act=carisupplier&action=tambah'>
 	<div class="input-group">
 		<label for="barcode"><span class="u">B</span>arcode</label>
@@ -76,7 +77,7 @@ if ($_GET['action'] === 'tambah') {
 	</div>
 	<button type="submit" style="margin-bottom: 0px;"><span class="u">C</span>ari</button>	
 </form>
-
+</div>
 
 <script>
 	var dropBox = document.getElementById("barcode");
@@ -107,7 +108,7 @@ if ($r) {
 			<th>Jumlah Retur</th>
 			<th>Harga</th>
 			<th>Total</th>
-			<th>Hapus</th>
+			<th class="hide-for-print">Hapus</th>
 		</tr>
 		<?php
 		$no = 1;
@@ -130,7 +131,7 @@ if ($r) {
 				<td class="right"><?php echo $data['jumRetur']; ?></td>		
 				<td class="right"><?php echo number_format($data['hargaBeli'], 0, ',', '.'); ?></td>	
 				<td class="right"><?php echo number_format($total, 0, ',', '.'); ?></td>
-				<td class="center"> <a class="pilih" href='js_jual_barang.php?act=carisupplier&doit=hapus&idBarang=<?php echo $data['idBarang']; ?>'><i class="fa fa-times"></i></a></td>
+				<td class="center hide-for-print"> <a class="pilih" href='js_jual_barang.php?act=carisupplier&doit=hapus&idBarang=<?php echo $data['idBarang']; ?>'><i class="fa fa-times"></i></a></td>
 			</tr>
 			<?php
 			$tot_pembelian += $total;
@@ -144,7 +145,7 @@ if ($r) {
 
 	<form method=POST action='../aksi.php?module=inputreturbeli2&act=simpan'>
 		<input type=hidden name='tot_pembayaran' value="<?php echo $tot_pembelian; ?>" >
-		<div class="kasir-kanan">
+		<div class="kasir-kanan hide-for-print">
 			<div id='kembalian'></div>
 			<div class="pembayaran">
 				<table class="pembayaran">
