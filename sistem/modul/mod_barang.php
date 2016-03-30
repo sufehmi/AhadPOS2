@@ -1078,7 +1078,7 @@ switch ($_GET['act']) {
             }
         }
 
-        $hasilRak = mysql_query("select namaRak from rak where idRak={$_POST['rak']}");
+        $hasilRak = mysql_query("select idRak, namaRak from rak where idRak={$_POST['rak']}");
         $rak = mysql_fetch_array($hasilRak);
         ?>
         <style>
@@ -1091,7 +1091,7 @@ switch ($_GET['act']) {
         </style>
         <?php
         echo "
-	<h3>Rak {$rak['namaRak']}</h3>
+	<h3><small>(ID: {$rak['idRak']})</small> Nama Rak: {$rak['namaRak']}</h3>
 	  <table class='tabel'>
           <tr><th>no</th><th>Barcode</th><th>Nama Barang</th><th>Harga <br />Jual</th>
                 <th>Jml <br />Tercatat</th><th>Selisih</th></tr>";
@@ -1157,9 +1157,11 @@ switch ($_GET['act']) {
 
         $sql = "SELECT * FROM barang WHERE idRak=$_POST[rak] AND (nonAktif!=1 or nonAktif is null) ORDER BY namaBarang ASC";
         $cari = mysql_query($sql);
+        $hasilRak = mysql_query("select idRak, namaRak from rak where idRak={$_POST['rak']}");
+        $rak = mysql_fetch_array($hasilRak);
         //echo $sql;
         ?>
-        <h2>Input Stock Opname (ID Rak: <?php echo $_POST['rak']; ?>)</h2>
+        <h2>Input Stock Opname <small>(ID: <?php echo $rak['idRak']; ?>)</small> (Nama Rak: <?php echo $rak['namaRak']; ?>)</h2>
         <form method=POST action='?module=barang&act=inputSO3'>
 
 
