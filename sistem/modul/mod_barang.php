@@ -1363,6 +1363,7 @@ switch ($_GET['act']) {
                 </tr>
                 <tr><td>Rak</td>
                     <td> : <select name='rak'>
+                            <option>[Pilih rak..]</option>
                             <?php
                             while ($rak = mysql_fetch_array($ambilRak)) {
                                 if ($rak[idRak] == $data[idRak]) {
@@ -1372,6 +1373,7 @@ switch ($_GET['act']) {
                                 }
                             }
                             ?>
+                            <option value="999999" <?php echo $data[idRak]== '999999' ? 'selected':''; ?> disabled="disabled">[Virtual]</option>
                         </select>
                     </td>
                     <td style="color:red"><?php echo isset($_GET['rak']) ? 'Rak sudah diperbarui' : '' ?></td>
@@ -2725,8 +2727,8 @@ switch ($_GET['act']) {
                     <?php
                 endwhile;
                 ?>
-                <option value="999" <?php echo '999' == $_POST['idRak'] ? 'selected' : ''; ?>>Barang Baru</option>
-                <option value="999999" <?php echo '999999' == $_POST['idRak'] ? 'selected' : ''; ?>>Barang tidak diSO</option>
+                <option value="999" <?php echo '999' == $_POST['idRak'] ? 'selected' : ''; ?>>Barang Baru (Belum ada rak)</option>
+                <option value="999999" <?php echo '999999' == $_POST['idRak'] ? 'selected' : ''; ?>>Barang tidak diSO (rak Virtual)</option>
             </select>
             <input type=submit value='(D)isplay Barang' accesskey='d' name='displayBarang' />
         </form>
