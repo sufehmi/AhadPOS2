@@ -1540,7 +1540,7 @@ function kartuStok($barcode, $tanggal) {
    // Mutasi Transaksi Stock Barang
    $sql = "
         SELECT
-            tgl,
+            DATE(tgl) tgl,
             nota,
             username,
             CASE posisi
