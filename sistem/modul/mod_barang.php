@@ -3363,7 +3363,7 @@ switch ($_GET['act']) {
                     $alt = !$alt;
                     echo $alt ? ' class="alt"' : '';
                     ?>>
-                        <td><?php echo date_format(date_create_from_format('Y-m-d H:i:s', $baris['tgl']), 'd-m-Y'); ?></td>
+                        <td><?php echo date_format(date_create_from_format('Y-m-d', $baris['tgl']), 'd-m-Y'); ?></td>
                         <td><?php echo $baris['nota']; ?></td>
                         <td><?php echo $baris['username']; ?></td>
                         <td class="right"><?php echo $baris['beli']; ?></td>
