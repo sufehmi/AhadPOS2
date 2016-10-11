@@ -1388,9 +1388,9 @@ switch ($_GET[act]) { // -------------------------------------------------------
 
 
                if ($_GET[action] == 'pilihtanggal') { // ------------------------------------------------------------
-                  $sql = "SELECT tglTransaksiBeli, idTransaksiBeli FROM transaksibeli
-				WHERE month(tglTransaksiBeli)='$_POST[bulanLaporan]' AND year(tglTransaksiBeli)='$_POST[tahunLaporan]'
-				ORDER BY tglTransaksiBeli, idTransaksiBeli ASC";
+                  $sql = "SELECT b.tglTransaksiBeli, b.idTransaksiBeli, b.nominal, s.namaSupplier FROM transaksibeli AS b, supplier AS s 
+				WHERE month(b.tglTransaksiBeli)='$_POST[bulanLaporan]' AND year(b.tglTransaksiBeli)='$_POST[tahunLaporan]' AND b.idSupplier=s.idSupplier 
+				ORDER BY b.tglTransaksiBeli, b.idTransaksiBeli ASC";
                   $hasil = mysql_query($sql);
                   ?>
                   <hr />
@@ -1402,7 +1402,7 @@ switch ($_GET[act]) { // -------------------------------------------------------
                      <select name=idnota>
                         <?php
                         while ($x = mysql_fetch_array($hasil)) {
-                           echo "<option value=$x[idTransaksiBeli]> $x[tglTransaksiBeli] : Nmr.Nota #$x[idTransaksiBeli]</option>";
+                           echo "<option value=$x[idTransaksiBeli]> $x[tglTransaksiBeli] : Nmr.Nota #$x[idTransaksiBeli] :: $x[namaSupplier] :: Rp ".uang($x[nominal])."</option>";
                         }; // while ($x = mysql_fetch_array($hasil)) {
                         ?>
                      </select>

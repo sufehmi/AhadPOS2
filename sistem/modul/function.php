@@ -1466,97 +1466,167 @@ function kartuStok($barcode, $tanggal) {
    $sampaiTanggal = date_format(date_create_from_format('d-m-Y', $tanggal['sampai']), 'Y-m-d');
 
    // Saldo Awal Barang
-   $sql = "select
-					sum(
-					case
-					when posisi=1 then qty   #beli
-					when posisi=2 then -qty  #jual
-					when posisi=3 then qty  #so
-					when posisi=4 then -qty  #returbeli
-                    when posisi=5 then qty #fso
-                    when posisi=6 then qty #returjual
-					else 0 end
-					) as saldo
-					from(
-					(select db.username, tb.idTransaksiBeli as nota, tb.tglTransaksiBeli as tgl, jumBarangAsli as qty, '1' as posisi
-					from detail_beli db
-					join transaksibeli as tb on db.idTransaksiBeli = tb.idTransaksiBeli
-					where db.barcode = '{$barcode}' and date(tb.tglTransaksiBeli) < '{$dariTanggal}'
-					order by tb.tglTransaksiBeli)
-					union
-					(select dj.username, tj.idTransaksiJual,  tj.tglTransaksiJual, dj.jumBarang, '2' as posisi
-					from detail_jual dj
-					join transaksijual as tj on tj.idTransaksiJual = dj.nomorStruk
-					where dj.barcode = '{$barcode}' and date(tj.tglTransaksiJual) < '{$dariTanggal}'
-					order by tj.tglTransaksiJual)
-					union
-					(select so.username, so.idStockOpname, so.tanggalSO, dso.selisih, '3' as posisi
-					from detail_stock_opname as dso
-					join stock_opname as so on so.idStockOpname = dso.idStockOpname
-					where dso.barcode = '{$barcode}' and date(so.tanggalSO) < '{$dariTanggal}')
-					union
-					(select username, NomorInvoice, tglRetur, jumRetur, '4' as posisi
-					from detail_retur_beli
-					where barcode = '{$barcode}' and date(tglRetur) < '{$dariTanggal}')
-					union
-					(select username, '', tanggalSO, selisih, '5' as posisi
-					from fast_stock_opname
-					where barcode = '{$barcode}' and date(tanggalSO) < '{$dariTanggal}')
-					union
-					(select username, '', tglTransaksi, jumBarang, '6' as posisi
-					from detail_retur_barang
-					where barcode = '{$barcode}' and date(tglTransaksi) < '{$dariTanggal}')
-					) as t1
+   $sql = "
+        SELECT
+            SUM(CASE
+                WHEN posisi = 1 THEN qty #beli
+                WHEN posisi = 2 THEN - qty #jual
+                WHEN posisi = 3 THEN qty #so
+                WHEN posisi = 4 THEN - qty #returbeli
+                WHEN posisi = 5 THEN qty #fso
+                WHEN posisi = 6 THEN qty #returjual
+                ELSE 0
+            END) AS saldo
+        FROM
+            ((SELECT
+                db.username,
+                    tb.idTransaksiBeli AS nota,
+                    tb.tglTransaksiBeli AS tgl,
+                    jumBarangAsli AS qty,
+                    '1' AS posisi
+            FROM
+                detail_beli db
+            JOIN transaksibeli AS tb ON db.idTransaksiBeli = tb.idTransaksiBeli
+            WHERE
+                db.barcode = '{$barcode}'
+                    AND DATE(tb.tglTransaksiBeli) < '{$dariTanggal}'
+            ORDER BY tb.tglTransaksiBeli) UNION (SELECT
+                dj.username,
+                    tj.idTransaksiJual,
+                    tj.tglTransaksiJual,
+                    dj.jumBarang,
+                    '2' AS posisi
+            FROM
+                detail_jual dj
+            JOIN transaksijual AS tj ON tj.idTransaksiJual = dj.nomorStruk
+            WHERE
+                dj.barcode = '{$barcode}'
+                    AND DATE(tj.tglTransaksiJual) < '{$dariTanggal}'
+            ORDER BY tj.tglTransaksiJual) UNION (SELECT
+                so.username,
+                    so.idStockOpname,
+                    so.tanggalSO,
+                    dso.selisih,
+                    '3' AS posisi
+            FROM
+                detail_stock_opname AS dso
+            JOIN stock_opname AS so ON so.idStockOpname = dso.idStockOpname
+            WHERE
+                dso.barcode = '{$barcode}'
+                    AND DATE(so.tanggalSO) < '{$dariTanggal}') UNION (SELECT
+                username, NomorInvoice, tglRetur, jumRetur, '4' AS posisi
+            FROM
+                detail_retur_beli
+            WHERE
+                barcode = '{$barcode}'
+                    AND DATE(tglRetur) < '{$dariTanggal}') UNION (SELECT
+                username, '', tanggalSO, selisih, '5' AS posisi
+            FROM
+                fast_stock_opname
+            WHERE
+                barcode = '{$barcode}'
+                    AND DATE(tanggalSO) < '{$dariTanggal}') UNION (SELECT
+                username, '', tglTransaksi, jumBarang, '6' AS posisi
+            FROM
+                detail_retur_barang
+            WHERE
+                barcode = '{$barcode}'
+                    AND DATE(tglTransaksi) < '{$dariTanggal}')) AS t1
 					";
    $result = mysql_query($sql) or die(mysql_error());
    $dataSaldo = mysql_fetch_array($result);
    $saldo = $dataSaldo['saldo'];
 
    // Mutasi Transaksi Stock Barang
-   $sql = "select tgl, nota, username,
-            case posisi
-            when 1 then qty else '' end as 'beli',
-            case posisi
-            when 4 then qty else '' end as 'rbeli',
-            case posisi
-            when 2 then qty else '' end as 'jual',
-            case posisi
-            when 6 then qty else '' end as 'rjual',
-            case posisi
-            when 3 then qty else '' end as 'so',
-            case posisi
-            when 5 then qty else '' end as 'fso'
-            from(
-            (select db.username, concat(tb.idTransaksiBeli,' ',tb.NomorInvoice)  as nota, tb.tglTransaksiBeli as tgl, jumBarangAsli as qty, '1' as posisi
-            from detail_beli db
-            join transaksibeli as tb on db.idTransaksiBeli = tb.idTransaksiBeli
-            where db.barcode = '{$barcode}' and date(tb.tglTransaksiBeli) between '{$dariTanggal}' and '{$sampaiTanggal}'
-            order by tb.tglTransaksiBeli)
-            union all
-            (select dj.username, tj.idTransaksiJual,  tj.tglTransaksiJual, dj.jumBarang, '2' as posisi
-            from detail_jual dj
-            join transaksijual as tj on tj.idTransaksiJual = dj.nomorStruk
-            where dj.barcode = '{$barcode}' and date(tj.tglTransaksiJual) between '{$dariTanggal}' and '{$sampaiTanggal}'
-            order by tj.tglTransaksiJual)
-            union all
-            (select so.username, so.idStockOpname, so.tanggalSO, dso.selisih, '3' as posisi
-            from detail_stock_opname as dso
-            join stock_opname as so on so.idStockOpname = dso.idStockOpname
-            where dso.barcode = '{$barcode}' and date(so.tanggalSO) between '{$dariTanggal}' and '{$sampaiTanggal}')
-            union all
-            (select username, '', tanggalSO, selisih, '5' as posisi
-            from fast_stock_opname
-            where barcode = '{$barcode}' and date(tanggalSO) between '{$dariTanggal}' and '{$sampaiTanggal}')
-            union all
-            (select username, '', tglTransaksi, jumBarang, '6' as posisi
-            from detail_retur_barang
-            where barcode = '{$barcode}' and date(tglTransaksi) between '{$dariTanggal}' and '{$sampaiTanggal}')
-            union all
-            (select username, concat(NomorInvoice,' ',idTransaksiBeli), tglRetur, jumRetur, '4' as posisi
-            from detail_retur_beli
-            where barcode = '{$barcode}' and date(tglRetur) between '{$dariTanggal}' and '{$sampaiTanggal}')
-            ) as t1
-            order by tgl";
+   $sql = "
+        SELECT
+            DATE(tgl) tgl,
+            nota,
+            username,
+            CASE posisi
+                WHEN 1 THEN qty
+                ELSE ''
+            END AS 'beli',
+            CASE posisi
+                WHEN 4 THEN qty
+                ELSE ''
+            END AS 'rbeli',
+            CASE posisi
+                WHEN 2 THEN qty
+                ELSE ''
+            END AS 'jual',
+            CASE posisi
+                WHEN 6 THEN qty
+                ELSE ''
+            END AS 'rjual',
+            CASE posisi
+                WHEN 3 THEN qty
+                ELSE ''
+            END AS 'so',
+            CASE posisi
+                WHEN 5 THEN qty
+                ELSE ''
+            END AS 'fso'
+        FROM
+            ((SELECT
+                db.username,
+                    CONCAT(tb.idTransaksiBeli, ' ', tb.NomorInvoice) AS nota,
+                    tb.tglTransaksiBeli AS tgl,
+                    jumBarangAsli AS qty,
+                    '1' AS posisi
+            FROM
+                detail_beli db
+            JOIN transaksibeli AS tb ON db.idTransaksiBeli = tb.idTransaksiBeli
+            WHERE
+                db.barcode = '{$barcode}'
+                    AND DATE(tb.tglTransaksiBeli) BETWEEN '{$dariTanggal}' AND '{$sampaiTanggal}'
+            ORDER BY tb.tglTransaksiBeli) UNION ALL (SELECT
+                dj.username,
+                    tj.idTransaksiJual,
+                    tj.tglTransaksiJual,
+                    dj.jumBarang,
+                    '2' AS posisi
+            FROM
+                detail_jual dj
+            JOIN transaksijual AS tj ON tj.idTransaksiJual = dj.nomorStruk
+            WHERE
+                dj.barcode = '{$barcode}'
+                    AND DATE(tj.tglTransaksiJual) BETWEEN '{$dariTanggal}' AND '{$sampaiTanggal}'
+            ORDER BY tj.tglTransaksiJual) UNION ALL (SELECT
+                so.username,
+                    so.idStockOpname,
+                    so.tanggalSO,
+                    dso.selisih,
+                    '3' AS posisi
+            FROM
+                detail_stock_opname AS dso
+            JOIN stock_opname AS so ON so.idStockOpname = dso.idStockOpname
+            WHERE
+                dso.barcode = '{$barcode}'
+                    AND DATE(so.tanggalSO) BETWEEN '{$dariTanggal}' AND '{$sampaiTanggal}') UNION ALL (SELECT
+                username, '', tanggalSO, selisih, '5' AS posisi
+            FROM
+                fast_stock_opname
+            WHERE
+                barcode = '{$barcode}'
+                    AND DATE(tanggalSO) BETWEEN '{$dariTanggal}' AND '{$sampaiTanggal}') UNION ALL (SELECT
+                username, '', tglTransaksi, jumBarang, '6' AS posisi
+            FROM
+                detail_retur_barang
+            WHERE
+                barcode = '{$barcode}'
+                    AND DATE(tglTransaksi) BETWEEN '{$dariTanggal}' AND '{$sampaiTanggal}') UNION ALL (SELECT
+                username,
+                    CONCAT(NomorInvoice, ' ', idTransaksiBeli),
+                    tglRetur,
+                    jumRetur,
+                    '4' AS posisi
+            FROM
+                detail_retur_beli
+            WHERE
+                barcode = '{$barcode}'
+                    AND DATE(tglRetur) BETWEEN '{$dariTanggal}' AND '{$sampaiTanggal}')) AS t1
+        ORDER BY tgl";
    $result = mysql_query($sql) or die(mysql_error());
    return array('saldo' => $saldo, 'mutasi' => $result);
 }
@@ -1570,8 +1640,8 @@ function tambahBarangReturBeli($barcode, $qty) {
       mysql_query("delete from tmp_edit_detail_retur_beli where barcode = '{$barcode}'");
    }
 
-   /* Cari data detail_beli paling awal yang belum habis stok nya 
-    * fixme: sisa stok yang ada seharusnya diperhitungkan 
+   /* Cari data detail_beli paling awal yang belum habis stok nya
+    * fixme: sisa stok yang ada seharusnya diperhitungkan
     */
    $sql = "select * from detail_beli where barcode = '{$barcode}' and isSold='N' order by idDetailBeli";
    $query = mysql_query($sql);

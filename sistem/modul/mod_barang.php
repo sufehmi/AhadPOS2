@@ -1472,7 +1472,7 @@ switch ($_GET['act']) {
                     <td>(d) Dari Rak</td>
                     <!--<td> : <input type=text name=darirak value=1 accesskey='d' size=4></td>-->
                     <td>
-                        <select name="darirak" id="darirak" class="pilih_rak">                            
+                        <select name="darirak" id="darirak" class="pilih_rak">
                             <option value='0'>-- Pilih Rak --</option>
                             <?php
                             while ($rak = mysql_fetch_array($daftarRak)) {
@@ -1489,7 +1489,7 @@ switch ($_GET['act']) {
                     <td>Sampai Rak</td>
                     <!--<td> : <input type=text name=sampairak value=$jumlah_rak size=4></td>-->
                     <td>
-                        <select name="sampairak" id="sampairak" class="pilih_rak">                                                      
+                        <select name="sampairak" id="sampairak" class="pilih_rak">
                             <option value='0'>-- Pilih Rak --</option>
                             <?php
                             mysql_data_seek($daftarRak, 0);
@@ -1553,29 +1553,29 @@ switch ($_GET['act']) {
         if ($_GET['kategoriId'] == '*') {
             // Semua Kategori
             $sql = "SELECT barang.idRak, namaBarang, hargaJual, jumBarang
-		FROM barang 
-                JOIN rak ON barang.idRak = rak.idRak 
-                WHERE jumBarang <> 0 AND rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+		FROM barang
+                JOIN rak ON barang.idRak = rak.idRak
+                WHERE jumBarang <> 0 AND rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "'
 		ORDER BY namaRak,namaBarang ASC";
             /* Kasus spesial untuk rak virtual 999999 */
             if ($_GET['darirak'] == '999999' && $_GET['sampairak'] == '999999') {
                 echo '999999';
                 $sql = "SELECT barang.idRak, namaBarang, hargaJual, jumBarang
-		FROM barang 
-                WHERE jumBarang <> 0 AND idRak=999999 
+		FROM barang
+                WHERE jumBarang <> 0 AND idRak=999999
 		ORDER BY namaBarang ASC";
             }
         } else {
             // Kategori tertentu
             $sql = "SELECT barang.idRak, namaBarang, hargaJual, jumBarang
-		FROM barang 
-                JOIN rak ON barang.idRak = rak.idRak 
-                WHERE jumBarang <> 0 AND idKategoriBarang={$_GET['kategoriId']} AND rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+		FROM barang
+                JOIN rak ON barang.idRak = rak.idRak
+                WHERE jumBarang <> 0 AND idKategoriBarang={$_GET['kategoriId']} AND rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "'
 		ORDER BY namaRak,namaBarang ASC";
             /* Kasus spesial untuk rak virtual 999999 */
             if ($_GET['darirak'] == '999999' && $_GET['sampairak'] == '999999') {
                 $sql = "SELECT barang.idRak, namaBarang, hargaJual, jumBarang
-		FROM barang 
+		FROM barang
                 WHERE jumBarang <> 0 AND idKategoriBarang={$_GET['kategoriId']} AND idRak=999999
 		ORDER BY namaBarang ASC";
             }
@@ -1583,52 +1583,52 @@ switch ($_GET['act']) {
         if ($abangAdekMode) {
             if ($_GET['kategoriId'] == '*') {
                 $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
-                    FROM barang 
+                    FROM barang
                     JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
-                        from detail_beli 
+                        from detail_beli
                         join barang on detail_beli.barcode=barang.barcode
-                        JOIN rak ON barang.idRak = rak.idRak 
-                        WHERE rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+                        JOIN rak ON barang.idRak = rak.idRak
+                        WHERE rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "'
                         group by barcode) dbeli ON barang.barcode=dbeli.barcode
                     JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
-                    WHERE barang.jumBarang <> 0 AND namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+                    WHERE barang.jumBarang <> 0 AND namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "'
                     ORDER BY namaRak,namaBarang ASC";
                 /* Kasus spesial untuk rak virtual 999999 */
                 if ($_GET['darirak'] == '999999' && $_GET['sampairak'] == '999999') {
                     $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
-                        FROM barang 
+                        FROM barang
                         JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
-                            from detail_beli 
+                            from detail_beli
                             join barang on detail_beli.barcode=barang.barcode
-                            WHERE idRak=999999 
+                            WHERE idRak=999999
                             group by barcode) dbeli ON barang.barcode=dbeli.barcode
                         JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
-                        WHERE barang.jumBarang <> 0 AND barang.idRak=999999 
+                        WHERE barang.jumBarang <> 0 AND barang.idRak=999999
                         ORDER BY namaBarang ASC";
                 }
             } else {
                 $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
-                    FROM barang 
+                    FROM barang
                     JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
-                        from detail_beli 
+                        from detail_beli
                         join barang on detail_beli.barcode=barang.barcode
-                        JOIN rak ON barang.idRak = rak.idRak 
-                        WHERE rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+                        JOIN rak ON barang.idRak = rak.idRak
+                        WHERE rak.namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "'
                         group by barcode) dbeli ON barang.barcode=dbeli.barcode
                     JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
-                    WHERE barang.jumBarang <> 0 AND barang.idKategoriBarang={$_GET['kategoriId']} AND namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "' 
+                    WHERE barang.jumBarang <> 0 AND barang.idKategoriBarang={$_GET['kategoriId']} AND namaRak BETWEEN '" . $_GET['darirak'] . "' AND '" . $_GET['sampairak'] . "'
                     ORDER BY namaRak,namaBarang ASC";
                 /* Kasus spesial untuk rak virtual 999999 */
                 if ($_GET['darirak'] == '999999' && $_GET['sampairak'] == '999999') {
                     $sql = "SELECT barang.idRak, barang.namaBarang, barang.jumBarang, detail_beli.hargaBeli
-                        FROM barang 
+                        FROM barang
                         JOIN (select distinct detail_beli.barcode, max(idDetailBeli) maxBeli
-                            from detail_beli 
+                            from detail_beli
                             join barang on detail_beli.barcode=barang.barcode
-                            WHERE idRak=999999 
+                            WHERE idRak=999999
                             group by barcode) dbeli ON barang.barcode=dbeli.barcode
                         JOIN detail_beli on dbeli.maxBeli = detail_beli.idDetailBeli
-                        WHERE barang.jumBarang <> 0 AND barang.idKategoriBarang={$_GET['kategoriId']} AND barang.idRak=999999 
+                        WHERE barang.jumBarang <> 0 AND barang.idKategoriBarang={$_GET['kategoriId']} AND barang.idRak=999999
                         ORDER BY namaBarang ASC";
                 }
             }
@@ -1959,9 +1959,9 @@ switch ($_GET['act']) {
 
     case "ApproveMobileSO1":  // ----------------------------------------------------------------------------
         /* Cari rak yang di SO */
-        $sql = "SELECT distinct fast_stock_opname.idRak, rak.namaRak 
-               FROM fast_stock_opname 
-               JOIN rak on fast_stock_opname.idRak = rak.idRak 
+        $sql = "SELECT distinct fast_stock_opname.idRak, rak.namaRak
+               FROM fast_stock_opname
+               JOIN rak on fast_stock_opname.idRak = rak.idRak
                WHERE fast_stock_opname.approved=0 AND char_length(namaBarang) > 0
                GROUP BY fast_stock_opname.idRak";
         $hasil1 = mysql_query($sql);
@@ -2002,14 +2002,14 @@ switch ($_GET['act']) {
                     <th rowspan="2">Selisih</th>
                     <th rowspan="2">Approve</th>
                     <th rowspan="2">#</th>
-                    <th rowspan="2">Hapus<br />Barang</td>               
+                    <th rowspan="2">Hapus<br />Barang</td>
                 </tr>
                 <tr>
                     <th>Tercatat</th>
                     <th>Ditemukan</th>
                 </tr>
                 <tbody id="app-table-body">
-                </tbody>         
+                </tbody>
             </table>
         </div>
         <input type=submit accesskey='s' value='(s) Submit'>
@@ -2873,9 +2873,9 @@ switch ($_GET['act']) {
 //      $hasil1 = mysql_query($sql);
 
         /* Cari rak yang di SO */
-        $sql = "SELECT distinct fast_stock_opname.idRak, rak.namaRak 
-               FROM fast_stock_opname 
-               JOIN rak on fast_stock_opname.idRak = rak.idRak 
+        $sql = "SELECT distinct fast_stock_opname.idRak, rak.namaRak
+               FROM fast_stock_opname
+               JOIN rak on fast_stock_opname.idRak = rak.idRak
                WHERE fast_stock_opname.approved=0 AND username='pdt-so'
                GROUP BY fast_stock_opname.idRak";
         $hasil1 = mysql_query($sql);
@@ -2920,7 +2920,7 @@ switch ($_GET['act']) {
                     <th>Batal</td>
                 </tr>
                 <tbody id="app-table-body">
-                </tbody> 
+                </tbody>
             </table>
 
             <input type=submit accesskey='s' value='(s) Submit'>

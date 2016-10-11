@@ -31,7 +31,13 @@ if ($_GET[module] == 'home') {
         Anda menjabat sebagai <b><?php echo $_SESSION[leveluser]; ?></b>
         di sistem ini. Pergunakanlah dengan bijak jabatan Anda.</p>
     <p>Kas Awal Anda adalah : <b>Rp. <?php echo $kas; ?></b></p>
-    <p>Uang Transaksi : <b>Rp.<?php echo $uang; ?></b></p>
+    <?php
+    if ($_SESSION[leveluser] != 'kasir') {
+        ?>
+        <p>Uang Transaksi : <b>Rp.<?php echo $uang; ?></b></p>
+        <?php
+    }
+    ?>
     <?php
     /* Menampilkan total nilai barang aging, jika level user admin atau semua */
     if ($_SESSION['leveluser'] == 'admin' || $_SESSION['leveluser'] == 'semua') {
